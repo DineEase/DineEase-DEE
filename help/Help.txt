@@ -1,0 +1,8 @@
+.htaccess controls the access to the directory. If you want to allow access to the directory
+what i did was when opening the project i made that directly show index.php and nothing else
+and also if you give incorrect url it will also redirect to the index.php
+```
+to change the file change the varible in config/config.php and .htacess in the pulblic folder
+```
+we are using pdo find the advantages of pdo here
+```
