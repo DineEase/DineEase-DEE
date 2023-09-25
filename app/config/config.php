@@ -7,6 +7,6 @@ define('DB_NAME', '');
 //app root
 define('APPROOT', dirname(dirname(__FILE__)));
 //URL Root
-define('URLROOT', 'http://localhost/dineEaseRMS');
+define('URLROOT', 'http://localhost/DineEase-DEE');
 //Site Name
 define('SITENAME', 'DineEase');
