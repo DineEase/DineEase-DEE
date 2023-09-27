@@ -1,5 +1,5 @@
 <?php
-/*  
+/*
     *  PDO Database Class
     *  Connect to database
     *  Create prepared statements
@@ -60,7 +60,7 @@ class Database
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    // execute the prepared statement    
+    // execute the prepared statement
     public function execute()
     {
         return $this->stmt->execute();
@@ -72,15 +72,16 @@ class Database
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_OBJ); //fetches as objects -> thing insted of['']
     }
-    //get single record 
+    //get single record
     public function single()
     {
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_OBJ);
     }
-    
-    public function  rowCount(){
+
+    public function rowCount()
+    {
         return $this->stmt->rowCount();
-        
+
     }
 }

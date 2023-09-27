@@ -1,6 +1,6 @@
 <?php
 /*
-        *app core class 
+        *app core class
         *creates url and loads core controller
         *url format - /controller/method/params
     */
@@ -34,7 +34,7 @@ class Core
         require_once '../app/controllers/' . $this->currentController . '.php';
 
         //instantiate controller class
-        $this->currentController = new $this->currentController;
+        $this->currentController = new $this->currentController();
 
         //check for second part of url
         if (isset($url[1])) {

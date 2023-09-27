@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
 *base controller
 *loads the models and views
 */

@@ -1,0 +1,238 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* login navbar styles */
+.container-main-nav * {
+  box-sizing: border-box;
+}
+
+.container-main-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  width: 100vw;
+}
+.navbar {
+  background: #ffffff;
+  padding: 10px 20px 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 100vw;
+  height: 40px;
+  position: relative;
+  box-shadow: 0px 0px 5.92px 0px rgba(0, 0, 0, 0.12);
+}
+
+.nav-login-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  margin-left: 5px;
+}
+
+.dineease-logo {
+  border-radius: 100px;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+.title {
+  color: var(--brand-black, #12130f);
+  text-align: left;
+  font: 400 27.62px/35.51px "Poiret One", sans-serif;
+  position: relative;
+  flex: 1;
+}
+.navigation {
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 240px;
+  
+  position: relative;
+}
+
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 15px;
+}
+
+.nav-link {
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.tab {
+  color: var(--brand-black, #12130f);
+  text-align: left;
+  font: 400 15.78px/23.67px "Roboto", sans-serif;
+  position: relative;
+}
+.login {
+  background: var(--brand-darkgreen, #5b9279);
+}
+.login .text-register {
+  background: var(--brand-darkgreen, #5b9279);
+}
+
+.register {
+  background: var(--brand-black, #12130f);
+}
+.register .text-register {
+  background: var(--brand-black, #12130f);
+}
+
+.btn-nav {
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.btn-nav:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.text-register {
+  border: none;
+  color: #ffffff;
+  text-align: left;
+  font: 500 16px/24px "Roboto", sans-serif;
+  position: relative;
+}
+
+/* end of login navbar styles  */
+
+/* main container styles start */
+
+.container-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* main container styles end */
+
+
+/* hero styles start here */
+.hero {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "hero-content hero-image";
+}
+
+.hero-content {
+  grid-area: hero-content;
+  background-color: RED;
+}
+
+.hero-image {
+  grid-area: hero-image;
+  background: linear-gradient(to bottom, #04af1a, #0056b3);
+}
+
+/* hero styles end here  */
+
+/* login styles start here */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-card {
+  width: 300px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-card h2 {
+  color: black;
+  margin-bottom: 20px;
+}
+
+.login-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card label {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.login-card input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.login-card button {
+  padding: 10px;
+  background-color: var(--brand-darkgreen, #5b9279);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-switch {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-switch a {
+  color: var(--brand-darkgreen, #5b9279);
+  text-decoration: none;
+}
+/* login styles end here */

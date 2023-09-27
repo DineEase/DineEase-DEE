@@ -22,7 +22,7 @@
 
                 <div class="login-card" style="display: none;">
                     <h2>Register Form</h2>
-                    <form>
+                    <form action="<?php echo URLROOT; ?>/users/register" method="post"  >
                         <label for="register-fullname">Full Name</label>
                         <input type="text" id="register-fullname" placeholder="Enter your full name">
 
