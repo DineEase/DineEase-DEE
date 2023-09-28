@@ -4,13 +4,7 @@ class Users extends Controller
     public function __construct()
     {
     }
-    public function login()
-    {
-        $data = [
-            'title' => 'Login',
-        ];
-        $this->view('users/login', $data);
-    }
+
 
     // Define the view method
     public function view($view, $data = [])
@@ -19,6 +13,25 @@ class Users extends Controller
             require_once '../app/views/' . $view . '.php';
         } else {
             die('View does not exist');
+        }
+    }
+
+    // Define the login method
+    public function login()
+    {
+        //check for post
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //process form
+        } else {
+            //init data
+            $data = [
+                'mobile_no' => '',
+                'password' => '',
+                'mobile_no_err' => '',
+                'password_err' => '',
+            ];
+            //load view
+            $this->view('users/login', $data);
         }
     }
 
@@ -32,10 +45,14 @@ class Users extends Controller
             $data = [
                 'name' => '',
                 'email' => '',
+                'dob' => '',
+                'mobile_no' => '',
                 'password' => '',
                 'confirm_password' => '',
                 'name_err' => '',
                 'email_err' => '',
+                'dob_err' => '',
+                'mobile_no_err' => '',
                 'password_err' => '',
                 'confirm_password_err' => ''
             ];

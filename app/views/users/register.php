@@ -7,34 +7,36 @@
         <div class="hero-image">
             <div class="login-container">
                 <div class="login-card">
-                    <h2>Login Form</h2>
-                    <form>
-                        <label for="login-username">Mobile No.</label>
-                        <input type="text" id="login-username" placeholder="Enter your username">
+                    <h2>Create an account?</h2>
+                    <form action="<?php echo URLROOT; ?>/users/register" method="post">
+                        <label for="name">Name : <sup class="required">*</sup></label>
+                        <input type="text" id="name" class="<?php echo (!empty($data['name_err'])) ? 'is-invalid' : '' ?>" placeholder="Enter your name" value="<?php echo $data['name'] ?>">
+                        <span class="invalid-feedback"> <?php echo $data['name_err'] ?> </span>
 
-                        <label for="login-password">Password</label>
-                        <input type="password" id="login-password" placeholder="Enter your password">
+                        <label for="email">Email : <sup class="required">*</sup></label>
+                        <input type="email" id="email" class="<?php echo (!empty($data['email_err'])) ? 'is-invalid' : '' ?>" placeholder="Enter your email" value="<?php echo $data['email'] ?>">
+                        <span class="invalid-feedback"> <?php echo $data['email_err'] ?> </span>
 
-                        <button type="submit">Login</button>
-                    </form>
-                    <div class="login-switch">Don't have an account? <a href="#" onclick="loginSwitchCard()">Register here</a></div>
-                </div>
+                        <label for="dob">Date of Birth : <sup class="required">*</sup></label>
+                        <input type="date" id="dob" class="<?php echo (!empty($data['dob_err'])) ? 'is-invalid' : '' ?>" placeholder="Enter your date of birth" value="<?php echo $data['dob'] ?>">
+                        <span class="invalid-feedback"> <?php echo $data['dob_err'] ?> </span>
 
-                <div class="login-card" style="display: none;">
-                    <h2>Register Form</h2>
-                    <form action="<?php echo URLROOT; ?>/users/register" method="post"  >
-                        <label for="register-fullname">Full Name</label>
-                        <input type="text" id="register-fullname" placeholder="Enter your full name">
+                        <label for="mobile_no">Mobile Number : <sup class="required">*</sup></label>
+                        <input type="text" id="mobile_no" class="<?php echo (!empty($data['mobile_no_err'])) ? 'is-invalid' : '' ?>" placeholder="Enter your mobile no." value="<?php echo $data['mobile_no'] ?>">
+                        <span class="invalid-feedback"> <?php echo $data['mobile_no_err'] ?> </span>
 
-                        <label for="register-email">Email</label>
-                        <input type="email" id="register-email" placeholder="Enter your email">
+                        <label for="password">Password : <sup class="required">*</sup></label>
+                        <input type="password" id="password" class="<?php echo (!empty($data['password_err'])) ? 'is-invalid' : '' ?>" placeholder="Enter your password" value="<?php echo $data['password'] ?>">
+                        <span class="invalid-feedback"> <?php echo $data['password_err'] ?> </span>
 
-                        <label for="register-new-password">New Password</label>
-                        <input type="password" id="register-new-password" placeholder="Enter your new password">
+                        <label for="confirm_password">Confirm Password : <sup class="required">*</sup></label>
+                        <input type="password" id="confirm_password" class="<?php echo (!empty($data['confirm_password_err'])) ? 'is-invalid' : '' ?>" placeholder="Enter your confirm password" value="<?php echo $data['confirm_password'] ?>">
+                        <span class="invalid-feedback"> <?php echo $data['confirm_password_err'] ?> </span>
 
                         <button type="submit">Register</button>
+
                     </form>
-                    <div class="login-switch">Already have an account? <a href="#" onclick="loginSwitchCard()">Login here</a></div>
+                    <div class="login-switch">Already have an account? <a href="<?php echo URLROOT?>/users/login">Login here</a></div>
                 </div>
             </div>
         </div>

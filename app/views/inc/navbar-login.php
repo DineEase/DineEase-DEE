@@ -16,8 +16,14 @@
             </ul>
         </div>
         <div class="nav-login-buttons">
-            <input type="button" class="btn-nav login text-register" value="Login">
-            <input type="button" class="btn-nav register text-register" value="Register">
+            <a href="<?php echo URLROOT ?>/users/login">
+                <button class="btn-nav login text-register">Login</button>
+            </a>
+            <a href="<?php echo URLROOT ?>/users/register">
+                <button class="btn-nav register text-register">Register</button>
+            </a>
+
+
         </div>
     </div>
 </div>
