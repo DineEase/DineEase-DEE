@@ -6,6 +6,7 @@
         <div class="hero-image">
             <div class="login-container">
                 <div class="login-card">
+                    <?php flash('register_success')?>
                     <h2>Welcome Back!</h2>
                     <p>Enter your credentials to login.</p>
                     <form action="<?php echo URLROOT; ?>/users/login" method="post">

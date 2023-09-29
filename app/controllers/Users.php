@@ -124,8 +124,8 @@ class Users extends Controller
                 //register user
                 if ($this->userModel->register($data)) {
 
-                    //redirect to login page
-                    header('location: ' . URLROOT . '/users/login');
+                    flash('register_success', 'You are registered and can log in');
+                    redirect('users/login');
 
                 } else {
                     die('Something went wrong');
