@@ -86,6 +86,11 @@ class Users extends Controller
             //validate email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
+            } else {
+                //check email
+                if ($this->userModel->findUserByEmail($data['email'])) {
+                    $data['email_err'] = 'Email is already taken';
+                }
             }
             //validate dob
             if (empty($data['dob'])) {
