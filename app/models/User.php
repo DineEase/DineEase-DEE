@@ -20,6 +20,20 @@ class User {
         }
 
     }
+    public function findUserByMobile($mobile_no)
+    {
+        $this->db->query('SELECT * FROM Users WHERE mobile_no = :mobile_no');
+        //bind value
+        $this->db->bind(':mobile_no', $mobile_no);
+        $row = $this->db->single();
+        //check row
+        if ($this->db->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
     //register user
     public function register($data){
@@ -39,5 +53,19 @@ class User {
             return false;
         }
         
+    }
+
+    //login user
+    public function login($mobile_no, $password)
+    {
+        $this->db->query('SELECT * FROM users WHERE mobile_no = :mobile_no');
+        $this->db->bind(':mobile_no', $mobile_no);
+        $row = $this->db->single();
+        $hashed_password = $row->password;
+        if (password_verify($password, $hashed_password)) {
+            return $row;
+        } else {
+            return false;
+        }
     }
 }

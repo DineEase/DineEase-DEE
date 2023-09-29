@@ -23,10 +23,18 @@ class Users extends Controller
                 'mobile_no_err' => '',
                 'password_err' => '',
             ];
+
             //validate mobile_no
             if (empty($data['mobile_no'])) {
                 $data['mobile_no_err'] = 'Please enter Mobile number';
+            } else {
+                // check mobile_no
+                if ($this->userModel->findUserByMobile($data['mobile_no'])) {
+                } else {
+                    $data['mobile_no_err'] = 'No user found';
+                }
             }
+
             //validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
@@ -37,7 +45,19 @@ class Users extends Controller
             //make sure errors are empty
             if (empty($data['mobile_no_err']) && empty($data['password_err'])) {
                 //validated
-                die('SUCCESS');
+                //check and set logged in user
+                $loggedInUser = $this->userModel->login($data['mobile_no'], $data['password']);
+                
+                if ($loggedInUser) {
+                    //create session
+                    $this->createUserSession($loggedInUser);
+
+                    //have to handle roles
+
+                } else {
+                    $data['password_err'] = 'Password incorrect';
+                    $this->view('users/login', $data);
+                }
             } else {
                 //load view with errors
                 $this->view('users/login', $data);
@@ -97,7 +117,12 @@ class Users extends Controller
             }
             //validate mobile_no
             if (empty($data['mobile_no'])) {
-                $data['mobile_no_err'] = 'Please enter Mobile Number';
+                $data['mobile_no_err'] = 'Please enter email';
+            } else {
+                // check email
+                if ($this->userModel->findUserByMobile($data['mobile_no'])) {
+                    $data['mobile_no_err'] = 'Mobile Number is already registered';
+                }
             }
             //validate password
             if (empty($data['password'])) {
@@ -126,7 +151,6 @@ class Users extends Controller
 
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
-
                 } else {
                     die('Something went wrong');
                 }
@@ -157,5 +181,12 @@ class Users extends Controller
             //load view
             $this->view('users/register', $data);
         }
+    }
+    public function createUserSession($user)
+    {
+        $_SESSION['user_id'] = $user->user_id;
+        $_SESSION['user_name'] = $user->name;
+        $_SESSION['user_mobile_no'] = $user->mobile_no;
+        redirect('pages/index');
     }
 }
