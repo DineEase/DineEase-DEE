@@ -30,3 +30,14 @@ function isLoggedIn()
         return false;
     }
 }
+
+ function logout()
+    {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['user_name']);
+        unset($_SESSION['user_mobile_no']);
+        unset($_SESSION['employee_id']);
+        unset($_SESSION['employee_role']);
+        session_destroy();
+        redirect('users/login');
+    }

@@ -257,6 +257,7 @@ class Users extends Controller
         $_SESSION['user_id'] = $user->user_id;
         $_SESSION['user_name'] = $user->name;
         $_SESSION['user_mobile_no'] = $user->mobile_no;
+        $_SESSION['role'] = 'customer';
         redirect('customers/index');
     }
 
@@ -272,7 +273,7 @@ class Users extends Controller
         $_SESSION['user_name'] = $user->name;
         $_SESSION['user_mobile_no'] = $user->mobile_no;
         $_SESSION['employee_id'] = $employee->user_id;
-        $_SESSION['employee_role'] = $employee->role_id;
+        $_SESSION['role'] = $employee->role_id;
 
         // echo '<pre>';
         // print_r($_SESSION);
@@ -280,28 +281,21 @@ class Users extends Controller
 
         switch ((string)$_SESSION['employee_role']) {
             case '1':
+                $_SESSION['role'] = 'manager';
                 redirect('managers/index');
                 break;
             case '2':
+                $_SESSION['role'] = 'inventoryManager';
                 redirect('inventoryManagers/index');
                 break;
             case '3':
+                $_SESSION['role'] = 'receptionist';
                 redirect('receptionists/index');
                 break;
             case '4':
+                $_SESSION['role'] = 'chef';
                 redirect('chefs/index');
                 break;
         }
-    }
-
-    public function logout()
-    {
-        unset($_SESSION['user_id']);
-        unset($_SESSION['user_name']);
-        unset($_SESSION['user_mobile_no']);
-        unset($_SESSION['employee_id']);
-        unset($_SESSION['employee_role']);
-        session_destroy();
-        redirect('users/login');
     }
 }

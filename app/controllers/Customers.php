@@ -5,6 +5,12 @@ class Customers extends Controller
     {
         if (!isLoggedIn()) {
             redirect('users/login');
+        } else {
+            if (isset($_SESSION['user_id'])) {
+                if ($_SESSION['role'] != 'customer') {
+                    logout();
+                }
+            }
         }
     }
 
