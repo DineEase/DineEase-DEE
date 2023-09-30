@@ -1,5 +1,5 @@
 <?php
-class Receptionist extends Controller
+class Receptionists extends Controller
 {
     public  function Index()
     {

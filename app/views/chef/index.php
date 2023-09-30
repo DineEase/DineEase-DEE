@@ -4,7 +4,7 @@
         <?php require APPROOT . '/views/inc/topbar.php'; ?>
     </div>
     <div class="sidebar-template">
-        <?php require APPROOT . '/views/inc/sidebar-kitchenStaff.php'; ?>
+        <?php require APPROOT . '/views/inc/sidebar-chef.php'; ?>
     </div>
     <div class="body-template">
         <?php

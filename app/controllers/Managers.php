@@ -1,5 +1,5 @@
 <?php
-class Manager extends Controller
+class Managers extends Controller
 {
     public  function Index()
     {

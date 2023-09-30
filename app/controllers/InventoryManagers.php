@@ -1,5 +1,5 @@
  <?php
-class InventoryManager extends Controller
+class InventoryManagers extends Controller
 {
     public  function Index()
     {
