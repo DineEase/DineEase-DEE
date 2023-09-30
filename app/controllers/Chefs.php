@@ -8,7 +8,7 @@ class Chefs extends Controller
         } else {
             if (isset($_SESSION['user_id'])) {
                 if ($_SESSION['role'] != 'chef') {
-                    logout();
+                    destroyOldSession();
                 }
             }
         }

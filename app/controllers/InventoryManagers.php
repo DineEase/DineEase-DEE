@@ -8,7 +8,7 @@
             } else {
                 if (isset($_SESSION['user_id'])) {
                     if ($_SESSION['role'] != 'inventoryManager') {
-                        logout();
+                        destroyOldSession();
                     }
                 }
             }

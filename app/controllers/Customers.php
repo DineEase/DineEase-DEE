@@ -8,7 +8,7 @@ class Customers extends Controller
         } else {
             if (isset($_SESSION['user_id'])) {
                 if ($_SESSION['role'] != 'customer') {
-                    logout();
+                    destroyOldSession();
                 }
             }
         }

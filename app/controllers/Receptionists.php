@@ -8,7 +8,7 @@ class Receptionists extends Controller
         } else {
             if (isset($_SESSION['user_id'])) {
                 if ($_SESSION['role'] != 'receptionist') {
-                    logout();
+                    destroyOldSession();
                 }
             }
         }
