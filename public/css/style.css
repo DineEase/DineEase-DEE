@@ -8,6 +8,7 @@ body {
 /* login navbar styles */
 .container-main-nav * {
   box-sizing: border-box;
+  display: flex;
 }
 
 .container-main-nav {
@@ -20,7 +21,7 @@ body {
 }
 .navbar {
   background: #ffffff;
-  padding: 10px 20px 10px 20px;
+  padding: 15px 40px 15px 40px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -123,17 +124,16 @@ body {
   height: 30px;
   position: relative;
   cursor: pointer;
-  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out; 
+  transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 .btn-nav:hover {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-
 }
-button.login:hover{
-  background-color: #5b9279; 
+button.login:hover {
+  background-color: #5b9279;
 }
-button.register:hover{
-  background-color: #333; 
+button.register:hover {
+  background-color: #333;
 }
 
 .text-register {
@@ -149,7 +149,17 @@ button.register:hover{
   text-decoration: none;
   color: #ffffff;
 }
-
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-right: 5px;
+}
+.navbar-logo img {
+  height: 30px;;
+  margin-right: 10px;
+}
 /* end of login navbar styles  */
 
 /* main container styles start */

@@ -1,6 +1,10 @@
 <div class="container-main-nav">
     <div class="navbar">
-        <img class="dineease-logo" src="dineease-logo.png" />
+        <div class="navbar-logo">
+            <a href="<?php echo URLROOT ?>">
+                <img src="<?php echo URLROOT ?>/public/img/login/dineease-logo.svg" alt="DineEase Logo">
+            </a>
+        </div>
         <div class="title">DineEase</div>
         <div class="navigation">
             <ul class="navbar-nav">
