@@ -73,7 +73,7 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#" class="nav_link">
+                        <a href="<?php echo URLROOT;?>/users/logout" class="nav_link">
                             <button class="button-sidebar-menu">
                                 <span class="navlink_icon">
                                     <span class="material-symbols-outlined ">

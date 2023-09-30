@@ -187,7 +187,7 @@ class Users extends Controller
         $_SESSION['user_id'] = $user->user_id;
         $_SESSION['user_name'] = $user->name;
         $_SESSION['user_mobile_no'] = $user->mobile_no;
-        redirect('customer/index');
+        redirect('customers/index');
     }
     public function logout()
     {
@@ -196,14 +196,6 @@ class Users extends Controller
         unset($_SESSION['user_mobile_no']);
         session_destroy();
         redirect('users/login');
-    }
-
-    public function isLoggedIn(){
-        if(isset($_SESSION['user_id'])){
-            return true;
-        }else{
-            return false;
-        }
     }
 
 }
