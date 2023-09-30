@@ -1,11 +1,16 @@
  <?php
-class InventoryManagers extends Controller
-{
-    public  function Index()
+    class InventoryManagers extends Controller
     {
-        $data = [];
+        public function __construct()
+        {
+            if (!isset($_SESSION['user_id'])) {
+                redirect('users/login');
+            }
+        }
+        public  function Index()
+        {
+            $data = [];
 
-        $this->view('InventoryManager/index');
+            $this->view('InventoryManager/index');
+        }
     }
-
-}
