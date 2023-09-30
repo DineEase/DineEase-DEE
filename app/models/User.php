@@ -68,4 +68,29 @@ class User {
             return false;
         }
     }
+    public function getStaff($mobile_no, $password)
+    {
+        $this->db->query('SELECT * FROM staff WHERE mobile_no = :mobile_no');
+        $this->db->bind(':mobile_no', $mobile_no);
+        $row = $this->db->single();
+        $hashed_password = $row->password;
+        if (password_verify($password, $hashed_password)) {
+            return $row;
+        } else {
+            return false;
+        }
+    }
+
+    //find user by id
+    public function getEmployeeById($id)
+    { 
+        $this->db->query('SELECT * FROM employee WHERE user_id = :id');
+        //bind value
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+        return $row;
+
+    }
+    
+
 }
