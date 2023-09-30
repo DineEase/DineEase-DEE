@@ -225,8 +225,13 @@ class Users extends Controller
 
                 if ($loggedInUser) {
                     //create session
-                    $employee = $this->userModel->getEmployeeById($_SESSION['user_id']);
-                    $this->createStaffSession($loggedInUser, $employee);
+                    $employee = $this->userModel->getEmployeeById($loggedInUser->user_id);
+                    if ($employee) {
+                        $this->createStaffSession($loggedInUser, $employee);
+                    } else {
+                        $data['password_err'] = 'You do not have permission to login as staff';
+                        $this->view('users/staff', $data);
+                    }
                 } else {
                     $data['password_err'] = 'Password incorrect';
                     $this->view('users/staff', $data);
@@ -294,6 +299,8 @@ class Users extends Controller
         unset($_SESSION['user_id']);
         unset($_SESSION['user_name']);
         unset($_SESSION['user_mobile_no']);
+        unset($_SESSION['employee_id']);
+        unset($_SESSION['employee_role']);
         session_destroy();
         redirect('users/login');
     }
