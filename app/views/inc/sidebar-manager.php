@@ -12,7 +12,7 @@
                                     home
                                 </span>
                             </span>
-                            <span class="button-sidebar-menu-content">Home </span>
+                            <span class="button-sidebar-menu-content">Dashboard </span>
                         </button>
                     </a>
                 </li>
@@ -21,10 +21,10 @@
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
-                                    book_online
+                                    manage_accounts
                                 </span>
                             </span>
-                            <span class="button-sidebar-menu-content">Reservation </span>
+                            <span class="button-sidebar-menu-content">Users </span>
                         </button>
                     </a>
                 </li>
@@ -37,6 +37,54 @@
                                 </span>
                             </span>
                             <span class="button-sidebar-menu-content">Menus </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link">
+                        <button class="button-sidebar-menu">
+                            <span class="navlink_icon">
+                                <span class="material-symbols-outlined ">
+                                percent
+                                </span>
+                            </span>
+                            <span class="button-sidebar-menu-content">Discounts </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link">
+                        <button class="button-sidebar-menu">
+                            <span class="navlink_icon">
+                                <span class="material-symbols-outlined ">
+                                currency_exchange
+                                </span>
+                            </span>
+                            <span class="button-sidebar-menu-content">Refund </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link">
+                        <button class="button-sidebar-menu">
+                            <span class="navlink_icon">
+                                <span class="material-symbols-outlined ">
+                                flip_to_front
+                                </span>
+                            </span>
+                            <span class="button-sidebar-menu-content">Tables </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link">
+                        <button class="button-sidebar-menu">
+                            <span class="navlink_icon">
+                                <span class="material-symbols-outlined ">
+                                inventory_2
+                                </span>
+                            </span>
+                            <span class="button-sidebar-menu-content">Inventory </span>
                         </button>
                     </a>
                 </li>

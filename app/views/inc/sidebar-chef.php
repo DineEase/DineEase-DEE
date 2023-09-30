@@ -21,10 +21,10 @@
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
-                                    book_online
+                                list_alt
                                 </span>
                             </span>
-                            <span class="button-sidebar-menu-content">Reservation </span>
+                            <span class="button-sidebar-menu-content">Orders </span>
                         </button>
                     </a>
                 </li>
@@ -40,18 +40,7 @@
                         </button>
                     </a>
                 </li>
-                <li class="item">
-                    <a href="#" class="nav_link">
-                        <button class="button-sidebar-menu">
-                            <span class="navlink_icon">
-                                <span class="material-symbols-outlined ">
-                                    reviews
-                                </span>
-                            </span>
-                            <span class="button-sidebar-menu-content">Reviews </span>
-                        </button>
-                    </a>
-                </li>
+                
                 <!-- End -->
 
 

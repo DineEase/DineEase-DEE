@@ -11,7 +11,7 @@
         <div class="navbar-content">
             <div class="profile-details">
                 <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
-                Hello, <span class="user-name"> &nbsp;[User]</span>
+                Hello, <span class="user-name"> &nbsp;<?php echo  $_SESSION['user_name'] ?></span>
                 <img src="<?php echo URLROOT ?>/public/img/login/profilepic.png" alt="profile-photo" class="profile" />
             </div>
         </div>

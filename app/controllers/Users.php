@@ -279,7 +279,7 @@ class Users extends Controller
         // print_r($_SESSION);
         // echo '</pre>';
 
-        switch ((string)$_SESSION['employee_role']) {
+        switch ((string)$_SESSION['role']) {
             case '1':
                 $_SESSION['role'] = 'manager';
                 redirect('managers/index');

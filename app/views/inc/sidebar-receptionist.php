@@ -12,7 +12,7 @@
                                     home
                                 </span>
                             </span>
-                            <span class="button-sidebar-menu-content">Home </span>
+                            <span class="button-sidebar-menu-content">Dashboard </span>
                         </button>
                     </a>
                 </li>
@@ -45,10 +45,34 @@
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
+                                currency_exchange
+                                </span>
+                            </span>
+                            <span class="button-sidebar-menu-content">Refund </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link">
+                        <button class="button-sidebar-menu">
+                            <span class="navlink_icon">
+                                <span class="material-symbols-outlined ">
                                     reviews
                                 </span>
                             </span>
                             <span class="button-sidebar-menu-content">Reviews </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link">
+                        <button class="button-sidebar-menu">
+                            <span class="navlink_icon">
+                                <span class="material-symbols-outlined ">
+                                list_alt
+                                </span>
+                            </span>
+                            <span class="button-sidebar-menu-content">Orders </span>
                         </button>
                     </a>
                 </li>

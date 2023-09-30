@@ -16,15 +16,16 @@
                         </button>
                     </a>
                 </li>
+
                 <li class="item">
                     <a href="#" class="nav_link">
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
-                                    book_online
+                                    inventory_2
                                 </span>
                             </span>
-                            <span class="button-sidebar-menu-content">Reservation </span>
+                            <span class="button-sidebar-menu-content">Inventory </span>
                         </button>
                     </a>
                 </li>
@@ -33,10 +34,10 @@
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
-                                    restaurant_menu
+                                    notifications_active
                                 </span>
                             </span>
-                            <span class="button-sidebar-menu-content">Menus </span>
+                            <span class="button-sidebar-menu-content">Alerts </span>
                         </button>
                     </a>
                 </li>
@@ -45,10 +46,22 @@
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
-                                    reviews
+                                    shopping_cart_checkout
                                 </span>
                             </span>
-                            <span class="button-sidebar-menu-content">Reviews </span>
+                            <span class="button-sidebar-menu-content">GRN </span>
+                        </button>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="nav_link">
+                        <button class="button-sidebar-menu">
+                            <span class="navlink_icon">
+                                <span class="material-symbols-outlined ">
+                                    export_notes
+                                </span>
+                            </span>
+                            <span class="button-sidebar-menu-content">Mark Out </span>
                         </button>
                     </a>
                 </li>
