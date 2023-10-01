@@ -26,4 +26,16 @@ class Customers extends Controller
 
         $this->view('customer/home');
     }
+    public  function Reservation()
+    {
+        $data = [];
+
+        $this->view('customer/reservation');
+    }
+    public  function Menus()
+    {
+        $data = [];
+
+        $this->view('customer/menus');
+    }
 }

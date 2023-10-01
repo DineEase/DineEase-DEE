@@ -1,11 +1,10 @@
 <?php require APPROOT . '/views/inc/header.php'; ?>
 <div class="container-main">
     <?php require APPROOT . '/views/inc/navbar-login.php'; ?>
-    <div class="hero">
-        <div class="login-container">
+        <div class="staff-login-container">
             <div class="login-card">
                 <?php flash('register_success') ?>
-                <h2>Welcome Back!</h2>
+                <h2>Staff Login</h2>
                 <p>Enter your credentials to login.</p>
                 <form action="<?php echo URLROOT; ?>/users/staff" method="post">
                     <div class="input-div">
@@ -22,9 +21,9 @@
 
                     <button type="submit">Login</button>
                 </form>
-                <div class="login-switch">Not a Staff Member? <a href="<?php echo URLROOT ?>/users/Login">Customer </a></div>
+                <div class="login-switch">Not a Staff Member? <a href="<?php echo URLROOT ?>/users/Login">Customer Login </a></div>
+                <div class="login-switch"><sub>Dine Ease - 2023</sub></div>
             </div>
         </div>
-    </div>
 </div>
 <?php require APPROOT . '/views/inc/footer.php'; ?>

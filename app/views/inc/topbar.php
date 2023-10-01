@@ -1,4 +1,3 @@
-<?php require APPROOT . '/views/inc/header-general.php'; ?>
 <nav class="navbar">
     <div class="topbar">
         <div class="logo-item">
@@ -17,4 +16,3 @@
         </div>
     </div>
 </nav>
-<?php require APPROOT . '/views/inc/footer-general.php'; ?>

@@ -7,8 +7,8 @@
         <?php require APPROOT . '/views/inc/sidebar-customer.php'; ?>
     </div>
     <div class="body-template">
-        <?php
-        // require APPROOT . '/views/customer/home.php';
+        <?php 
+            require APPROOT . '/views/customer/menu.php';
         ?>
     </div>
 </div>
