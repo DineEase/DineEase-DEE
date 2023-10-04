@@ -1100,6 +1100,177 @@ input:focus-visible + label {
 }
 fieldset#menu-container{
   border: none;
-  background-color: #fefefe;
+  background-color: #771b1b;
 }
+
+/* menu item card */
+.menu-item-card,
+.menu-item-card * {
+  box-sizing: border-box;
+}
+.menu-item-card {
+  width: 148px;
+  height: 196px;
+  position: relative;
+
+}
+.menu-item-card2 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.rectangle-391 {
+  background: #ffffff;
+  border-radius: 16px;
+  flex-shrink: 0;
+  width: 148px;
+  height: 196px;
+  position: relative;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.04);
+}
+.group-3143 {
+  flex-shrink: 0;
+  width: 128px;
+  height: 103.3px;
+  position: static;
+}
+.rectangle-390 {
+  background: #c4c4c4;
+  border-radius: 8px 8px 0px 0px;
+  width: 128px;
+  height: 103.3px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+.item-image {
+  border-radius: 8px 8px 0px 0px;
+  width: 145px;
+  height: 218px;
+  position: absolute;
+  left: 190px;
+  top: -11px;
+  transform-origin: 0 0;
+  transform: rotate(90deg) scale(1, 1);
+}
+.item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: absolute;
+  left: 10px;
+  top: 125.3px;
+}
+.chicken-biryani {
+  color: #1f2937;
+  text-align: left;
+  font: 600 16px "Inter", sans-serif;
+  position: relative;
+  width: 128px;
+  height: 18.91px;
+}
+.tags {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 90px;
+  height: 20px;
+  position: relative;
+}
+.frame-3181 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-3179 {
+  display: flex;
+  flex-direction: row;
+  gap: 4.36px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.vector {
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+}
+._4-5 {
+  color: #6b7280;
+  text-align: left;
+  font: 500 7.27px "Inter", sans-serif;
+  position: relative;
+}
+.line-68 {
+  border-style: solid;
+  border-color: #000000;
+  border-width: 1px 0 0 0;
+  flex-shrink: 0;
+  width: 12px;
+  height: 0px;
+  position: relative;
+  transform-origin: 0 0;
+  transform: rotate(-90deg) scale(1, 1);
+}
+.frame-3183 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.special {
+  color: #6b7280;
+  text-align: left;
+  font: 500 7.27px "Inter", sans-serif;
+  position: relative;
+}
+.item-price {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.vector2 {
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+}
+.rs-1200-00 {
+  color: #6b7280;
+  text-align: left;
+  font: 500 10px "Inter", sans-serif;
+  position: relative;
+}
+.menu-item-row{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;  
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+
+
 /* menu styles ends here */

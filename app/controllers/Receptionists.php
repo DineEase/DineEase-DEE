@@ -19,4 +19,10 @@ class Receptionists extends Controller
 
         $this->view('Receptionist/index');
     }
+    public  function Refund()
+    {
+        $data = [];
+
+        $this->view('Receptionist/refund');
+    }
 }

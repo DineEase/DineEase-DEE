@@ -8,6 +8,7 @@
     </div>
     <div class="body-template">
         <?php
+            require APPROOT . '/views/receptionist/refund.php';
         ?>
     </div>
 </div>
