@@ -25,12 +25,29 @@
 
         <!-- The content for each menu option will be loaded here -->
         <div id="appetizers">
-            <h2>Appetizers</h2>
-            <ul>
-                <li>Chicken Wings</li>
-                <li>Mozzarella Sticks</li>
-                <li>Spinach Dip</li>
-            </ul>
+            <div class="menu-item-row">
+                <?php
+                for ($i = 0; $i < 10; $i++) {
+                    echo '<div class="menu-item-card">';
+                    echo '<div class="menu-item-image">';
+                    echo '<img src="./biriyani.jpg" alt="" />';
+                    echo '</div>';
+                    echo '<div class="menu-item-details">';
+                    echo '<div class="name">Chicken Biriyani large</div>';
+                    echo '<div class="tags-reviews">';
+                    echo '<div class="tags">';
+                    echo '<div class="tags">Spicy</div>';
+                    echo '</div>';
+                    echo '<div class="reviews">';
+                    echo '<span>4.5<i class="fa-star" style="color: rgb(0, 255, 17)"></i></span>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="price">Rs.1200.00</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
         </div>
         <div id="entrees" style="display:none;">
             <h2>Entrees</h2>
@@ -63,9 +80,9 @@
                         <div class="rectangle-391"></div>
                         <div class="group-3143">
                             <div class="rectangle-390">
-                            <img class="item-image" src="./biriyani.jpg" />
+                                <img class="item-image" src="./biriyani.jpg" />
                             </div>
-                            
+
                         </div>
                         <div class="item-content">
                             <div class="chicken-biryani">Chicken Biryani</div>
