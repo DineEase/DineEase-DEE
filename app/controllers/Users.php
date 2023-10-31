@@ -112,8 +112,14 @@ class Users extends Controller
             }
             //validate dob
             if (empty($data['dob'])) {
-                $data['dob_err'] = 'Please enter dob';
+                $data['dob_err'] = 'Please enter dob';   
             }
+            else 
+            {
+                if (strtotime($data['dob']) > strtotime('now')) {
+                    $data['dob_err'] = 'Please enter a valid date of birth.';
+                }
+            }            
             //validate mobile_no
             if (empty($data['mobile_no'])) {
                 $data['mobile_no_err'] = 'Please enter email';

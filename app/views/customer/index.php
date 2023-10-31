@@ -8,7 +8,7 @@
     </div>
     <div class="body-template">
         <?php 
-            require APPROOT . '/views/customer/menu.php';
+            require APPROOT . '/views/customer/reservation.php';
         ?>
     </div>
 </div>
