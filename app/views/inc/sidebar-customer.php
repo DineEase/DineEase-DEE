@@ -1,3 +1,4 @@
+
 <nav class="sidebar">
     <div class="sidebar-container">
         <div class="menu_content">
@@ -17,8 +18,8 @@
                     </a>
                 </li> -->
                 <li class="item">
-                    <a href="#" class="nav_link">
-                        <button class="button-sidebar-menu">
+                    <a href="<?php echo URLROOT ?>./customers/index" class="nav_link" data-content='reservation'>
+                        <button class="button-sidebar-menu" id="reservationButton"  >
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
                                     book_online
@@ -29,8 +30,8 @@
                     </a>
                 </li>
                 <li class="item">
-                    <a href="#" class="nav_link">
-                        <button class="button-sidebar-menu">
+                    <a href="#" class="nav_link nav_link_switch" data-content='menu'>
+                        <button class="button-sidebar-menu" id="menusButton" >
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
                                     restaurant_menu
@@ -41,8 +42,8 @@
                     </a>
                 </li>
                 <li class="item">
-                    <a href="#" class="nav_link">
-                        <button class="button-sidebar-menu">
+                    <a href="#" class="nav_link nav_link_switch"  data-content='review'>
+                        <button class="button-sidebar-menu " id="reviewsButton">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
                                     reviews
@@ -61,7 +62,7 @@
             <ul class="menu_items">
                 <div class="menu_title menu_user"></div>
                 <li class="item">
-                    <a href="#" class="nav_link">
+                    <a href="#" class="nav_link nav_link_switch">
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">

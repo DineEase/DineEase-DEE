@@ -250,6 +250,8 @@ body {
   padding-left: 0;
   margin-left: 0;
 }
+
+
 .navlink_icon::before {
   content: "";
   position: absolute;
@@ -403,6 +405,15 @@ body {
 .button-sidebar-menu:hover {
   color: white;
 }
+
+.active-nav{
+
+  color: white !important;
+  background-color: var(--brandgreen-dark) !important;
+  border: 2px solid var(--brandgreen-dark) !important;
+
+}
+
 /* sidebar style ends here */
 .add-reservation-container {
   display: flex;
@@ -586,6 +597,21 @@ input:focus-visible + label {
   padding: 10px 5px;
   margin: 10px 0px 10px 5px;
   float: right
+}
+#msform .confirm-button {
+  width: 100px;
+  background: var(--brandgreen-dark);
+  font-weight: bold;
+  color: white;
+  border: 0 none;
+  border-radius: 0px;
+  cursor: pointer;
+  padding: 10px 5px;
+ 
+  justify-content: center !important;
+}
+#msform .confirm-button:hover{
+  background-color: var(--brandgreen);
 }
 
 #msform .action-button:hover,
@@ -793,6 +819,7 @@ input:focus-visible + label {
 .plan .title {
   font-weight: 600;
   font-size: 1rem;
+  top: 20px;
   color: #314a2c;
 }
 
@@ -1213,3 +1240,11 @@ fieldset#menu-container{
   justify-content: center;
 }
 /* menu styles ends here */
+
+.disabled-button {
+  color: white  !important;
+  background-color: gray !important;; 
+  text-decoration: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}

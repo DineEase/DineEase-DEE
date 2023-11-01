@@ -15,77 +15,33 @@
                                 <td>#</td>
                                 <td>Reservation ID</td>
                                 <td>Date</td>
-                                <td>Time</td>
+                                <td>Start Time</td>
+                                <td>End Time</td>
                                 <td>No of People</td>
                                 <td>Amount</td>
+                                <td>Status</td>
                                 <td></td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>1001</td>
-                                <td>2022-10-01</td>
-                                <td>19:00</td>
-                                <td>4</td>
-                                <td>50.00</td>
-                                <td class="actions">
-                                    <a href="#" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-                                    <a href="" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-                                </td>
-                            </tr>
+                          
 
-                            <tr>
-                                <td>2</td>
-                                <td>1002</td>
-                                <td>2022-10-02</td>
-                                <td>20:00</td>
-                                <td>2</td>
-                                <td>30.00</td>
-                                <td class="actions">
-                                    <a href="#" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-                                    <a href="" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-                                </td>
-                            </tr>
+                            <?php foreach ($data['reservations'] as $index => $reservation) { ?>
+                                <tr>
+                                    <td><?php echo $index + 1 ?></td>
+                                    <td><?php echo $reservation->reservationID ?></td>
+                                    <td><?php echo $reservation->date ?></td>
+                                    <td><?php echo $reservation->reservationStartTime  ?></td>
+                                    <td><?php echo $reservation->reservationEndTime  ?></td>
+                                    <td><?php echo $reservation->numOfPeople ?></td>
+                                    <td>Tobecalculated</td>
+                                    <td><?php echo $reservation->status ?></td>
+                                    <td class="actions">
+                                        <a href="<?php echo URLROOT; ?>/Customers/cancelReservation/<?php echo $reservation -> reservationID ?>" class="trash <?php echo  ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
 
-                            <tr>
-                                <td>3</td>
-                                <td>1003</td>
-                                <td>2022-10-03</td>
-                                <td>18:00</td>
-                                <td>6</td>
-                                <td>80.00</td>
-                                <td class="actions">
-                                    <a href="#" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-                                    <a href="" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>4</td>
-                                <td>1004</td>
-                                <td>2022-10-04</td>
-                                <td>21:00</td>
-                                <td>3</td>
-                                <td>45.00</td>
-                                <td class="actions">
-                                    <a href="#" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-                                    <a href="" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>5</td>
-                                <td>1005</td>
-                                <td>2022-10-05</td>
-                                <td>19:30</td>
-                                <td>5</td>
-                                <td>65.00</td>
-                                <td class="actions">
-                                    <a href="#" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-                                    <a href="" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-                                </td>
-                            </tr>
 
                         </tbody>
                     </table>
@@ -108,7 +64,7 @@
                                             <li class="active" id="package"><strong>Package</strong></li>
                                             <li id="rd"><strong>Reservation Details</strong></li>
                                             <li id="availability"><strong>Availability</strong></li>
-                                            <li id="confirm"><strong>Finish</strong></li>
+                                            <li id="confirm"><strong>Payment</strong></li>
                                         </ul>
                                     </div>
                                     <fieldset>
@@ -122,11 +78,11 @@
                                                         <div class="inner">
                                                             <span class="pricing">
                                                                 <span>
-                                                                    0% <small>TAX</small>
+                                                                    3% <small>TAX</small>
                                                                 </span>
                                                             </span>
-                                                            <p class="title">p1</p>
-                                                            <p class="info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt qui est voluptates earum et dicta, omnis nobis sunt autem. Eligendi quos ea commodi, tempore veniam ut labore magni odio quae.</p>
+                                                            <p class="title">Ethereal Lounge T1</p>
+                                                            <p class="info">A serene escape where sophistication and tranquility unite, offering curated cocktails and a menu of culinary delights.</p>
                                                             <ul class="features">
                                                             </ul>
                                                         </div>
@@ -138,8 +94,8 @@
                                                                     5% <small>TAX</small>
                                                                 </span>
                                                             </span>
-                                                            <p class="title">p2</p>
-                                                            <p class="info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit, praesentium! Nemo praesentium, asperiores maiores laudantium officia vero blanditiis quae? In voluptates fugiat quam doloremque consectetur ea qui ut tenetur nihil?</p>
+                                                            <p class="title">Sapphire Lounge T2</p>
+                                                            <p class="info">A celestial retreat, sparkling with opulence. Indulge in carefully crafted beverages and gourmet offerings for an otherworldly experience.</p>
                                                             <ul class="features">
                                                             </ul>
                                                         </div>
@@ -151,8 +107,8 @@
                                                                     10% <small>TAX</small>
                                                                 </span>
                                                             </span>
-                                                            <p class="title">p3</p>
-                                                            <p class="info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, rem. Dicta voluptatibus quasi eos corrupti quia illum provident officiis eaque, explicabo amet maiores voluptate praesentium repellat ipsum! Numquam, dolorem consequatur.</p>
+                                                            <p class="title">Platinum Lounge T3</p>
+                                                            <p class="info">The epitome of luxury, where every detail speaks of excellence. Reserved for connoisseurs who appreciate refined menus and impeccable service.</p>
                                                             <ul class="features">
                                                             </ul>
                                                         </div>
@@ -161,17 +117,17 @@
                                                 <div class="pkg-selection">
                                                     <div class="radio-inputs">
                                                         <label class="radio">
-                                                            <input type="radio" name="radio" checked="">
-                                                            <span class="name">p1</span>
+                                                            <input type="radio" id="T1"  value= "T1" name="package" checked="">
+                                                            <span class="name">T1</span>
                                                         </label>
                                                         <label class="radio">
-                                                            <input type="radio" name="radio">
-                                                            <span class="name">p2</span>
+                                                            <input type="radio"  id="T2" value= "T2"  name="package">
+                                                            <span class="name">T2</span>
                                                         </label>
 
                                                         <label class="radio">
-                                                            <input type="radio" name="radio">
-                                                            <span class="name">p3</span>
+                                                            <input type="radio"  id="T3" value= "T3"  name="package">
+                                                            <span class="name">T3</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -191,11 +147,12 @@
 
                                                             <label for="num_people">Number of People:</label>
                                                             <input type="number" id="num_people" name="num_people" min="1" max="10" required>
+                                                            <input type="button" name="confirm" class="confirm-button" value="Confirm" />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                        </div> <input type="button" name="next" class="next action-button " value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                     </fieldset>
                                     <fieldset>
                                         <div class="form-card">
@@ -240,13 +197,13 @@
                                         <div class="form-card">
                                             <div class="row">
                                                 <div>
-                                                    <h3 class="fs-title">Reservation Added Successfully:</h3>
+                                                    <h3 class="fs-title">Proceed to payment to contunue:</h3>
                                                 </div>
                                             </div> <br><br>
                                             <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
                                             <div class="row">
                                             </div> <br><br>
-                                        </div>
+                                        </div><input type="button" name="Payment" class="next action-button" value="Pay Now" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                     </fieldset>
                                 </form>
                             </div>

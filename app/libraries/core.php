@@ -22,6 +22,10 @@ class Core
 
         //look in controllers for first value
 
+        // create loading method for ajax calls
+
+
+
         if (isset($url[0])) {
             if (file_exists('../app/controllers/' . ucwords($url[0]) . '.php')) { //ucwords capitalize the first letter
                 //set as current controller
@@ -44,6 +48,10 @@ class Core
                 //unset 1 index
                 unset($url[1]);
             }
+        }
+        if (isset($_POST['content'])) {
+            $content = $_POST['content'];
+            $this->currentMethod = $content;
         }
         //get params
         $this->params = $url ? array_values($url) : [];

@@ -7,9 +7,9 @@
         <?php require APPROOT . '/views/inc/sidebar-customer.php'; ?>
     </div>
     <div class="body-template">
-        <?php 
-            require APPROOT . '/views/customer/reservation.php';
-        ?>
+        <div id="content">
+            <?php require APPROOT . '/views/customer/reservation.php'; ?>
+        </div>
     </div>
 </div>
 <?php require APPROOT . '/views/inc/footer-general.php'; ?>
