@@ -67,9 +67,9 @@
                                             <li id="confirm"><strong>Payment</strong></li>
                                         </ul>
                                     </div>
-                                    <fieldset>
+                                    <fieldset >
                                         <div class="form-card">
-                                            <div class="row">
+                                            <div class="row fixed-height-row-reservation">
                                                 <div>
                                                     <h3 class="fs-title">Select the package:</h3>
                                                 </div>
@@ -137,7 +137,7 @@
                                     <fieldset>
                                         <div class="form-card">
                                             <div class="row">
-                                                <div>
+                                                <div class = "fixed-height-row-reservation">
                                                     <h3 class="fs-title">Select Date and No of People:</h3>
                                                     <div class="dp-container">
                                                         <div class="row">
@@ -156,7 +156,7 @@
                                     </fieldset>
                                     <fieldset>
                                         <div class="form-card">
-                                            <div class="row">
+                                            <div class="row fixed-height-row-reservation">
                                                 <div>
                                                     <h3 class="fs-title">Select the package:</h3>
                                                 </div>
@@ -194,7 +194,7 @@
                                         </div> <input type="button" name="next" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                     </fieldset>
                                     <fieldset>
-                                        <div class="form-card">
+                                        <div class="form-card fixed-height-row-reservation">
                                             <div class="row">
                                                 <div>
                                                     <h3 class="fs-title">Proceed to payment to contunue:</h3>

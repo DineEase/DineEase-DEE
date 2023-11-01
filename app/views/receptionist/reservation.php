@@ -53,8 +53,8 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/reservation" class="nav_link" onclick="changeContent('reservation')">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo APPROOT ?>/receptionist/reservation" class="nav_link" onclick="changeContent('reservation')">
+                                    <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 book_online
@@ -77,8 +77,8 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/refund" class="nav_link" onclick="changeContent('refund')">
-                                    <button class="button-sidebar-menu active-nav">
+                                <a href="<?php echo URLROOT ?>/receptionists/refund" class="nav_link" onclick="changeContent('refund')">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 currency_exchange

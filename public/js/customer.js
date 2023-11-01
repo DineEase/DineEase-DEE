@@ -97,31 +97,31 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $(".nav_link_switch").click(function (e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      // Get the content attribute value
-      var content = $(this).data("content");
+    // Get the content attribute value
+    var content = $(this).data("content");
 
-      // Make an AJAX request to fetch the content
-      $.ajax({
-          url: "index.php", // Change this to the actual handler
-          method: "POST",
-          data: { content: content },
-          success: function (response) {
-              // Update the content in the body-template
-              $("#content").html(response);
-          },
-          error: function (xhr, status, error) {
-              console.error("Error: " + error);
-          }
-      });
+    // Make an AJAX request to fetch the content
+    $.ajax({
+      url: "index.php", // Change this to the actual handler
+      method: "POST",
+      data: { content: content },
+      success: function (response) {
+        // Update the content in the body-template
+        $("#content").html(response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error: " + error);
+      },
+    });
   });
 });
 
-$('.button-sidebar-menu').on('click', function() {
-  // Remove 'active' class from all buttons 
-  $('.button-sidebar-menu').removeClass('active-nav');
+$(".button-sidebar-menu").on("click", function () {
+  // Remove 'active' class from all buttons
+  $(".button-sidebar-menu").removeClass("active-nav");
 
   // Add 'active' class to the clicked button
-  $(this).addClass('active-nav');
+  $(this).addClass("active-nav");
 });

@@ -59,10 +59,11 @@
             }
             ?>
         </div>
-        <div class="pagination pagination-menu">
-
-            <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-            <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
+        <div class="pagination pagination-menu ">
+            <div class="menu-next">
+            <a href="#"><i class="fas fa-angle-double-left "></i></a>
+            <a href="#"><i class="fas fa-angle-double-right "></i></a>
+            </div>
         </div>
     </div>
     <div id="entrees" style="display:none;">

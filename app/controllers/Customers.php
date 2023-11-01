@@ -49,6 +49,14 @@ class Customers extends Controller
 
         $this->view('customer/menu' , $data);
     }
+
+    public function Profile()
+    {
+        $data = [];
+
+        $this->view('customer/profile' , $data);
+    }
+
     public function Review()
     {
         $data = [];

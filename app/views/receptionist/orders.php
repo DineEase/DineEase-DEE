@@ -41,7 +41,7 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/index" class="nav_link " onclick="changeContent('home')">
+                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link " onclick="changeContent('home')">
                                     <button class="button-sidebar-menu ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -77,8 +77,8 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/refund" class="nav_link" onclick="changeContent('refund')">
-                                    <button class="button-sidebar-menu active-nav">
+                                <a href="<?php echo URLROOT ?>/receptionists/refund" class="nav_link" onclick="changeContent('refund')">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 currency_exchange
@@ -101,8 +101,8 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo APPROOT ?>/receptionist/orders.php" class="nav_link" onclick="changeContent('order')">
+                                    <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 list_alt

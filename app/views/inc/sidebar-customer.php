@@ -62,7 +62,7 @@
             <ul class="menu_items">
                 <div class="menu_title menu_user"></div>
                 <li class="item">
-                    <a href="#" class="nav_link nav_link_switch">
+                    <a href="#" class="nav_link nav_link_switch" data-content='profile'>
                         <button class="button-sidebar-menu">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
