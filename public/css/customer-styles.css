@@ -1127,12 +1127,67 @@ input:focus-visible + label {
 }
 fieldset#menu-container{
   border: none;
-  background-color: #771b1b;
+  background: linear-gradient(to bottom right, #76b1a367, #8ed7b0b3);
   height:80%;
 }
 
 /* menu item card */
 
+.pagination-menu{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+  font-size: larger;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.search-menu{
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.group-search {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
+}
+
+.input-search {
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  width: 100%;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #D9E8D8;
+  color: #0d0c22;
+  box-shadow: 0 0 5px #C1D9BF, 0 0 0 10px #f5f5f5eb;
+  transition: .3s ease;
+}
+
+.input-search::placeholder {
+  color: #777;
+}
+
+.icon-search {
+  position: absolute;
+  left: 1rem;
+  fill: #777;
+  width: 1rem;
+  height: 1rem;
+}
 
 
 /* menu cards */
@@ -1163,7 +1218,7 @@ fieldset#menu-container{
 .menu-item-image {
   margin: 0.625em 0.625em 0 0.625em;
   display: flex;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   border-radius: 1.25em 1.25em 0.3125em 0.3125em; 
   height: 45%;
 }
