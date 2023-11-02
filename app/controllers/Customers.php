@@ -36,6 +36,12 @@ class Customers extends Controller
 
         $reservations = $this->customerModel->getReservation($_SESSION['user_id']);
         $data = [
+            'package' => isset($_POST['package']) ? trim($_POST['mobile_no']) : '',
+            'date' => isset($_POST['date']) ? trim($_POST['mobile_no']) : '',
+            'num_people' => isset($_POST['num_people']) ? trim($_POST['mobile_no']) : '',
+            'hour-from' => isset($_POST['hour-from']) ? trim($_POST['mobile_no']) : '',
+            'hour-to' => isset($_POST['hour-to']) ? trim($_POST['mobile_no']) : '',
+            
             'reservations' => $reservations
         ];
 
@@ -59,10 +65,45 @@ class Customers extends Controller
 
     public function Review()
     {
-        $data = [];
+        $reviews = $this->customerModel->getReviews($_SESSION['user_id']);
+        $data = [
+            'reviews' => $reviews
+        ];
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $data = [
+                'customerID' => $_SESSION['user_id'],
+                'rating' => isset($_POST['rating']) ? trim($_POST['rating']) : '',
+                'comment' => isset($_POST['comment']) ? trim($_POST['comment']) : '',
+                'customerID_err' => '',
+                'rating_err' => '',
+                'comment_err' => ''
+            ];
+            if(!empty($data['customerID'])){
+                if(!empty($data['rating'])){
+                    if(!empty($data['comment'])){
+                        if($this->customerModel->addReview($data)){
+                            flash('review_message', 'Review Added');
+                            redirect('customers/review');
+                        }else{
+                            die('Something went wrong');
+                        }
+                    } else {
+                        die('Comment is empty');
+                    }
+                } else {
+                    die('Rating is empty');
+                }
+            } else {
+                die('Customer ID is empty');
+            }
+        }
 
         $this->view('customer/review' , $data);
     }
+
+        
+
+
     public function CancelReservation($reservationID)
     {
         $this->customerModel->cancelReservation($reservationID);

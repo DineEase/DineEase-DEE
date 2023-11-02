@@ -8,7 +8,10 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
+    
 </head>
 
 <body>
@@ -150,7 +153,128 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            
+            <div class="review-container">
+                <div class="testimonials">
+                    <div class="inner">
+                        <h1>Reviews</h1>
+                        <div class="border"></div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="testimonial">
+                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
+                                    <div class="name">Alex Zoysa</div>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="testimonial">
+                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
+                                    <div class="name">Meena Perera</div>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="testimonial">
+                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
+                                    <div class="name">Sheena Fdo</div>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="testimonial">
+                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
+                                        <div class="name">eve fonseka</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+
+                                        <p>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col">
+                                    <div class="testimonial">
+                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
+                                        <div class="name">zack de silva</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+
+                                        <p>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="testimonial">
+                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
+                                        <div class="name">john perera</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+
+                                        <p>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

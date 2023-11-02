@@ -22,7 +22,7 @@ class Customer
     // }
 
     public function cancelReservation($reservationID)
-    {   
+    {
         $this->db->query("UPDATE reservation SET status = 'Cancelled' WHERE reservationID = :reservationID");
         $this->db->bind(':reservationID', $reservationID);
         $results = $this->db->execute();
@@ -50,8 +50,29 @@ class Customer
         }
     }
 
+    public function getReviews($user_ID)
+    {
+        $this->db->query('SELECT * FROM review WHERE customerID = :user_ID');
+        $this->db->bind(':user_ID', $user_ID);
+        $results = $this->db->resultSet();
+        return $results;
+    }
 
-    public function getRemainingSlots($date){
+    public function addReview($data)
+    {
+        $this->db->query('INSERT INTO review (customerID, rating, comment) VALUES (:customerID, :rating, :comment)');
+        $this->db->bind(':customerID', $data['customerID']);
+        $this->db->bind(':rating', $data['rating']);
+        $this->db->bind(':comment', $data['comment']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getRemainingSlots($date)
+    {
         $this->db->query('SELECT * FROM reservation WHERE date = :date');
         $this->db->bind(':date', $date);
         $results = $this->db->resultSet();

@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/inventorymanager-styles.css">
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -42,74 +42,63 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/index" class="nav_link " onclick="changeContent('home')">
-                                    <button class="button-sidebar-menu ">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/index" class="nav_link" onclick="changeContent('index')">
+                                    <button class ="button-sidebar-menu " >
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard </span>
+                                        <span class="button-sidebar-menu-content">Home </span>
                                     </button>
                                 </a>
                             </li>
+
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/reservation" class="nav_link" onclick="changeContent('reservation')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/inventory" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                book_online
+                                                inventory_2
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Reservation </span>
+                                        <span class="button-sidebar-menu-content">Inventory </span>
                                     </button>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/menu" class="nav_link" onclick="changeContent('menu')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/alert" class="nav_link">
+                                    <button class="button-sidebar-menu active-nav ">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                notifications_active
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Alerts </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/grn" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                restaurant_menu
+                                                shopping_cart_checkout
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Menus </span>
+                                        <span class="button-sidebar-menu-content">GRN </span>
                                     </button>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/refund" class="nav_link" onclick="changeContent('refund')">
-                                    <button class="button-sidebar-menu active-nav">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                currency_exchange
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Refund </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/markOut" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                reviews
+                                                export_notes
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                list_alt
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Orders </span>
+                                        <span class="button-sidebar-menu-content">Mark Out </span>
                                     </button>
                                 </a>
                             </li>
@@ -122,7 +111,7 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/profile" class="nav_link">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/profile" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -148,74 +137,10 @@
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav>  
         </div>
         <div class="body-template" id="content">
-            <div class="reservation-container">
-                <div class="tabset">
-                    <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
-                    <label for="tab1">View Refund Requests</label>
 
-
-                    <div class="tab-panels">
-                        <section id="view" class="tab-panel">
-                            <div class="content read">
-                                <h2>View Refund Requests</h2>
-
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td>InvoiceID</td>
-                                            <td>CustomerID</td>
-                                            <td>Body</td>
-                                            <td>price</td>
-                                            <td>Date</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                        <?php foreach ($data['request'] as $request) : ?>
-
-                                            <tr>
-                                                <td></td>
-                                                <td><?php echo $request->invoiceID;
-                                                    ?></td>
-                                                <td><?php echo $request->body;
-                                                    ?></td>
-                                                <td><?php echo $request->price;
-                                                    ?></td>
-                                                <td><?php echo $request->date; ?></td>
-
-                                                <td class="actions">
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/showrefund" class="view"><i class="fa-solid fa-eye"></i></fa-solid></a>
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/editrefund/<?php //echo $data['post']->id; 
-                                                                                                            ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-
-                                                    <a href="<?php echo URLROOT; ?>/Receptionistss/deleterefund/<?php //echo $data['post']->id; 
-                                                                                                                ?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-
-
-                                <div class="pagination">
-
-                                    <a href="<?php echo URLROOT ?>Receptionists/addrefund""><i class=" fa-solid fa-plus"></i> Add requests </a>
-                                    <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                                    <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

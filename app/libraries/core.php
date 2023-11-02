@@ -39,6 +39,10 @@ class Core
 
         //instantiate controller class
         $this->currentController = new $this->currentController();
+    
+        // if($url[0] == 'Customers' || $url[0] == 'Managers'|| $url[0] == 'Chefs' || $url[0] == 'InventoryManagers' || $url[0] == 'Receptionists' ){
+        //     $this->currentMethod = 'index';
+        // }
 
         //check for second part of url
         if (isset($url[1])) {

@@ -125,3 +125,24 @@ $(".button-sidebar-menu").on("click", function () {
   // Add 'active' class to the clicked button
   $(this).addClass("active-nav");
 });
+
+
+$(document).ready(function () {
+  $('#add-review-popup').hide();
+});
+
+
+function toggleReviewForm() {
+  var reviewPopup = document.getElementById("add-review-popup");
+  reviewPopup.style.display = (reviewPopup.style.display === "none") ? "block" : "none";
+}
+
+// JavaScript code for toggleComment function (if needed)
+function toggleComment(reviewID) {
+  var moreContent = document.getElementById("more-" + reviewID);
+  var fullContent = document.getElementById("full-comment-" + reviewID);
+
+  moreContent.style.display = "none";
+  fullContent.style.display = "inline";
+}
+

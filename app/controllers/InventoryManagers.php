@@ -19,4 +19,39 @@
 
             $this->view('InventoryManager/index');
         }
+
+        public  function Inventory()
+        {
+            $data = [];
+
+            $this->view('InventoryManager/inventory');
+        }
+
+        public  function Alert()
+        {
+            $data = [];
+
+            $this->view('InventoryManager/alert');
+        }
+
+        public function Grn()
+        {
+            $data = [];
+
+            $this->view('InventoryManager/grn');
+        }
+
+        public function Markout()
+        {
+            $data = [];
+
+            $this->view('InventoryManager/markout');
+        }
+
+        public function Profile()
+        {
+            $data = [];
+
+            $this->view('InventoryManager/profile');
+        }
     }

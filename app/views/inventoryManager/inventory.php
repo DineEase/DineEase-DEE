@@ -43,7 +43,7 @@
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/inventoryManagers/index" class="nav_link" onclick="changeContent('index')">
-                                    <button class ="button-sidebar-menu active-nav" >
+                                    <button class="button-sidebar-menu ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
@@ -56,7 +56,7 @@
 
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/inventoryManagers/inventory" class="nav_link">
-                                    <button class="button-sidebar-menu">
+                                    <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 inventory_2
@@ -137,14 +137,135 @@
                         </ul>
                     </div>
                 </div>
-            </nav>  
+            </nav>
         </div>
         <div class="body-template" id="content">
+            <div class="main-content>
+ 
+ <div class=" container">
+                <div class="tabs">
+                    <button class="tab" id="viewsTab">Inventory list</button>
+                    <button class="tab" id="statsTab">Stats</button>
+                </div>
+            </div>
 
+            <div class="content" id="viewsContent">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search..." id="searchInput">
+                    <button onclick="searchFunction()" class="button">Search</button>
+                </div>
+
+                <div class="checkboxes">
+                    <label><input type="checkbox" name="category" value="Category1"> Category</label>
+                    <label><input type="checkbox" name="category" value="Category2"> Inventory Name</label>
+                    <label><input type="checkbox" name="category" value="Category3"> Inventory ID</label>
+                    <label><input type="checkbox" name="category" value="Category1"> Description</label>
+                    <label><input type="checkbox" name="category" value="Category2"> Current Quantity</label>
+                    <label><input type="checkbox" name="category" value="Category3"> Value</label>
+                    <label><input type="checkbox" name="category" value="Category3"> Date issued</label>
+                    <label><input type="checkbox" name="category" value="Category3"> ROQ level</label>
+
+                </div>
+
+                <div class="table-container">
+                    <table class="table">
+                        <tr class="table-heading">
+                            <th>Category</th>
+                            <th>Inventory Name</th>
+                            <th>Inventory ID</th>
+                            <th>Description</th>
+                            <th>Current Quantity</th>
+                            <th> Value</th>
+                            <th>Date issued</th>
+                            <th>ROQ level</th>
+                            <th>Edit</th>
+                        </tr>
+                        <tr>
+                            <!--rest of the table
+                 </tr>
+                 
+                 <td>
+                <button onclick="openEditForm()">Edit</button>
+                 </td>
+</tr>
+
+<div id="editForm" class="form-popup">
+<div class="form-container">
+ <h2>Edit Details</h2>
+ <form>
+   <label for="editableField1">Editable Field 1:</label><br>
+   <input type="text" id="editableField1" name="editableField1"><br>
+   <label for="editableField2">Editable Field 2:</label><br>
+   <input type="text" id="editableField2" name="editableField2"><br>
+   <label for="nonEditableField1">Non-editable Field 1:</label><br>
+   <input type="text" id="nonEditableField1" name="nonEditableField1" readonly><br>
+   <label for="nonEditableField2">Non-editable Field 2:</label><br>
+   <input type="text" id="nonEditableField2" name="nonEditableField2" readonly><br><br>
+   <button type="submit" class="edit-btn">Save</button>
+   <button class="close-btn" onclick="closeEditPopup()">Close</button>
+ </form>
+</div>
+</div>-->
+                    </table>
+                </div>
+
+                <button class="cat-button" onclick="openForm()">Manage Category</button>
+
+                <div id="categoriesForm" class="form-popup">
+                    <div class="form-container">
+                        <h3>Manage Categories</h3>
+                        <ul id="categoriesList">
+                            <li contenteditable="true">Fruits</li>
+                            <li contenteditable="true">Vegetable</li>
+                            <li contenteditable="true">Meat</li>
+                            <li contenteditable="true">Frozen items</li>
+                            <li contenteditable="true">Spices</li>
+                        </ul>
+                        <input type="text" placeholder="Enter new category" id="newCategoryInput">
+                        <button class="close-btn" onclick="addCategory()">Add Category</button>
+                        <button type="button" class="close-btn" onclick="closeForm()">Close</button>
+                    </div>
+                </div>
+
+
+                <div class="content" id="statsContent" style="display: none;">
+                    <!-- Content for the Stats tab -->
+
+
+                    <div class="charts">
+                        <div id="chart1" class="chart-container">
+                            <!-- Chart 1 description -->
+                        </div>
+                        <div id="chart2" class="chart-container">
+                            <!-- Chart 2 description -->
+                        </div>
+                    </div>
+
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search...">
+                        <!-- Filters and search functionality -->
+                        <button onclick="search()">Search</button>
+                    </div>
+
+                    <div id="graphRepresentation" class="graph-representation">
+                        <!-- Graphical representations based on the search results -->
+                    </div>
+
+                    <div class="buttons">
+                        <button onclick="printGraphs()">Print</button>
+                        <button onclick="exportGraphs()">Export</button>
+                    </div>
+                </div>
+
+
+
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/inventorymanager.js"></script>
+    
 </body>
 
 </html>

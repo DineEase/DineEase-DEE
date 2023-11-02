@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/inventorymanager-styles.css">
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -42,74 +42,63 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/index" class="nav_link " onclick="changeContent('home')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/index" class="nav_link" onclick="changeContent('index')">
                                     <button class="button-sidebar-menu ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard </span>
+                                        <span class="button-sidebar-menu-content">Home </span>
                                     </button>
                                 </a>
                             </li>
+
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/reservation" class="nav_link" onclick="changeContent('reservation')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/inventory" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                book_online
+                                                inventory_2
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Reservation </span>
+                                        <span class="button-sidebar-menu-content">Inventory </span>
                                     </button>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/menu" class="nav_link" onclick="changeContent('menu')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/alert" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                restaurant_menu
+                                                notifications_active
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Menus </span>
+                                        <span class="button-sidebar-menu-content">Alerts </span>
                                     </button>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/refund" class="nav_link" onclick="changeContent('refund')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/grn" class="nav_link">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                shopping_cart_checkout
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">GRN </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/markOut" class="nav_link">
                                     <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                currency_exchange
+                                                export_notes
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Refund </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                reviews
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                list_alt
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Orders </span>
+                                        <span class="button-sidebar-menu-content">Mark Out </span>
                                     </button>
                                 </a>
                             </li>
@@ -122,7 +111,7 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/profile" class="nav_link">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/profile" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -151,75 +140,99 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            <div class="reservation-container">
-                <div class="tabset">
-                    <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
-                    <label for="tab1">View Refund Requests</label>
-
-
-                    <div class="tab-panels">
-                        <section id="view" class="tab-panel">
-                            <div class="content read">
-                                <h2>View Refund Requests</h2>
-
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td>InvoiceID</td>
-                                            <td>CustomerID</td>
-                                            <td>Body</td>
-                                            <td>price</td>
-                                            <td>Date</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                        <?php foreach ($data['request'] as $request) : ?>
-
-                                            <tr>
-                                                <td></td>
-                                                <td><?php echo $request->invoiceID;
-                                                    ?></td>
-                                                <td><?php echo $request->body;
-                                                    ?></td>
-                                                <td><?php echo $request->price;
-                                                    ?></td>
-                                                <td><?php echo $request->date; ?></td>
-
-                                                <td class="actions">
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/showrefund" class="view"><i class="fa-solid fa-eye"></i></fa-solid></a>
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/editrefund/<?php //echo $data['post']->id; 
-                                                                                                            ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-
-                                                    <a href="<?php echo URLROOT; ?>/Receptionistss/deleterefund/<?php //echo $data['post']->id; 
-                                                                                                                ?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-
-
-                                <div class="pagination">
-
-                                    <a href="<?php echo URLROOT ?>Receptionists/addrefund""><i class=" fa-solid fa-plus"></i> Add requests </a>
-                                    <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                                    <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
+            <div class="container3">
+                <div class="tabs2">
+                    <button class="tablinks" onclick="openTab(event, 'tab1')">Inventory Issue</button>
+                    <button class="tablinks" onclick="openTab(event, 'tab2')">Leftover Stock</button>
+                    <button class="tablinks" onclick="openTab(event, 'tab3')">Inventory Expiry-soon</button>
                 </div>
 
+                <div id="tab1" class="tabcontent2">
+                    <form class="form2" style="display: block;">
+                        <h4>Inventory Issue Update</h4>
+                        <label2 for="inventoryName">Inventory ID:</label><br>
+                            <input type="text" id="inventoryName" name="inventoryName" style="margin-bottom: 30px;"></br>
+
+                            <label2 for="quantity">Quantity issued:</label2><br>
+                            <input type="number" id="quantity" name="quantity" style="margin-bottom: 30px;"><br>
+
+                            <label2 for="batchCode">Batch Code:</label2><br>
+                            <input type="text" id="batchCode" name="batchCode" style="margin-bottom: 30px;"><br>
+
+                            <label for="date">Expiry Date:</label><br>
+                            <input type="date" id="date" name="date"><br>
+
+                            <div class="form-buttons2">
+                                <button type="button" onclick="saveForm()">Save & Close</button>
+                                <button type="button" onclick="deleteForm()">Delete</button>
+                            </div>
+                    </form>
+                </div>
+
+                <div id="tab2" class="tabcontent2" style="display: none;">
+                    <form class="form2">
+                        <h2>Leftover Stock</h2>
+                        <label for="date">Date:</label><br>
+                        <input type="date" id="date" name="date"><br>
+
+                        <label class="form label2" for="inventoryType">Category: </label>:</label><br>
+                        <select id="inventoryType" class="form-select" name="inventoryType">
+                            <option value="type1">Vegetables</option>
+                            <option value="type2">Fruits</option>
+                            <option value="type3">Spices</option>
+                            <option value="type3">Meat</option>
+                            <option value="type3">Frozen items</option>
+                        </select><br>
+
+                        <label for="inventoryName">Inventory Name:</label><br>
+                        <input type="text" id="inventoryName" name="inventoryName"><br>
+
+                        <label for="inventoryName">Inventory ID:</label><br>
+                        <input type="text" id="inventoryName" name="inventoryName"><br>
+
+                        <label for="remainingQty">Remaining Quantity:</label><br>
+                        <input type="number" id="remainingQty" name="remainingQty"><br>
+
+                        <label for="expiryDate">Expiry Date:</label><br>
+                        <input type="date" id="expiryDate" name="expiryDate"><br>
+
+                        <label for="batchCode">Batch Code:</label><br>
+                        <input type="text" id="batchCode" name="batchCode"><br>
+
+                        <div class="form-buttons2">
+                            <button type="button" onclick="saveForm()">Save & Close</button>
+                            <button type="button" onclick="deleteForm()">Delete</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="tab3" class="tabcontent2" style="display: none;">
+                    <h4>Inventory expiry-soon</h4>
+                    <table class="data-table">
+                        <tr>
+                            <th>Category</th>
+                            <th>Inventory name</th>
+                            <th>Inventory ID 2</th>
+                            <th>Batch number</th>
+                            <th>Expire date</th>
+                            <th>Days remaining</th>
+                            <th>ROQ</th>
+                        </tr>
+                        <tr>
+                            <th>Vegetable</th>
+                            <th>Carrots</th>
+                            <th>3456</th>
+                            <th>20</th>
+                            <th>12/11/2023</th>
+                            <th>Days remaining</th>
+                            <th>20</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
 </body>
 
 </html>
