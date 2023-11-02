@@ -173,17 +173,30 @@
                             <th>ItemID</th>
                             <th>Item Name</th>
                             <th>Quantity</th>
+                            <th>As on Date</th>
+                            <th>Expire Date</th>
+                            <th>Batch Code</th>
+                            <th>Description</th>
+                            <th>Cost (LKR)</th>
+                            <th>ROQ Level</th>
                             
-                            <th>Supplier</th>
+                            <!--<th>Supplier</th>-->
                         </tr> 
                         <?php
         // Assuming $items is your array of items with keys like 'ItemID', 'ItemName', 'Quantity', 'Supplier'
         foreach ($data['inventory'] as $item) {
             echo '<tr>';
-            echo '<td>' . $item->itemID . '</td>';
-            echo '<td>' . $item->itemName . '</td>';
-            echo '<td>' . $item->quantity . '</td>';
-            echo '<td>' . $item->supplierInfo . '</td>';
+            echo '<td>' . $item->inventoryID . '</td>';
+            echo '<td>' . $item->inventoryname . '</td>';
+            echo '<td>' . $item->quantitylevel . '</td>';
+            echo '<td>' . $item->asondate . '</td>';
+            echo '<td>' . $item->expiredate . '</td>';
+            echo '<td>' . $item->batchcode . '</td>';
+            echo '<td>' . $item->description . '</td>';
+            echo '<td>' . $item->cost . '</td>';
+            //echo '<td>' . $item->quantityadded . '</td>';
+            echo '<td>' . $item->roqlevel . '</td>';
+            //echo '<td>' . $item->supplierInfo . '</td>';
             echo '</tr>';
         }
         ?>
