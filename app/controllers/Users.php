@@ -3,7 +3,12 @@ class Users extends Controller
 {
     public $userModel;
     public function __construct()
-    {
+    {   
+        unset($_SESSION['user_id']);
+        unset($_SESSION['user_name']);
+        unset($_SESSION['user_mobile_no']);
+        unset($_SESSION['employee_id']);
+        unset($_SESSION['employee_role']);
         $this->userModel = $this->model('User');
     }
 

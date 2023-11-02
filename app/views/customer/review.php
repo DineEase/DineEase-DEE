@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
+
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -42,20 +43,20 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/index" class="nav_link " onclick="changeContent('home')">
-                                    <button class="button-sidebar-menu ">
+                                <a href="<?php echo URLROOT ?>/customers/index" class="nav_link nav_link_switch" data-content='home'>
+                                    <button class="button-sidebar-menu " id="homeButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard </span>
+                                        <span class="button-sidebar-menu-content">Dashboard</span>
                                     </button>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/reservation" class="nav_link" onclick="changeContent('reservation')">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
+                                    <button class="button-sidebar-menu " id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 book_online
@@ -65,9 +66,10 @@
                                     </button>
                                 </a>
                             </li>
+
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/menu" class="nav_link" onclick="changeContent('menu')">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo URLROOT ?>/customers/menu" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu " id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 restaurant_menu
@@ -77,39 +79,16 @@
                                     </button>
                                 </a>
                             </li>
+
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/refund" class="nav_link" onclick="changeContent('refund')">
-                                    <button class="button-sidebar-menu active-nav">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                currency_exchange
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Refund </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo URLROOT ?>/customers/review" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu active-nav" id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 reviews
                                             </span>
                                         </span>
                                         <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                list_alt
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Orders </span>
                                     </button>
                                 </a>
                             </li>
@@ -121,9 +100,12 @@
 
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
+
+
+
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/profile" class="nav_link">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo URLROOT ?>/customers/profile" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu" id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 account_circle
@@ -150,73 +132,77 @@
                 </div>
             </nav>
         </div>
-        <div class="body-template" id="content">
-            <div class="reservation-container">
-                <div class="tabset">
-                    <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
-                    <label for="tab1">View Refund Requests</label>
+        <div class="body-template">
+            <div id="content">
+                <div class="review-container">
+                    <div class="testimonials">
+                        <div class="inner">
+                            <h1>Reviews</h1>
+                            <div class="border"></div>
+                            <div class="row">
 
 
-                    <div class="tab-panels">
-                        <section id="view" class="tab-panel">
-                            <div class="content read">
-                                <h2>View Refund Requests</h2>
+                                <div id="add-review-button" class="add-review-button" onclick="toggleReviewForm()">+</div>
 
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td>InvoiceID</td>
-                                            <td>CustomerID</td>
-                                            <td>Body</td>
-                                            <td>price</td>
-                                            <td>Date</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
+                                <!-- Add Review Pop-up Card -->
+                                <div id="add-review-popup" class="add-review-popup">
+                                    <div class="add-review-card">
+                                        <h2>Add a Review</h2>
+                                        <form action="<?php echo URLROOT; ?>/customers/review" method="post">
+                                                <label for="rating">Rating:</label>
+                                            <select id="rating" name="rating" required>
+                                                <option value="1">1 (Poor)</option>
+                                                <option value="2">2 (Fair)</option>
+                                                <option value="3">3 (Average)</option>
+                                                <option value="4">4 (Good)</option>
+                                                <option value="5">5 (Excellent)</option>
+                                            </select>
 
-                                    <tbody>
+                                            <label for="comment">Your Comment:</label>
+                                            <textarea id="comment" name="comment" rows="4" required></textarea>
 
-                                        <?php foreach ($data['request'] as $request) : ?>
+                                            <input type="hidden" name="date" value="<?php echo date('Y-m-d H:i:s'); ?>">
 
-                                            <tr>
-                                                <td></td>
-                                                <td><?php echo $request->invoiceID;
-                                                    ?></td>
-                                                <td><?php echo $request->body;
-                                                    ?></td>
-                                                <td><?php echo $request->price;
-                                                    ?></td>
-                                                <td><?php echo $request->date; ?></td>
-
-                                                <td class="actions">
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/showrefund" class="view"><i class="fa-solid fa-eye"></i></fa-solid></a>
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/editrefund/<?php //echo $data['post']->id; 
-                                                                                                            ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-
-                                                    <a href="<?php echo URLROOT; ?>/Receptionistss/deleterefund/<?php //echo $data['post']->id; 
-                                                                                                                ?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-
-
-                                <div class="pagination">
-
-                                    <a href="<?php echo URLROOT ?>Receptionists/addrefund""><i class=" fa-solid fa-plus"></i> Add requests </a>
-                                    <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                                    <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
+                                            <button type="submit" class="submit-button">Submit Review</button>
+                                        </form>
+                                        <div class="close-button" onclick="toggleReviewForm()">X</div>
+                                    </div>
                                 </div>
+
+                                <?php if (!empty($data['reviews'])) : ?>
+                                    <?php foreach ($data['reviews'] as $review) : ?>
+                                        <div class="col">
+                                            <div class="testimonial">
+                                                <div class="name"><?php echo $_SESSION['user_name']; ?></div>
+                                                <div class="stars">
+                                                    <?php for ($i = 0; $i < $review->rating; $i++) : ?>
+                                                        <i class="fas fa-star"></i>
+                                                    <?php endfor; ?>
+                                                </div>
+                                                <p class="comment-preview">
+                                                    <?php echo substr($review->comment, 0, 100); ?> <!-- Display the first 100 characters -->
+                                                    <?php if (strlen($review->comment) > 100) : ?>
+                                                        <span id="more-<?php echo $review->reviewID; ?>" class="more">...<br><button onclick="toggleComment(<?php echo $review->reviewID; ?>)">View More</button></span>
+                                                        <span id="full-comment-<?php echo $review->reviewID; ?>" class="full-comment" style="display: none;"><?php echo substr($review->comment, 100); ?></span>
+                                                    <?php endif; ?>
+                                                </p>
+                                                <form action="remove_review.php" method="post">
+                                                    <input type="hidden" name="review_id" value="<?php echo $review->reviewID; ?>">
+                                                    <button type="submit" class="menu-remove-button">Remove Review</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <p>No reviews available.</p>
+                                <?php endif; ?>
                             </div>
-                        </section>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>

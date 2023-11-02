@@ -94,3 +94,55 @@ $(document).ready(function () {
   // Show the appetizers by default
   $("#appetizers").show();
 });
+
+$(document).ready(function () {
+  $(".nav_link_switch").click(function (e) {
+    e.preventDefault();
+
+    // Get the content attribute value
+    var content = $(this).data("content");
+
+    // Make an AJAX request to fetch the content
+    $.ajax({
+      url: "index.php", // Change this to the actual handler
+      method: "POST",
+      data: { content: content },
+      success: function (response) {
+        // Update the content in the body-template
+        $("#content").html(response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error: " + error);
+      },
+    });
+  });
+});
+
+$(".button-sidebar-menu").on("click", function () {
+  // Remove 'active' class from all buttons
+  $(".button-sidebar-menu").removeClass("active-nav");
+
+  // Add 'active' class to the clicked button
+  $(this).addClass("active-nav");
+});
+
+
+$(document).ready(function () {
+  $('#add-review-popup').hide();
+});
+
+
+function toggleReviewForm() {
+  var reviewPopup = document.getElementById("add-review-popup");
+  reviewPopup.style.display = (reviewPopup.style.display === "none") ? "block" : "none";
+}
+
+// JavaScript code for toggleComment function (if needed)
+function toggleComment(reviewID) {
+  var moreContent = document.getElementById("more-" + reviewID);
+  var fullContent = document.getElementById("full-comment-" + reviewID);
+
+  moreContent.style.display = "none";
+  fullContent.style.display = "inline";
+}
+

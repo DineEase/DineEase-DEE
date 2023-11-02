@@ -92,6 +92,14 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
+.logout-link {
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  
+}
+
 .nav-link:hover {
   color: #007bff;
 }
@@ -371,5 +379,7 @@ button.register:hover {
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
-
+.active-nav{
+  background-color: #0c5460;
+}
 /* helpers styles end here */

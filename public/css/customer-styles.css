@@ -250,6 +250,8 @@ body {
   padding-left: 0;
   margin-left: 0;
 }
+
+
 .navlink_icon::before {
   content: "";
   position: absolute;
@@ -403,6 +405,15 @@ body {
 .button-sidebar-menu:hover {
   color: white;
 }
+
+.active-nav{
+
+  color: white !important;
+  background-color: var(--brandgreen-dark) !important;
+  border: 2px solid var(--brandgreen-dark) !important;
+
+}
+
 /* sidebar style ends here */
 .add-reservation-container {
   display: flex;
@@ -538,8 +549,10 @@ input:focus-visible + label {
   box-sizing: border-box;
   width: 100%;
   margin: 0;
+  height: 60vh;
   padding-bottom: 20px;
   position: relative
+  
 }
 
 .form-card {
@@ -575,17 +588,59 @@ input:focus-visible + label {
   outline-width: 0
 }
 
+.reservation-buttonset{
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.fixed-height-row-reservation{
+  display: flex;
+  flex-direction: column;
+  padding-left: 100px;
+  padding-right: 100px;
+  height: 50vh;
+}
+
 #msform .action-button {
+  display: flex;
+
   width: 100px;
   background: var(--brandgreen);
+  font-weight: bold;
+  color: white;
+  border: 0 none;
+  justify-content: center;
+  align-self: flex-end;
+  border-radius: 0px;
+  cursor: pointer;
+  padding: 10px 5px;
+  margin: 10px 0px 10px 5px;
+  float: right;
+  float: inline-end;
+}
+#msform .confirm-button {
+  width: 100px;
+  background: var(--brandgreen-dark);
   font-weight: bold;
   color: white;
   border: 0 none;
   border-radius: 0px;
   cursor: pointer;
   padding: 10px 5px;
-  margin: 10px 0px 10px 5px;
-  float: right
+ 
+  justify-content: center !important;
+}
+#msform .confirm-button:hover{
+  background-color: var(--brandgreen);
 }
 
 #msform .action-button:hover,
@@ -629,7 +684,7 @@ input:focus-visible + label {
   color: var(--brandgreen);
   margin-bottom: 15px;
   font-weight: normal;
-  text-align: left
+  text-align: center
 }
 
 .purple-text {
@@ -793,6 +848,7 @@ input:focus-visible + label {
 .plan .title {
   font-weight: 600;
   font-size: 1rem;
+  top: 20px;
   color: #314a2c;
 }
 
@@ -871,7 +927,6 @@ input:focus-visible + label {
   justify-content: center;
   height: 100%;
   width: 80%;
-  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1100,12 +1155,67 @@ input:focus-visible + label {
 }
 fieldset#menu-container{
   border: none;
-  background-color: #771b1b;
+  background: linear-gradient(to bottom right, #76b1a367, #8ed7b0b3);
   height:80%;
 }
 
 /* menu item card */
 
+.pagination-menu{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+  font-size: larger;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.search-menu{
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.group-search {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
+}
+
+.input-search {
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  width: 100%;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #D9E8D8;
+  color: #0d0c22;
+  box-shadow: 0 0 5px #C1D9BF, 0 0 0 10px #f5f5f5eb;
+  transition: .3s ease;
+}
+
+.input-search::placeholder {
+  color: #777;
+}
+
+.icon-search {
+  position: absolute;
+  left: 1rem;
+  fill: #777;
+  width: 1rem;
+  height: 1rem;
+}
 
 
 /* menu cards */
@@ -1136,7 +1246,7 @@ fieldset#menu-container{
 .menu-item-image {
   margin: 0.625em 0.625em 0 0.625em;
   display: flex;
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0);
   border-radius: 1.25em 1.25em 0.3125em 0.3125em; 
   height: 45%;
 }
@@ -1213,3 +1323,28 @@ fieldset#menu-container{
   justify-content: center;
 }
 /* menu styles ends here */
+
+.disabled-button {
+  color: white  !important;
+  background-color: gray !important;; 
+  text-decoration: none;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* menu navigation */
+.menu-next{
+  font-size: xx-large;
+ margin-right: 50px;
+ color: #166c45;
+ fa-color: #166c45;
+}
+
+.date-input-group{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}

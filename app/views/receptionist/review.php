@@ -8,8 +8,10 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
+    
 </head>
 
 <body>
@@ -78,8 +80,8 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/refund" class="nav_link" onclick="changeContent('refund')">
-                                    <button class="button-sidebar-menu active-nav">
+                                <a href="<?php echo URLROOT ?>/receptionists/refund" class="nav_link" onclick="changeContent('refund')">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 currency_exchange
@@ -90,8 +92,8 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo APPROOT ?>/receptionist/review" class="nav_link" onclick="changeContent('review')">
+                                    <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 reviews
@@ -151,70 +153,127 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            <div class="reservation-container">
-                <div class="tabset">
-                    <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
-                    <label for="tab1">View Refund Requests</label>
+            <div class="review-container">
+                <div class="testimonials">
+                    <div class="inner">
+                        <h1>Reviews</h1>
+                        <div class="border"></div>
 
+                        <div class="row">
+                            <div class="col">
+                                <div class="testimonial">
+                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
+                                    <div class="name">Alex Zoysa</div>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
 
-                    <div class="tab-panels">
-                        <section id="view" class="tab-panel">
-                            <div class="content read">
-                                <h2>View Refund Requests</h2>
-
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td>InvoiceID</td>
-                                            <td>CustomerID</td>
-                                            <td>Body</td>
-                                            <td>price</td>
-                                            <td>Date</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                        <?php foreach ($data['request'] as $request) : ?>
-
-                                            <tr>
-                                                <td></td>
-                                                <td><?php echo $request->invoiceID;
-                                                    ?></td>
-                                                <td><?php echo $request->body;
-                                                    ?></td>
-                                                <td><?php echo $request->price;
-                                                    ?></td>
-                                                <td><?php echo $request->date; ?></td>
-
-                                                <td class="actions">
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/showrefund" class="view"><i class="fa-solid fa-eye"></i></fa-solid></a>
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/editrefund/<?php //echo $data['post']->id; 
-                                                                                                            ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-
-                                                    <a href="<?php echo URLROOT; ?>/Receptionistss/deleterefund/<?php //echo $data['post']->id; 
-                                                                                                                ?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-
-
-                                <div class="pagination">
-
-                                    <a href="<?php echo URLROOT ?>Receptionists/addrefund""><i class=" fa-solid fa-plus"></i> Add requests </a>
-                                    <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                                    <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    </p>
                                 </div>
                             </div>
-                        </section>
+
+                            <div class="col">
+                                <div class="testimonial">
+                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
+                                    <div class="name">Meena Perera</div>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="testimonial">
+                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
+                                    <div class="name">Sheena Fdo</div>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+
+                                    <p>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="testimonial">
+                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
+                                        <div class="name">eve fonseka</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+
+                                        <p>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col">
+                                    <div class="testimonial">
+                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
+                                        <div class="name">zack de silva</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+
+                                        <p>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="testimonial">
+                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
+                                        <div class="name">john perera</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+
+                                        <p>
+                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

@@ -8,7 +8,6 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/inventorymanager-styles.css">
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -42,63 +41,52 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/index" class="nav_link" onclick="changeContent('index')">
-                                    <button class ="button-sidebar-menu active-nav" >
+                                <a href="<?php echo URLROOT ?>/customers/index" class="nav_link nav_link_switch" data-content='home'>
+                                    <button class="button-sidebar-menu " id="homeButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Home </span>
+                                        <span class="button-sidebar-menu-content">Dashboard</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
+                                    <button class="button-sidebar-menu " id="reservationButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                book_online
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Reservation </span>
                                     </button>
                                 </a>
                             </li>
 
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/inventory" class="nav_link">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo URLROOT ?>/customers/menu" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu " id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                inventory_2
+                                                restaurant_menu
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Inventory </span>
+                                        <span class="button-sidebar-menu-content">Menus </span>
                                     </button>
                                 </a>
                             </li>
+
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/alert" class="nav_link">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo URLROOT ?>/customers/review" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu " id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                notifications_active
+                                                reviews
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Alerts </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/grn" class="nav_link">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                shopping_cart_checkout
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">GRN </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/markOut" class="nav_link">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                export_notes
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Mark Out </span>
+                                        <span class="button-sidebar-menu-content">Reviews </span>
                                     </button>
                                 </a>
                             </li>
@@ -110,9 +98,12 @@
 
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
+
+
+
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/profile" class="nav_link">
-                                    <button class="button-sidebar-menu">
+                                <a href="<?php echo URLROOT ?>/customers/profile" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu active-nav" id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 account_circle
@@ -137,10 +128,12 @@
                         </ul>
                     </div>
                 </div>
-            </nav>  
+            </nav>
         </div>
-        <div class="body-template" id="content">
-
+        <div class="body-template">
+            <div id="content">
+                profile
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
