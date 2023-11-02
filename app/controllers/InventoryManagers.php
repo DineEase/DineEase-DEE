@@ -1,6 +1,7 @@
  <?php
     class InventoryManagers extends Controller
     {
+        public $inventoryManagerModel;
         public function __construct()
         {
             if (!isLoggedIn()) {
@@ -12,6 +13,7 @@
                     }
                 }
             }
+            $this->inventoryManagerModel = $this->model('InventoryManager');
         }
         public  function Index()
         {
@@ -20,12 +22,15 @@
             $this->view('InventoryManager/index');
         }
 
-        public  function Inventory()
+        public  function inventory()
         {
-            $data = [];
-
-            $this->view('InventoryManager/inventory');
+            $inventoryitem = $this->inventoryManagerModel->getInventoryitem();
+            $data = [
+                'inventory' => $inventoryitem
+            ];
+            $this->view('inventoryManager/inventory', $data);
         }
+        
 
         public  function Alert()
         {

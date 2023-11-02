@@ -154,7 +154,7 @@
                     <input type="text" placeholder="Search..." id="searchInput">
                     <button onclick="searchFunction()" class="button">Search</button>
                 </div>
-
+<!--
                 <div class="checkboxes">
                     <label><input type="checkbox" name="category" value="Category1"> Category</label>
                     <label><input type="checkbox" name="category" value="Category2"> Inventory Name</label>
@@ -166,22 +166,38 @@
                     <label><input type="checkbox" name="category" value="Category3"> ROQ level</label>
 
                 </div>
-
+-->
                 <div class="table-container">
                     <table class="table">
                         <tr class="table-heading">
-                            <th>Category</th>
-                            <th>Inventory Name</th>
-                            <th>Inventory ID</th>
+                            <th>ItemID</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            
+                            <th>Supplier</th>
+                        </tr> 
+                        <?php
+        // Assuming $items is your array of items with keys like 'ItemID', 'ItemName', 'Quantity', 'Supplier'
+        foreach ($data['inventory'] as $item) {
+            echo '<tr>';
+            echo '<td>' . $item->itemID . '</td>';
+            echo '<td>' . $item->itemName . '</td>';
+            echo '<td>' . $item->quantity . '</td>';
+            echo '<td>' . $item->supplierInfo . '</td>';
+            echo '</tr>';
+        }
+        ?>
+                        
+                            <!--rest of the table
                             <th>Description</th>
-                            <th>Current Quantity</th>
                             <th> Value</th>
                             <th>Date issued</th>
                             <th>ROQ level</th>
-                            <th>Edit</th>
-                        </tr>
-                        <tr>
+                            <th>Edit</th>-->
+                       
+                        
                             <!--rest of the table
+                            <tr>
                  </tr>
                  
                  <td>
@@ -208,7 +224,7 @@
 </div>-->
                     </table>
                 </div>
-
+<!--
                 <button class="cat-button" onclick="openForm()">Manage Category</button>
 
                 <div id="categoriesForm" class="form-popup">
@@ -226,7 +242,7 @@
                         <button type="button" class="close-btn" onclick="closeForm()">Close</button>
                     </div>
                 </div>
-
+-->
 
                 <div class="content" id="statsContent" style="display: none;">
                     <!-- Content for the Stats tab -->
