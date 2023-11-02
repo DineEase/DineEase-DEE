@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
-    
+
 </head>
 
 <body>
@@ -153,124 +153,37 @@
             </nav>
         </div>
         <div class="body-template" id="content">
+
             <div class="review-container">
                 <div class="testimonials">
                     <div class="inner">
                         <h1>Reviews</h1>
                         <div class="border"></div>
-
                         <div class="row">
-                            <div class="col">
-                                <div class="testimonial">
-                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
-                                    <div class="name">Alex Zoysa</div>
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
+                            <?php if (!empty($data['reviews'])) : ?>
+                                <?php foreach ($data['reviews'] as $review) : ?>
+                                    <div class="col">
+                                        <div class="testimonial">
+                                            <div class="name"><?php echo $_SESSION['user_name']; ?></div>
+                                            <div class="stars">
+                                                <?php for ($i = 0; $i < $review->rating; $i++) : ?>
+                                                    <i class="fas fa-star"></i>
+                                                <?php endfor; ?>
+                                            </div>
+                                            <p class="comment-preview">
+                                                <?php echo substr($review->comment, 0, 100); ?> <!-- Display the first 100 characters -->
+                                                <?php if (strlen($review->comment) > 100) : ?>
+                                                    <span id="more-<?php echo $review->reviewID; ?>" class="more">...<br><button onclick="toggleComment(<?php echo $review->reviewID; ?>)">View More</button></span>
+                                                    <span id="full-comment-<?php echo $review->reviewID; ?>" class="full-comment" style="display: none;"><?php echo substr($review->comment, 100); ?></span>
+                                                <?php endif; ?>
+                                            </p>
 
-                                    <p>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="testimonial">
-                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
-                                    <div class="name">Meena Perera</div>
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-
-                                    <p>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="testimonial">
-                                    <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
-                                    <div class="name">Sheena Fdo</div>
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-
-                                    <p>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="testimonial">
-                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewwoman.jpg" alt="review image">
-                                        <div class="name">eve fonseka</div>
-                                        <div class="stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="far fa-star"></i>
                                         </div>
-
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                        </p>
                                     </div>
-                                </div>
-
-
-
-                                <div class="col">
-                                    <div class="testimonial">
-                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
-                                        <div class="name">zack de silva</div>
-                                        <div class="stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="testimonial">
-                                        <img src="<?php echo URLROOT ?>/public/img/review/reviewman.jpg" alt="review image">
-                                        <div class="name">john perera</div>
-                                        <div class="stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <p>No reviews available.</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

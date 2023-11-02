@@ -167,6 +167,7 @@
                                         <tr>
                                             <td>#</td>
                                             <td>Reservation ID</td>
+                                            <td>Customer ID</td>
                                             <td>Date</td>
                                             <td>Start Time</td>
                                             <td>End Time</td>
@@ -183,6 +184,7 @@
                                             <tr>
                                                 <td><?php echo $index + 1 ?></td>
                                                 <td><?php echo $reservation->reservationID ?></td>
+                                                <td><?php echo $reservation->customerID ?></td>
                                                 <td><?php echo $reservation->date ?></td>
                                                 <td><?php echo $reservation->reservationStartTime  ?></td>
                                                 <td><?php echo $reservation->reservationEndTime  ?></td>
@@ -205,7 +207,7 @@
                                 </div>
                             </div>
                         </section>
-                        <section id="add" class="tab-panel">
+                        <!-- <section id="add" class="tab-panel">
                             <div class="add-reservation-container">
                                 <div class="reservation-container-fluid">
                                     <div class=" text-center ">
@@ -363,7 +365,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </section> -->
                     </div>
                 </div>
             </div>

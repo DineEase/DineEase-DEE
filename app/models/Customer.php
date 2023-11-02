@@ -29,30 +29,61 @@ class Customer
         return $results;
     }
 
+    // public function addReservation($data)
+    // {
+    //     $this->db->query('INSERT INTO reservation (customerID, tableID, packageID,date, reservationStartTime, reservationEndTime, numOfPeople) VALUES (:customerID, :tableID, :packageID, :date, :reservationStartTime, :reservationEndTime, :numOfPeople)');
+    //     $this->db->bind(':customerID', $data['customerID']);
+    //     $this->db->bind(':tableID', $data['tableID']);
+    //     $this->db->bind(':packageID', $data['packageID']);
+    //     $this->db->bind(':date', $data['date']);
+    //     $this->db->bind(':reservationStartTime', $data['reservationStartTime']);
+    //     $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
+    //     $this->db->bind(':numOfPeople', $data['numOfPeople']);
+    //     $this->db->bind('', $data['']);
+    //     $this->db->bind('', $data['']);
+    //     $this->db->bind('', $data['']);
+    //     //execute
+    //     if ($this->db->execute()) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
     public function addReservation($data)
+{
+    $this->db->query('INSERT INTO reservation (customerID, tableID, packageID, date, reservationStartTime, reservationEndTime, numOfPeople,invoiceID) VALUES (:customerID, :tableID, :packageID, :date, :reservationStartTime, :reservationEndTime, :numOfPeople, InvoiceID)');
+    $this->db->bind(':customerID', $data['customerID']);
+    $this->db->bind(':tableID', $data['tableID']);
+    $this->db->bind(':packageID', $data['packageID']);
+    $this->db->bind(':date', $data['date']);
+    $this->db->bind(':reservationStartTime', $data['reservationStartTime']);
+    $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
+    $this->db->bind(':numOfPeople', $data['numOfPeople']);
+
+    // Add other bindings for additional fields
+
+    // Execute the query
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+
+    public function removeReview($reviewID)
     {
-        $this->db->query('INSERT INTO reservation (customerID, tableID, packageID,date, reservationStartTime, reservationEndTime, numOfPeople) VALUES (:customerID, :tableID, :packageID, :date, :reservationStartTime, :reservationEndTime, :numOfPeople)');
-        $this->db->bind(':customerID', $data['customerID']);
-        $this->db->bind(':tableID', $data['tableID']);
-        $this->db->bind(':packageID', $data['packageID']);
-        $this->db->bind(':date', $data['date']);
-        $this->db->bind(':reservationStartTime', $data['reservationStartTime']);
-        $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
-        $this->db->bind(':numOfPeople', $data['numOfPeople']);
-        $this->db->bind('', $data['']);
-        $this->db->bind('', $data['']);
-        $this->db->bind('', $data['']);
-        //execute
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        $this->db->query('DELETE FROM review WHERE reviewID = :reviewID');
+        $this->db->bind(':reviewID', $reviewID);
+        $this->db->execute();
     }
 
     public function getReviews($user_ID)
     {
-        $this->db->query('SELECT * FROM review WHERE customerID = :user_ID');
+        $this->db->query('SELECT * FROM review WHERE customerID = :user_ID ORDER BY date DESC');
         $this->db->bind(':user_ID', $user_ID);
         $results = $this->db->resultSet();
         return $results;

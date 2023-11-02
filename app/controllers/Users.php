@@ -269,7 +269,7 @@ class Users extends Controller
         $_SESSION['user_name'] = $user->name;
         $_SESSION['user_mobile_no'] = $user->mobile_no;
         $_SESSION['role'] = 'customer';
-        redirect('customers/index');
+        redirect('customers/reservation');
     }
 
     public function createStaffSession($user, $employee)
@@ -301,7 +301,7 @@ class Users extends Controller
                 break;
             case '3':
                 $_SESSION['role'] = 'receptionist';
-                redirect('receptionists/index');
+                redirect('receptionists/reservation');
                 break;
             case '4':
                 $_SESSION['role'] = 'chef';

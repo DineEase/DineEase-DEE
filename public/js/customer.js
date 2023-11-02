@@ -146,3 +146,15 @@ function toggleComment(reviewID) {
   fullContent.style.display = "inline";
 }
 
+function toggleComment(reviewID) {
+  var moreText = document.getElementById("more-" + reviewID);
+  var fullComment = document.getElementById("full-comment-" + reviewID);
+
+  if (fullComment.style.display === "none") {
+    moreText.style.display = "none";
+    fullComment.style.display = "inline";
+  } else {
+    moreText.style.display = "inline";
+    fullComment.style.display = "none";
+  }
+}
