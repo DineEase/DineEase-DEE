@@ -2,11 +2,12 @@
 <div class="container-main">
     <?php require APPROOT . '/views/inc/navbar-login.php'; ?>
     <div class="hero">
-        <div class="hero-content"> </div>
+        <div class="hero-content">
+        </div>
         <div class="hero-image">
             <div class="login-container">
                 <div class="login-card">
-                    <?php flash('register_success')?>
+                    <?php flash('register_success') ?>
                     <h2>Welcome Back!</h2>
                     <p>Enter your credentials to login.</p>
                     <form action="<?php echo URLROOT; ?>/users/login" method="post">
@@ -25,6 +26,7 @@
                         <button type="submit">Login</button>
                     </form>
                     <div class="login-switch">Don't have an account? <a href="<?php echo URLROOT ?>/users/register">Register here</a></div>
+                    <div class="login-switch">Staff Member? <a href="<?php echo URLROOT ?>/users/staff">Staff Login</a></div>
                 </div>
             </div>
         </div>

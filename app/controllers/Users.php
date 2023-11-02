@@ -3,7 +3,12 @@ class Users extends Controller
 {
     public $userModel;
     public function __construct()
-    {
+    {   
+        unset($_SESSION['user_id']);
+        unset($_SESSION['user_name']);
+        unset($_SESSION['user_mobile_no']);
+        unset($_SESSION['employee_id']);
+        unset($_SESSION['employee_role']);
         $this->userModel = $this->model('User');
     }
 
@@ -112,8 +117,14 @@ class Users extends Controller
             }
             //validate dob
             if (empty($data['dob'])) {
-                $data['dob_err'] = 'Please enter dob';
+                $data['dob_err'] = 'Please enter dob';   
             }
+            else 
+            {
+                if (strtotime($data['dob']) > strtotime('now')) {
+                    $data['dob_err'] = 'Please enter a valid date of birth.';
+                }
+            }            
             //validate mobile_no
             if (empty($data['mobile_no'])) {
                 $data['mobile_no_err'] = 'Please enter email';
@@ -294,7 +305,7 @@ class Users extends Controller
                 break;
             case '4':
                 $_SESSION['role'] = 'chef';
-                redirect('chefs/index');
+                redirect('chefs/menu');
                 break;
         }
     }
