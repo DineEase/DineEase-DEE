@@ -1,0 +1,129 @@
+
+        .menus-chef-menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 70%;
+            margin: auto;
+            gap: 3rem;
+            position: relative;
+            top: 30px;
+        }
+
+        .item-chef-menu {
+            width: 200px;
+            height: auto;
+            background-color: #f0f0f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .item-chef-menu .price-chef-menu {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .item-chef-menu .title-chef-menu {
+            font-size: 20px;
+
+        }
+
+        .item-chef-menu span {
+            padding: 5px 30px;
+            background-color: #335499;
+            border-radius: 20px;
+        }
+
+        .item-chef-menu .buttons-chef-menu,
+.item-button-chef-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+}
+
+.item-button-chef-menu a {
+    text-decoration: none;
+    color: white;
+}
+
+.item-button-chef-menu .button-chef-menu {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.item-button-chef-menu .button-chef-menu:hover {
+    background-color: #45a049;
+}
+
+          .search-chef-menu input {
+          height: 40px;
+          width: 400px;
+          border-radius: 10px;
+        }
+        .search-chef-menu input::placeholder {
+          font-style: italic;
+          font-size: 25px;
+          position: relative;
+          top: 2px;
+          left: 10px;
+        }
+          .search-chef-menu {
+          position: relative;
+          left: 500px;
+        }
+
+        .image-box-chef-menu {
+    width: 150px; /* Set the width of the image */
+    height: 150px; /* Set the height of the image */
+    overflow: hidden; /* Hide any overflowing content within the box */
+    margin-bottom: 10px; /* Add some margin to separate images */
+}
+
+.image-box-chef-menu img {
+    width: 100%; /* Make sure the image fills the container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.menu-card {
+    width: 150px; /* Set the width of the card */
+    padding: 15px;
+    border: 1px solid #007bff; /* Add border with primary color */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
+    text-align: center;
+    margin: 0 auto; /* Center the card horizontally */
+}
+
+.create-menu-link {
+    text-decoration: none;
+    color: #007bff; /* Primary color for the link */
+    font-weight: bold;
+    font-size: 14px; /* Reduce font size */
+    display: block;
+    margin-top: 10px; /* Adjust top margin */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.menu-card:hover .create-menu-link {
+    color: #0056b3; /* Change link color on hover */
+}
+
+.plus-symbol {
+    margin-right: 6px;
+    font-weight: bold;
+}
+
+
+

@@ -68,7 +68,7 @@
                             </li>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/inventoryManagers/alert" class="nav_link">
-                                    <button class="button-sidebar-menu">
+                                    <button class="button-sidebar-menu  ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 notifications_active

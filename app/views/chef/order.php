@@ -42,7 +42,7 @@
                 <div class="menu_title menu_menu"></div>
                 <li class="item">
                     <a href="<?php echo URLROOT ?>/chefs/index" class="nav_link">
-                        <button class="button-sidebar-menu active-nav">
+                        <button class="button-sidebar-menu ">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
                                     home
@@ -66,7 +66,7 @@
                 </li>
                 <li class="item">
                     <a href="<?php echo URLROOT ?>/chefs/menu" class="nav_link">
-                        <button class="button-sidebar-menu">
+                        <button class="button-sidebar-menu ">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
                                     restaurant_menu
@@ -87,7 +87,7 @@
                 <div class="menu_title menu_user"></div>
                 <li class="item">
                     <a href="<?php echo URLROOT ?>/chefs/profile" class="nav_link">
-                        <button class="button-sidebar-menu">
+                        <button class="button-sidebar-menu active-nav">
                             <span class="navlink_icon">
                                 <span class="material-symbols-outlined ">
                                     account_circle
