@@ -309,6 +309,6 @@ class Users extends Controller
         unset($_SESSION['employee_id']);
         unset($_SESSION['employee_role']);
         session_destroy();
-        redirect('users/login');
+        redirect('users/staff');
     }
 }

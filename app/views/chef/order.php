@@ -40,7 +40,7 @@
             <hr class='separator'>
             <ul class="menu_items">
                 <div class="menu_title menu_menu"></div>
-                <li class="item">
+                <!-- <li class="item">
                     <a href="<?php echo URLROOT ?>/chefs/index" class="nav_link">
                         <button class="button-sidebar-menu ">
                             <span class="navlink_icon">
@@ -51,7 +51,7 @@
                             <span class="button-sidebar-menu-content">Home </span>
                         </button>
                     </a>
-                </li>
+                </li> -->
                 <li class="item">
                     <a href="<?php echo URLROOT ?>/chefs/order" class="nav_link">
                         <button class="button-sidebar-menu active-nav">

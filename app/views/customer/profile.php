@@ -121,9 +121,7 @@
         color: #4CAF50;
     }
 
-    .navbar-template{
-        
-    }
+   
     .profilecard {
         margin-top: 20px;
         border: 1px solid #ccc;
