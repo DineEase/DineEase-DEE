@@ -192,7 +192,7 @@
                                                 <td>Tobecalculated</td>
                                                 <td><?php echo $reservation->status ?></td>
                                                 <td class="actions">
-                                                    <a href="<?php echo URLROOT; ?>/Customers/cancelReservation/<?php echo $reservation->reservationID ?>" class="trash <?php echo ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a>
+                                                    <a href="<?php echo URLROOT; ?>/Receptionists/cancelReservation/<?php echo $reservation->reservationID ?>" class="trash <?php echo ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a>
                                                 </td>
                                             </tr>
                                         <?php } ?>

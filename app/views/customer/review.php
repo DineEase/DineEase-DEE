@@ -188,7 +188,7 @@
                                                 </p>
                                                 <form action="<?php echo URLROOT; ?>/customers/deleteReview/<?php echo $review->reviewID; ?>" method="post">
                                                     <input type="hidden" name="remove_review_id" value="<?php echo $review->reviewID; ?>">
-                                                    <button type="submit" class="menu-remove-button">Remove Review</button>
+                                                    <button type="submit" class="menu-remove-button" onclick="return confirm('Are you sure you want to remove this review?');" >Remove Review</button>
                                                 </form>
 
                                             </div>

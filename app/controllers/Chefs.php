@@ -22,6 +22,19 @@ class Chefs extends Controller
         $this->view('chef/index');
     }
 
+    public function Order()
+    {
+        $data = [];
+
+        $this->view('chef/order');
+    }   
+
+    public function Profile()
+    {
+        $data = [];
+
+        $this->view('chef/profile');
+    }
     
 
 
@@ -160,9 +173,9 @@ class Chefs extends Controller
             if (empty($data['itemName'])){
                 $data['itemName_err'] = 'Please enter name';
             } else {
-                if ($this->chefModel->findMenuitemByName($data['itemName'])){
-                    $data['itemName_err'] = 'Name is already taken';
-                }
+                // if ($this->chefModel->findMenuitemByName($data['itemName'])){
+                //     $data['itemName_err'] = 'Name is already taken';
+                // }
             }
             if (empty($data['price'])){
                 $data['price_err'] = 'Please enter price';

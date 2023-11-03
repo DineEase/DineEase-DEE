@@ -74,4 +74,11 @@ class Receptionists extends Controller
 
         $this->view('Receptionist/orders');
     }
+    public function CancelReservation($reservationID)
+    {
+        $this->receptionistModel->cancelReservation($reservationID);
+        flash('reservation_message', 'Reservation cancelled successfully');
+        redirect('receptionists/reservation');
+    }
+
 }

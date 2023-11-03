@@ -107,6 +107,8 @@ class Customers extends Controller
 
             // Call the removeReview method from the model to delete the review
             $this->customerModel->removeReview($reviewID);
+            
+            
 
             // Redirect back to the Reviews page
             redirect('customers/review');
@@ -121,7 +123,8 @@ class Customers extends Controller
     public function CancelReservation($reservationID)
     {
         $this->customerModel->cancelReservation($reservationID);
-        redirect('customers/index');
+        flash('reservation_message', 'Reservation cancelled successfully');
+        redirect('customers/reservation');
     }
 
     

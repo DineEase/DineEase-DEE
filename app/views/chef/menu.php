@@ -131,12 +131,12 @@
                     echo '<div class="image-box-chef-menu">';
                     echo '<img src="' . URLROOT . '/uploads/' . basename($menuitem->imagePath) . '" alt="Menu Item Image">';
                     echo '</div>';
-                    echo '<p class="title-chef-menu">' . $menuitem->itemName . '</p>';
-                    echo '<p class="price-chef-menu">LKR' . $menuitem->price . '</p>';
-                    echo '<p class="Average Prepare Time-chef-menu">' . $menuitem->averageTime . ' Minutes </p>';
+                    echo '<p class="title-chef-menu center-text">' . $menuitem->itemName . '</p>';
+                    echo '<p class="price-chef-menu center-text">LKR' . $menuitem->price . '</p>';
+                    echo '<p class=" Time-chef-menu center-text">' . $menuitem->averageTime . ' Minutes </p>';
                     echo '<div class="buttons-chef-menu">';
                     if ($menuitem->hidden == 0) {
-                        echo '<span class="button item-button-chef-menu"><a href="' . URLROOT . '/chefs/showMenuitem/' . $menuitem->itemID . '">Show</a></span>';
+                        echo '<span class="button  item-button-chef-menu"><a href="' . URLROOT . '/chefs/showMenuitem/' . $menuitem->itemID . '">Show</a></span>';
                     } else {
                         echo '<span class="button item-button-chef-menu"><a href="' . URLROOT . '/chefs/hideMenuitem/' . $menuitem->itemID . '">Hide</a></span>';
                     }

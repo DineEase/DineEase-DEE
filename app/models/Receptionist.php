@@ -8,7 +8,7 @@ class Receptionist
     }
     public function getReservation($user_id)
 {
-    $this->db->query('SELECT * FROM reservation ORDER BY date DESC LIMIT 10');
+    $this->db->query('SELECT * FROM reservation ORDER BY date DESC');
     $results = $this->db->resultSet();
     return $results;
 }
@@ -52,5 +52,6 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
+    
 
 }

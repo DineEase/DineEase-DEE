@@ -127,9 +127,9 @@ class Users extends Controller
             }            
             //validate mobile_no
             if (empty($data['mobile_no'])) {
-                $data['mobile_no_err'] = 'Please enter email';
+                $data['mobile_no_err'] = 'Please enter mobile number';
             } else {
-                // check email
+                // check mobile number
                 if ($this->userModel->findUserByMobile($data['mobile_no'])) {
                     $data['mobile_no_err'] = 'Mobile Number is already registered';
                 }
@@ -151,25 +151,17 @@ class Users extends Controller
 
             //make sure errors are empty
             if (empty($data['name_err']) && empty($data['email_err']) && empty($data['dob_err']) && empty($data['mobile_no_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
-                //validated
-
-                //hash password
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-                //register user
+                // validated
+                $data['password'] = password_hash(trim($data['password']), PASSWORD_DEFAULT);
+            
                 if ($this->userModel->register($data)) {
-
-                    flash('register_success', 'You are registered and can log in');
+                    flash('register_success', 'You are registered Successfully!');
                     redirect('users/login');
                 } else {
                     die('Something went wrong');
                 }
-
-                // echo '<pre>';
-                // print_r($data);
-                // echo '</pre>';
             } else {
-                //load view with errors
+                // load view with errors
                 $this->view('users/register', $data);
             }
         } else {
@@ -297,7 +289,7 @@ class Users extends Controller
                 break;
             case '2':
                 $_SESSION['role'] = 'inventoryManager';
-                redirect('inventoryManagers/index');
+                redirect('inventoryManagers/inventory');
                 break;
             case '3':
                 $_SESSION['role'] = 'receptionist';

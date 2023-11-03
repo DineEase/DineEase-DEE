@@ -165,7 +165,7 @@
                     </div>
                     <div class="row">
                         <div class="col-25">
-                            <label for="quantitylevel">Current Quantity Level</label>
+                            <label for="quantitylevel">Added quantity</label>
                         </div>
                         <div class="col-75">
                             <input type="text" id="quantitylevel" name="quantitylevel" placeholder="Quantity Level" required>
@@ -212,11 +212,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-25">
+                        <!-- <div class="col-25">
                             <label for="quantityaddded">Quantity Added</label>
-                        </div>
+                        </div> -->
                         <div class="col-75">
-                            <input type="text" id="quantityadded" name="quantityadded" placeholder="Enter the new quantity.." required>
+                            <input type="text" id="quantityadded"  hidden value="100" name="quantityadded" placeholder="Enter the new quantity.." required>
                         </div>
                     </div>
                     <div class="row">
@@ -228,7 +228,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <input type="submit" value="Save & CLose">
+                        <input type="submit" value="Enter Stock">
                     </div>
 
                 </form>
