@@ -43,7 +43,7 @@
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/inventoryManagers/index" class="nav_link" onclick="changeContent('index')">
-                                    <button class ="button-sidebar-menu " >
+                                    <button class="button-sidebar-menu ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
@@ -68,7 +68,7 @@
                             </li>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/inventoryManagers/alert" class="nav_link">
-                                    <button class="button-sidebar-menu  ">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 notifications_active
@@ -137,10 +137,102 @@
                         </ul>
                     </div>
                 </div>
-            </nav>  
+            </nav>
         </div>
         <div class="body-template" id="content">
+            <div class="card">
+                <form action="<?php echo URLROOT; ?>/InventoryManagers/grn" method="POST">
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="inventoryname">Inventory Name </label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="inventoryname" name="inventoryname" placeholder="Inventory Name.." required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="category">Category</label>
+                        </div>
+                        <div class="col-75">
+                            <select id="category" name="category" required>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Spices">Spices</option>
+                                <option value="Rice">Rice</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="quantitylevel">Added quantity</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="quantitylevel" name="quantitylevel" placeholder="Quantity Level" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="asondate">As On Date</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="date" id="asondate" name="asondate" placeholder="As on Date" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="expiredate">Expire Date</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="date" id="expiredate" name="expiredate" placeholder="Expire Date" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="batchcode">Batch code</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="batchcode" name="batchcode" placeholder="Batchcode" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="description">Description</label>
+                        </div>
+                        <div class="col-75">
+                            <textarea id="description" name="description" placeholder="Write Description.." required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="cost">Cost/Batch</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="cost" name="cost" placeholder="Enter the cost.." required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-25">
+                            <label for="quantityaddded">Quantity Added</label>
+                        </div> -->
+                        <div class="col-75">
+                            <input type="text" id="quantityadded"  hidden value="100" name="quantityadded" placeholder="Enter the new quantity.." required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="roqlevel">ROQ Level</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="roqlevel" name="roqlevel" placeholder="Enter the new ROQ Level.." required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="submit" value="Enter Stock">
+                    </div>
 
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

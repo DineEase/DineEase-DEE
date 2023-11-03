@@ -149,7 +149,7 @@
                                     <div class="add-review-card">
                                         <h2>Add a Review</h2>
                                         <form action="<?php echo URLROOT; ?>/customers/review" method="post">
-                                                <label for="rating">Rating:</label>
+                                            <label for="rating">Rating:</label>
                                             <select id="rating" name="rating" required>
                                                 <option value="1">1 (Poor)</option>
                                                 <option value="2">2 (Fair)</option>
@@ -186,10 +186,11 @@
                                                         <span id="full-comment-<?php echo $review->reviewID; ?>" class="full-comment" style="display: none;"><?php echo substr($review->comment, 100); ?></span>
                                                     <?php endif; ?>
                                                 </p>
-                                                <form action="remove_review.php" method="post">
-                                                    <input type="hidden" name="review_id" value="<?php echo $review->reviewID; ?>">
-                                                    <button type="submit" class="menu-remove-button">Remove Review</button>
+                                                <form action="<?php echo URLROOT; ?>/customers/deleteReview/<?php echo $review->reviewID; ?>" method="post">
+                                                    <input type="hidden" name="remove_review_id" value="<?php echo $review->reviewID; ?>">
+                                                    <button type="submit" class="menu-remove-button" onclick="return confirm('Are you sure you want to remove this review?');" >Remove Review</button>
                                                 </form>
+
                                             </div>
                                         </div>
                                     <?php endforeach; ?>

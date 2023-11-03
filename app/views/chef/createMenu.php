@@ -21,7 +21,7 @@
          flex-direction: column;
          align-items: center;
          padding: 2rem;
-         background-color: #61dafb; /* Light blue background */
+         background-color: #EFFFFA;
          border-radius: 1rem;
          box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
          }

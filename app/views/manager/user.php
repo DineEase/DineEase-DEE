@@ -8,7 +8,6 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -42,8 +41,8 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/index" class="nav_link " onclick="changeContent('home')">
-                                    <button class="button-sidebar-menu ">
+                                <a href="" class="nav_link">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
@@ -54,19 +53,19 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/reservation" class="nav_link" onclick="changeContent('reservation')">
+                                <a href="#" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
-                                                book_online
+                                                manage_accounts
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Reservation </span>
+                                        <span class="button-sidebar-menu-content">Users </span>
                                     </button>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/menu" class="nav_link" onclick="changeContent('menu')">
+                                <a href="#" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -78,7 +77,19 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/refund" class="nav_link" onclick="changeContent('refund')">
+                                <a href="#" class="nav_link">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                percent
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Discounts </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="#" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -90,7 +101,31 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
+                                <a href="#" class="nav_link">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                flip_to_front
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Tables </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="#" class="nav_link">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                inventory_2
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Inventory </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="#" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -98,18 +133,6 @@
                                             </span>
                                         </span>
                                         <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                list_alt
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Orders </span>
                                     </button>
                                 </a>
                             </li>
@@ -122,8 +145,8 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionists/profile" class="nav_link">
-                                    <button class="button-sidebar-menu active-nav">
+                                <a href="#" class="nav_link">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 account_circle
@@ -150,12 +173,12 @@
                 </div>
             </nav>
         </div>
-        <div class="body-template" id="content">
-            
+        <div class="body-template">
+
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/manager.js"></script>
 </body>
 
 </html>

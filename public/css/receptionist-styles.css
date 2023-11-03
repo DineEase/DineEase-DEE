@@ -1,12 +1,23 @@
+:root {
+  --white-color: #fff;
+  --blue-color: #4070f4;
+  --grey-color: #707070;
+  --grey-color-light: #aaa;
+  --brandgreen: #5b9279;
+  --brandgreen-dark: #166c45;
+}
+
 /* Testimonial Card Styles */
 .testimonials {
   background: #f1f1f1;
   color: #434343;
   text-align: center;
+  width: -webkit-fill-available;
 }
 
 .inner {
-  max-width: 1200px;
+ 
+  width: 100%;
   margin: auto;
   overflow: hidden;
   padding: 0 20px;
@@ -27,14 +38,17 @@
 
 .col {
   flex: 33.33%;
-  max-width: 33.33%;
+  max-width: 25%;
   box-sizing: border-box;
   padding: 15px;
+  display: flex;
+  justify-content: center;
 }
 
 .testimonial {
   background: #fff;
   padding: 20px;
+  width: 250px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
@@ -100,7 +114,7 @@
 
 /* Remove Button Styles */
 .menu-remove-button {
-  background-color: #e74c3c;
+  background-color: var(--brandgreen);
   color: #fff;
   border: none;
   padding: 10px 15px;
@@ -110,7 +124,7 @@
 }
 
 .menu-remove-button:hover {
-  background-color: #c0392b;
+  background-color: var(--brandgreen-dark);
 }
 
 /* Add Review Button Styles */

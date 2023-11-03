@@ -1,129 +1,159 @@
-
-        .menus-chef-menu {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 70%;
-            margin: auto;
-            gap: 3rem;
-            position: relative;
-            top: 30px;
-        }
-
-        .item-chef-menu {
-            width: 200px;
-            height: auto;
-            background-color: #f0f0f9;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .item-chef-menu .price-chef-menu {
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        .item-chef-menu .title-chef-menu {
-            font-size: 20px;
-
-        }
-
-        .item-chef-menu span {
-            padding: 5px 30px;
-            background-color: #335499;
-            border-radius: 20px;
-        }
-
-        .item-chef-menu .buttons-chef-menu,
-.item-button-chef-menu {
+:root {
+    --white-color: #fff;
+    --blue-color: #4070f4;
+    --grey-color: #707070;
+    --grey-color-light: #aaa;
+    --brandgreen: #5b9279;
+    --brandgreen-dark: #166c45;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+  }
+  
+  .menus-chef-menu {
     display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    margin-top: 0.5rem;
-}
-
-.item-button-chef-menu a {
-    text-decoration: none;
-    color: white;
-}
-
-.item-button-chef-menu .button-chef-menu {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-.item-button-chef-menu .button-chef-menu:hover {
-    background-color: #45a049;
-}
-
-          .search-chef-menu input {
-          height: 40px;
-          width: 400px;
-          border-radius: 10px;
-        }
-        .search-chef-menu input::placeholder {
-          font-style: italic;
-          font-size: 25px;
-          position: relative;
-          top: 2px;
-          left: 10px;
-        }
-          .search-chef-menu {
-          position: relative;
-          left: 500px;
-        }
-
-        .image-box-chef-menu {
-    width: 150px; /* Set the width of the image */
-    height: 150px; /* Set the height of the image */
-    overflow: hidden; /* Hide any overflowing content within the box */
-    margin-bottom: 10px; /* Add some margin to separate images */
-}
-
-.image-box-chef-menu img {
-    width: 100%; /* Make sure the image fills the container */
-    height: auto; /* Maintain aspect ratio */
-}
-
-.menu-card {
-    width: 150px; /* Set the width of the card */
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    margin: auto;
+    gap: 20px;
+    padding-top: 30px;
+  }
+  
+  .item-chef-menu {
+    width: 200px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .item-chef-menu:hover {
+    transform: translateY(-10px);
+  }
+  
+  .item-chef-menu img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  .item-chef-menu .info {
     padding: 15px;
-    border: 1px solid #007bff; /* Add border with primary color */
-    border-radius: 8px; /* Add border radius for rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow effect */
-    text-align: center;
-    margin: 0 auto; /* Center the card horizontally */
-}
-
-.create-menu-link {
-    text-decoration: none;
-    color: #007bff; /* Primary color for the link */
+  }
+  
+  .item-chef-menu .price-chef-menu {
+    font-size: 20px;
     font-weight: bold;
-    font-size: 14px; /* Reduce font size */
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+    color: var(--brandgreen);
+  }
+  
+  .Time-chef-menu{
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .item-chef-menu .title-chef-menu {
+    font-size: 20px;
+    margin-top: 4px;
+    font-weight: bold;
+    margin-bottom: 5px !important;
+  }
+  
+  .item-chef-menu span {
+    display: inline-block;
+    padding: 3px 20px;
+    background-color: var(--brandgreen);
+    color: #fff;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+  
+  .search-chef-menu {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  .search-chef-menu input {
+    height: 40px;
+    width: 300px;
+    border-radius: 20px;
+    padding: 10px;
+    border: none;
+  }
+  
+  .menu-card {
+    width: 150px;
+    padding: 15px;
+    border: 2px solid var(--brandgreen);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 20px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .menu-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .create-menu-link {
+    text-decoration: none;
+    color: var(--brandgreen);
+    font-weight: bold;
+    font-size: 14px;
     display: block;
-    margin-top: 10px; /* Adjust top margin */
-    transition: color 0.3s ease; /* Smooth color transition */
-}
-
-.menu-card:hover .create-menu-link {
-    color: #0056b3; /* Change link color on hover */
-}
-
-.plus-symbol {
+    transition: color 0.3s ease;
+  }
+  
+  .menu-card:hover .create-menu-link {
+    color: var(--brandgreen-dark);
+  }
+  
+  .plus-symbol {
     margin-right: 6px;
     font-weight: bold;
-}
+  }
+  
+  .buttons-chef-menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 2px;
+    margin-bottom: 4px;
+    justify-content: space-between;
+    padding-left: 4px;
+    padding-right: 4px;
+    
+  }
+  
+  .button.item-button-chef-menu {
+    margin: 3 3px;
+    text-align: center;
 
-
-
+  }
+  
+  .button.item-button-chef-menu a {
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button.item-button-chef-menu a:hover {
+    background-color: #45a049;
+  }
+  .center-text{
+    text-align: center;
+  }

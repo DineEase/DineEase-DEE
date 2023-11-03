@@ -207,7 +207,7 @@
                                         <div class=" text-center ">
                                             <div class="card">
                                                 <h2 id="heading" class="text-center">Reserve Slot</h2>
-                                                <form id="msform" class="msform-container" action="<?php echo URLROOT; ?>/customers/reservation" method="post">
+                                                <form id="msform" class="msform-container" action="<?php echo URLROOT; ?>/customers/addReservation" method="post">
                                                     <div class="prog">
                                                         <ul id="progressbar">
                                                             <li class="active" id="package"><strong>Package</strong></li>
@@ -260,22 +260,24 @@
                                                                             <p class="info">The epitome of luxury, where every detail speaks of excellence. Reserved for connoisseurs who appreciate refined menus and impeccable service.</p>
                                                                             <ul class="features">
                                                                             </ul>
+
+                                                                            <input type="text" hidden id="tableID" name="tableID" value="1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="pkg-selection">
                                                                     <div class="radio-inputs">
                                                                         <label class="radio">
-                                                                            <input type="radio" id="T1" value="1" name="package" checked="">
+                                                                            <input type="radio" id="packageID" value="1" name="packageID" checked="">
                                                                             <span class="name">T1</span>
                                                                         </label>
                                                                         <label class="radio">
-                                                                            <input type="radio" id="T2" value="2" name="package">
+                                                                            <input type="radio" id="packageID" value="2" name="packageID">
                                                                             <span class="name">T2</span>
                                                                         </label>
 
                                                                         <label class="radio">
-                                                                            <input type="radio" id="T3" value="3" name="package">
+                                                                            <input type="radio" id="packageID" value="3" name="packageID">
                                                                             <span class="name">T3</span>
                                                                         </label>
                                                                     </div>
@@ -294,8 +296,8 @@
                                                                             <label for="date">Date:</label>
                                                                             <input type="date" id="date" name="date" required>
 
-                                                                            <label for="num_people">Number of People:</label>
-                                                                            <input type="number" id="num_people" name="num_people" min="1" max="10" required>
+                                                                            <label for="numOfPeople">Number of People:</label>
+                                                                            <input type="number" id="numOfPeople" name="numOfPeople" min="1" max="10" required>
 
                                                                         </div>
                                                                     </div>
@@ -328,14 +330,14 @@
                                                                         ?>
 
                                                                         <div class="date-input-group">
-                                                                            <select name="hour-from" class="slot-selector">
+                                                                            <select name="reservationStartTime" id="reservationStartTime" class="slot-selector">
                                                                                 <?php
                                                                                 for ($i = 8; $i <= 24; $i++) {
                                                                                     echo "<option value='$i'>$i:00 AM</option>";
                                                                                 }
                                                                                 ?>
                                                                             </select>
-                                                                            <select name="hour-to" class="slot-selector">
+                                                                            <select name="reservationEndTime"  id="reservationEndTime" class="slot-selector">
                                                                                 <?php
                                                                                 for ($i = 8; $i <= 24; $i++) {
                                                                                     echo "<option value='$i'>$i:00 AM</option>";
@@ -360,18 +362,10 @@
                                                                 </div>
                                                             </div> <br><br>
                                                             <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
-                                                            <pre>
-                                                                Reservation ID: <?php echo $data['reservationID'] ?> <br>
-                                                                Date: <?php echo $data['date'] ?> <br>
-                                                                Start Time: <?php echo $data['hour-from'] ?> <br>
-                                                                End Time: <?php echo $data['hour-to'] ?> <br>
-                                                                No of People: <?php echo $data['num_people'] ?> <br>
-                                                                Amount: <?php echo $data['amount'] ?> <br>
-                                                                Status: <?php echo $data['status'] ?> <br>
-                                                            </pre>
                                                             <div class="row">
                                                             </div> <br><br>
-                                                        <!-- </div><input type="submit" name="submit" class="next action-button" value="submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
+                                                            <input type="submit" name="submit" class="next action-button" value="Submit" />
+                                                            <!-- </div><input type="submit" name="submit" class="next action-button" value="submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
                                                     </fieldset>
                                                 </form>
                                             </div>
