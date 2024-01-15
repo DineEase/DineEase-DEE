@@ -4,7 +4,7 @@
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'de_db_v2'); //test database is using (de_db_v1)
+define('DB_NAME', 'de_db_v2');
 //app root
 define('APPROOT', dirname(dirname(__FILE__)));
 //URL Root
