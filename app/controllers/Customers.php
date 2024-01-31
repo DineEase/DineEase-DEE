@@ -41,7 +41,7 @@ class Customers extends Controller
             'num_people' => isset($_POST['num_people']) ? trim($_POST['mobile_no']) : '',
             'hour-from' => isset($_POST['hour-from']) ? trim($_POST['mobile_no']) : '',
             'hour-to' => isset($_POST['hour-to']) ? trim($_POST['mobile_no']) : '',
-
+            'amount' => isset($_POST['amount']) ? trim($_POST['mobile_no']) : '',
             'reservations' => $reservations
         ];
 
@@ -139,8 +139,9 @@ class Customers extends Controller
             'packageID' => trim($_POST['packageID']),
             'date' => trim($_POST['date']),
             'reservationStartTime' => trim($_POST['reservationStartTime']),
-            'reservationEndTime' => trim($_POST['reservationEndTime']),
-            'numOfPeople' => trim($_POST['numOfPeople'])
+            'reservationEndTime' => date('Y-m-d H:i:s', strtotime('+1 hour', strtotime(trim($_POST['reservationStartTime'])))),
+            'numOfPeople' => trim($_POST['numOfPeople']),
+            'amount' => trim($_POST['amount']),
             // Add other necessary fields here
         ];
 
