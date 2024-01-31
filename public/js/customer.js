@@ -126,15 +126,14 @@ $(".button-sidebar-menu").on("click", function () {
   $(this).addClass("active-nav");
 });
 
-
 $(document).ready(function () {
-  $('#add-review-popup').hide();
+  $("#add-review-popup").hide();
 });
-
 
 function toggleReviewForm() {
   var reviewPopup = document.getElementById("add-review-popup");
-  reviewPopup.style.display = (reviewPopup.style.display === "none") ? "block" : "none";
+  reviewPopup.style.display =
+    reviewPopup.style.display === "none" ? "block" : "none";
 }
 
 // JavaScript code for toggleComment function (if needed)
@@ -158,3 +157,101 @@ function toggleComment(reviewID) {
     fullComment.style.display = "none";
   }
 }
+
+// time slots
+$(document).ready(function () {
+  $(".time-slot").click(function () {
+    $(".time-slot").removeClass("selected");
+    $(this).addClass("selected");
+    $("#selectedTime").val($(this).data("time"));
+  });
+});
+
+// // date selection
+// document.addEventListener("DOMContentLoaded", function () {
+//     var today = new Date();
+//     var maxDate = new Date();
+//     maxDate.setDate(today.getDate() + 15);
+
+//     var dateString = formatDate(today);
+//     var maxDateString = formatDate(maxDate);
+
+//     var datePicker = document.getElementById('date');
+//     datePicker.value = dateString;
+//     datePicker.min = dateString;
+//     datePicker.max = maxDateString;
+// });
+
+// function formatDate(date) {
+//     var d = new Date(date),
+//         month = '' + (d.getMonth() + 1),
+//         day = '' + d.getDate(),
+//         year = d.getFullYear();
+
+//     if (month.length < 2)
+//         month = '0' + month;
+//     if (day.length < 2)
+//         day = '0' + day;
+
+//     return [year, month, day].join('-');
+// }
+
+// date picker
+$(document).ready(function () {
+  $(".date-slot").click(function () {
+    $(".date-slot").removeClass("selected");
+    $(this).addClass("selected");
+    $("#selectedDate").val($(this).data("date"));
+  });
+});
+
+// people Selection
+$(document).ready(function () {
+  $(".person-icon").click(function () {
+    var selectedNumber = $(this).data("value");
+    $("#numOfPeople").val(selectedNumber);
+    $(".person-icon").removeClass("selected");
+    $(this).addClass("selected");
+  });
+});
+
+// reservation summery
+document.addEventListener("DOMContentLoaded", function () {
+  // Placeholder for retrieving these values from a previous step or storage
+  let selectedDate = "2022-08-01"; // Example date
+  let selectedPeople = 4; // Example number of people
+  let selectedTime = "19:00"; // Example time
+
+  // Set the summary details
+  document.getElementById("summary-date").textContent = selectedDate;
+  document.getElementById("summary-people").textContent = selectedPeople;
+  document.getElementById("summary-time").textContent = selectedTime;
+
+  // Functionality to add new menu items
+  document.getElementById("add-item").addEventListener("click", function () {
+    let menuContainer = document.querySelector(".menu-items");
+    let newItem = document.createElement("div");
+    newItem.classList.add("menu-item");
+    newItem.innerHTML = `<span>New Food Item</span><span class="price">Price</span>`;
+    menuContainer.appendChild(newItem);
+    updateTotalAmount();
+  });
+
+  // Update the total amount
+  function updateTotalAmount() {
+    let total = 0;
+    document.querySelectorAll(".menu-item .price").forEach(function (item) {
+      total += parseFloat(item.textContent);
+    });
+    document.getElementById("total-amount").textContent = `Rs.${total.toFixed(
+      2
+    )}`;
+  }
+
+  // Functionality to proceed to payment
+  document
+    .getElementById("proceed-to-pay")
+    .addEventListener("click", function () {
+      // Proceed to payment logic here
+    });
+});

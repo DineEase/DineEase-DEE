@@ -139,7 +139,7 @@ class Customers extends Controller
             'packageID' => trim($_POST['packageID']),
             'date' => trim($_POST['date']),
             'reservationStartTime' => trim($_POST['reservationStartTime']),
-            'reservationEndTime' => trim($_POST['reservationEndTime']),
+            'reservationEndTime' => date('Y-m-d H:i:s', strtotime('+1 hour', strtotime(trim($_POST['reservationStartTime'])))),
             'numOfPeople' => trim($_POST['numOfPeople'])
             // Add other necessary fields here
         ];

@@ -291,14 +291,34 @@
                                                                 <div class="fixed-height-row-reservation">
                                                                     <h3 class="fs-title">Select Date and No of People:</h3>
                                                                     <div class="dp-container">
-                                                                        <div class="row">
 
-                                                                            <label for="date">Date:</label>
-                                                                            <input type="date" id="date" name="date" required>
+                                                                        <!-- <button class="date-slot">17</button> -->
+                                                                        <label for="date">Date:</label>
+                                                                        <div class="date-slots">
+                                                                            <?php
+                                                                            $currentDate = strtotime(date("Y-m-d")); // Get the current date in timestamp format
+                                                                            for ($i = 0; $i < 15; $i++) {
+                                                                                $date = date("Y-m-d", strtotime("+{$i} days", $currentDate)); // Calculate each date
+                                                                                $selectedClass = $i == 0 ? "selected" : ""; // Add 'selected' class to today's date
+                                                                                echo "<div class='date-slot {$selectedClass}' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
+                                                                            }
+                                                                            ?>
+                                                                        </div>
+                                                                        <input type="hidden" id="selectedDate" name="date" value="<?= date("Y-m-d") ?>">
 
-                                                                            <label for="numOfPeople">Number of People:</label>
-                                                                            <input type="number" id="numOfPeople" name="numOfPeople" min="1" max="10" required>
 
+                                                                        <div class="people-selection">
+                                                                            <label for="numOfPeople" class="slots">Number of People:</label>
+                                                                            <br>
+                                                                            <div class="people-icons">
+                                                                                <?php for ($i = 1; $i <= 10; $i++) : ?>
+                                                                                    <div class="person-icon" data-value="<?= $i ?>">
+                                                                                        <i class="fa-solid fa-person" style="font-size:50px"></i>
+                                                                                        <p><?= $i ?></p>
+                                                                                    </div>
+                                                                                <?php endfor; ?>
+                                                                            </div>
+                                                                            <input type="hidden" id="numOfPeople" name="numOfPeople" value="1">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -314,38 +334,14 @@
 
                                                                 <div class="availability-table">
                                                                     <div class="av-table">
-                                                                        <?php
-                                                                        echo "<table style='border-collapse: collapse;'>";
-
-                                                                        for ($i = 0; $i < 3; $i++) {
-                                                                            echo "<tr>";
-                                                                            for ($j = 0; $j < 5; $j++) {
-                                                                                $slotNumber = $i * 5 + $j + 1;
-                                                                                echo "<td style='border: none; padding: 5px;'> <div class='slot-container' data-slot-number='$slotNumber'></div></td>";
-                                                                            }
-                                                                            echo "</tr>";
-                                                                        }
-
-                                                                        echo "</table>";
-                                                                        ?>
-
-                                                                        <div class="date-input-group">
-                                                                            <select name="reservationStartTime" id="reservationStartTime" class="slot-selector">
-                                                                                <?php
-                                                                                for ($i = 8; $i <= 24; $i++) {
-                                                                                    echo "<option value='$i'>$i:00 AM</option>";
-                                                                                }
-                                                                                ?>
-                                                                            </select>
-                                                                            <select name="reservationEndTime"  id="reservationEndTime" class="slot-selector">
-                                                                                <?php
-                                                                                for ($i = 8; $i <= 24; $i++) {
-                                                                                    echo "<option value='$i'>$i:00 AM</option>";
-                                                                                }
-                                                                                ?>
-                                                                            </select>
+                                                                        <div class="time-slots">
+                                                                            <?php for ($hour = 8; $hour <= 23; $hour++) : ?>
+                                                                                <div class="time-slot" data-time="<?= $hour < 10 ? '0' . $hour : $hour ?>:00">
+                                                                                    <?= $hour < 10 ? '0' . $hour : $hour ?>:00
+                                                                                </div>
+                                                                            <?php endfor; ?>
                                                                         </div>
-
+                                                                        <input type="hidden" id="selectedTime" name="reservationStartTime">
                                                                     </div>
 
 
@@ -357,15 +353,38 @@
                                                     <fieldset>
                                                         <div class="form-card fixed-height-row-reservation">
                                                             <div class="row">
-                                                                <div>
-                                                                    <h3 class="fs-title">Proceed to payment to contunue:</h3>
+                                                                <div class="reservation-summary">
+                                                                    <h3 class="fs-title">Thank you for your reservation</h3>
+                                                                    <div class="summary-details">
+                                                                        <div class="summery-row left" >
+                                                                        <p>Date: <span id="summary-date"></span></p>
+                                                                        <p>No of people: <span id="summary-people"></span></p>
+                                                                        <p>Time: <span id="summary-time"></span></p>
+                                                                        </div>
+                                                                        <div class="summery-row right">
+                                                                        <p>:Package <span id="summary-package"></span></p>
+                                                                        <p>:   Table <span id="summary-table"></span></p>
+                                                                        <p class="sum-amount"><span id="summary-amount"></span><span class="summary-amount-label">Total Amount</span></p>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    <div class="menu-items">
+                                                                        <div class="menu-item">
+                                                                            <span>Chicken fried rice</span>
+                                                                            <span class="price">3000.00</span>
+                                                                        </div>
+                                                                        <!-- Repeat for other items -->
+                                                                    </div>
+                                                                    <button id="add-item">Add Food Item?</button>
+                                                                    <div class="total-amount">
+                                                                        <p>Amount <span id="total-amount">Rs.7000.00</span></p>
+                                                                    </div>
+                                                                    <button id="proceed-to-pay">proceed to pay</button>
                                                                 </div>
-                                                            </div> <br><br>
-                                                            <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
-                                                            <div class="row">
-                                                            </div> <br><br>
-                                                            <input type="submit" name="submit" class="next action-button" value="Submit" />
-                                                            <!-- </div><input type="submit" name="submit" class="next action-button" value="submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
+                                                                <div class="row">
+                                                                </div> <br><br>
+                                                                <input type="submit" name="submit" class="next action-button" value="Submit" />
+                                                                <!-- </div><input type="submit" name="submit" class="next action-button" value="submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
                                                     </fieldset>
                                                 </form>
                                             </div>
