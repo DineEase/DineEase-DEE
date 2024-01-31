@@ -162,13 +162,12 @@
                                         <thead>
                                             <tr>
                                                 <td>#</td>
-                                                <td>Reservation ID</td>
-                                                <td>Date</td>
-                                                <td>Start Time</td>
-                                                <td>End Time</td>
+                                                <td class="long-td">Date</td>
+                                                <td class="long-td">Start Time</td>
+                                                <td class="long-td">End Time</td>
                                                 <td>No of People</td>
-                                                <td>Amount</td>
-                                                <td>Status</td>
+                                                <td class="long-td">Amount</td>
+                                                <td class="long-td">Status</td>
                                                 <td></td>
                                             </tr>
                                         </thead>
@@ -178,21 +177,28 @@
                                             <?php foreach ($data['reservations'] as $index => $reservation) { ?>
                                                 <tr>
                                                     <td><?php echo $index + 1 ?></td>
-                                                    <td><?php echo $reservation->reservationID ?></td>
                                                     <td><?php echo $reservation->date ?></td>
                                                     <td><?php echo $reservation->reservationStartTime  ?></td>
                                                     <td><?php echo $reservation->reservationEndTime  ?></td>
                                                     <td><?php echo $reservation->numOfPeople ?></td>
-                                                    <td>Tobecalculated</td>
+                                                    <td>Rs. <?php echo $reservation->amount ?>.00</td>
                                                     <td><?php echo $reservation->status ?></td>
                                                     <td class="actions">
                                                         <a href="<?php echo URLROOT; ?>/Customers/cancelReservation/<?php echo $reservation->reservationID ?>" class="trash <?php echo ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
+                                            <?php
+                                            if (count($data['reservations']) < 10) {
+                                                for ($i = 0; $i < 10 - count($data['reservations']); $i++) {
+                                                    echo "<tr><td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+                                                }
+                                                
+                                            }?>
 
 
                                         </tbody>
+                                        
                                     </table>
                                     <div class="pagination">
 
@@ -311,7 +317,7 @@
                                                                             <br>
                                                                             <div class="people-icons">
                                                                                 <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                                                                    <div class="person-icon" data-value="<?= $i ?>">
+                                                                                    <div class="person-icon <?= $i == 1 ? 'selected' : '' ?>"  data-value="<?= $i ?>">
                                                                                         <i class="fa-solid fa-person" style="font-size:50px"></i>
                                                                                         <p><?= $i ?></p>
                                                                                     </div>
@@ -335,12 +341,12 @@
                                                                     <div class="av-table">
                                                                         <div class="time-slots">
                                                                             <?php for ($hour = 8; $hour <= 23; $hour++) : ?>
-                                                                                <div class="time-slot" data-time="<?= $hour < 10 ? '0' . $hour : $hour ?>:00">
+                                                                                <div class="time-slot <?= $hour == 8 ? 'selected' : '' ?>" data-time="<?= $hour < 10 ? '0' . $hour : $hour ?>:00">
                                                                                     <?= $hour < 10 ? '0' . $hour : $hour ?>:00
                                                                                 </div>
                                                                             <?php endfor; ?>
                                                                         </div>
-                                                                        <input type="hidden" id="selectedTime" name="reservationStartTime">
+                                                                        <input type="hidden" id="selectedTime" name="reservationStartTime" value="08:00">
                                                                     </div>
 
 
@@ -364,6 +370,7 @@
                                                                             <p>Package: <span id="summary-package"></span></p>
                                                                             <p>Table: <span id="summary-table"></span></p>
                                                                             <p class="sum-amount">Total Amount: <span id="total-amount"></span></p>
+                                                                            <input type="hidden" id="totalAmount" name="amount" value="">
                                                                         </div>
                                                                     </div>
                                                                     <div class="added-items">
@@ -373,7 +380,6 @@
                                                                         <button type="button" id="add-item">+ Add Food Item</button>
                                                                     </div>
                                                                     <button id="proceed-to-pay">Proceed to Pay</button>
-                                                                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                                                 </div>
                                                             </div>
                                                     </fieldset>

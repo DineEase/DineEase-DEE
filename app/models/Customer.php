@@ -32,13 +32,13 @@ class Customer
     
     public function addReservation($data)
 {
-    $this->db->query('INSERT INTO reservation (customerID, tableID, packageID, date, reservationStartTime, reservationEndTime, numOfPeople,invoiceID) VALUES (:customerID, :tableID, :packageID, :date, :reservationStartTime, :reservationEndTime, :numOfPeople, InvoiceID)');
+    $this->db->query('INSERT INTO reservation (customerID, tableID, packageID, date, reservationStartTime,amount, reservationEndTime, numOfPeople,invoiceID) VALUES (:customerID, :tableID, :packageID, :date, :reservationStartTime,:amount, :reservationEndTime, :numOfPeople, InvoiceID)');
     $this->db->bind(':customerID', $data['customerID']);
     $this->db->bind(':tableID', $data['tableID']);
     $this->db->bind(':packageID', $data['packageID']);
     $this->db->bind(':date', $data['date']);
     $this->db->bind(':reservationStartTime', $data['reservationStartTime']);
-       
+    $this->db->bind(':amount', $data['amount']);   
     $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
     $this->db->bind(':numOfPeople', $data['numOfPeople']);
 

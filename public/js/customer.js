@@ -216,7 +216,9 @@ $(document).ready(function () {
       $(".menu-item .price").each(function () {
           total += parseFloat($(this).text());
       });
+
       $("#total-amount").text(`Rs.${total.toFixed(2)}`);
+      $("#totalAmount").val(total.toFixed(2));
   }
 
   // Initialize the summary fields with the default values
@@ -230,6 +232,7 @@ $(document).ready(function () {
   $("#summary-people").text(selectedPeople);
   $("#summary-time").text(selectedTime);
   $("#summary-package").text(selectedPackage);
+  
 
   // Call updateTotalAmount to set the initial total
   updateTotalAmount();

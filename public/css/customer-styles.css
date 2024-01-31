@@ -870,8 +870,9 @@ input:focus-visible + label {
 }
 
 .radio-inputs .radio input:checked + .name {
-  background-color: #fff;
+  background-color: var(--brandgreen);
   font-weight: 600;
+  color: white;
 }
 /* plan styles end */
 
@@ -1038,7 +1039,12 @@ input:focus-visible + label {
 }
 .read table tbody tr td {
   padding: 10px;
+  height: 20px;
 }
+.read table tbody tr td>.long-td{
+  width: 70px;
+}
+
 .read table tbody tr td:nth-child(1) {
   color: #a5a7a9;
 }
@@ -1612,17 +1618,5 @@ fieldset#menu-container {
   background-color: #ffffff;
 }
 
-#previous-page-last {
-  background-color: #4070f4; /* Example color */
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-}
 
-#previous-page-last:hover {
-  background-color: #3050c4; /* Darker shade for hover effect */
-}
 
