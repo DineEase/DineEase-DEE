@@ -1220,6 +1220,7 @@ fieldset#menu-container {
   width: 100%;
   justify-content: center;
   padding-top: 20px;
+ 
 }
 .menu-item-card {
   margin-left: 5px;
@@ -1327,7 +1328,7 @@ fieldset#menu-container {
   font-size: xx-large;
   margin-right: 50px;
   color: #166c45;
-  fa-color: #166c45;
+  /* fa-color: #166c45; */
 }
 
 .date-input-group {
@@ -1486,14 +1487,16 @@ fieldset#menu-container {
 .summery-row{
   width: 50%;
   height: 150px;
+  background-color: #5b927963
 }
 
 .summery-row.left{
- 
+    padding-left: 20px;
     text-align: left; 
 }
 
 .summery-row.right{
+  padding-right: 20px;
   text-align: right;
 }
 .summary-amount-label{
@@ -1556,6 +1559,16 @@ fieldset#menu-container {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  height: 50px;
+  border: solid 1px #166c45;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.menu-item:hover {
+  background-color: #166c45;
+  color: white;
 }
 
 #add-item {
@@ -1564,15 +1577,52 @@ fieldset#menu-container {
   padding: 10px 20px;
   cursor: pointer;
   margin-top: 20px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+#add-item:hover {
+  background-color: #d9d9d9;
+  transform: scale(1.01 );
 }
 
 #proceed-to-pay {
-  background-color: #4CAF50;
+  background-color: var(--brandgreen);
   color: white;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
   margin-top: 20px;
   width: 100%;
+}
+
+#proceed-to-pay:hover {
+  background-color: var(--brandgreen-dark);
+  transform: scale(1.01 );
+}
+
+.added-items{
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: center; */
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+#previous-page-last {
+  background-color: #4070f4; /* Example color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#previous-page-last:hover {
+  background-color: #3050c4; /* Darker shade for hover effect */
 }
 

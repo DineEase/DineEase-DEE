@@ -268,16 +268,15 @@
                                                                 <div class="pkg-selection">
                                                                     <div class="radio-inputs">
                                                                         <label class="radio">
-                                                                            <input type="radio" id="packageID" value="1" name="packageID" checked="">
+                                                                            <input type="radio" id="packageID1" value="1" name="packageID" checked  >
                                                                             <span class="name">T1</span>
                                                                         </label>
                                                                         <label class="radio">
-                                                                            <input type="radio" id="packageID" value="2" name="packageID">
+                                                                            <input type="radio" id="packageID2" value="2" name="packageID">
                                                                             <span class="name">T2</span>
                                                                         </label>
-
                                                                         <label class="radio">
-                                                                            <input type="radio" id="packageID" value="3" name="packageID">
+                                                                            <input type="radio" id="packageID3" value="3" name="packageID">
                                                                             <span class="name">T3</span>
                                                                         </label>
                                                                     </div>
@@ -352,39 +351,31 @@
                                                     </fieldset>
                                                     <fieldset>
                                                         <div class="form-card fixed-height-row-reservation">
-                                                            <div class="row">
+                                                            <div class="row ">
                                                                 <div class="reservation-summary">
                                                                     <h3 class="fs-title">Thank you for your reservation</h3>
                                                                     <div class="summary-details">
-                                                                        <div class="summery-row left" >
-                                                                        <p>Date: <span id="summary-date"></span></p>
-                                                                        <p>No of people: <span id="summary-people"></span></p>
-                                                                        <p>Time: <span id="summary-time"></span></p>
+                                                                        <div class="summery-row left">
+                                                                            <p>Date: <span id="summary-date"></span></p>
+                                                                            <p>No of people: <span id="summary-people"></span></p>
+                                                                            <p>Time: <span id="summary-time"></span></p>
                                                                         </div>
                                                                         <div class="summery-row right">
-                                                                        <p>:Package <span id="summary-package"></span></p>
-                                                                        <p>:   Table <span id="summary-table"></span></p>
-                                                                        <p class="sum-amount"><span id="summary-amount"></span><span class="summary-amount-label">Total Amount</span></p>
+                                                                            <p>Package: <span id="summary-package"></span></p>
+                                                                            <p>Table: <span id="summary-table"></span></p>
+                                                                            <p class="sum-amount">Total Amount: <span id="total-amount"></span></p>
                                                                         </div>
-                                                                        
                                                                     </div>
-                                                                    <div class="menu-items">
-                                                                        <div class="menu-item">
-                                                                            <span>Chicken fried rice</span>
-                                                                            <span class="price">3000.00</span>
+                                                                    <div class="added-items">
+                                                                        <div class="menu-items" id="menu-items-list">
+                                                                            <!-- Menu items will be added here dynamically -->
                                                                         </div>
-                                                                        <!-- Repeat for other items -->
+                                                                        <button type="button" id="add-item">+ Add Food Item</button>
                                                                     </div>
-                                                                    <button id="add-item">Add Food Item?</button>
-                                                                    <div class="total-amount">
-                                                                        <p>Amount <span id="total-amount">Rs.7000.00</span></p>
-                                                                    </div>
-                                                                    <button id="proceed-to-pay">proceed to pay</button>
+                                                                    <button id="proceed-to-pay">Proceed to Pay</button>
+                                                                    <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                                                 </div>
-                                                                <div class="row">
-                                                                </div> <br><br>
-                                                                <input type="submit" name="submit" class="next action-button" value="Submit" />
-                                                                <!-- </div><input type="submit" name="submit" class="next action-button" value="submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
+                                                            </div>
                                                     </fieldset>
                                                 </form>
                                             </div>
