@@ -1402,6 +1402,8 @@ fieldset#menu-container {
 }
 
 .date-slots {
+  padding-right: 50px;
+  padding-left: 50px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -1413,10 +1415,14 @@ fieldset#menu-container {
   padding-bottom: 20px;
   border: 1px solid var(--brandgreen, #166c45);
   border-radius: 15px;
+  /* width: 100%; */
+  margin-top: 20px;
 }
 
 .date-slot {
-  padding: 10px 20px;
+  padding: 8px 15px;
+  width: 30px;
+  height: 45px;
   border: 1px solid var(--brandgreen, #166c45);
   border-radius: 5px;
   cursor: pointer;

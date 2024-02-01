@@ -8,7 +8,7 @@ class Customer
     }
     public function getReservation($user_id)
     {
-        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id order by date desc limit 10');
+        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id order by date ASC limit 10');
         $this->db->bind(':user_id', $user_id);
         $results = $this->db->resultSet();
         return $results;

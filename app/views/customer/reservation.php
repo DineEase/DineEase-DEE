@@ -228,7 +228,7 @@
                                                                 <div>
                                                                     <h3 class="fs-title">Select the package:</h3>
                                                                 </div>
-                                                                <div class="plan-deets">
+                                                                <!-- <div class="plan-deets">
                                                                     <div class="plan">
                                                                         <div class="inner">
                                                                             <span class="pricing">
@@ -270,20 +270,22 @@
                                                                             <input type="text" hidden id="tableID" name="tableID" value="1">
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
+
+                                                                
                                                                 <div class="pkg-selection">
                                                                     <div class="radio-inputs">
                                                                         <label class="radio">
                                                                             <input type="radio" id="packageID1" value="1" name="packageID" checked  >
-                                                                            <span class="name">T1</span>
+                                                                            <span class="name">Budget</span>
                                                                         </label>
                                                                         <label class="radio">
                                                                             <input type="radio" id="packageID2" value="2" name="packageID">
-                                                                            <span class="name">T2</span>
+                                                                            <span class="name">Gold</span>
                                                                         </label>
                                                                         <label class="radio">
                                                                             <input type="radio" id="packageID3" value="3" name="packageID">
-                                                                            <span class="name">T3</span>
+                                                                            <span class="name">Platinum</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -298,7 +300,7 @@
                                                                     <div class="dp-container">
 
                                                                         <!-- <button class="date-slot">17</button> -->
-                                                                        <label for="date">Date:</label>
+                                                                        <!-- <label for="date">Date:</label> -->
                                                                         <div class="date-slots">
                                                                             <?php
                                                                             $currentDate = strtotime(date("Y-m-d")); // Get the current date in timestamp format

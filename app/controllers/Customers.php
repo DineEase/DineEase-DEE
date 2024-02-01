@@ -32,7 +32,7 @@ class Customers extends Controller
         $this->view('customer/home');
     }
     public function Reservation()
-    {
+    {   
 
         $reservations = $this->customerModel->getReservation($_SESSION['user_id']);
         $data = [
