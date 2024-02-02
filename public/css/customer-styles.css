@@ -991,11 +991,11 @@ input:focus-visible + label {
 .read .create-contact:hover {
   background-color: #32a367;
 }
-.read .pagination {
+.read .pagination-view {
   display: flex;
   justify-content: flex-end;
 }
-.read .pagination a {
+.read .pagination-view a {
   display: inline-block;
   text-decoration: none;
   background-color: #a5a7a9;
@@ -1004,7 +1004,7 @@ input:focus-visible + label {
   padding: 5px 10px;
   margin: 15px 0 15px 5px;
 }
-.read .pagination a:hover {
+.read .pagination-view a:hover {
   background-color: #999b9d;
 }
 .read table {
@@ -1041,7 +1041,7 @@ input:focus-visible + label {
   padding: 10px;
   height: 20px;
 }
-.read table tbody tr td>.long-td{
+.read table tbody tr td > .long-td {
   width: 70px;
 }
 
@@ -1226,7 +1226,6 @@ fieldset#menu-container {
   width: 100%;
   justify-content: center;
   padding-top: 20px;
- 
 }
 .menu-item-card {
   margin-left: 5px;
@@ -1380,7 +1379,7 @@ fieldset#menu-container {
   align-items: center;
   justify-content: center;
 }
-  .time-slot:hover,
+.time-slot:hover,
 .time-slot.selected {
   background-color: var(--brandgreen, #166c45);
   color: white;
@@ -1496,68 +1495,69 @@ fieldset#menu-container {
   margin-right: auto;
 }
 
-.summery-row{
+.summery-row {
   width: 50%;
   height: 150px;
-  background-color: #5b927963
+  background-color: #5b927963;
 }
 
-.summery-row.left{
-    padding-left: 20px;
-    text-align: left; 
+.summery-row.left {
+  padding-left: 20px;
+  text-align: left;
 }
 
-.summery-row.right{
+.summery-row.right {
   padding-right: 20px;
   text-align: right;
 }
-.summary-amount-label{
+.summary-amount-label {
   font-size: 1rem;
   font-weight: 600;
 }
-#summary-date{
+#summary-date {
   font-size: 1rem;
   color: #333;
 }
 
-.sum-amount{
+.sum-amount {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-#summary-package{
+#summary-package {
   font-size: 1rem;
   color: #333;
 }
 
-#summary-people{
+#summary-people {
   font-size: 1rem;
   color: #333;
 }
 
-#summary-table{
+#summary-table {
   font-size: 1rem;
   color: #333;
 }
 
-#summary-time{
+#summary-time {
   font-size: 1rem;
   color: #333;
 }
 
-#summary-amount{
+#summary-amount {
   font-size: 1.5rem;
   color: #333;
   font-weight: 600;
 }
 
-.summary-details{
+.summary-details {
   display: flex;
   flex-direction: row;
   align-items: left;
-  justify-content: left;   
+  justify-content: left;
 }
-.summary-details p, .total-amount p {
+.summary-details p,
+.total-amount p {
   font-size: 1rem;
   color: #333;
 }
@@ -1595,7 +1595,7 @@ fieldset#menu-container {
 
 #add-item:hover {
   background-color: #d9d9d9;
-  transform: scale(1.01 );
+  transform: scale(1.01);
 }
 
 #proceed-to-pay {
@@ -1610,10 +1610,10 @@ fieldset#menu-container {
 
 #proceed-to-pay:hover {
   background-color: var(--brandgreen-dark);
-  transform: scale(1.01 );
+  transform: scale(1.01);
 }
 
-.added-items{
+.added-items {
   display: flex;
   flex-direction: column;
   /* align-items: center;
@@ -1624,5 +1624,117 @@ fieldset#menu-container {
   background-color: #ffffff;
 }
 
+/* Search form styles */
+form.search-form {
+  display: flex;
+  align-items: left;
+  gap: 10px;
+  height: 40px;
+}
 
+.searchnfilter {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 40px;
 
+  margin-bottom: 20px;
+}
+
+.search-reservation{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+ }
+
+.search-form input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.search-form button {
+  padding: 0.5rem 1rem;
+  background-color: var(--brandgreen);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.search-form button:hover {
+  background-color: var(--brandgreen-dark);
+}
+
+/* pagination-view styles */
+.pagination-view {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination-view a {
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.25rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.pagination-view a:hover {
+  border-color: #0056b3;
+}
+
+.pagination-view a.active {
+  font-weight: bold;
+  color: #fff; /* Change this to your preferred active color */
+  background-color: var(
+    --brandgreen
+  ); /* Change this to your preferred background color */
+  border: 1px solid var(--brandgreen-dark); /* Optional: if you want a border */
+  padding: 0.5em 1em; /* Example padding, adjust as needed */
+  border-radius: 0.25em; /* Example border-radius, adjust as needed */
+  text-decoration: none;
+}
+
+/* reservation filters */
+#reservationFilters {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  height: auto;
+}
+
+#reservationFilters select,
+#reservationFilters input[type="text"],
+#reservationFilters input[type="date"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-family: inherit;
+}
+
+#reservationFilters button {
+  padding: 0.5rem 1rem;
+  background-color: var(--brandgreen);
+  color: white;
+  border: none;
+  height: 40px;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+#reservationFilters button:hover {
+  background-color: var(--brandgreen-dark);
+}
+
+.filter-reservation {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: 0px;
+}

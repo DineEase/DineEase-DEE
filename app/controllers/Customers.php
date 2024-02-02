@@ -31,22 +31,76 @@ class Customers extends Controller
 
         $this->view('customer/home');
     }
-    public function Reservation()
-    {   
 
-        $reservations = $this->customerModel->getReservation($_SESSION['user_id']);
+    public function Reservation()
+    {
+        // Get the current page, search term from the URL query string
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $search = $_GET['search'] ?? '';
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+
+        // Fetch reservations with pagination and search
+        $reservations = $this->customerModel->getReservation($_SESSION['user_id'], $limit, $offset, $search);
+
+        // Pass the data to the view
         $data = [
-            'package' => isset($_POST['package']) ? trim($_POST['mobile_no']) : '',
-            'date' => isset($_POST['date']) ? trim($_POST['mobile_no']) : '',
-            'num_people' => isset($_POST['num_people']) ? trim($_POST['mobile_no']) : '',
-            'hour-from' => isset($_POST['hour-from']) ? trim($_POST['mobile_no']) : '',
-            'hour-to' => isset($_POST['hour-to']) ? trim($_POST['mobile_no']) : '',
-            'amount' => isset($_POST['amount']) ? trim($_POST['mobile_no']) : '',
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'search' => $search,
+            'page' => $page
+            // Include additional data as needed for the view
         ];
+
+        $totalReservations = $this->customerModel->getTotalReservationCount($_SESSION['user_id']);
+
+        $totalPages = ceil($totalReservations / $limit);
+
+        $data = [
+            'reservations' => $reservations,
+            'search' => $search,
+            'page' => $page,
+            'totalPages' => $totalPages,
+            'totalReservations' => $totalReservations,
+            'limit' => $limit
+
+        ];
+
+
 
         $this->view('customer/reservation', $data);
     }
+
+    public function getFilteredReservations($userId, $filters = [])
+    {
+        $query = "SELECT * FROM reservations WHERE customerID = :userId";
+
+        // Dynamic query building based on filters
+        if (!empty($filters['status'])) {
+            $query .= " AND status = :status";
+        }
+        if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
+            $query .= " AND date BETWEEN :startDate AND :endDate";
+        }
+
+        $query .= " ORDER BY date DESC"; // Example ordering
+
+        $this->db->query($query);
+        $this->db->bind(':userId', $userId);
+
+        // Binding filter parameters
+        if (!empty($filters['status'])) {
+            $this->db->bind(':status', $filters['status']);
+        }
+        if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
+            $this->db->bind(':startDate', $filters['startDate']);
+            $this->db->bind(':endDate', $filters['endDate']);
+        }
+
+        return $this->db->resultSet();
+    }
+
+
+
     public function Menu()
     {
         $data = [];
@@ -107,8 +161,8 @@ class Customers extends Controller
 
             // Call the removeReview method from the model to delete the review
             $this->customerModel->removeReview($reviewID);
-            
-            
+
+
 
             // Redirect back to the Reviews page
             redirect('customers/review');
@@ -127,37 +181,37 @@ class Customers extends Controller
         redirect('customers/reservation');
     }
 
-    
+
 
     public function addReservation()
-{
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Process the reservation form data
-        $data = [
-            'customerID' => $_SESSION['user_id'],
-            'tableID' => trim($_POST['tableID']), // Assuming you have a tableID field in your form
-            'packageID' => trim($_POST['packageID']),
-            'date' => trim($_POST['date']),
-            'reservationStartTime' => trim($_POST['reservationStartTime']),
-            'reservationEndTime' => date('Y-m-d H:i:s', strtotime('+1 hour', strtotime(trim($_POST['reservationStartTime'])))),
-            'numOfPeople' => trim($_POST['numOfPeople']),
-            'amount' => trim($_POST['amount']),
-            // Add other necessary fields here
-        ];
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process the reservation form data
+            $data = [
+                'customerID' => $_SESSION['user_id'],
+                'tableID' => trim($_POST['tableID']), // Assuming you have a tableID field in your form
+                'packageID' => trim($_POST['packageID']),
+                'date' => trim($_POST['date']),
+                'reservationStartTime' => trim($_POST['reservationStartTime']),
+                'reservationEndTime' => date('Y-m-d H:i:s', strtotime('+1 hour', strtotime(trim($_POST['reservationStartTime'])))),
+                'numOfPeople' => trim($_POST['numOfPeople']),
+                'amount' => trim($_POST['amount']),
+                // Add other necessary fields here
+            ];
 
-        // Validate the data (similar to what you've done in AddReservation method)
+            // Validate the data (similar to what you've done in AddReservation method)
 
-        // If validation passes, call the model method to add the reservation
-        if ($this->customerModel->addReservation($data)) {
-            // Reservation added successfully
-            flash('reservation_message', 'Reservation Added');
-            redirect('customers/reservation');
-        } else {
-            // Something went wrong
-            die('Something went wrong');
+            // If validation passes, call the model method to add the reservation
+            if ($this->customerModel->addReservation($data)) {
+                // Reservation added successfully
+                flash('reservation_message', 'Reservation Added');
+                redirect('customers/reservation');
+            } else {
+                // Something went wrong
+                die('Something went wrong');
+            }
         }
     }
-}
 
     // public function getRemainingSlots($date)
     // {
