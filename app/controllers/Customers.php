@@ -70,37 +70,6 @@ class Customers extends Controller
         $this->view('customer/reservation', $data);
     }
 
-    public function getFilteredReservations($userId, $filters = [])
-    {
-        $query = "SELECT * FROM reservations WHERE customerID = :userId";
-
-        // Dynamic query building based on filters
-        if (!empty($filters['status'])) {
-            $query .= " AND status = :status";
-        }
-        if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
-            $query .= " AND date BETWEEN :startDate AND :endDate";
-        }
-
-        $query .= " ORDER BY date DESC"; // Example ordering
-
-        $this->db->query($query);
-        $this->db->bind(':userId', $userId);
-
-        // Binding filter parameters
-        if (!empty($filters['status'])) {
-            $this->db->bind(':status', $filters['status']);
-        }
-        if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
-            $this->db->bind(':startDate', $filters['startDate']);
-            $this->db->bind(':endDate', $filters['endDate']);
-        }
-
-        return $this->db->resultSet();
-    }
-
-
-
     public function Menu()
     {
         $data = [];
