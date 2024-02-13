@@ -158,6 +158,29 @@
                             <section id="view" class="tab-panel">
                                 <div class="content read">
                                     <h2>View Reservations</h2>
+                                    <div class="searchnfilter">
+                                        <!-- Search Form -->
+                                        <div class="search-reservation">
+                                            <form class="search-form" method="GET" action="">
+                                                <input type="text" name="search" placeholder="Search reservations" value="<?php echo $data['search']; ?>">
+                                                <button type="submit">Search</button>
+                                            </form>
+                                        </div>
+                                        <div class="filter-reservation">
+                                            <form id="reservationFilters" action="/path/to/filter/action" method="GET">
+                                                <select name="status">
+                                                    <option value="">Select Status</option>
+                                                    <option value="confirmed">Confirmed</option>
+                                                    <option value="pending">Pending</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                </select>
+                                                <input type="date" name="startDate">
+                                                <input type="date" name="endDate">
+                                                <button type="submit">Filter</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
                                     <table>
                                         <thead>
                                             <tr>
@@ -193,17 +216,27 @@
                                                 for ($i = 0; $i < 10 - count($data['reservations']); $i++) {
                                                     echo "<tr><td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
                                                 }
-                                                
-                                            }?>
+                                            } ?>
 
 
                                         </tbody>
-                                        
-                                    </table>
-                                    <div class="pagination">
 
-                                        <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                                        <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
+                                    </table>
+                                    <!-- Pagination Links -->
+                                    <div class="pagination-view">
+                                        <?php if ($data['page'] > 1) : ?>
+                                            <a href="?page=<?php echo $data['page'] - 1; ?>">&laquo;</a>
+                                        <?php endif; ?>
+
+                                        <?php for ($i = 1; $i <= $data['totalPages']; $i++) : ?>
+                                            <a href="?page=<?php echo $i; ?>" class="<?php echo $i == $data['page'] ? 'active' : ''; ?>">
+                                                <?php echo $i; ?>
+                                            </a>
+                                        <?php endfor; ?>
+
+                                        <?php if ($data['page'] < $data['totalPages']) : ?>
+                                            <a href="?page=<?php echo $data['page'] + 1; ?>">&raquo;</a>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </section>
@@ -228,7 +261,7 @@
                                                                 <div>
                                                                     <h3 class="fs-title">Select the package:</h3>
                                                                 </div>
-                                                                <div class="plan-deets">
+                                                                <!-- <div class="plan-deets">
                                                                     <div class="plan">
                                                                         <div class="inner">
                                                                             <span class="pricing">
@@ -270,20 +303,22 @@
                                                                             <input type="text" hidden id="tableID" name="tableID" value="1">
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
+
+
                                                                 <div class="pkg-selection">
                                                                     <div class="radio-inputs">
                                                                         <label class="radio">
-                                                                            <input type="radio" id="packageID1" value="1" name="packageID" checked  >
-                                                                            <span class="name">T1</span>
+                                                                            <input type="radio" id="packageID1" value="1" name="packageID" checked>
+                                                                            <span class="name">Budget</span>
                                                                         </label>
                                                                         <label class="radio">
                                                                             <input type="radio" id="packageID2" value="2" name="packageID">
-                                                                            <span class="name">T2</span>
+                                                                            <span class="name">Gold</span>
                                                                         </label>
                                                                         <label class="radio">
                                                                             <input type="radio" id="packageID3" value="3" name="packageID">
-                                                                            <span class="name">T3</span>
+                                                                            <span class="name">Platinum</span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -298,7 +333,7 @@
                                                                     <div class="dp-container">
 
                                                                         <!-- <button class="date-slot">17</button> -->
-                                                                        <label for="date">Date:</label>
+                                                                        <!-- <label for="date">Date:</label> -->
                                                                         <div class="date-slots">
                                                                             <?php
                                                                             $currentDate = strtotime(date("Y-m-d")); // Get the current date in timestamp format
@@ -317,7 +352,7 @@
                                                                             <br>
                                                                             <div class="people-icons">
                                                                                 <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                                                                    <div class="person-icon <?= $i == 1 ? 'selected' : '' ?>"  data-value="<?= $i ?>">
+                                                                                    <div class="person-icon <?= $i == 1 ? 'selected' : '' ?>" data-value="<?= $i ?>">
                                                                                         <i class="fa-solid fa-person" style="font-size:50px"></i>
                                                                                         <p><?= $i ?></p>
                                                                                     </div>
