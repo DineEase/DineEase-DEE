@@ -1090,252 +1090,6 @@ input:focus-visible + label {
 }
 /* end view reservation styles  */
 
-/* reservation styles ends here */
-
-/* menu styles start here */
-.menu-radio-inputs {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 0.5rem;
-  background-color: #fefefe;
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-  padding: 0.25rem;
-  width: 300px;
-  font-size: 14px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: 0.5rem 0;
-  color: rgba(51, 65, 85, 1);
-  transition: all 0.15s ease-in-out;
-  width: 40%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.menu-radio-inputs .radio {
-  flex: 1 1 auto;
-  text-align: center;
-}
-
-.menu-radio-inputs .radio input {
-  display: none;
-}
-
-.menu-radio-inputs .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: 0.5rem 0;
-  color: rgba(51, 65, 85, 1);
-  transition: all 0.15s ease-in-out;
-  width: 100px;
-}
-
-.menu-radio-inputs .radio input:checked + .name {
-  background-color: var(--brandgreen);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: 0.5rem 0;
-  color: rgba(51, 65, 85, 1);
-  transition: all 0.15s ease-in-out;
-  flex-direction: row;
-  color: var(--white-color);
-}
-fieldset#menu-container {
-  border: none;
-  background: linear-gradient(to bottom right, #76b1a367, #8ed7b0b3);
-  height: 80%;
-}
-
-/* menu item card */
-
-.pagination-menu {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100%;
-  width: 100%;
-  font-size: larger;
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.search-menu {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-
-.group-search {
-  display: flex;
-  line-height: 28px;
-  align-items: center;
-  position: relative;
-  max-width: 190px;
-}
-
-.input-search {
-  height: 40px;
-  line-height: 28px;
-  padding: 0 1rem;
-  width: 100%;
-  padding-left: 2.5rem;
-  border: 2px solid transparent;
-  border-radius: 8px;
-  outline: none;
-  background-color: #d9e8d8;
-  color: #0d0c22;
-  box-shadow: 0 0 5px #c1d9bf, 0 0 0 10px #f5f5f5eb;
-  transition: 0.3s ease;
-}
-
-.input-search::placeholder {
-  color: #777;
-}
-
-.icon-search {
-  position: absolute;
-  left: 1rem;
-  fill: #777;
-  width: 1rem;
-  height: 1rem;
-}
-
-/* menu cards */
-.menu-item-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 0.9375em;
-  height: 25%;
-  width: 100%;
-  justify-content: center;
-  padding-top: 20px;
-}
-.menu-item-card {
-  margin-left: 5px;
-  margin-right: 5px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  width: 10em;
-  height: 16em;
-  background-color: rgb(237, 249, 239);
-  border-radius: 1.6875em;
-}
-.menu-item-image {
-  margin: 0.625em 0.625em 0 0.625em;
-  display: flex;
-  background-color: rgba(255, 0, 0, 0);
-  border-radius: 1.25em 1.25em 0.3125em 0.3125em;
-  height: 45%;
-}
-.menu-item-image img {
-  width: 100%;
-  height: 100%;
-  border-radius: 1.25em 1.25em 0.3125em 0.3125em;
-  object-fit: cover;
-}
-.menu-item-details {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: auto;
-  margin-top: 0.3125em;
-}
-.menu-item-details .name {
-  font-size: 1.1875em;
-  font-weight: 600;
-  margin-right: 0.625em;
-  margin-left: 0.625em;
-  text-align: center;
-  color: rgb(0, 0, 0);
-}
-.menu-item-details .tags-reviews {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  height: 1.5625em;
-  margin-right: 0.625em;
-  margin-left: 0.625em;
-  font-size: smaller;
-  margin-top: 0.125em;
-}
-.menu-item-details .price {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  height: 1.875em;
-  margin-right: 0.625em;
-  margin-left: 0.625em;
-  margin-top: 0.1875em;
-  border-radius: 0.3125em 0.3125em 1.25em 1.25em;
-  background-color: green;
-  text-align: center;
-  color: white;
-  align-items: center;
-  justify-content: center;
-}
-
-.menu-item-details .reviews {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  height: 100%;
-  text-align: center;
-  color: black;
-  align-items: center;
-  justify-content: center;
-}
-
-.menu-item-details .tags {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  color: black;
-  align-items: center;
-  justify-content: center;
-}
-/* menu styles ends here */
-
-.disabled-button {
-  color: white !important;
-  background-color: gray !important;
-  text-decoration: none;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* menu navigation */
-.menu-next {
-  font-size: xx-large;
-  margin-right: 50px;
-  color: #166c45;
-  /* fa-color: #166c45; */
-}
-
 .date-input-group {
   display: flex;
   flex-direction: column;
@@ -1738,3 +1492,54 @@ form.search-form {
   margin-left: auto;
   margin-right: 0px;
 }
+
+
+/* customer menu styles */
+
+.menu-view-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.menu-view-filters{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.menu-categories {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  border: 1px solid var(--brandgreen);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 3px;
+}
+
+.category-button {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  padding: 10px 20px;
+  background-color: var(--brandgreen);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 90px;
+}
+
+.category-button:hover {
+  background-color: var(--brandgreen-dark);
+}
+
+
+
