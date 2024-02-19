@@ -84,6 +84,13 @@ class Customer
         return $results;
     }
 
+    public function getMenus()
+    {
+        $this->db->query('SELECT * FROM menuitem');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
     public function addReview($data)
     {
         $this->db->query('INSERT INTO review (customerID, rating, comment) VALUES (:customerID, :rating, :comment)');

@@ -132,32 +132,38 @@
         </div>
         <div class="body-template">
             <div class="customer-menu-view">
-                <div class="menu-view-head">
-                    <div class="search-reservation">
-                        <form class="search-form" method="GET" action="">
-                            <input type="text" name="search" placeholder="Search Menu Item" value=""> <!-- echo $data['search']-->
-                            <button type="submit">Search</button>
-                        </form>
+                <div class="menu-view-header-bar">
+                    <div class="menu-view-head">
+                        <div class="search-reservation">
+                            <form class="search-form" method="GET" action="">
+                                <input type="text" name="search" placeholder="Search Menu Item" value=""> <!-- echo $data['search']-->
+                                <button type="submit">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="menu-view-filters">
+                        <div class="menu-categories">
+                            <button class="category-button" data-category="all">All</button>
+                            <button class="category-button" data-category="entrees">Entrees</button>
+                            <button class="category-button" data-category="desserts">Desserts</button>
+                            <button class="category-button" data-category="drinks">Drinks</button>
+                            <button class="category-button" data-category="specials">Specials</button>
+                        </div>
                     </div>
                 </div>
-                <div class="menu-view-filters">
-                    <div class="menu-categories">
-                        <button class="category-button" data-category="all">All</button>
-                        <button class="category-button" data-category="entrees">Entrees</button>
-                        <button class="category-button" data-category="desserts">Desserts</button>
-                        <button class="category-button" data-category="drinks">Drinks</button>
-                        <button class="category-button" data-category="specials">Specials</button>
+                <div>
+                    <div class="menu-items">
+                        <div id="menu-container" class="menu-container-div-out">
+                        </div>
                     </div>
-                    
-                </div>
-                <div class="menu-items">
-                    <!-- Menu Items -->
                 </div>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+        <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    </div>
 </body>
 
 </html>

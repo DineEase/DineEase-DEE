@@ -38,6 +38,7 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: #f5f5f5;
   transition: all 0.5s ease;
+  overflow-x: hidden;
 }
 
 .container {
@@ -1316,8 +1317,14 @@ input:focus-visible + label {
   color: #333;
 }
 
-.menu-items {
-  margin-top: 20px;
+.menu-items{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .menu-item {
@@ -1395,12 +1402,12 @@ form.search-form {
   margin-bottom: 20px;
 }
 
-.search-reservation{
+.search-reservation {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
- }
+}
 
 .search-form input[type="text"] {
   padding: 0.5rem;
@@ -1493,9 +1500,18 @@ form.search-form {
   margin-right: 0px;
 }
 
-
 /* customer menu styles */
+.customer-menu-view{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+ 
+  margin-left: auto;
+  margin-right: auto;
+  
 
+}
 .menu-view-head {
   display: flex;
   flex-direction: row;
@@ -1505,7 +1521,18 @@ form.search-form {
   margin-bottom: 10px;
 }
 
-.menu-view-filters{
+.menu-view-header-bar{
+ background-color: WHITE;
+ width: 95%;
+ border-radius: 10px;
+ margin-left: 40px;  
+ margin-top: 5px;
+ margin-right: 70px;
+ z-index:999;
+ position: sticky;
+}
+
+.menu-view-filters {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1527,7 +1554,7 @@ form.search-form {
 .category-button {
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   padding: 10px 20px;
   background-color: var(--brandgreen);
   color: white;
@@ -1540,6 +1567,54 @@ form.search-form {
 .category-button:hover {
   background-color: var(--brandgreen-dark);
 }
+
+/* menus */
+
+.menu-container-div-out {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  /* background-color: red; */
+  width: 1450px;
+  padding: 20px;
+  gap: 15px;
+}
+.menu-container-div {
+  /* display: flex;
+  flex-direction: row; */
+  /* background-color: red; */
+  padding: 20px;
+  gap: 15px;
+  /* width: 100vh; */
+}
+
+.menu-container-div-out img{
+  display: flex;
+  flex-direction: row;
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;}
+
+.menu-item-card{
+  border:  var(--brandgreen-dark)  solid 1px;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: white;
+  width: 150px;
+}
+.menu-item-card h3{
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--brandgreen);
+}
+.menu-item-card p{
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+
 
 
 

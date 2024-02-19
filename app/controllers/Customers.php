@@ -71,8 +71,14 @@ class Customers extends Controller
     }
 
     public function Menu()
-    {
-        $data = [];
+    {   
+        $menus = $this->customerModel->getMenus();
+        
+
+        $data = [
+            'menus' => $menus
+        ];
+
 
         $this->view('customer/menu', $data);
     }
@@ -190,4 +196,14 @@ class Customers extends Controller
     //     $this->view('customer/index', $data);
     // }
 
+    public function getMenuItemsAPI() {
+        $menuItems = $this->customerModel->getMenus();
+
+        // Set header as JSON for the response
+        header('Content-Type: application/json');
+
+        // Return the menu items as JSON
+        echo json_encode($menuItems);
+
+    }
 }
