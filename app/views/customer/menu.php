@@ -133,6 +133,20 @@
         <div class="body-template">
             <div class="customer-menu-view">
                 <div class="menu-view-header-bar">
+
+                    <div class="menu-view-filters">
+                        <div class="menu-categories">
+                            <button class="category-button active-category" data-category-id="all">All</button>
+                            <button class="category-button" data-category-id="1">Desserts & Drinks</button>
+                            <button class="category-button" data-category-id="2">Main Courses</button>
+                            <button class="category-button" data-category-id="3">Appetizers & Sides</button>
+                            <button class="category-button" data-category-id="4">Salads & Soups</button>
+                            <button class="category-button" data-category-id="5">Breakfast & Brunch</button>
+                            <button class="category-button" data-category-id="6">International Cuisine</button>
+                            <button class="category-button" data-category-id="7">Special</button>
+
+                        </div>
+                    </div>
                     <div class="menu-view-head">
                         <div class="search-reservation">
                             <form class="search-form" method="GET" action="">
@@ -140,21 +154,25 @@
                                 <button type="submit">Search</button>
                             </form>
                         </div>
-                    </div>
-                    <div class="menu-view-filters">
-                        <div class="menu-categories">
-                            <button class="category-button" data-category="all">All</button>
-                            <button class="category-button" data-category="entrees">Entrees</button>
-                            <button class="category-button" data-category="desserts">Desserts</button>
-                            <button class="category-button" data-category="drinks">Drinks</button>
-                            <button class="category-button" data-category="specials">Specials</button>
+                        <div class="menu-filters">
+                            <!-- <form class="search-form" method="GET" action=""> -->
+                            <!-- <input type="text" name="search" placeholder="Search Menu Item" value=""> echo $data['search'] -->
+                            <!-- <button type="submit">Search</button> -->
+                            <!-- </form> -->
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="menu-box">
                     <div class="menu-items">
                         <div id="menu-container" class="menu-container-div-out">
                         </div>
+                    </div>
+                </div>
+                <div class="pagination-container">
+                    <div class="pagination">
+                        <button id="prev-page">Previous</button>
+                        <span id="page-info"></span>
+                        <button id="next-page">Next</button>
                     </div>
                 </div>
             </div>
