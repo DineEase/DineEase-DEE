@@ -2,7 +2,7 @@
 
 
 if (isset($_POST['content'])) {
-    
+
     $content = $_POST['content'];
     $_SESSION['content'] = $content;
 
@@ -14,4 +14,3 @@ if (isset($_POST['content'])) {
         echo 'File not found.';
     }
 }
-?>
