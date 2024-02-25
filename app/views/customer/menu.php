@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <title><?php echo SITENAME; ?></title>
 </head>
@@ -150,37 +151,53 @@
                     <div class="menu-view-head">
                         <div class="search-reservation">
                             <form class="search-form" method="GET" action="">
-                                <input type="text" name="search" placeholder="Search Menu Item" value=""> <!-- echo $data['search']-->
-                                <button type="submit">Search</button>
+                                <input type="text" name="search" placeholder="Search Menu Item" value="" id="search-input">
+                                <button type="submit" id="search-button">Search</button>
                             </form>
                         </div>
                         <div class="menu-filters">
-                            <!-- <form class="search-form" method="GET" action=""> -->
-                            <!-- <input type="text" name="search" placeholder="Search Menu Item" value=""> echo $data['search'] -->
-                            <!-- <button type="submit">Search</button> -->
-                            <!-- </form> -->
+                            <div class="price-filter">
+                                <!-- <div class="card-price-range">
+                                    <div class="price-lab">
+                                        <label>Min</label>
+                                        <p id="min-value">$50</p>
+                                    </div>
+
+                                    <div class="range-slider">
+                                        <div class="range-fill"></div>
+
+                                        <input type="range" class="min-price" value="100" min="100" max="5000" step="10" />
+                                        <input type="range" class="max-price" value="5000" min="100" max="5000" step="10" />
+                                    </div>
+                                    <div class="price-lab">
+                                        <label>max</label>
+                                        <p id="max-value">$500</p>
+                                    </div>
+                                </div> -->
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="menu-box">
-                    <div class="menu-items">
-                        <div id="menu-container" class="menu-container-div-out">
+                    <div class="menu-box">
+                        <div class="menu-items">
+                            <div id="menu-container" class="menu-container-div-out">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="pagination-container">
-                    <div class="pagination">
-                        <button id="prev-page">Previous</button>
-                        <span id="page-info"></span>
-                        <button id="next-page">Next</button>
+                    <div class="pagination-container">
+                        <div class="pagination">
+                            <button id="prev-page">Previous</button>
+                            <span id="page-info"></span>
+                            <button id="next-page">Next</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+            <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
-        <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-    </div>
     </div>
 </body>
 

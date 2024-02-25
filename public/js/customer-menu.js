@@ -2,6 +2,7 @@ $(document).ready(function () {
   let currentCategoryId = "all"; // Default to show all categories
   let currentPage = 1;
   let itemsPerPage = 16; // Adjust based on your preference
+  let menuItems = []; 
 
   function paginateItems(items) {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -19,25 +20,24 @@ $(document).ready(function () {
     );
   }
 
+  function displayItems(items) {
+    const paginatedItems = paginateItems(items);
+    $("#menu-container").empty(); // Clear existing items
+    paginatedItems.forEach(function(item) {
+      $("#menu-container").append(createMenuItemCard(item));
+    });
+    updatePageInfo(items.length);
+  }
+
+
   function fetchMenuItems() {
     $.ajax({
       url: "getMenuItemsAPI",
       type: "GET",
       dataType: "json",
-      success: function (menuItems) {
-        const filteredItems = menuItems.filter(function (item) {
-          return (
-            item.hidden != 1 &&
-            (currentCategoryId === "all" ||
-              item.category_ID === currentCategoryId)
-          );
-        });
-        const paginatedItems = paginateItems(filteredItems);
-        $("#menu-container").empty(); // Clear existing items
-        paginatedItems.forEach(function (item) {
-          $("#menu-container").append(createMenuItemCard(item));
-        });
-        updatePageInfo(filteredItems.length);
+      success: function (data) {
+        menuItems = data.filter(item => item.hidden != 1); // Store fetched items
+        filterItems(); // Initial display or filter
       },
       error: function (err) {
         console.log("Error fetching menu items:", err);
@@ -45,27 +45,51 @@ $(document).ready(function () {
     });
   }
 
-  $(".category-button").on("click", function () {
-    $(".category-button").removeClass("active-category");
-    $(this).addClass("active-category");
-    currentCategoryId = $(this).data("category-id");
+  function filterItems() {
+    let filteredItems = menuItems;
+    const searchQuery = $('#search-input').val().toLowerCase();
+    if (currentCategoryId !== 'all') {
+      filteredItems = filteredItems.filter(item => item.category_ID === currentCategoryId);
+    }
+    if (searchQuery) {
+      filteredItems = filteredItems.filter(item => item.itemName.toLowerCase().includes(searchQuery));
+    }
+    displayItems(filteredItems);
+  }
+  
+  $('.category-button').on('click', function() {
+    $('.category-button').removeClass('active-category');
+    $(this).addClass('active-category');
+    currentCategoryId = $(this).data('category-id');
     currentPage = 1; // Reset to first page when changing categories
-    fetchMenuItems();
+    filterItems();
   });
-
-  $("#prev-page").on("click", function () {
+  $('#prev-page').on('click', function() {
     if (currentPage > 1) {
       currentPage--;
-      fetchMenuItems();
+      filterItems();
     }
   });
 
-  $("#next-page").on("click", function () {
+  $('#next-page').on('click', function() {
     currentPage++;
-    fetchMenuItems();
+    filterItems();
   });
 
-  fetchMenuItems(); // Initial fetch for menu items
+  // Search functionality
+  $('#search-button').on('click', function(e) {
+    e.preventDefault(); // Prevent form submission
+    currentPage = 1; // Reset to first page for search results
+    filterItems();
+  });
+
+  $('#search-input').on('keyup', function(e) {
+    currentPage = 1; // Reset to first page for search results
+    filterItems();
+  });
+
+  fetchMenuItems();
+
   function createMenuItemCard(item) {
     return `
                 <div class="menu-item-card">
