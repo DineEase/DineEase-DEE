@@ -1659,3 +1659,84 @@ form.search-form {
   cursor: pointer;
   width: 180px;
 }
+
+/* price range filter */
+/* .card-price-range {
+  border: 2px solid #36b37e;
+  display: flex;
+  flex-direction: row;
+  width: 250px;
+  gap: 5 px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.price-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 1px;
+}
+
+.card-price-range label {
+  font-size: 10px;
+  /* font-weight: 500; */
+  /* margin-top: 0px;
+  margin-bottom: 0;
+}
+
+.card-price-range p {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 0px;
+  margin-bottom: 0;
+}
+
+.range-slider {
+  width: 200px;
+  position: relative;
+  margin: 1px 0 10px 0;
+}
+
+.range-fill {
+  height: 6px;
+  background-color: #36b37e;
+  position: absolute;
+  z-index: 1;
+}
+
+.card-price-range input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+  position: absolute;
+  left: 0;
+}
+
+.card-price-range input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: #36b37e;
+  cursor: pointer;
+  margin-top: -5px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-price-range input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  background: #e8e8e8;
+  border-radius: 3px;
+  border: none;
+}
+.price-lab {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-right: 10px;
+  margin-left: 10px;
+} */ 
