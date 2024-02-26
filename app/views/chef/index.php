@@ -50,14 +50,17 @@
                     <thead>
                         <tr>
                             <td>Order ID</td>
+                            <td>Customer</td>
                             <td>Status</td>
                         </tr>
                     </thead>
 
                     <tbody>
                         <?php foreach ($data['orders'] as $order) : ?>
+                           
                             <tr>
                                 <td><?php echo $order->orderID; ?></td>
+                                <td><?php echo $order->customer_name; ?></td>
                                 <td>
                                     <span class="status <?php echo strtolower($order->status); ?>">
                                         <?php echo ucfirst(strtolower($order->status)); ?>

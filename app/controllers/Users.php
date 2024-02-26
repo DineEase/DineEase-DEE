@@ -313,7 +313,7 @@ class Users extends Controller
                 break;
             case '4':
                 $_SESSION['role'] = 'chef';
-                redirect('chefs/menu');
+                redirect('chefs/index');
                 break;
         }
     }
