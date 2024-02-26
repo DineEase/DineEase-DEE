@@ -16,7 +16,7 @@ class Database
     private $dbh; //database handler
     private $stmt;
     private $error;
-
+    private $statement;
     public function __construct()
     {
         //set DSN
@@ -34,6 +34,7 @@ class Database
             echo $this->error;
         }
     }
+    
     public function query($sql)
     {
         $this->stmt = $this->dbh->prepare($sql);
@@ -65,11 +66,11 @@ class Database
         return $this->stmt->execute();
     }
 
-    // Get resultset as array of values
-    public function resultset()
+    // Get resultset as array of values //mekai
+    public function resultset($fetchMode = PDO::FETCH_OBJ)
     {
         $this->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_OBJ); //fetches as objects -> thing insted of['']
+        return $this->stmt->fetchAll($fetchMode);
     }
     //get single record
     public function single()
@@ -83,4 +84,10 @@ class Database
         return $this->stmt->rowCount();
 
     }
+    // mekai
+    public function lastInsertId()
+    {
+        return $this->dbh->lastInsertId();
+    }
+   
 }
