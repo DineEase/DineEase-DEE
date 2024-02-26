@@ -151,56 +151,70 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-        <div class="reservation-container">
-            <div class="tabset">
-                <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
-                <label for="tab1">View Refund Requests</label>
+            <div class="reservation-container">
+                <div class="tabset">
+                    <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
+                    <label for="tab1">View Refund Requests</label>
 
-                <div class="tab-panels">
-                    <section id="view" class="tab-panel">
-                        <div class="content read">
-                            <h2>View Refund Requests</h2>
 
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td></td>
-                                        <td>InvoiceID</td>
-                                        <td>Body</td>
-                                        <td>Price</td>
-                                        <td>Date</td>
-                                        <td></td>
-                                    </tr>
-                                </thead>
+                    <div class="tab-panels">
+                        <section id="view" class="tab-panel">
+                            <div class="content read">
+                                <h2>View Refund Requests</h2>
 
-                                <tbody>
-                                    <?php foreach ($data['request'] as $request) : ?>
+                                <table>
+                                    <thead>
                                         <tr>
                                             <td></td>
-                                            <td><?php echo $request->invoiceID; ?></td>
-                                            <td><?php echo $request->body; ?></td>
-                                            <td><?php echo $request->price; ?></td>
-                                            <td><?php echo $request->date; ?></td>
-                                            <td class="actions">
-                                                <a href="<?php echo URLROOT ?>/Receptionists/showrefund" class="view"><i class="fa-solid fa-eye"></i></fa-solid></a>
-                                                <a href="<?php echo URLROOT ?>/Receptionists/editrefund/<?php //echo $data['post']->id; 
-                                                                                                        ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-                                                <a href="<?php echo URLROOT; ?>/Receptionistss/deleterefund/<?php //echo $data['post']->id; 
-                                                                                                            ?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-                                            </td>
+                                            <td>InvoiceID</td>
+                                            <td>CustomerID</td>
+                                            <td>Body</td>
+                                            <td>price</td>
+                                            <td>Date</td>
+                                            <td></td>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
 
-                            <div class="pagination">
-                                <a href="<?php echo URLROOT ?>Receptionists/addrefund"><i class="fa-solid fa-plus"></i> Add requests </a>
-                                <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                                <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
+                                    <tbody>
+
+                                        <?php foreach ($data['request'] as $request) : ?>
+
+                                            <tr>
+                                                <td></td>
+                                                <td><?php echo $request->invoiceID;
+                                                    ?></td>
+                                                <td><?php echo $request->body;
+                                                    ?></td>
+                                                <td><?php echo $request->price;
+                                                    ?></td>
+                                                <td><?php echo $request->date; ?></td>
+
+                                                <td class="actions">
+                                                    <a href="<?php echo URLROOT ?>/Receptionists/showrefund" class="view"><i class="fa-solid fa-eye"></i></fa-solid></a>
+                                                    <a href="<?php echo URLROOT ?>/Receptionists/editrefund/<?php //echo $data['post']->id; 
+                                                                                                            ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
+
+                                                    <a href="<?php echo URLROOT; ?>/Receptionistss/deleterefund/<?php //echo $data['post']->id; 
+                                                                                                                ?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
+
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+
+
+                                <div class="pagination">
+
+                                    <a href="<?php echo URLROOT ?>Receptionists/addrefund""><i class=" fa-solid fa-plus"></i> Add requests </a>
+                                    <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
+                                    <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
+                                </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

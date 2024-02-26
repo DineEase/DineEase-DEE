@@ -102,7 +102,7 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
+                                <a href="<?php echo URLROOT ?>/receptionists/order" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -122,7 +122,7 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionists/profile" class="nav_link">
+                                <a href="<?php echo APPROOT ?>/receptionist/profile.php" class="nav_link">
                                     <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">

@@ -4,456 +4,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
-    <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/manager.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
 
-    <title><?php echo SITENAME; ?></title>
+        /* Top Bar Styles */
+
+        .top-bar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            position: relative;
+
+        }
+
+        .logo-name h1 {
+            margin-left: 20px;
+            font-size: 25px;
+
+        }
+
+        .logo img {
+            height: 50px;
+            margin-left: 20px;
+            /* Add some margin to the left to separate it from the edge */
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .user-name {
+            margin-left: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            /* Remove underline */
+            color: #fff;
+            /* Set text color to white */
+            transition: color 0.3s ease;
+            /* Add transition for smooth effect */
+        }
+
+        .user-name a {
+            text-decoration: none;
+            /* Remove underline */
+            color: #fff;
+            /* Set text color to white */
+            transition: color 0.3s ease;
+            /* Add transition for smooth effect */
+        }
+
+        .user-name a:hover {
+            color: #27ae60;
+            /* Change text color on hover */
+        }
+
+
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+            border: 2px solid #fff;
+            /* Add border to make it stand out */
+            transition: border-color 0.3s ease, transform 0.3s ease;
+            /* Add transition for smooth effect */
+        }
+
+        .profile-image:hover {
+            border-color: #27ae60;
+            /* Change border color on hover */
+            transform: scale(1.2);
+            /* Increase size on hover */
+        }
+
+
+        /* Left Bar Styles */
+        .left-bar {
+            width: 200px;
+            background-color: #fff;
+            /* Change background color to white */
+            height: 90vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 60px;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+
+        }
+
+        .left-bar li {
+            padding: 20px;
+            list-style: none;
+            /* Remove default list-style */
+        }
+
+        .left-bar a {
+            text-decoration: none;
+            color: #27ae60;
+            /* Set text color to green */
+            display: block;
+            border-radius: 50%;
+            /* Add rounded corners */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* Add transition for smooth effect */
+            margin-bottom: 10px;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #27ae60;
+            /* Oval border */
+        }
+
+        .left-bar a:hover,
+        .left-bar a.selected {
+            background-color: #27ae60;
+            /* Change hover and selected color to dark green */
+            color: #fff;
+            /* Change text color to white */
+        }
+
+        /* Content Area Styles */
+        .content {
+            margin-left: 200px;
+            padding: 20px;
+        }
+    </style>
+    <title>Manager</title>
 </head>
 
 <body>
 
-    <div class="body-template" id="content">
-        <div class="container">
-            <div class="navbar-template">
-                <nav class="navbar">
-                    <div class="topbar">
-                        <div class="logo-item">
-                            <i class="bx bx-menu" id="sidebarOpen"></i>
-                            <img src="<?php echo URLROOT ?>/public/img/login/dineease-logo.svg" alt="DineEase Logo">
-                            <div class="topbar-title">
-                                DINE<span>EASE</span>
-                            </div>
-                        </div>
-                        <div class="navbar-content">
-                            <div class="profile-details">
-                                <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
-                                Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                                <img src="<?php echo URLROOT ?>/public/img/login/profilepic.png" alt="profile-photo" class="profile" />
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-            <div class="sidebar-template">
-                <nav class="sidebar">
-                    <div class="sidebar-container">
-                        <div class="menu_content">
-                            <hr class='separator'>
-                            <ul class="menu_items">
-                                <div class="menu_title menu_menu"></div>
-                                <li class="item">
-                                    <a href="" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    home
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Dashboard </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    manage_accounts
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Users </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    restaurant_menu
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Menus </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    percent
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Discounts </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    currency_exchange
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Refund </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    flip_to_front
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Tables </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    inventory_2
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Inventory </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    reviews
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Reviews </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <!-- End -->
 
 
-                            </ul>
-                            <hr class='separator'>
-
-                            <ul class="menu_items">
-                                <div class="menu_title menu_user"></div>
-                                <li class="item">
-                                    <a href="#" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    account_circle
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">My Account </span>
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="item">
-                                    <a href="<?php echo URLROOT; ?>/users/logout" class="nav_link">
-                                        <button class="button-sidebar-menu">
-                                            <span class="navlink_icon">
-                                                <span class="material-symbols-outlined ">
-                                                    logout
-                                                </span>
-                                            </span>
-                                            <span class="button-sidebar-menu-content">Logout</span>
-                                        </button>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-            <div class="main-cards">
-
-                <div class="card">
-                    <div class="card-inner">
-                        <p class="text-primary">PRODUCTS</p>
-                        <span class="material-icons-outlined text-blue">inventory_2</span>
-                    </div>
-                    <span class="text-primary font-weight-bold">249</span>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <p class="text-primary">PURCHASE ORDERS</p>
-                        <span class="material-icons-outlined text-orange">add_shopping_cart</span>
-                    </div>
-                    <span class="text-primary font-weight-bold">83</span>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <p class="text-primary">SALES ORDERS</p>
-                        <span class="material-icons-outlined text-green">shopping_cart</span>
-                    </div>
-                    <span class="text-primary font-weight-bold">79</span>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <p class="text-primary">INVENTORY ALERTS</p>
-                        <span class="material-icons-outlined text-red">notification_important</span>
-                    </div>
-                    <span class="text-primary font-weight-bold">56</span>
-                </div>
-
-            </div>
-
-            <div class="charts">
-
-                <div class="charts-card">
-                    <p class="chart-title">Calender</p>
-                    <div class="month">
-                        <ul>
-                            <li class="prev">&#10094;</li>
-                            <li class="next">&#10095;</li>
-                            <li>
-                                August<br>
-                                <span style="font-size:18px">2021</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <ul class="weekdays">
-                        <li>Mo</li>
-                        <li>Tu</li>
-                        <li>We</li>
-                        <li>Th</li>
-                        <li>Fr</li>
-                        <li>Sa</li>
-                        <li>Su</li>
-                    </ul>
-
-                    <ul class="days">
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>4</li>
-                        <li>5</li>
-                        <li>6</li>
-                        <li>7</li>
-                        <li>8</li>
-                        <li>9</li>
-                        <li><span class="active">10</span></li>
-                        <li>11</li>
-                        <li>12</li>
-                        <li>13</li>
-                        <li>14</li>
-                        <li>15</li>
-                        <li>16</li>
-                        <li>17</li>
-                        <li>18</li>
-                        <li>19</li>
-                        <li>20</li>
-                        <li>21</li>
-                        <li>22</li>
-                        <li>23</li>
-                        <li>24</li>
-                        <li>25</li>
-                        <li>26</li>
-                        <li>27</li>
-                        <li>28</li>
-                        <li>29</li>
-                        <li>30</li>
-                        <li>31</li>
-                    </ul>
-                </div>
-
-                <div class="charts-card">
-                    <p class="chart-title">Reservation statistic</p>
-                    <div id="bar-chart"></div>
-                </div>
-
-                <div class="charts-card">
-                    <p class="chart-title">Purchase and Sales Orders</p>
-                    <div id="area-chart"></div>
-                </div>
-
-                <div class="charts-card">
-                    <p class="chart-title">Reservation by status</p>
-                    <div id="piechart"></div>
-                </div>
-
-            </div>
-            </main>
-            <!-- End Main -->
-
-
-            <!-- Scripts -->
-            <!-- ApexCharts -->
-
+    <div class="top-bar">
+        <div class="logo">
+            <a href="<?php echo URLROOT ?>/managers/index">
+                <img src="<?php echo URLROOT ?>/public/img/login/dineease-logo.svg" alt="Logo">
+            </a>
         </div>
+        <div class="logo-name">
+            <h1>DineEase</h1>
+        </div>
+        <div class="user-info">
+            Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp;
+                <?php
+                $user_id = $_SESSION['user_id'];
+                $profile_picture_url = URLROOT . '/uploads/profile/' . basename($_SESSION['profile_picture']);
+                $user_name = $_SESSION['user_name'];
+                echo '<a href="' . URLROOT . '/managers/viewprofile/' . $user_id . '">' . $user_name . '</a>';
+                ?>
+            </span>
+            <a href="<?php echo URLROOT . '/managers/viewprofile/' . $user_id ?>">
+                <img class="profile-image" src="<?php echo $profile_picture_url; ?>" alt="Profile Image">
+            </a>
+        </div>
+    </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
-        <!-- Custom JS -->
-        <script>
-            // SIDEBAR TOGGLE
 
-            let sidebarOpen = false;
-            const sidebar = document.getElementById('sidebar');
 
-            function openSidebar() {
-                if (!sidebarOpen) {
-                    sidebar.classList.add('sidebar-responsive');
-                    sidebarOpen = true;
-                }
+    <!-- Left Bar -->
+    <div class="left-bar">
+        <ul>
+            <li><a href="<?php echo URLROOT ?>/managers/getUsers" class="menu-link" id="loadContent">Users</a></li>
+            <li><a href="<?php echo URLROOT ?>/managers/menu" class="menu-link" id="loadContent">Menus</a></li>
+            <li><a href="<?php echo URLROOT ?>/managers/getpackages" class="menu-link">Tables</a></li>
+            <li><a href="discounts.php" class="menu-link">Discounts</a></li>
+            <li><a href="reviews.php" class="menu-link">Reviews</a></li>
+            <li><a href="<?php echo URLROOT ?>/users/logout" class="menu-link">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content">
+        <!-- Content of the selected page will be loaded here -->
+        <?php
+        // Check if a page is selected
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+            include("$page.php"); // Load the selected page
+        }
+        ?>
+    </div>
+    <script>
+        $(document).ready(function() {
+            // Function to load content using AJAX
+            function loadContent(url) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(data) {
+                        // Update the content area with the loaded content
+                        $('.content').html(data);
+
+                        // Highlight the corresponding menu item based on the loaded content
+                        highlightMenuItem(url);
+                    },
+                    error: function(error) {
+                        console.error("Error loading content:", error);
+                    }
+                });
             }
 
-            function closeSidebar() {
-                if (sidebarOpen) {
-                    sidebar.classList.remove('sidebar-responsive');
-                    sidebarOpen = false;
-                }
+            // Check if a page is selected
+            function loadDefaultContent() {
+                // Use AJAX to load the content of the default page
+                loadContent('<?php echo URLROOT ?>/managers/getUsers');
             }
 
-            // ---------- CHARTS ----------
+            // Highlight the initially selected menu item on page load
+            loadDefaultContent();
 
-            // BAR CHART
-            const barChartOptions = {
-                series: [{
-                    data: [10, 8, 6, 4, 2],
-                }, ],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    toolbar: {
-                        show: false,
-                    },
-                },
-                colors: ['#246dec', '#cc3c43', '#367952', '#f5b74f', '#4f35a1'],
-                plotOptions: {
-                    bar: {
-                        distributed: true,
-                        borderRadius: 4,
-                        horizontal: false,
-                        columnWidth: '40%',
-                    },
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                legend: {
-                    show: false,
-                },
-                xaxis: {
-                    categories: ['finished', 'deposited', 'waiting payemnt', 'pending', 'canceled'],
-                },
-                yaxis: {
-                    title: {
-                        text: 'Count',
-                    },
-                },
-            };
+            // Function to highlight the corresponding menu item based on the loaded content
+            function highlightMenuItem(url) {
+                // Remove the 'selected' class from all menu items
+                $('.left-bar a').removeClass('selected');
 
-            const barChart = new ApexCharts(
-                document.querySelector('#bar-chart'),
-                barChartOptions
-            );
-            barChart.render();
+                // Find the menu item with a matching href
+                var matchingMenuItem = $('.left-bar a[href="' + url + '"]');
+                if (matchingMenuItem.length === 0) {
+                    // If no direct match, try matching using the relative path
+                    matchingMenuItem = $('.left-bar a[href="' + url.replace('<?php echo URLROOT ?>', '') + '"]');
+                }
 
-            // AREA CHART
-            const areaChartOptions = {
-                series: [{
-                        name: 'Purchase Orders',
-                        data: [31, 40, 28, 51, 42, 109, 100],
-                    },
-                    {
-                        name: 'Sales Orders',
-                        data: [11, 32, 45, 32, 34, 52, 41],
-                    },
-                ],
-                chart: {
-                    height: 350,
-                    type: 'area',
-                    toolbar: {
-                        show: false,
-                    },
-                },
-                colors: ['#4f35a1', '#246dec'],
-                dataLabels: {
-                    enabled: false,
-                },
-                stroke: {
-                    curve: 'smooth',
-                },
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                markers: {
-                    size: 0,
-                },
-                yaxis: [{
-                        title: {
-                            text: 'Purchase Orders',
-                        },
-                    },
-                    {
-                        opposite: true,
-                        title: {
-                            text: 'Sales Orders',
-                        },
-                    },
-                ],
-                tooltip: {
-                    shared: true,
-                    intersect: false,
-                },
-            };
+                // Add the 'selected' class to the matched menu item
+                matchingMenuItem.addClass('selected');
+            }
 
-            const areaChart = new ApexCharts(
-                document.querySelector('#area-chart'),
-                areaChartOptions
-            );
-            areaChart.render();
-        </script>
+            $('.menu-link').on('click', function(e) {
+                // Check if the clicked menu item has an 'id' attribute
+                if ($(this).attr('id') === 'loadContent') {
+                    e.preventDefault();
 
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-        <script type="text/javascript">
-            // Load google charts
-            google.charts.load('current', {
-                'packages': ['corechart']
+                    // Use AJAX to load the content of the selected page
+                    loadContent($(this).attr('href'));
+                }
             });
-            google.charts.setOnLoadCallback(drawChart);
+        });
+    </script>
 
-            // Draw the chart and set the chart values
-            function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                    ['Task', 'Reservation Count'],
-                    ['finished', 8],
-                    ['Deposited', 6],
-                    ['Waiting Payment', 4],
-                    ['Pending', 3],
-                    ['Canceled', 3]
-
-                ]);
-
-                // Optional; add a title and set the width and height of the chart
-                var options = {
-                    'title': 'Reservation Status',
-                    'width': 550,
-                    'height': 400
-                };
-
-                // Display the chart inside the <div> element with id="piechart"
-                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                chart.draw(data, options);
-            }
-        </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
 </body>
 
 </html>
