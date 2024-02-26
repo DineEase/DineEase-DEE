@@ -12,6 +12,7 @@
 </head>
 
 <body>
+
     <div class="container">
         <div class="navbar-template">
             <nav class="navbar">
@@ -27,7 +28,10 @@
                         <div class="profile-details">
                             <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                            <img src="<?php echo URLROOT ?>/public/img/login/profilepic.png" alt="profile-photo" class="profile" />
+                           
+
+                            <img src="<?php echo URLROOT; ?>/uploads/profile/<?php echo basename($_SESSION['profile_picture']); ?>" alt="profile-photo" class="profile" />
+                            
                         </div>
                     </div>
                 </div>
