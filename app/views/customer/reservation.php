@@ -412,7 +412,67 @@
                                                                         <div class="menu-items" id="menu-items-list">
                                                                             <!-- Menu items will be added here dynamically -->
                                                                         </div>
-                                                                        <button type="button" id="add-item">+ Add Food Item</button>
+                                                                        <button onclick="popup()" type="button" id="add-food">+ Add Food Items</button>
+                                                                        <!-- <button type="button" id="add-item">+ Add Food Item</button> -->
+                                                                        <div id="menu-div-purchase" class="menu-div-purchase hide">
+                                                                            <div class="customer-menu-view">
+                                                                                <div class="menu-view-header-bar">
+                                                                                    <div class="menu-view-filters">
+                                                                                        <div class="menu-categories">
+                                                                                            <div class="category-button active-category" data-category-id="all">All</div>
+                                                                                            <div class="category-button" data-category-id="1"><span class="material-symbols-outlined">
+                                                                                                    fastfood
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="2"><span class="material-symbols-outlined">
+                                                                                                    dinner_dining
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="3"><span class="material-symbols-outlined">
+                                                                                                    tapas
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="4"><span class="material-symbols-outlined">
+                                                                                                    soup_kitchen
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="5"><span class="material-symbols-outlined">
+                                                                                                    rice_bowl
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="6"><span class="material-symbols-outlined">
+                                                                                                    outdoor_grill
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="7"><span class="material-symbols-outlined">
+                                                                                                    hotel_class
+                                                                                                </span></div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="menu-view-head">
+                                                                                        <div class="search-reservation hide">
+                                                                                            <form class="search-form hide" method="GET" action="">
+                                                                                                <input type="text" name="search" placeholder="Search Menu Item" value="" id="search-input">
+                                                                                                <button type="submit" id="search-button">Search</button>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                        <div class="menu-filters">
+                                                                                            <div class="price-filter">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="menu-box">
+                                                                                        <div class="menu-items">
+                                                                                            <div id="menu-container" class="menu-container-div-out">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="pagination-container">
+                                                                                        <div class="pagination-view-only-menu">
+                                                                                            <div class="pgbtn" id="prev-page">Previous</div>
+                                                                                            <span id="page-info"></span>
+                                                                                            <div class="pgbtn" id="next-page">Next</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                     <button id="proceed-to-pay">Proceed to Pay</button>
                                                                 </div>
@@ -432,6 +492,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
 </body>
 
 </html>

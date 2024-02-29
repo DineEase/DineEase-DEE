@@ -1,11 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+    <style>
+      #add-food {
+        background-color: var(--brandgreen);
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 20px;
+        width: 100%;
+        border-radius: 5px;
+        color: white;
+      }
+
+      #add-food:hover {
+        background-color: var(--brandgreen-dark);
+        transform: scale(1.01);
+      }
+
+      .show {
+        visibility: visible;
+        animation: fadeIn 0.5s;
+      }
+
+      .hide {
+        visibility: hidden;
+        animation: fadeOut 0.5s;
+      }
+
+      .menu-div-purchase {
+        display: flex;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        right: 5%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        background-color: rgb(255, 255, 255);
+        width: 85%;
+        margin: auto;
+        height: 65vh;
+        animation: slide 0.5s ease-in-out;
+        border-radius: 10px;
+      }
+
+      /* customer menu styles */
+      .added-items > .customer-menu-view {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .added-items > .menu-view-head {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: right;
+        margin-right: 80px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .added-items > .menu-view-header-bar {
+        background-color: WHITE;
+        width: 60%;
+        border-radius: 10px;
+        position: sticky;
+        top: 6%;
+      }
+
+      .added-items > .menu-view-filters {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .added-items > .menu-categories {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid var(--brandgreen);
+        border-radius: 10px;
+        padding: 4px;
+        gap: 5px;
+      }
+
+      .added-items > .category-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        background-color: var(--brandgreen);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 180px;
+      }
+
+      .added-items > .category-button:hover {
+        background-color: var(--brandgreen-dark);
+      }
+
+      /* menus */
+
+      .added-items > .menu-container-div-out {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 15px;
+        height: 50%;
+      }
+
+      .added-items > .menu-container-div {
+        padding: 20px;
+        gap: 15px;
+      }
+
+      .added-items > .menu-container-div-out img {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+      }
+
+      .added-items > .menu-item-card {
+        border: var(--brandgreen-dark) solid 1px;
+        padding: 10px;
+        border-radius: 20px;
+        background-color: white;
+        width: 150px;
+      }
+
+      .added-items > .menu-item-card h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--brandgreen);
+      }
+
+      .added-items > .menu-item-card p {
+        margin-top: 5px;
+        margin-bottom: 0;
+      }
+
+      .added-items > .menu-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .added-items > .pagination-container {
+        display: flex;
+        position: fixed;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+        top: 85%;
+      }
+
+      .added-items > .active-category {
+        background-color: var(--brandgreen-dark);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="added-items">
+      <div class="menu-items" id="menu-items-list">
+        <!-- Menu items will be added here dynamically -->
+      </div>
+      <button onclick="popup()" type="button" id="add-food">
+        + Add Food Items
+      </button>
+      <!-- <button type="button" id="add-item">+ Add Food Item</button> -->
+      <div id="menu-div-purchase" class="menu-div-purchase hide">
+        <div class="customer-menu-view">
+          <div class="menu-view-header-bar">
+            <div class="menu-view-filters">
+              <div class="menu-categories">
+                <div
+                  class="category-button active-category"
+                  data-category-id="all"
+                >
+                  All
+                </div>
+                <div class="category-button" data-category-id="1">
+                  Desserts & Drinks
+                </div>
+                <div class="category-button" data-category-id="2">
+                  Main Courses
+                </div>
+                <div class="category-button" data-category-id="3">
+                  Appetizers & Sides
+                </div>
+                <div class="category-button" data-category-id="4">
+                  Salads & Soups
+                </div>
+                <div class="category-button" data-category-id="5">
+                  Breakfast & Brunch
+                </div>
+                <div class="category-button" data-category-id="6">
+                  International Cuisine
+                </div>
+                <div class="category-button" data-category-id="7">Special</div>
+              </div>
+            </div>
+            <div class="menu-view-head">
+              <div class="search-reservation">
+                <form class="search-form" method="GET" action="">
+                  <input
+                    type="text"
+                    name="search"
+                    placeholder="Search Menu Item"
+                    value=""
+                    id="search-input"
+                  />
+                  <button type="submit" id="search-button">Search</button>
+                </form>
+              </div>
+              <div class="menu-filters">
+                <div class="price-filter"></div>
+              </div>
+            </div>
+            <div class="menu-box">
+              <div class="menu-items">
+                <div id="menu-container" class="menu-container-div-out"></div>
+              </div>
+            </div>
+            <div class="pagination-container">
+              <div class="pagination">
+                <button id="prev-page">Previous</button>
+                <span id="page-info"></span>
+                <button id="next-page">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        let currentCategoryId = "all"; // Default to show all categories
+        let currentPage = 1;
+        let itemsPerPage = 16; // Adjust based on your preference
+        let menuItems = [];
+
+        function paginateItems(items) {
+          const startIndex = (currentPage - 1) * itemsPerPage;
+          const endIndex = startIndex + itemsPerPage;
+          return items.slice(startIndex, endIndex);
+        }
+
+        function updatePageInfo(totalItems) {
+          const totalPages = Math.ceil(totalItems / itemsPerPage);
+          $("#page-info").text(`Page ${currentPage} of ${totalPages}`);
+          $("#prev-page").prop("disabled", currentPage === 1);
+          $("#next-page").prop(
+            "disabled",
+            currentPage === totalPages || totalPages === 0
+          );
+        }
+
+        function displayItems(items) {
+          const paginatedItems = paginateItems(items);
+          $("#menu-container").empty(); // Clear existing items
+          paginatedItems.forEach(function (item) {
+            $("#menu-container").append(createMenuItemCard(item));
+          });
+          updatePageInfo(items.length);
+        }
+
+        function fetchMenuItems() {
+          $.ajax({
+            url: "getMenuItemsAPI",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+              menuItems = data.filter((item) => item.hidden != 1); // Store fetched items
+              filterItems(); // Initial display or filter
+            },
+            error: function (err) {
+              console.log("Error fetching menu items:", err);
+            },
+          });
+        }
+
+        function filterItems() {
+          let filteredItems = menuItems;
+          const searchQuery = $("#search-input").val().toLowerCase();
+          if (currentCategoryId !== "all") {
+            filteredItems = filteredItems.filter(
+              (item) => item.category_ID === currentCategoryId
+            );
+          }
+          if (searchQuery) {
+            filteredItems = filteredItems.filter((item) =>
+              item.itemName.toLowerCase().includes(searchQuery)
+            );
+          }
+          displayItems(filteredItems);
+        }
+
+        $(".category-button").on("click", function () {
+          $(".category-button").removeClass("active-category");
+          $(this).addClass("active-category");
+          currentCategoryId = $(this).data("category-id");
+          currentPage = 1; // Reset to first page when changing categories
+          filterItems();
+        });
+        $("#prev-page").on("click", function () {
+          if (currentPage > 1) {
+            currentPage--;
+            filterItems();
+          }
+        });
+
+        $("#next-page").on("click", function () {
+          currentPage++;
+          filterItems();
+        });
+
+        // Search functionality
+        $("#search-button").on("click", function (e) {
+          e.preventDefault(); // Prevent form submission
+          currentPage = 1; // Reset to first page for search results
+          filterItems();
+        });
+
+        $("#search-input").on("keyup", function (e) {
+          currentPage = 1; // Reset to first page for search results
+          filterItems();
+        });
+
+        fetchMenuItems();
+
+        function createMenuItemCard(item) {
+          return `
+                <div class="menu-item-card">
+                    <img src="${item.imagePath}" alt="${item.itemName}">
+                    <h3>${item.itemName}</h3>
+                    <p>Price: ${item.price}</p>
+                </div>
+            `;
+        }
+      });
+
+      function popup() {
+        var popup = document.getElementById("menu-div-purchase");
+        if (popup.classList.contains("show")) {
+          popup.classList.remove("show");
+          popup.classList.add("hide");
+        } else if (popup.classList.contains("hide")) {
+          popup.classList.remove("hide");
+          popup.classList.add("show");
+        }
+      }
+
+      // window.onclick = function(event) {
+      //   var popup = document.getElementById("menu-div-purchase");
+      //   if (
+      //       !event.target.matches("#menu-div-purchase") &&
+      //       !event.target.matches("button")
+      //   ) {
+      //       popup.classList.remove("show");
+      //       popup.classList.add("hide");
+      //   }
+      // };
+    </script>
+  </body>
 </html>

@@ -132,32 +132,33 @@
             </nav>
         </div>
         <div class="body-template">
-            <div class="customer-menu-view">
-                <div class="menu-view-header-bar">
+            <div class="view-only-menu">
+                <div class="customer-menu-view">
+                    <div class="menu-view-header-bar">
 
-                    <div class="menu-view-filters">
-                        <div class="menu-categories">
-                            <button class="category-button active-category" data-category-id="all">All</button>
-                            <button class="category-button" data-category-id="1">Desserts & Drinks</button>
-                            <button class="category-button" data-category-id="2">Main Courses</button>
-                            <button class="category-button" data-category-id="3">Appetizers & Sides</button>
-                            <button class="category-button" data-category-id="4">Salads & Soups</button>
-                            <button class="category-button" data-category-id="5">Breakfast & Brunch</button>
-                            <button class="category-button" data-category-id="6">International Cuisine</button>
-                            <button class="category-button" data-category-id="7">Special</button>
+                        <div class="menu-view-filters">
+                            <div class="menu-categories">
+                                <button class="category-button active-category" data-category-id="all">All</button>
+                                <button class="category-button" data-category-id="1">Desserts & Drinks</button>
+                                <button class="category-button" data-category-id="2">Main Courses</button>
+                                <button class="category-button" data-category-id="3">Appetizers & Sides</button>
+                                <button class="category-button" data-category-id="4">Salads & Soups</button>
+                                <button class="category-button" data-category-id="5">Breakfast & Brunch</button>
+                                <button class="category-button" data-category-id="6">International Cuisine</button>
+                                <button class="category-button" data-category-id="7">Special</button>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="menu-view-head">
-                        <div class="search-reservation">
-                            <form class="search-form" method="GET" action="">
-                                <input type="text" name="search" placeholder="Search Menu Item" value="" id="search-input">
-                                <button type="submit" id="search-button">Search</button>
-                            </form>
-                        </div>
-                        <div class="menu-filters">
-                            <div class="price-filter">
-                                <!-- <div class="card-price-range">
+                        <div class="menu-view-head">
+                            <div class="search-reservation">
+                                <form class="search-form" method="GET" action="">
+                                    <input type="text" name="search" placeholder="Search Menu Item" value="" id="search-input">
+                                    <button type="submit" id="search-button">Search</button>
+                                </form>
+                            </div>
+                            <div class="menu-filters">
+                                <div class="price-filter">
+                                    <!-- <div class="card-price-range">
                                     <div class="price-lab">
                                         <label>Min</label>
                                         <p id="min-value">$50</p>
@@ -174,31 +175,33 @@
                                         <p id="max-value">$500</p>
                                     </div>
                                 </div> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="menu-box">
-                        <div class="menu-items">
-                            <div id="menu-container" class="menu-container-div-out">
+                        <div class="menu-box">
+                            <div class="menu-items">
+                                <div id="menu-container" class="menu-container-div-out">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="pagination-container">
-                        <div class="pagination">
-                            <button id="prev-page">Previous</button>
-                            <span id="page-info"></span>
-                            <button id="next-page">Next</button>
+                        <div class="pagination-container">
+                            <div class="pagination">
+                                <button id="prev-page">Previous</button>
+                                <span id="page-info"></span>
+                                <button id="next-page">Next</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
-            <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+            </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </body>
 
 </html>

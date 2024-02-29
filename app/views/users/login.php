@@ -27,6 +27,8 @@
                     </form>
                     <div class="login-switch">Don't have an account? <a href="<?php echo URLROOT ?>/users/register">Register here</a></div>
                     <div class="login-switch">Staff Member? <a href="<?php echo URLROOT ?>/users/staff">Staff Login</a></div>
+                    <!-- make sure to change this -->
+                    <div class="login-switch">Forgot Password? <a href="<?php echo URLROOT ?>/users/forgotPassword">Forgot Password</a></div>
                 </div>
             </div>
         </div>
