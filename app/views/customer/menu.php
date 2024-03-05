@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -146,7 +147,6 @@
                                 <button class="category-button" data-category-id="5">Breakfast & Brunch</button>
                                 <button class="category-button" data-category-id="6">International Cuisine</button>
                                 <button class="category-button" data-category-id="7">Special</button>
-
                             </div>
                         </div>
                         <div class="menu-view-head">
@@ -184,11 +184,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pagination-container">
-                            <div class="pagination">
-                                <button id="prev-page">Previous</button>
-                                <span id="page-info"></span>
-                                <button id="next-page">Next</button>
+                        <div class="view-pagination-container">
+                            <div class="view-pagination">
+                                <button class="view-pagination-button " id="prev-page">Previous</button>
+                                <span class="view-pagination-text" id="page-info"></span>
+                                <button class="view-pagination-button" id="next-page">Next</button>
                             </div>
                         </div>
                     </div>
