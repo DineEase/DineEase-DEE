@@ -113,21 +113,6 @@
                                     </button>
                                 </a>
                             </li>
-
-
-
-                            <!-- <li class="item">
-                            <a href="<?php echo URLROOT ?>/customers/profile" class="nav_link nav_link_switch" data-content='profile'>
-                                <button class="button-sidebar-menu">
-                                    <span class="navlink_icon">
-                                        <span class="material-symbols-outlined ">
-                                            account_circle
-                                        </span>
-                                    </span>
-                                    <span class="button-sidebar-menu-content">My Account </span>
-                                </button>
-                            </a>
-                        </li> -->
                             <li class="item">
                                 <a href="<?php echo URLROOT; ?>/users/logout" class="nav_link">
                                     <button class="button-sidebar-menu">
@@ -161,18 +146,18 @@
                                     <div class="searchnfilter">
                                         <!-- Search Form -->
                                         <div class="search-reservation">
-                                            <form class="search-form" method="GET" action="">
-                                                <input type="text" name="search" placeholder="Search reservations" value="<?php echo $data['search']; ?>">
+                                            <form class="search-form" method="POST" action="<?php echo URLROOT; ?>/customers/reservation">
+                                                <input type="text" name="search" placeholder="Search reservations" value="<?php echo $data['search'] ?>">
                                                 <button type="submit">Search</button>
                                             </form>
                                         </div>
                                         <div class="filter-reservation">
-                                            <form id="reservationFilters" action="/path/to/filter/action" method="GET">
+                                            <form id="reservationFilters" action="<?php echo URLROOT; ?>/customers/reservation" method="POST">
                                                 <select name="status">
                                                     <option value="">Select Status</option>
-                                                    <option value="confirmed">Confirmed</option>
-                                                    <option value="pending">Pending</option>
-                                                    <option value="cancelled">Cancelled</option>
+                                                    <?php foreach ($data['reservationStatus'] as $status) : ?>
+                                                        <option value="<?php echo $status->status ?>" <?php if($data['status']=$status->status) ?> ><?php echo $status->status ?></option>
+                                                    <?php  endforeach; ?>
                                                 </select>
                                                 <input type="date" name="startDate">
                                                 <input type="date" name="endDate">
@@ -184,7 +169,6 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <td>#</td>
                                                 <td class="long-td">Date</td>
                                                 <td class="long-td">Start Time</td>
                                                 <td class="long-td">End Time</td>
@@ -199,7 +183,6 @@
 
                                             <?php foreach ($data['reservations'] as $index => $reservation) { ?>
                                                 <tr>
-                                                    <td><?php echo $index + 1 ?></td>
                                                     <td><?php echo $reservation->date ?></td>
                                                     <td><?php echo $reservation->reservationStartTime  ?></td>
                                                     <td><?php echo $reservation->reservationEndTime  ?></td>
@@ -211,16 +194,7 @@
                                                     </td>
                                                 </tr>
                                             <?php } ?>
-                                            <?php
-                                            if (count($data['reservations']) < 10) {
-                                                for ($i = 0; $i < 10 - count($data['reservations']); $i++) {
-                                                    echo "<tr><td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-                                                }
-                                            } ?>
-
-
                                         </tbody>
-
                                     </table>
                                     <!-- Pagination Links -->
                                     <div class="pagination-view">
@@ -238,6 +212,7 @@
                                             <a href="?page=<?php echo $data['page'] + 1; ?>">&raquo;</a>
                                         <?php endif; ?>
                                     </div>
+
                                 </div>
                             </section>
                             <section id="add" class="tab-panel">

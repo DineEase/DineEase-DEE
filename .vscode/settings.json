@@ -5,5 +5,21 @@
         "navlink",
         "topbar",
         "URLROOT"
+    ],
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "DineEase",
+            "database": "de_db_v2",
+            "username": "root",
+            "password": ""
+        }
     ]
 }

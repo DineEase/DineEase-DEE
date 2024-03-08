@@ -414,6 +414,11 @@ body {
   left: -200vw;
 }
 
+.tab-panel td{
+  width: 10vw;
+  height: 6vh;
+}
+
 .tabset .tab-panel {
   display: none;
 }
@@ -969,7 +974,7 @@ input:focus-visible + label {
 /* available slots styles ends here */
 /* view reservation styles */
 .content {
-  max-width: 1000px;
+  max-width: 70vw;
   margin: 0 auto;
 }
 .content h2 {
@@ -1051,7 +1056,7 @@ input:focus-visible + label {
 }
 .read table tbody tr td.actions {
   padding: 8px;
-  text-align: right;
+  text-align: center;
 }
 .read table tbody tr td.actions .edit,
 .read table tbody tr td.actions .trash {
@@ -1436,8 +1441,11 @@ form.search-form {
 }
 
 /* pagination-view styles */
-.pagination-view {
+.pagination-view { 
   display: flex;
+  position: fixed;
+  top: 90vh;
+  right: 9vw;
   list-style: none;
   padding: 0;
 }

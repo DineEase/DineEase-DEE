@@ -6,9 +6,29 @@ class Customer
     {
         $this->db = new Database;
     }
-    public function getReservation($user_id, $limit = 10, $offset = 0, $search = '')
+
+    public function getReservation($user_id, $limit = 10, $offset = 0)
     {
-        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id AND (date LIKE :search OR numOfPeople LIKE :search OR reservationStartTime LIKE :search OR status LIKE :search OR CAST(amount AS CHAR) LIKE :search) ORDER BY date ASC LIMIT :offset, :limit');
+        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id ORDER BY date ASC LIMIT :offset, :limit');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+    // Add a function to count the total number of reservations based on search criteria
+    public function getTotalReservationCount($user_id)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE customerID = :user_id ORDER BY date ASC');
+        $this->db->bind(':user_id', $user_id);
+        $row = $this->db->single();
+        return $row->count;
+    }
+
+    public function getReservationWithSearch($user_id, $limit = 10, $offset = 0 , $search)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id AND (status LIKE :search OR numOfPeople LIKE :search) ORDER BY date ASC LIMIT :offset, :limit');
         $this->db->bind(':user_id', $user_id);
         $this->db->bind(':limit', $limit);
         $this->db->bind(':offset', $offset);
@@ -17,10 +37,9 @@ class Customer
         return $results;
     }
 
-    // Add a function to count the total number of reservations based on search criteria
-    public function getTotalReservationCount($user_id, $search = '')
+    public function getTotalReservationCountWithSearch($user_id, $search)
     {
-        $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE customerID = :user_id AND (date LIKE :search OR reservationStartTime LIKE :search OR status LIKE :search OR numOfPeople LIKE :search OR CAST(amount AS CHAR) LIKE :search)');
+        $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE customerID = :user_id AND (status LIKE :search OR numOfPeople LIKE :search) order by date ASC');
         $this->db->bind(':user_id', $user_id);
         $this->db->bind(':search', "%$search%");
         $row = $this->db->single();
@@ -111,4 +130,91 @@ class Customer
         $results = $this->db->resultSet();
         return $results;
     }
+
+    public function getReservationStatus()
+    {
+        $this->db->query('SELECT * FROM reservationStatus');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+    public function getReservationWithStatus($user_id, $limit = 10, $offset = 0, $status)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id AND status = :status ORDER BY date ASC LIMIT :offset, :limit');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+        $this->db->bind(':status', $status);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+    public function getTotalReservationCountWithStatus($user_id, $status)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE customerID = :user_id AND status = :status ORDER BY date ASC');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':status', $status);
+        $row = $this->db->single();
+        return $row->count;
+    }
+
+    public function getReservationWithDateRange($user_id, $limit = 10, $offset = 0, $startDate, $endDate)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id AND date BETWEEN :startDate AND :endDate ORDER BY date ASC LIMIT :offset, :limit');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+        $this->db->bind(':startDate', $startDate);
+        $this->db->bind(':endDate', $endDate);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function getTotalReservationCountWithDateRange($user_id, $startDate, $endDate)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE customerID = :user_id AND date BETWEEN :startDate AND :endDate ORDER BY date ASC');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':startDate', $startDate);
+        $this->db->bind(':endDate', $endDate);
+        $row = $this->db->single();
+        return $row->count;
+    }
+
+    public function getMaxDate()
+    {
+        $this->db->query('SELECT MAX(date) as maxDate FROM reservation');
+        $row = $this->db->single();
+        return $row->maxDate;
+    }
+
+    public function getMinDate()
+    {
+        $this->db->query('SELECT MIN(date) as minDate FROM reservation');
+        $row = $this->db->single();
+        return $row->minDate;
+    }
+
+    public function getReservationWithStatusAndDateRange($user_id, $limit = 10, $offset = 0, $status, $startDate, $endDate)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id AND status = :status AND date BETWEEN :startDate AND :endDate ORDER BY date ASC LIMIT :offset, :limit');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':startDate', $startDate);
+        $this->db->bind(':endDate', $endDate);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+    public function getTotalReservationCountWithStatusAndDateRange($user_id, $status, $startDate, $endDate)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE customerID = :user_id AND status = :status AND date BETWEEN :startDate AND :endDate ORDER BY date ASC');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':status', $status);
+        $this->db->bind(':startDate', $startDate);
+        $this->db->bind(':endDate', $endDate);
+        $row = $this->db->single();
+        return $row->count;
+    }
+
 }
