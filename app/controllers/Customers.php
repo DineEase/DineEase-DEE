@@ -34,46 +34,92 @@ class Customers extends Controller
 
     public function Reservation()
     {
-        // Get the current page, search term from the URL query string
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $search = $_GET['search'] ?? '';
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+        $search = isset($_POST['search']) && !empty($_POST['search']) ? $_POST['search'] : '';
         $limit = 10;
         $offset = ($page - 1) * $limit;
+        $status = isset($_POST['status']) && $_POST['status'] != "Select Status" ? $_POST['status'] : '';
 
-        // Fetch reservations with pagination and search
-        $reservations = $this->customerModel->getReservation($_SESSION['user_id'], $limit, $offset, $search);
+        $startDate = isset($_POST['startDate']) && !empty($_POST['startDate']) ? $_POST['startDate'] : $this->customerModel->getMinDate();
+        $endDate = isset($_POST['endDate']) && !empty($_POST['endDate']) ? $_POST['endDate'] : $this->customerModel->getMaxDate();
 
-        // Pass the data to the view
+        if ($startDate > $endDate) {
+            flash('reservation_message', 'Start date cannot be greater than end date', 'alert alert-danger');
+            redirect('customers/reservation');
+        }
+
+        if ($startDate == $endDate) {
+            $endDate = date('Y-m-d', strtotime($endDate . ' +1 day'));
+        }
+
+        if ($search != '') {
+            $reservations = $this->customerModel->getReservationWithSearch($_SESSION['user_id'], $limit, $offset, $search);
+            $totalReservations = $this->customerModel->getTotalReservationCountWithSearch($_SESSION['user_id'], $search);
+            $totalPages = ceil($totalReservations / $limit);
+        }
+
+        //todo: #16 // Add a condition to filter reservations based on status
+        else if ($status != ' ' && $search == '' && $startDate == '' && $endDate == '') {
+            $reservations = $this->customerModel->getReservationWithStatus($_SESSION['user_id'], $limit, $offset, $status);
+            $totalReservations = $this->customerModel->getTotalReservationCountWithStatus($_SESSION['user_id'], $status);
+            $totalPages = ceil($totalReservations / $limit);
+        }
+
+        //todo: #17 // Add a condition to filter reservations based on date range
+
+        else if (($startDate != '' || $endDate != '') && $status == '' && $search == '') {
+
+            $reservations = $this->customerModel->getReservationWithDateRange($_SESSION['user_id'], $limit, $offset, $startDate, $endDate);
+            $totalReservations = $this->customerModel->getTotalReservationCountWithDateRange($_SESSION['user_id'], $startDate, $endDate);
+            $totalPages = ceil($totalReservations / $limit);
+        } 
+        
+        else if ($status != '' && $search == '' && ($startDate != '' || $endDate != '')) {
+            $reservations = $this->customerModel->getReservationWithStatusAndDateRange($_SESSION['user_id'], $limit, $offset, $status, $startDate, $endDate);
+            $totalReservations = $this->customerModel->getTotalReservationCountWithStatusAndDateRange($_SESSION['user_id'], $status, $startDate, $endDate);
+            $totalPages = ceil($totalReservations / $limit);
+        } 
+        
+        //TODO #18 Add a condition to filter reservations based on search, status and date range
+        //have to submit two forms to get this condition to work figure out a way to submit two forms at once
+        //or use ajax to submit the second form
+
+        // else if ($status != '' && $search != '' && ($startDate != '' || $endDate != '')) {
+        //     $reservations = $this->customerModel->getReservationWithSearchStatusAndDateRange($_SESSION['user_id'], $limit, $offset, $search, $status, $startDate, $endDate);
+        //     $totalReservations = $this->customerModel->getTotalReservationCountWithSearchStatusAndDateRange($_SESSION['user_id'], $search, $status, $startDate, $endDate);
+        //     $totalPages = ceil($totalReservations / $limit);
+        // }
+        
+        else {
+            $reservations = $this->customerModel->getReservation($_SESSION['user_id'], $limit, $offset);
+            $totalReservationsCount = $this->customerModel->getTotalReservationCount($_SESSION['user_id']);
+            $totalPages = ceil($totalReservationsCount / $limit);
+        }
+
+        $reservationStatus = $this->customerModel->getReservationStatus();
+
         $data = [
+
             'reservations' => $reservations,
-            'search' => $search,
-            'page' => $page
-            // Include additional data as needed for the view
-        ];
-
-        $totalReservations = $this->customerModel->getTotalReservationCount($_SESSION['user_id']);
-
-        $totalPages = ceil($totalReservations / $limit);
-
-        $data = [
-            'reservations' => $reservations,
+            'status' => $status,
             'search' => $search,
             'page' => $page,
             'totalPages' => $totalPages,
-            'totalReservations' => $totalReservations,
-            'limit' => $limit
-
+            'limit' => $limit,
+            'reservationStatus' => $reservationStatus,
+            'startDate' => $startDate,
+            'endDate' => $endDate
+            
         ];
-
-
-
         $this->view('customer/reservation', $data);
     }
 
     public function Menu()
-    {   
+    {
         $menus = $this->customerModel->getMenus();
-        
+
 
         $data = [
             'menus' => $menus
@@ -188,15 +234,8 @@ class Customers extends Controller
         }
     }
 
-    // public function getRemainingSlots($date)
-    // {
-    //     $this->customerModel->getRemainingSlots($date);
-    //     $slots = $this->customerModel->getRemainingSlots($date);
-
-    //     $this->view('customer/index', $data);
-    // }
-
-    public function getMenuItemsAPI() {
+    public function getMenuItemsAPI()
+    {
         $menuItems = $this->customerModel->getMenus();
 
         // Set header as JSON for the response
@@ -204,6 +243,5 @@ class Customers extends Controller
 
         // Return the menu items as JSON
         echo json_encode($menuItems);
-
     }
 }

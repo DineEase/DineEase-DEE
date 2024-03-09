@@ -91,12 +91,22 @@ $(document).ready(function () {
   fetchMenuItems();
 
   function createMenuItemCard(item) {
+    let starCount = 5;
+    let stars = '';
+    for (let i = 0; i < starCount; i++) {
+      stars += '<i class="fa-solid fa-star"></i>';
+    }
+
     return `
-                <div class="menu-item-card">
-                    <img src="${item.imagePath}" alt="${item.itemName}">
-                    <h3>${item.itemName}</h3>
-                    <p>Price: ${item.price}</p>
-                </div>
-            `;
+      <div class="menu-item-card">
+        <img src="${item.imagePath}" alt="${item.itemName}">
+        <h3>${item.itemName}</h3>
+        <p><b>Rs.${item.price}.00</b></p>
+        <div class="menu-card-footer">
+          <div class="menu-card-footer-stars">${stars}</div>
+          <div class="menu-card-footer-num">(50)</div>
+        </div>
+      </div>
+    `;
   }
 });

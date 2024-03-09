@@ -113,21 +113,6 @@
                                     </button>
                                 </a>
                             </li>
-
-
-
-                            <!-- <li class="item">
-                            <a href="<?php echo URLROOT ?>/customers/profile" class="nav_link nav_link_switch" data-content='profile'>
-                                <button class="button-sidebar-menu">
-                                    <span class="navlink_icon">
-                                        <span class="material-symbols-outlined ">
-                                            account_circle
-                                        </span>
-                                    </span>
-                                    <span class="button-sidebar-menu-content">My Account </span>
-                                </button>
-                            </a>
-                        </li> -->
                             <li class="item">
                                 <a href="<?php echo URLROOT; ?>/users/logout" class="nav_link">
                                     <button class="button-sidebar-menu">
@@ -161,30 +146,30 @@
                                     <div class="searchnfilter">
                                         <!-- Search Form -->
                                         <div class="search-reservation">
-                                            <form class="search-form" method="GET" action="">
-                                                <input type="text" name="search" placeholder="Search reservations" value="<?php echo $data['search']; ?>">
+                                            <form class="search-form" method="POST" action="<?php echo URLROOT; ?>/customers/reservation">
+                                                <input type="text" name="search" placeholder="Search reservations" value="<?php echo $data['search'] ?>">
                                                 <button type="submit">Search</button>
                                             </form>
                                         </div>
                                         <div class="filter-reservation">
-                                            <form id="reservationFilters" action="/path/to/filter/action" method="GET">
+                                            <form id="reservationFilters" action="<?php echo URLROOT; ?>/customers/reservation" method="POST">
                                                 <select name="status">
                                                     <option value="">Select Status</option>
-                                                    <option value="confirmed">Confirmed</option>
-                                                    <option value="pending">Pending</option>
-                                                    <option value="cancelled">Cancelled</option>
+                                                    <?php foreach ($data['reservationStatus'] as $status) : ?>
+                                                        <option value="<?php echo $status->status ?>" <?php if(strtoupper($data['status'])==$status->status) {  echo "selected"; } ?>><?php echo $status->status ?></option>
+                                                    <?php  endforeach; ?>
                                                 </select>
-                                                <input type="date" name="startDate">
-                                                <input type="date" name="endDate">
+                                                <input type="date" name="startDate" value="<?php if(isset($data['startDate'])){ echo $data['startDate']; }?>" >
+                                                <input type="date" name="endDate" value="<?php if(isset($data['endDate'])){ echo $data['endDate']; }?>">
                                                 <button type="submit">Filter</button>
                                             </form>
                                         </div>
                                     </div>
-
+                                    <?php echo ($data['status'] == strtoupper("Pending")) ? $data['status'] : 'no'; ?>
+                                   
                                     <table>
                                         <thead>
                                             <tr>
-                                                <td>#</td>
                                                 <td class="long-td">Date</td>
                                                 <td class="long-td">Start Time</td>
                                                 <td class="long-td">End Time</td>
@@ -199,7 +184,6 @@
 
                                             <?php foreach ($data['reservations'] as $index => $reservation) { ?>
                                                 <tr>
-                                                    <td><?php echo $index + 1 ?></td>
                                                     <td><?php echo $reservation->date ?></td>
                                                     <td><?php echo $reservation->reservationStartTime  ?></td>
                                                     <td><?php echo $reservation->reservationEndTime  ?></td>
@@ -211,17 +195,10 @@
                                                     </td>
                                                 </tr>
                                             <?php } ?>
-                                            <?php
-                                            if (count($data['reservations']) < 10) {
-                                                for ($i = 0; $i < 10 - count($data['reservations']); $i++) {
-                                                    echo "<tr><td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-                                                }
-                                            } ?>
-
-
                                         </tbody>
-
                                     </table>
+                                    
+                                    //TODO #19 : Filters does not apply when the page is reloaded while navigating through pages
                                     <!-- Pagination Links -->
                                     <div class="pagination-view">
                                         <?php if ($data['page'] > 1) : ?>
@@ -238,6 +215,7 @@
                                             <a href="?page=<?php echo $data['page'] + 1; ?>">&raquo;</a>
                                         <?php endif; ?>
                                     </div>
+
                                 </div>
                             </section>
                             <section id="add" class="tab-panel">
@@ -305,6 +283,22 @@
                                                                     </div>
                                                                 </div> -->
 
+                                                                <!-- <div class="carousel" data-gap="20" data-bfc>
+                                                                    <figure>
+                                                                        <img src="https://source.unsplash.com/bjhrzvzZeq4/800x533" alt="">
+                                                                        <img src="https://source.unsplash.com/EbuaKnSm8Zw/800x533" alt="">
+                                                                        <img src="https://source.unsplash.com/kG38b7CFzTY/800x533" alt="">
+                                                                        <img src="https://source.unsplash.com/nvzvOPQW0gc/800x533" alt="">
+                                                                        <img src="https://source.unsplash.com/mCg0ZgD7BgU/800x533" alt="">
+                                                                        <img src="https://source.unsplash.com/VkwRmha1_tI/800x533" alt="">
+                                                                        <img src="https://source.unsplash.com/1FWICvPQdkY/800x533" alt="">
+                                                                        <img src="https://source.unsplash.com/7mUXaBBrhoA/800x533" alt="">
+                                                                    </figure>
+                                                                    <nav>
+                                                                        <button class="nav prev">Prev</button>
+                                                                        <button class="nav next">Next</button>
+                                                                    </nav>
+                                                                </div> -->
 
                                                                 <div class="pkg-selection">
                                                                     <div class="radio-inputs">
@@ -412,7 +406,67 @@
                                                                         <div class="menu-items" id="menu-items-list">
                                                                             <!-- Menu items will be added here dynamically -->
                                                                         </div>
-                                                                        <button type="button" id="add-item">+ Add Food Item</button>
+                                                                        <button onclick="popup()" type="button" id="add-food">+ Add Food Items</button>
+                                                                        <!-- <button type="button" id="add-item">+ Add Food Item</button> -->
+                                                                        <div id="menu-div-purchase" class="menu-div-purchase hide">
+                                                                            <div class="customer-menu-view">
+                                                                                <div class="menu-view-header-bar">
+                                                                                    <div class="menu-view-filters">
+                                                                                        <div class="menu-categories">
+                                                                                            <div class="category-button active-category" data-category-id="all">All</div>
+                                                                                            <div class="category-button" data-category-id="1"><span class="material-symbols-outlined">
+                                                                                                    fastfood
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="2"><span class="material-symbols-outlined">
+                                                                                                    dinner_dining
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="3"><span class="material-symbols-outlined">
+                                                                                                    tapas
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="4"><span class="material-symbols-outlined">
+                                                                                                    soup_kitchen
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="5"><span class="material-symbols-outlined">
+                                                                                                    rice_bowl
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="6"><span class="material-symbols-outlined">
+                                                                                                    outdoor_grill
+                                                                                                </span></div>
+                                                                                            <div class="category-button" data-category-id="7"><span class="material-symbols-outlined">
+                                                                                                    hotel_class
+                                                                                                </span></div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="menu-view-head">
+                                                                                        <div class="search-reservation hide">
+                                                                                            <form class="search-form hide" method="GET" action="">
+                                                                                                <input type="text" name="search" placeholder="Search Menu Item" value="" id="search-input">
+                                                                                                <button type="submit" id="search-button">Search</button>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                        <div class="menu-filters">
+                                                                                            <div class="price-filter">
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="menu-box">
+                                                                                        <div class="menu-items">
+                                                                                            <div id="menu-container" class="menu-container-div-out">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="pagination-container">
+                                                                                        <div class="pagination-view-only-menu">
+                                                                                            <div class="pgbtn" id="prev-page">Previous</div>
+                                                                                            <span id="page-info"></span>
+                                                                                            <div class="pgbtn" id="next-page">Next</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                     <button id="proceed-to-pay">Proceed to Pay</button>
                                                                 </div>
@@ -432,6 +486,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
 </body>
 
 </html>
