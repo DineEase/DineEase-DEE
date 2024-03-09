@@ -217,4 +217,28 @@ class Customer
         return $row->count;
     }
 
+    public function getReservationWithSearchStatusAndDateRange($user_id, $limit = 10, $offset = 0, $search, $status, $startDate, $endDate)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id AND (status LIKE :search OR numOfPeople LIKE :search) AND date BETWEEN :startDate AND :endDate ORDER BY date ASC LIMIT :offset, :limit');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+        $this->db->bind(':search', "%$search%");
+        $this->db->bind(':startDate', $startDate);
+        $this->db->bind(':endDate', $endDate);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+    public function getTotalReservationCountWithSearchStatusAndDateRange($user_id, $search, $status, $startDate, $endDate)
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE customerID = :user_id AND (status LIKE :search OR numOfPeople LIKE :search) AND date BETWEEN :startDate AND :endDate ORDER BY date ASC');
+        $this->db->bind(':user_id', $user_id);
+        $this->db->bind(':search', "%$search%");
+        $this->db->bind(':startDate', $startDate);
+        $this->db->bind(':endDate', $endDate);
+        $row = $this->db->single();
+        return $row->count;
+    }
+
 }

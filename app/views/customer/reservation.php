@@ -156,16 +156,17 @@
                                                 <select name="status">
                                                     <option value="">Select Status</option>
                                                     <?php foreach ($data['reservationStatus'] as $status) : ?>
-                                                        <option value="<?php echo $status->status ?>" <?php if($data['status']=$status->status) ?> ><?php echo $status->status ?></option>
+                                                        <option value="<?php echo $status->status ?>" <?php if(strtoupper($data['status'])==$status->status) {  echo "selected"; } ?>><?php echo $status->status ?></option>
                                                     <?php  endforeach; ?>
                                                 </select>
-                                                <input type="date" name="startDate">
-                                                <input type="date" name="endDate">
+                                                <input type="date" name="startDate" value="<?php if(isset($data['startDate'])){ echo $data['startDate']; }?>" >
+                                                <input type="date" name="endDate" value="<?php if(isset($data['endDate'])){ echo $data['endDate']; }?>">
                                                 <button type="submit">Filter</button>
                                             </form>
                                         </div>
                                     </div>
-
+                                    <?php echo ($data['status'] == strtoupper("Pending")) ? $data['status'] : 'no'; ?>
+                                   
                                     <table>
                                         <thead>
                                             <tr>
@@ -196,6 +197,8 @@
                                             <?php } ?>
                                         </tbody>
                                     </table>
+                                    
+                                    //TODO #19 : Filters does not apply when the page is reloaded while navigating through pages
                                     <!-- Pagination Links -->
                                     <div class="pagination-view">
                                         <?php if ($data['page'] > 1) : ?>

@@ -74,12 +74,25 @@ class Customers extends Controller
             $reservations = $this->customerModel->getReservationWithDateRange($_SESSION['user_id'], $limit, $offset, $startDate, $endDate);
             $totalReservations = $this->customerModel->getTotalReservationCountWithDateRange($_SESSION['user_id'], $startDate, $endDate);
             $totalPages = ceil($totalReservations / $limit);
-        } else if ($status != '' && $search == '' && ($startDate != '' || $endDate != '')) {
-
+        } 
+        
+        else if ($status != '' && $search == '' && ($startDate != '' || $endDate != '')) {
             $reservations = $this->customerModel->getReservationWithStatusAndDateRange($_SESSION['user_id'], $limit, $offset, $status, $startDate, $endDate);
             $totalReservations = $this->customerModel->getTotalReservationCountWithStatusAndDateRange($_SESSION['user_id'], $status, $startDate, $endDate);
             $totalPages = ceil($totalReservations / $limit);
-        } else {
+        } 
+        
+        //TODO #18 Add a condition to filter reservations based on search, status and date range
+        //have to submit two forms to get this condition to work figure out a way to submit two forms at once
+        //or use ajax to submit the second form
+
+        // else if ($status != '' && $search != '' && ($startDate != '' || $endDate != '')) {
+        //     $reservations = $this->customerModel->getReservationWithSearchStatusAndDateRange($_SESSION['user_id'], $limit, $offset, $search, $status, $startDate, $endDate);
+        //     $totalReservations = $this->customerModel->getTotalReservationCountWithSearchStatusAndDateRange($_SESSION['user_id'], $search, $status, $startDate, $endDate);
+        //     $totalPages = ceil($totalReservations / $limit);
+        // }
+        
+        else {
             $reservations = $this->customerModel->getReservation($_SESSION['user_id'], $limit, $offset);
             $totalReservationsCount = $this->customerModel->getTotalReservationCount($_SESSION['user_id']);
             $totalPages = ceil($totalReservationsCount / $limit);
@@ -90,12 +103,15 @@ class Customers extends Controller
         $data = [
 
             'reservations' => $reservations,
+            'status' => $status,
             'search' => $search,
             'page' => $page,
             'totalPages' => $totalPages,
             'limit' => $limit,
-            'reservationStatus' => $reservationStatus
-
+            'reservationStatus' => $reservationStatus,
+            'startDate' => $startDate,
+            'endDate' => $endDate
+            
         ];
         $this->view('customer/reservation', $data);
     }
