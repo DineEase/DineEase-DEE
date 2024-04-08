@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy PHP app to Azure Web App - DineEase
+name: Build and deploy PHP app to Azure Web App - dineease
 
 on:
   push:
@@ -60,7 +60,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'DineEase'
+          app-name: 'dineease'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_52D7B36C947C43A196B16FF9A5A2B4C0 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C35BDC4B34BA4122BF6925C43D342DBA }}
           package: .
