@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -156,22 +157,27 @@
                                                 <select name="status">
                                                     <option value="">Select Status</option>
                                                     <?php foreach ($data['reservationStatus'] as $status) : ?>
-                                                        <option value="<?php echo $status->status ?>" <?php if(strtoupper($data['status'])==$status->status) {  echo "selected"; } ?>><?php echo $status->status ?></option>
-                                                    <?php  endforeach; ?>
+                                                        <option value="<?php echo $status->status ?>" <?php if (strtoupper($data['status']) == $status->status) {
+                                                                                                            echo "selected";
+                                                                                                        } ?>><?php echo $status->status ?></option>
+                                                    <?php endforeach; ?>
                                                 </select>
-                                                <input type="date" name="startDate" value="<?php if(isset($data['startDate'])){ echo $data['startDate']; }?>" >
-                                                <input type="date" name="endDate" value="<?php if(isset($data['endDate'])){ echo $data['endDate']; }?>">
+                                                <input type="date" name="startDate" value="<?php if (isset($data['startDate'])) {
+                                                                                                echo $data['startDate'];
+                                                                                            } ?>">
+                                                <input type="date" name="endDate" value="<?php if (isset($data['endDate'])) {
+                                                                                                echo $data['endDate'];
+                                                                                            } ?>">
                                                 <button type="submit">Filter</button>
                                             </form>
                                         </div>
                                     </div>
-                                    <?php echo ($data['status'] == strtoupper("Pending")) ? $data['status'] : 'no'; ?>
-                                   
+
                                     <table>
                                         <thead>
                                             <tr>
                                                 <td class="long-td">Date</td>
-                                                <td class="long-td">Start Time</td>
+                                                <td class="lo   ng-td">Start Time</td>
                                                 <td class="long-td">End Time</td>
                                                 <td>No of People</td>
                                                 <td class="long-td">Amount</td>
@@ -197,8 +203,8 @@
                                             <?php } ?>
                                         </tbody>
                                     </table>
-                                    
-                                    //TODO #19 : Filters does not apply when the page is reloaded while navigating through pages
+
+                                    <!-- // TODO #19 : Filters does not apply when the page is reloaded while navigating through pages -->
                                     <!-- Pagination Links -->
                                     <div class="pagination-view">
                                         <?php if ($data['page'] > 1) : ?>
@@ -227,7 +233,7 @@
                                                 <form id="msform" class="msform-container" action="<?php echo URLROOT; ?>/customers/addReservation" method="post">
                                                     <div class="prog">
                                                         <ul id="progressbar">
-                                                            <li class="active" id="package"><strong>Package</strong></li>
+                                                            <li class="active" id="package"><strong>Suite</strong></li>
                                                             <li id="rd"><strong>Reservation Details</strong></li>
                                                             <li id="availability"><strong>Availability</strong></li>
                                                             <li id="confirm"><strong>Payment</strong></li>
@@ -237,68 +243,73 @@
                                                         <div class="form-card">
                                                             <div class="row fixed-height-row-reservation">
                                                                 <div>
-                                                                    <h3 class="fs-title">Select the package:</h3>
+                                                                    <h3 class="fs-title">Select the Suite:</h3>
                                                                 </div>
                                                                 <!-- <div class="plan-deets">
-                                                                    <div class="plan">
-                                                                        <div class="inner">
-                                                                            <span class="pricing">
-                                                                                <span>
-                                                                                    3% <small>TAX</small>
-                                                                                </span>
-                                                                            </span>
-                                                                            <p class="title">Ethereal Lounge T1</p>
-                                                                            <p class="info">A serene escape where sophistication and tranquility unite, offering curated cocktails and a menu of culinary delights.</p>
-                                                                            <ul class="features">
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="plan">
-                                                                        <div class="inner">
-                                                                            <span class="pricing">
-                                                                                <span>
-                                                                                    5% <small>TAX</small>
-                                                                                </span>
-                                                                            </span>
-                                                                            <p class="title">Sapphire Lounge T2</p>
-                                                                            <p class="info">A celestial retreat, sparkling with opulence. Indulge in carefully crafted beverages and gourmet offerings for an otherworldly experience.</p>
-                                                                            <ul class="features">
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="plan">
-                                                                        <div class="inner">
-                                                                            <span class="pricing">
-                                                                                <span>
-                                                                                    10% <small>TAX</small>
-                                                                                </span>
-                                                                            </span>
-                                                                            <p class="title">Platinum Lounge T3</p>
-                                                                            <p class="info">The epitome of luxury, where every detail speaks of excellence. Reserved for connoisseurs who appreciate refined menus and impeccable service.</p>
-                                                                            <ul class="features">
-                                                                            </ul>
-
-                                                                            <input type="text" hidden id="tableID" name="tableID" value="1">
-                                                                        </div>
-                                                                    </div>
                                                                 </div> -->
+                                                                <div class="suit-cards">
+                                                                    <div class="wrapper">
+                                                                        <div class="card">
+                                                                            <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                                                            <div class="details">
+                                                                                <div class="up">
+                                                                                    <span class="material-symbols-outlined">
+                                                                                        stat_2
+                                                                                    </span>
+                                                                                </div>
+                                                                                <h1>Budget</h1>
 
-                                                                <!-- <div class="carousel" data-gap="20" data-bfc>
-                                                                    <figure>
-                                                                        <img src="https://source.unsplash.com/bjhrzvzZeq4/800x533" alt="">
-                                                                        <img src="https://source.unsplash.com/EbuaKnSm8Zw/800x533" alt="">
-                                                                        <img src="https://source.unsplash.com/kG38b7CFzTY/800x533" alt="">
-                                                                        <img src="https://source.unsplash.com/nvzvOPQW0gc/800x533" alt="">
-                                                                        <img src="https://source.unsplash.com/mCg0ZgD7BgU/800x533" alt="">
-                                                                        <img src="https://source.unsplash.com/VkwRmha1_tI/800x533" alt="">
-                                                                        <img src="https://source.unsplash.com/1FWICvPQdkY/800x533" alt="">
-                                                                        <img src="https://source.unsplash.com/7mUXaBBrhoA/800x533" alt="">
-                                                                    </figure>
-                                                                    <nav>
-                                                                        <button class="nav prev">Prev</button>
-                                                                        <button class="nav next">Next</button>
-                                                                    </nav>
-                                                                </div> -->
+                                                                                <div class="rating">
+                                                                                    <span>4.2/5 ( 20 ) </span>
+                                                                                </div>
+
+                                                                                <p class="desc">
+                                                                                    Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="card">
+                                                                            <div class="poster"><img src="https://i.postimg.cc/GtxLYS7q/poster2-img.jpg" alt="Location Unknown"></div>
+                                                                            <div class="details">
+                                                                                <div class="up">
+                                                                                    <span class="material-symbols-outlined">
+                                                                                        stat_2
+                                                                                    </span>
+                                                                                </div>
+                                                                                <h1>Budget</h1>
+
+                                                                                <div class="rating">
+                                                                                    <span>4.2/5 ( 20 ) </span>
+                                                                                </div>
+
+                                                                                <p class="desc">
+                                                                                    Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="card">
+                                                                            <div class="poster"><img src="https://i.postimg.cc/yxH6DzPD/poster3-img.jpg" alt="Location Unknown"></div>
+                                                                            <div class="details">
+                                                                                <div class="up">
+                                                                                    <span class="material-symbols-outlined">
+                                                                                        stat_2
+                                                                                    </span>
+                                                                                </div>
+                                                                                <h1>Budget</h1>
+
+                                                                                <div class="rating">
+                                                                                    <span>4.2/5 ( 20 ) </span>
+                                                                                </div>
+
+                                                                                <p class="desc">
+                                                                                    Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
 
                                                                 <div class="pkg-selection">
                                                                     <div class="radio-inputs">
@@ -377,8 +388,6 @@
                                                                         </div>
                                                                         <input type="hidden" id="selectedTime" name="reservationStartTime" value="08:00">
                                                                     </div>
-
-
                                                                 </div>
 
                                                             </div>
@@ -396,7 +405,7 @@
                                                                             <p>Time: <span id="summary-time"></span></p>
                                                                         </div>
                                                                         <div class="summery-row right">
-                                                                            <p>Package: <span id="summary-package"></span></p>
+                                                                            <p>Suite: <span id="summary-package"></span></p>
                                                                             <p>Table: <span id="summary-table"></span></p>
                                                                             <p class="sum-amount">Total Amount: <span id="total-amount"></span></p>
                                                                             <input type="hidden" id="totalAmount" name="amount" value="">
@@ -467,6 +476,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+                                                                        <input type="hidden" id="tableID" name="tableID" value="1">
                                                                     </div>
                                                                     <button id="proceed-to-pay">Proceed to Pay</button>
                                                                 </div>
@@ -484,7 +494,7 @@
             </div>
         </div>
     </div>
-    <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
 </body>
