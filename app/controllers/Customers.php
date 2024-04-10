@@ -60,14 +60,14 @@ class Customers extends Controller
             $totalPages = ceil($totalReservations / $limit);
         }
 
-        //todo: #16 // Add a condition to filter reservations based on status
+        //DONE: #16 // Add a condition to filter reservations based on status
         else if ($status != ' ' && $search == '' && $startDate == '' && $endDate == '') {
             $reservations = $this->customerModel->getReservationWithStatus($_SESSION['user_id'], $limit, $offset, $status);
             $totalReservations = $this->customerModel->getTotalReservationCountWithStatus($_SESSION['user_id'], $status);
             $totalPages = ceil($totalReservations / $limit);
         }
 
-        //todo: #17 // Add a condition to filter reservations based on date range
+        //DONE: #17 // Add a condition to filter reservations based on date range - done
 
         else if (($startDate != '' || $endDate != '') && $status == '' && $search == '') {
 
@@ -210,14 +210,14 @@ class Customers extends Controller
             // Process the reservation form data
             $data = [
                 'customerID' => $_SESSION['user_id'],
-                'tableID' => trim($_POST['tableID']), // Assuming you have a tableID field in your form
+                'tableID' => trim($_POST['tableID']),
                 'packageID' => trim($_POST['packageID']),
                 'date' => trim($_POST['date']),
                 'reservationStartTime' => trim($_POST['reservationStartTime']),
                 'reservationEndTime' => date('Y-m-d H:i:s', strtotime('+1 hour', strtotime(trim($_POST['reservationStartTime'])))),
                 'numOfPeople' => trim($_POST['numOfPeople']),
                 'amount' => trim($_POST['amount']),
-                // Add other necessary fields here
+                
             ];
 
             // Validate the data (similar to what you've done in AddReservation method)
@@ -225,8 +225,12 @@ class Customers extends Controller
             // If validation passes, call the model method to add the reservation
             if ($this->customerModel->addReservation($data)) {
                 // Reservation added successfully
-                flash('reservation_message', 'Reservation Added');
-                redirect('customers/reservation');
+                $reservationID = $this->customerModel->getAddedReservationID($data);
+                $slot = date("H", strtotime($data['reservationStartTime']));
+                if($this->customerModel->addToSlot($reservationID,$data,$slot)){
+                    flash('reservation_message', 'Reservation Added');
+                    redirect('customers/reservation');
+                }
             } else {
                 // Something went wrong
                 die('Something went wrong');

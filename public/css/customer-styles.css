@@ -2040,3 +2040,94 @@ form.search-form {
   height: 2em;
   color: black;
 }
+
+
+/* suit cards */
+
+.suit-cards .wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.details .up{
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 1em;
+margin-left: auto;
+margin-right: auto;
+
+}
+.suit-cards .card {
+  position: relative;
+  width: 20%;
+  height: 40vh;
+  background: #000;
+  border-radius: 2em;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(40, 150, 43, 0.2);
+}
+
+.suit-cards .poster {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+ 
+}
+
+.suit-cards .poster::before {
+  content: '';
+  position: absolute;
+  bottom: -45%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: .3s;
+}
+
+.suit-cards .card:hover .poster::before {
+  bottom: 0;
+}
+
+.suit-cards .poster img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: .3s;
+}
+
+.suit-cards .card:hover .poster img {
+  transform: scale(1.1);
+}
+
+.suit-cards .details {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 93%;
+  height: 100%;
+  padding: 1em 1em 2em;
+  background: #000a;
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  transition: .3s;
+  color: #fff;
+  z-index: 2;
+}
+
+.suit-cards .card:hover .details {
+  bottom: 0;
+}
+
+/* end suit cards */

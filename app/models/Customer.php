@@ -74,9 +74,35 @@ class Customer
         $this->db->bind(':amount', $data['amount']);
         $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
         $this->db->bind(':numOfPeople', $data['numOfPeople']);
+        // Execute the query
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        // Add other bindings for additional fields
+    public function getAddedReservationID($data)
+    {
+        $this->db->query('SELECT reservationID FROM reservation WHERE customerID = :customerID AND tableID = :tableID AND packageID = :packageID AND date = :date AND reservationStartTime = :reservationStartTime AND reservationEndTime = :reservationEndTime AND numOfPeople = :numOfPeople order by reservationID desc limit 1');
+        $this->db->bind(':customerID', $data['customerID']);
+        $this->db->bind(':tableID', $data['tableID']);
+        $this->db->bind(':packageID', $data['packageID']);
+        $this->db->bind(':date', $data['date']);
+        $this->db->bind(':reservationStartTime', $data['reservationStartTime']);
+        $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
+        $this->db->bind(':numOfPeople', $data['numOfPeople']);
+        $row = $this->db->single();
+        return $row->reservationID;
+    }
 
+    public function addToSlot( $reservationID, $data , $slot)
+    {
+        $this->db->query('INSERT INTO slots (reservationID, slot, date, noofpeople) VALUES (:reservationID, :slot, :date, :numOfPeople)');
+        $this->db->bind(':reservationID', $reservationID);
+        $this->db->bind(':slot', $slot);
+        $this->db->bind(':date', $data['date']);
+        $this->db->bind(':numOfPeople', $data['numOfPeople']);
         // Execute the query
         if ($this->db->execute()) {
             return true;
@@ -238,7 +264,17 @@ class Customer
         $this->db->bind(':startDate', $startDate);
         $this->db->bind(':endDate', $endDate);
         $row = $this->db->single();
-        return $row->count;
+        return $row->count;     
     }
+
+    // public function isSlotFull($date, $startTime)
+    // {
+    //     $this->db->query('SELECT * FROM reservation WHERE date = :date AND reservationStartTime <= :endTime AND reservationEndTime >= :startTime');
+    //     $this->db->bind(':date', $date);
+    //     $this->db->bind(':startTime', $startTime);
+    //     $this->db->bind(':endTime', $endTime);
+    //     $results = $this->db->resultSet();
+    //     return $results;
+    // }
 
 }
