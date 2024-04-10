@@ -11,3 +11,4 @@ define('APPROOT', dirname(dirname(__FILE__)));
 define('URLROOT', 'http://localhost/DineEase-DEE');
 //Site Name
 define('SITENAME', 'DineEase-DEV');
+

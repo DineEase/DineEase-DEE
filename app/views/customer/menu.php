@@ -197,7 +197,7 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script> 
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
