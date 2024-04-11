@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    
+
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -177,7 +177,7 @@
                                         <thead>
                                             <tr>
                                                 <td class="long-td">Date</td>
-                                                <td class="lo   ng-td">Start Time</td>
+                                                <td class="long-td">Start Time</td>
                                                 <td class="long-td">End Time</td>
                                                 <td>No of People</td>
                                                 <td class="long-td">Amount</td>
@@ -250,61 +250,86 @@
                                                                 <div class="suit-cards">
                                                                     <div class="wrapper">
                                                                         <div class="card">
-                                                                            <div class="poster"><img src="https://i.postimg.cc/jjBSrfnQ/poster1-img.jpg" alt="Location Unknown"></div>
+                                                                            <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk1.jpg" alt=""></div>
                                                                             <div class="details">
                                                                                 <div class="up">
                                                                                     <span class="material-symbols-outlined">
                                                                                         stat_2
                                                                                     </span>
+                                                                                    <div class=" suitTag">BUDGET </div>
                                                                                 </div>
                                                                                 <h1>Budget</h1>
 
                                                                                 <div class="rating">
-                                                                                    <span>4.2/5 ( 20 ) </span>
+
+                                                                                    <?php echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', 4) . str_repeat('<span class="material-symbols-outlined">star</span>', 1); ?>
+                                                                                    <span>4/5 ( 20 ) </span>
                                                                                 </div>
 
                                                                                 <p class="desc">
-                                                                                    Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                                                                </p>
+                                                                                    -Comfortable and affordable dining experience <br>
+                                                                                    -Cozy seating area <br>
+                                                                                    -Pleasant ambiance <br>
+                                                                                    -Suitable for dining alone or with a group <br>
+                                                                                    -<b>LKR.500.00/seat for reservations</b> </p>
+                                                                                <div class="btn goToReviews"> Go to Reviews </div>
+
                                                                             </div>
                                                                         </div>
 
                                                                         <div class="card">
-                                                                            <div class="poster"><img src="https://i.postimg.cc/GtxLYS7q/poster2-img.jpg" alt="Location Unknown"></div>
+                                                                            <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk2.jpg" alt=""></div>
                                                                             <div class="details">
                                                                                 <div class="up">
                                                                                     <span class="material-symbols-outlined">
                                                                                         stat_2
                                                                                     </span>
+                                                                                    <div class=" suitTag"> GOLD</div>
                                                                                 </div>
-                                                                                <h1>Budget</h1>
+                                                                                <h1>Gold</h1>
 
                                                                                 <div class="rating">
-                                                                                    <span>4.2/5 ( 20 ) </span>
+
+                                                                                    <?php echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', 5); ?>
+                                                                                    <span>5/5 ( 20 ) </span>
                                                                                 </div>
 
                                                                                 <p class="desc">
-                                                                                    Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
+
+                                                                                    - Elegant dining experience <br>
+                                                                                    - Spacious seating area <br>
+                                                                                    - Suitable for special occasions or celebrations <br>
+                                                                                    - <b>LKR.500.00/seat for reservations<br>
+                                                                                        - 5% tax on total bill <br></b>
                                                                                 </p>
+                                                                                <div class="btn goToReviews"> Go to Reviews </div>
+
                                                                             </div>
                                                                         </div>
                                                                         <div class="card">
-                                                                            <div class="poster"><img src="https://i.postimg.cc/yxH6DzPD/poster3-img.jpg" alt="Location Unknown"></div>
+                                                                            <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk3.jpeg" alt=""></div>
                                                                             <div class="details">
                                                                                 <div class="up">
                                                                                     <span class="material-symbols-outlined">
                                                                                         stat_2
                                                                                     </span>
+                                                                                    <div class=" suitTag"> PLATINUM </div>
                                                                                 </div>
-                                                                                <h1>Budget</h1>
+                                                                                <h1>Platinum</h1>
 
                                                                                 <div class="rating">
-                                                                                    <span>4.2/5 ( 20 ) </span>
+
+                                                                                    <?php echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', 5); ?>
+                                                                                    <span>5/5 ( 20 ) </span>
                                                                                 </div>
 
                                                                                 <p class="desc">
-                                                                                    Marco, a disillusioned backpacker in his late 20s, embarks on a solitary journey in search for meaning.
-                                                                                </p>
+                                                                                    -Luxurious dining experience <br>
+                                                                                    -Suitable for special occasions or celebrations <br>
+                                                                                    -Full suite booking <br>
+                                                                                    -<b>LKR.6000.00 for full suite booking <br>
+                                                                                        - 10% tax on total bill <br> </b></p>
+                                                                                <div class="btn goToReviews"> Go to Reviews </div>
                                                                             </div>
                                                                         </div>
 
