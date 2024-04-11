@@ -1622,8 +1622,8 @@ form.search-form {
 
 .view-only-menu .menu-item-card p {
   margin-top: 5px;
-  font-size: 1rem;
-  margin-top: auto;
+  font-size: 15px;
+  margin-top: 0px;
   margin-bottom: auto;
   margin-left: auto;
   margin-bottom: 0;
@@ -1636,6 +1636,26 @@ form.search-form {
   background-color: var(--brandgreen);
   color: white;
 }
+
+.view-only-menu .menu-item-card .sizebutton{
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: flex-start;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+.view-only-menu .menu-item-card .sizeandprice{
+  display: flex;
+  flex-direction: row;
+  margin-top: auto;
+  margin-bottom: auto;
+  align-items:center;
+}
+
 
 .view-only-menu .menu-item-card:hover {
   transform: scale(1.05);
