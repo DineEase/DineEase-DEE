@@ -1656,6 +1656,8 @@ form.search-form {
   align-items:center;
 }
 
+.view-only-menu .menu-item-card .menuItemPrice{
+ font-weight: bold;}
 
 .view-only-menu .menu-item-card:hover {
   transform: scale(1.05);

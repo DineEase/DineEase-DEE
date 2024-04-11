@@ -102,27 +102,29 @@ $(document).ready(function () {
     for (let i = 0; i < starCount; i++) {
       stars += '<i class="fa-solid fa-star"></i>';
     }
-
+  
     let prices = item.Prices.split(",").map((price) => price.trim());
     let sizes = item.Sizes.split(",").map((size) => size.trim());
-    let priceIndex = sizes.indexOf(selectedSize);
-    let regularPrice = prices[priceIndex];
-
+  
+    let initialSelectedSize = "Regular";
+    let initialPriceIndex = sizes.indexOf(initialSelectedSize);
+    let initialPrice = prices[initialPriceIndex];
+  
     let sizeSelectorOptions = sizes
-      .map((size) => {
-        return `<option value="${size}">${size.charAt(0)}</option>`;
-      })
+      .map((size, index) => `<option value="${index}" ${index === initialPriceIndex ? 'selected' : ''}>${size.charAt(0).toUpperCase()}</option>`)
       .join("");
-
+  
+    let tag = `sizeSelector${item.itemID}`;
+  
     return `
-      <div class="menu-item-card">
+      <div class="menu-item-card" data-item-id="${item.itemID}" data-prices='${JSON.stringify(prices)}'>
         <img src="${item.imagePath}" alt="${item.itemName}">
         <h3>${item.itemName}</h3>
         <div class="sizeandprice">
-          <select class="sizebutton" id="sizeSelector" name="selectedSizeOfItem">
+            <select class="sizeSelector" id="${tag}" name="selectedSizeOfItem" ${sizes.length === 1 ? 'disabled' : ''}>
             ${sizeSelectorOptions}
           </select>
-        <p class="menuItemPrice"><b>Rs.${regularPrice}.00</b></p>
+          <p class="menuItemPrice">Rs.<span class="price">${initialPrice}</span>.00</p>
         </div>
         <div class="menu-card-footer">
           <div class="menu-card-footer-stars">${stars}</div>
@@ -131,4 +133,16 @@ $(document).ready(function () {
       </div>
     `;
   }
+  
+  // Attach event listener to handle size changes
+  $(document).on('change', '.sizeSelector', function() {
+    // Get the selected index
+    let selectedIndex = $(this).val();
+    let menuItemCard = $(this).closest('.menu-item-card');
+    let prices = JSON.parse(menuItemCard.attr('data-prices'));
+  
+    // Update the price based on selected size
+    menuItemCard.find('.price').text(prices[selectedIndex]);
+  });
+
 });
