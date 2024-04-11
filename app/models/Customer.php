@@ -26,7 +26,7 @@ class Customer
         return $row->count;
     }
 
-    public function getReservationWithSearch($user_id, $limit = 10, $offset = 0 , $search)
+    public function getReservationWithSearch($user_id, $limit = 10, $offset = 0, $search)
     {
         $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id AND (status LIKE :search OR numOfPeople LIKE :search) ORDER BY date ASC LIMIT :offset, :limit');
         $this->db->bind(':user_id', $user_id);
@@ -96,7 +96,7 @@ class Customer
         return $row->reservationID;
     }
 
-    public function addToSlot( $reservationID, $data , $slot)
+    public function addToSlot($reservationID, $data, $slot)
     {
         $this->db->query('INSERT INTO slots (reservationID, slot, date, noofpeople) VALUES (:reservationID, :slot, :date, :numOfPeople)');
         $this->db->bind(':reservationID', $reservationID);
@@ -129,9 +129,15 @@ class Customer
         return $results;
     }
 
+    // public function getMenus()
+    // {
+    //     $this->db->query('SELECT * FROM menuitem');
+    //     $results = $this->db->resultSet();
+    //     return $results;
+    // }
     public function getMenus()
     {
-        $this->db->query('SELECT * FROM menuitem');
+        $this->db->query("SELECT mi.itemID, mi.itemName, mi.imagePath , mi.category_ID, GROUP_CONCAT(mp.itemSize ORDER BY mp.itemSize SEPARATOR ', ') AS Sizes, GROUP_CONCAT(mp.ItemPrice ORDER BY mp.itemSize SEPARATOR ', ') AS Prices FROM menuitem mi JOIN menuprices mp ON mi.itemID = mp.ItemID WHERE mi.delete_status = 0 AND mi.hidden = 0 GROUP BY mi.itemID ORDER BY mi.itemID;");
         $results = $this->db->resultSet();
         return $results;
     }
@@ -264,7 +270,7 @@ class Customer
         $this->db->bind(':startDate', $startDate);
         $this->db->bind(':endDate', $endDate);
         $row = $this->db->single();
-        return $row->count;     
+        return $row->count;
     }
 
     // public function isSlotFull($date, $startTime)
