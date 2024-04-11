@@ -2152,4 +2152,29 @@ margin-right: auto;
   bottom: 0;
 }
 
+.suitTag{
+  padding-right: 1rem;
+  font-weight: bolder;
+}
+
+
 /* end suit cards */
+/* ! common styles */
+.btn {
+  display: inline-block;
+  /* width: 1.5rem; */
+  background-color: var(--brandgreen);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--brandgreen-dark);
+}
+
+.goToReviews {
+  padding: 0.25rem 0.25rem;
+  
+}
