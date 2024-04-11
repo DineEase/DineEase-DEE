@@ -84,13 +84,13 @@ class Customer
 
     public function getAddedReservationID($data)
     {
-        $this->db->query('SELECT reservationID FROM reservation WHERE customerID = :customerID AND tableID = :tableID AND packageID = :packageID AND date = :date AND reservationStartTime = :reservationStartTime AND reservationEndTime = :reservationEndTime AND numOfPeople = :numOfPeople order by reservationID desc limit 1');
+        $this->db->query('SELECT reservationID FROM reservation WHERE customerID = :customerID AND tableID = :tableID AND packageID = :packageID AND date = :date AND reservationStartTime = :reservationStartTime AND numOfPeople = :numOfPeople order by reservationID desc limit 1');
         $this->db->bind(':customerID', $data['customerID']);
         $this->db->bind(':tableID', $data['tableID']);
         $this->db->bind(':packageID', $data['packageID']);
         $this->db->bind(':date', $data['date']);
         $this->db->bind(':reservationStartTime', $data['reservationStartTime']);
-        $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
+        // $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
         $this->db->bind(':numOfPeople', $data['numOfPeople']);
         $row = $this->db->single();
         return $row->reservationID;

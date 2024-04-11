@@ -224,9 +224,11 @@ class Customers extends Controller
 
             // If validation passes, call the model method to add the reservation
             if ($this->customerModel->addReservation($data)) {
-                // Reservation added successfully
+
                 $reservationID = $this->customerModel->getAddedReservationID($data);
+            
                 $slot = date("H", strtotime($data['reservationStartTime']));
+               
                 if($this->customerModel->addToSlot($reservationID,$data,$slot)){
                     flash('reservation_message', 'Reservation Added');
                     redirect('customers/reservation');
