@@ -2156,7 +2156,14 @@ margin-right: auto;
   padding-right: 1rem;
   font-weight: bolder;
 }
-
+.goToReviews {
+  padding: 0.25rem 0.25rem;
+  
+}
+.backToSlots{
+  display: flex;
+  align-self: end;
+}
 
 /* end suit cards */
 /* ! common styles */
@@ -2174,7 +2181,3 @@ margin-right: auto;
   background-color: var(--brandgreen-dark);
 }
 
-.goToReviews {
-  padding: 0.25rem 0.25rem;
-  
-}

@@ -1,3 +1,5 @@
+//! Function to display the menu items in reservation page
+
 $(document).ready(function () {
   let currentCategoryId = "all"; // Default to show all categories
   let currentPage = 1;
