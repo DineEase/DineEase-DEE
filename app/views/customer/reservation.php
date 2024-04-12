@@ -239,14 +239,13 @@
                                                             <li id="confirm"><strong>Payment</strong></li>
                                                         </ul>
                                                     </div>
+
                                                     <fieldset>
                                                         <div class="form-card">
                                                             <div class="row fixed-height-row-reservation">
                                                                 <div>
                                                                     <h3 class="fs-title">Select the Suite:</h3>
                                                                 </div>
-                                                                <!-- <div class="plan-deets">
-                                                                </div> -->
                                                                 <div class="suit-cards">
                                                                     <div class="wrapper">
                                                                         <div class="card">
@@ -353,7 +352,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div> <input type="button" name="next" class="next action-button" value="Next" />
+                                                        </div>
+                                                        <input type="button" name="next" class="next action-button" value="Next" />
                                                     </fieldset>
                                                     <fieldset>
                                                         <div class="form-card">
@@ -362,15 +362,13 @@
                                                                     <h3 class="fs-title">Select Date and No of People:</h3>
                                                                     <div class="dp-container">
 
-                                                                        <!-- <button class="date-slot">17</button> -->
-                                                                        <!-- <label for="date">Date:</label> -->
                                                                         <div class="date-slots">
                                                                             <?php
                                                                             $currentDate = strtotime(date("Y-m-d")); // Get the current date in timestamp format
                                                                             for ($i = 0; $i < 15; $i++) {
                                                                                 $date = date("Y-m-d", strtotime("+{$i} days", $currentDate)); // Calculate each date
                                                                                 $selectedClass = $i == 0 ? "selected" : ""; // Add 'selected' class to today's date
-                                                                                echo "<div class='date-slot {$selectedClass}' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
+                                                                                echo "<div class='date-slot {$selectedClass}' id='dateToCheck' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
                                                                             }
                                                                             ?>
                                                                         </div>
@@ -393,7 +391,9 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div> <input type="button" name="next" class="next action-button " value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                                        </div>
+                                                        <input type="button" name="next" class="next action-button" id="checkSlots" value="Next" />
+                                                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                                     </fieldset>
                                                     <fieldset>
                                                         <div class="form-card">
@@ -404,23 +404,21 @@
 
                                                                 <div class="availability-table">
                                                                     <div class="av-table">
-                                                                        <div class="time-slots">
-                                                                            <?php for ($hour = 8; $hour <= 23; $hour++) : ?>
-                                                                                <div class="time-slot <?= $hour == 8 ? 'selected' : '' ?>" data-time="<?= $hour < 10 ? '0' . $hour : $hour ?>:00">
-                                                                                    <?= $hour < 10 ? '0' . $hour : $hour ?>:00
-                                                                                </div>
-                                                                            <?php endfor; ?>
-                                                                        </div>
+
+                                                                        <div class="time-slots" id="time-slots">           
+                                                                                                                                         </div>
                                                                         <input type="hidden" id="selectedTime" name="reservationStartTime" value="08:00">
                                                                     </div>
                                                                 </div>
 
                                                             </div>
-                                                        </div> <input type="button" name="next" class="next action-button" value="next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                                        </div>
+                                                        <input type="button" name="next" class="next action-button" value="Next" />
+                                                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                                     </fieldset>
                                                     <fieldset>
-                                                        <div class="form-card fixed-height-row-reservation">
-                                                            <div class="row ">
+                                                        <div class="form-card">
+                                                            <div class="row fixed-height-row-reservation">
                                                                 <div class="reservation-summary">
                                                                     <h3 class="fs-title">Thank you for your reservation</h3>
                                                                     <div class="summary-details">
@@ -506,6 +504,8 @@
                                                                     <button id="proceed-to-pay">Proceed to Pay</button>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                                     </fieldset>
                                                 </form>
                                             </div>
