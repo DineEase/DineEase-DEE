@@ -246,8 +246,6 @@
                                                                 <div>
                                                                     <h3 class="fs-title">Select the Suite:</h3>
                                                                 </div>
-                                                                <!-- <div class="plan-deets">
-          </div> -->
                                                                 <div class="suit-cards">
                                                                     <div class="wrapper">
                                                                         <div class="card">
@@ -370,7 +368,7 @@
                                                                             for ($i = 0; $i < 15; $i++) {
                                                                                 $date = date("Y-m-d", strtotime("+{$i} days", $currentDate)); // Calculate each date
                                                                                 $selectedClass = $i == 0 ? "selected" : ""; // Add 'selected' class to today's date
-                                                                                echo "<div class='date-slot {$selectedClass}' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
+                                                                                echo "<div class='date-slot {$selectedClass}' id='dateToCheck' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
                                                                             }
                                                                             ?>
                                                                         </div>
@@ -394,7 +392,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <input type="button" name="next" class="next action-button" value="Next" />
+                                                        <input type="button" name="next" class="next action-button" id="checkSlots" value="Next" />
                                                         <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                                     </fieldset>
                                                     <fieldset>
@@ -406,13 +404,9 @@
 
                                                                 <div class="availability-table">
                                                                     <div class="av-table">
-                                                                        <div class="time-slots">
-                                                                            <?php for ($hour = 8; $hour <= 23; $hour++) : ?>
-                                                                                <div class="time-slot <?= $hour == 8 ? 'selected' : '' ?>" data-time="<?= $hour < 10 ? '0' . $hour : $hour ?>:00">
-                                                                                    <?= $hour < 10 ? '0' . $hour : $hour ?>:00
-                                                                                </div>
-                                                                            <?php endfor; ?>
-                                                                        </div>
+
+                                                                        <div class="time-slots" id="time-slots">           
+                                                                                                                                         </div>
                                                                         <input type="hidden" id="selectedTime" name="reservationStartTime" value="08:00">
                                                                     </div>
                                                                 </div>

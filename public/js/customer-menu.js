@@ -92,7 +92,6 @@ $(document).ready(function () {
   });
 
   fetchMenuItems();
-  let selectedSize = "Regular";
 
   // click event for size buttons
 

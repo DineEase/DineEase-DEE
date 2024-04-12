@@ -250,4 +250,19 @@ class Customers extends Controller
         // Return the menu items as JSON
         echo json_encode($menuItems);
     }
+
+    public function getReservationSlots() {
+        $date = $_GET['date'] ?? null; 
+    
+        if (!$date) {
+            http_response_code(400); 
+            echo json_encode(['error' => 'No date provided']);
+            return; 
+        }
+    
+        $slots = $this->customerModel->getSlots($date);
+        header('Content-Type: application/json');
+        echo json_encode($slots);
+    }
+
 }

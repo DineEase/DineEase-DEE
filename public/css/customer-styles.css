@@ -2180,4 +2180,19 @@ margin-right: auto;
 .btn:hover {
   background-color: var(--brandgreen-dark);
 }
+.faded{
+   color: #ccc;
+  cursor: not-allowed;
+  background-color: #f9f9f9;
+  padding: 10px 20px;
+  width: 80px;
+  gap: 10px;
+  height: 40px;
+  border: 1px solid var(#f9f9f9);
+  border-radius: 5px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+}
