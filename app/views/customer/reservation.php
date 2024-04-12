@@ -364,10 +364,12 @@
 
                                                                         <div class="date-slots">
                                                                             <?php
-                                                                            $currentDate = strtotime(date("Y-m-d")); // Get the current date in timestamp format
+                                                                            date_default_timezone_set("Asia/Calcutta");
+                                                                            $currentDate = strtotime(date("Y-m-d")); 
+                                                      
                                                                             for ($i = 0; $i < 15; $i++) {
-                                                                                $date = date("Y-m-d", strtotime("+{$i} days", $currentDate)); // Calculate each date
-                                                                                $selectedClass = $i == 0 ? "selected" : ""; // Add 'selected' class to today's date
+                                                                                $date = date("Y-m-d", strtotime("+{$i} days", $currentDate));
+                                                                                $selectedClass = $i == 0 ? "selected" : "";
                                                                                 echo "<div class='date-slot {$selectedClass}' id='dateToCheck' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
                                                                             }
                                                                             ?>

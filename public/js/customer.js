@@ -202,7 +202,7 @@ $(document).ready(function () {
 
 // date picker
 
-//TODO: #27 Dater Picker does not take the default date as the selected date without clicking on it again.
+//fixed: #27 Dater Picker does not take the default date as the selected date without clicking on it again.
 
 $(document).ready(function () {
   var today = new Date();
