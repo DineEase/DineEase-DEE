@@ -364,10 +364,12 @@
 
                                                                         <div class="date-slots">
                                                                             <?php
-                                                                            $currentDate = strtotime(date("Y-m-d")); // Get the current date in timestamp format
+                                                                            date_default_timezone_set("Asia/Calcutta");
+                                                                            $currentDate = strtotime(date("Y-m-d"));
+
                                                                             for ($i = 0; $i < 15; $i++) {
-                                                                                $date = date("Y-m-d", strtotime("+{$i} days", $currentDate)); // Calculate each date
-                                                                                $selectedClass = $i == 0 ? "selected" : ""; // Add 'selected' class to today's date
+                                                                                $date = date("Y-m-d", strtotime("+{$i} days", $currentDate));
+                                                                                $selectedClass = $i == 0 ? "selected" : "";
                                                                                 echo "<div class='date-slot {$selectedClass}' id='dateToCheck' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
                                                                             }
                                                                             ?>
@@ -405,8 +407,8 @@
                                                                 <div class="availability-table">
                                                                     <div class="av-table">
 
-                                                                        <div class="time-slots" id="time-slots">           
-                                                                                                                                         </div>
+                                                                        <div class="time-slots" id="time-slots">
+                                                                        </div>
                                                                         <input type="hidden" id="selectedTime" name="reservationStartTime" value="08:00">
                                                                     </div>
                                                                 </div>
@@ -438,9 +440,12 @@
                                                                         <div class="menu-items" id="menu-items-list">
                                                                             <!-- Menu items will be added here dynamically -->
                                                                         </div>
-                                                                        <button onclick="popup()" type="button" id="add-food">+ Add Food Items</button>
-                                                                        <!-- <button type="button" id="add-item">+ Add Food Item</button> -->
-                                                                        <div id="menu-div-purchase" class="menu-div-purchase hide">
+                                                                        <button type="button" id="view-food-menu-in-cart">+ Add Food Items</button>
+
+                                                                        <div id="menu-div-purchase" class="menu-div-purchase">
+                                                                            <div class="btn close-menu-div-purchase " id="close-menu-div-purchase"> <span class="material-symbols-outlined">
+                                                                                    close
+                                                                                </span></div>
                                                                             <div class="customer-menu-view">
                                                                                 <div class="menu-view-header-bar">
                                                                                     <div class="menu-view-filters">
@@ -467,7 +472,6 @@
                                                                                             <div class="category-button" data-category-id="7"><span class="material-symbols-outlined">
                                                                                                     hotel_class
                                                                                                 </span></div>
-
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="menu-view-head">
@@ -486,6 +490,7 @@
                                                                                     <div class="menu-box">
                                                                                         <div class="menu-items">
                                                                                             <div id="menu-container" class="menu-container-div-out">
+                                                                                                
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -499,6 +504,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+
                                                                         <input type="hidden" id="tableID" name="tableID" value="1">
                                                                     </div>
                                                                     <button id="proceed-to-pay">Proceed to Pay</button>
@@ -521,7 +527,10 @@
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
+
 </body>
 
 </html>

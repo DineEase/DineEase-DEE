@@ -5,6 +5,7 @@ let selectedNoOfPeopleForReservation = "";
 let selectedPackageForReservation = "";
 let slotDetails;
 let slotMaxCapacity = 15;
+var today = new Date();
 
 $(document).ready(function () {
   var current = 1;
@@ -150,7 +151,11 @@ $(document).ready(function () {
       function checkIsSlotFull() {
         if (slotDetails) {
           for (var slot of slotDetails) {
-            if (slot.slot === hour && (slot.slotCapacity + selectedNoOfPeopleForReservation) >= slotMaxCapacity) {
+            if (
+              slot.slot === hour &&
+              ((slot.slotCapacity + selectedNoOfPeopleForReservation >=
+                slotMaxCapacity ) || hour<=today.getHours() )
+            ) {
               return true;
             }
           }
@@ -161,7 +166,9 @@ $(document).ready(function () {
       var slotIsFull = checkIsSlotFull();
 
       var $timeSlot = $("<div>", {
-        class: (slotIsFull ? " faded" : "time-slot" )+ (hour === 8 ? " selected" : "")  ,
+        class:
+          (slotIsFull ? " faded" : "time-slot") +
+          (hour === 8 ? " selected" : ""),
         id: "time-slot",
         "data-time": timeString,
         text: timeString,
@@ -172,11 +179,11 @@ $(document).ready(function () {
   }
   function addClickHandlers() {
     $(".time-slot:not(.faded)").click(function () {
-      $(".time-slot").removeClass("selected"); 
+      $(".time-slot").removeClass("selected");
       $(this).addClass("selected");
       var selectedTime = $(this).data("time");
-      $("#selectedTime").val(selectedTime); 
-      $("#summary-time").text(selectedTime); 
+      $("#selectedTime").val(selectedTime);
+      $("#summary-time").text(selectedTime);
       selectedSlotForReservation = selectedTime;
     });
   }
@@ -187,18 +194,33 @@ $(document).ready(function () {
   $(".person-icon").click(function () {
     $(".person-icon").removeClass("selected");
     $(this).addClass("selected");
-    var selectedNumber = $(this).data("value"); 
+    var selectedNumber = $(this).data("value");
     $("#numOfPeople").val(selectedNumber);
-    $("#summary-people").text(selectedNumber); 
+    $("#summary-people").text(selectedNumber);
     selectedNoOfPeopleForReservation = selectedNumber;
   });
 });
 
 // date picker
 
-//TODO: #27 Dater Picker does not take the default date as the selected date without clicking on it again.
+//fixed: #27 Dater Picker does not take the default date as the selected date without clicking on it again.
 
 $(document).ready(function () {
+  
+  var dateOfTheReservation = today.getDate();
+  selectedDateForReservation = dateOfTheReservation;
+  $.ajax({
+    url: "getReservationSlots",
+    data: { date: dateOfTheReservation },
+    dataType: "json",
+    success: function (response) {
+      slotDetails = response;
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching data:", error);
+    },
+  });
+
   $(".date-slot").click(function () {
     $(".date-slot").removeClass("selected");
     $(this).addClass("selected");
@@ -210,7 +232,7 @@ $(document).ready(function () {
       url: "getReservationSlots", // Ensure this URL is correctly mapped in your server-side routing
       type: "GET",
       data: { date: selectedDate },
-      dataType: "json", // Expecting JSON response
+      dataType: "json",
       success: function (response) {
         slotDetails = response;
       },
@@ -220,19 +242,6 @@ $(document).ready(function () {
     });
   });
 });
-
-// !function to check available slots
-
-// $(document).ready(function() {
-//   $('#checkSlots').click(function() {
-//      console.log(selectedDate);
-//       if (!selectedDate) {
-//           console.error("No date selected.");
-//           return; // Prevent sending undefined or empty date
-//       }
-
-//   });
-// });
 
 //!function to select no of people
 

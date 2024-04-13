@@ -6,6 +6,9 @@ body {
   background-image: url('../img/login/staff-bkg.webp');
   background-repeat: no-repeat;
   background-size: cover;
+  -webkit-user-select: none;
+  -ms-user-select: none; 
+  user-select: none; 
   
 }
 
