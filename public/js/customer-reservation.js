@@ -104,16 +104,16 @@
 //   }
 // });
 
-function popup() {
-  var popup = document.getElementById("menu-div-purchase");
-  if (popup.classList.contains("show")) {
-      popup.classList.remove("show");
-      popup.classList.add("hide");
-  } else if (popup.classList.contains("hide")) {
-      popup.classList.remove("hide");
-      popup.classList.add("show");
-  }
-}
+// function popup() {
+//   var popup = document.getElementById("menu-div-purchase");
+//   if (popup.classList.contains("show")) {
+//       popup.classList.remove("show");
+//       popup.classList.add("hide");
+//   } else if (popup.classList.contains("hide")) {
+//       popup.classList.remove("hide");
+//       popup.classList.add("show");
+//   }
+// }
 
 // window.onclick = function(event) {
 //   var popup = document.getElementById("menu-div-purchase");
