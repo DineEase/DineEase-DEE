@@ -11,124 +11,62 @@
 
     <title><?php echo SITENAME; ?></title>
 </head>
+
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        /* box-sizing: border-box; */
-        font-family: "Poppins", sans-serif;
-        background-color: #f5f5f5;
-        transition: all 0.5s ease;
-        overflow-x: hidden;
-    }
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h3 {
-        font-size: 3rem;
-        margin: 2rem 0;
-    }
-
-    .editmenu {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    }
-    
-
-    .imagePart img {
-        margin-top: 20px;
-        width: 350px;
-        height: 400px;
-        border-radius: 1rem;
-        object-fit: cover;
-        border: 5px solid #2c3e50;
-    }
-
-    .imagePart span {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.5rem 1.5rem;
-        border-radius: 0.5rem;
-        background-color: #000000;
-        color: #ffffff;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
-
-    .NamePart input,
-    .NamePart select {
-        width: 100%;
-        padding: 1rem;
-        font-size: 1.2rem;
-        border: none;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-    }
-
-    .invalid-feedback {
-        color: #ff0000;
-        /* Red color for error messages */
-        font-size: 1rem;
-        margin-top: 5px;
-        display: block;
-    }
-
-    .buttons button {
-        color: #ffffff;
-        background-color: #030303;
-        outline: none;
-        border: none;
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-        margin-right: 0.7rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
-    .imgbuttons button {
-        color: #ffffff;
-        background-color: #030303;
-        outline: none;
-        border: none;
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-        margin-top: 1rem;
-        margin-right: 0.7rem;
-        margin-left: 5rem;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
-
-    .menubuttons {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .buttons,
-    .menubuttons {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-</style>
-
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+        }
+        button[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 
 <body>
-    
-        <div class="navbar-template">
+<div class="navbar-template">
             <nav class="navbar">
                 <div class="topbar">
                     <div class="logo-item">
@@ -175,7 +113,7 @@
                             </li>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/managers/menu" class="nav_link" data-content='reservation'>
-                                    <button class="button-sidebar-menu active-nav" id="reservationButton">
+                                    <button class="button-sidebar-menu " id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 restaurant_menu
@@ -201,7 +139,7 @@
                             </li>
                             <li class="item">
                                 <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
+                                    <button class="button-sidebar-menu active-nav" id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 Package
@@ -253,94 +191,28 @@
                 </div>
             </nav>
         </div>
-
-        <div class="editmenu">
-            <div class="others">
-                <div class="imagePart">
-                    <img src="" />
-                    <div class="imgbuttons">
-                        <form action="<?php echo URLROOT; ?>/managers/submitMenuitem" method="post" id="menuForm" enctype="multipart/form-data">
-                            <button type="button" id="imageButton">Add Image</button>
-                            <input type="file" name="imagePath" accept="image/*" style="display: none;" id="imageInput" onchange="previewImage(event)">
-
-                    </div>
-                </div>
-                <div class="NamePart">
-                    <label for="category">Select Category:</label>
-                    <select id="category" name="category" required>
-                        <?php foreach ($data['menucategory'] as $category) : ?>
-                            <option value="<?php echo $category->category_ID; ?>"><?php echo $category->category_name; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <span>Name:</span>
-                    <input type="text" name="itemName" class="<?php echo (!empty($data['itemName_err'])) ? 'is-invalid' : '' ?>" placeholder="name" required>
-                    <span class="invalid-feedback"> <?php echo $data['itemName_err'] ?> </span>
-                    <span>Price(Small):</span>
-                    <input type="text" name="pricesmall" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" placeholder="price" required />
-                    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                    <span>Price(Regular):</span>
-                    <input type="text" name="priceregular" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" placeholder="price" required />
-                    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                    <span>Price(Large):</span>
-                    <input type="text" name="pricelarge" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" placeholder="price" required />
-                    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                    <span>Average Prepare Time MINS:</span>
-                    <input type="text" name="averageTime" class="<?php echo (!empty($data['averageTime_err'])) ? 'is-invalid' : '' ?>" placeholder="time" required />
-                    <span class="invalid-feedback"> <?php echo $data['averageTime_err'] ?> </span>
-                    <span>Description:</span>
-                    <input type="text" name="description" class="<?php echo (!empty($data['description_err'])) ? 'is-invalid' : '' ?>" placeholder="Description" required />
-                    <span class="invalid-feedback"> <?php echo $data['description_err'] ?> </span>
-
-                    <div class="buttons">
-                        <button type="submit">Save Changes</button>
-                        <button type="reset">Reset</button>
-                        <button type="button" id="cancelButton">Cancel</button>
-                    </div>
-                    </form>
-                </div>
+        <div class="container">
+        <h1>Edit Package</h1>
+        <form action="<?php echo URLROOT; ?>/managers/editpackage/<?php echo $data['package']->packageID; ?>" method="POST">
+            <div>
+                <label for="packagename">Package Name:</label>
+                <input type="text" id="name" name="packageName" required>
             </div>
-        </div>
-
-        <script>
-            // Declare the previewImage function in the global scope
-            function previewImage(event) {
-                var input = event.target;
-                var preview = document.querySelector('.imagePart img');
-                var reader = new FileReader();
-
-                reader.onload = function() {
-                    preview.src = reader.result;
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-
-
-
-
-
-
-
-
-            document.addEventListener('DOMContentLoaded', function() {
-                // Image upload button click event
-                document.getElementById('imageButton').addEventListener('click', function() {
-                    document.getElementById('imageInput').click();
-                });
-
-                // Get the cancel button element by its ID
-                var cancelButton = document.getElementById('cancelButton');
-
-                // Add click event listener to the cancel button
-                cancelButton.addEventListener('click', function(event) {
-                    // Redirect to the index page when the button is clicked
-                    window.location.href = '<?php echo URLROOT; ?>/managers/menu/';
-                });
-
-                // Set up the onchange event for file input
-                document.getElementById('imageInput').addEventListener('change', previewImage);
-            });
-        </script>
+            <div>
+                <label for="tax">VAT or TAX:</label>
+                <input type="number" id="tax" name="tax" min="0" required>
+            </div>
+            <div>
+                <label for="capacity">Capacity:</label>
+                <input type="number" id="capacity" name="capacity" min="1" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
     
 </body>
 

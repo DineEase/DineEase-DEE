@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New User</title>
-    <?php require APPROOT . '/views/manager/topbar.php'; ?>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/manager-style.css">
+    <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <title><?php echo SITENAME; ?></title>
+</head>
+    
     <style>
         /* Add your CSS styles here */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+        margin: 0;
+        padding: 0;
+        /* box-sizing: border-box; */
+        font-family: "Poppins", sans-serif;
+        background-color: #f5f5f5;
+        transition: all 0.5s ease;
+        overflow-x: hidden;
+    }
 
         header {
             background-color: #333;
@@ -22,17 +31,18 @@
         }
 
         .container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
         label {
             display: block;
             margin-bottom: 8px;
+            margin-top: 10px;
             font-weight: bold;
         }
 
@@ -43,7 +53,7 @@
             box-sizing: border-box;
         }
 
-        button {
+        .imagePart button {
             background-color: #3498db;
             color: #fff;
             padding: 10px 15px;
@@ -52,7 +62,7 @@
             cursor: pointer;
         }
 
-        button:hover {
+        .imagePart button:hover {
             background-color: #2980b9;
         }
 
@@ -109,15 +119,137 @@ button[type="reset"] {
 }
 
     </style>
-</head>
+
 <body>
 
-<header>
-    <h1>Restaurant Manager Dashboard</h1>
-    <p>Welcome, <?php echo  $_SESSION['user_name'] ?></p>
-</header>
+
 
 <div class="container">
+<div class="navbar-template">
+            <nav class="navbar">
+                <div class="topbar">
+                    <div class="logo-item">
+                        <i class="bx bx-menu" id="sidebarOpen"></i>
+                        <img src="<?php echo URLROOT ?>/public/img/login/dineease-logo.svg" alt="DineEase Logo">
+                        <div class="topbar-title">
+                            DINE<span>EASE</span>
+                        </div>
+                    </div>
+                    <div class="navbar-content">
+                        <div class="profile-details">
+                            <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
+                            <?php
+                            $user_id = $_SESSION['user_id'];
+                            $profile_picture_url = URLROOT . '/uploads/profile/' . basename($_SESSION['profile_picture']);
+                            ?>
+                            Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
+                            <a href="<?php echo URLROOT . '/managers/viewmanagerprofile'?>">
+                                <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="sidebar-template">
+            <nav class="sidebar">
+                <div class="sidebar-container">
+                    <div class="menu_content">
+                        <hr class='separator'>
+                        <ul class="menu_items">
+                            <div class="menu_title menu_menu"></div>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/managers/getUsers" class="nav_link nav_link_switch" data-content='home'>
+                                    <button class="button-sidebar-menu active-nav" id="homeButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                manage_accounts
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Users</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/managers/menu" class="nav_link" data-content='reservation'>
+                                    <button class="button-sidebar-menu " id="reservationButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                restaurant_menu
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Menus </span>
+                                    </button>
+                                </a>
+                            </li>
+
+
+                            <li class="item">
+                                <a href="<?php echo URLROOT; ?>/managers/updatetimecategories" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu" id="reservationButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                category
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Categories </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu" id="reservationButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                Package
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Packages </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <!-- End -->
+
+
+                        </ul>
+                        <hr class='separator'>
+
+                        <ul class="menu_items">
+                            <div class="menu_title menu_user"></div>
+
+
+
+                            <li class="item">
+
+                                <a href="<?php echo URLROOT . '/managers/viewmanagerprofile'?>" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu" id="reservationButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                account_circle
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">My Account </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+
+                                <a href="<?php echo URLROOT; ?>/users/logout" class="nav_link">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                logout
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Logout</span>
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
     <form action="<?php echo URLROOT; ?>/managers/addUsers" method="post" enctype="multipart/form-data">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
@@ -165,7 +297,7 @@ button[type="reset"] {
         <div class="buttonGroup">
             <button type="submit">Add User</button>
             <button type="reset">Reset Form</button>
-            <a href="<?php echo URLROOT; ?>/managers/index" class="home-link">Home</a>
+            
         </div>
     </form>
 </div>

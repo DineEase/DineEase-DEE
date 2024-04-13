@@ -301,7 +301,7 @@ class Users extends Controller
         switch ((string)$_SESSION['role']) {
             case '1':
                 $_SESSION['role'] = 'manager';
-                redirect('managers/index');
+                redirect('managers/menu');
                 break;
             case '2':
                 $_SESSION['role'] = 'inventoryManager';
