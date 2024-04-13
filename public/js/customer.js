@@ -5,6 +5,7 @@ let selectedNoOfPeopleForReservation = "";
 let selectedPackageForReservation = "";
 let slotDetails;
 let slotMaxCapacity = 15;
+var today = new Date();
 
 $(document).ready(function () {
   var current = 1;
@@ -152,8 +153,8 @@ $(document).ready(function () {
           for (var slot of slotDetails) {
             if (
               slot.slot === hour &&
-              slot.slotCapacity + selectedNoOfPeopleForReservation >=
-                slotMaxCapacity
+              ((slot.slotCapacity + selectedNoOfPeopleForReservation >=
+                slotMaxCapacity ) || hour<=today.getHours() )
             ) {
               return true;
             }
@@ -205,7 +206,7 @@ $(document).ready(function () {
 //fixed: #27 Dater Picker does not take the default date as the selected date without clicking on it again.
 
 $(document).ready(function () {
-  var today = new Date();
+  
   var dateOfTheReservation = today.getDate();
   selectedDateForReservation = dateOfTheReservation;
   $.ajax({
