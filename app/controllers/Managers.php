@@ -81,25 +81,32 @@ class Managers extends Controller
         $menuCategories = $this->managerModel->getmenucategory();
         $data = [
             'itemName' => '',
-            'price' => '',
+            'pricesmall' => '',
+            'priceregular' => '',
+            'pricelarge' => '',
             'averageTime' => '',
+            'description' => '',
             'itemName_err' => '',
             'price_err' => '',
             'averageTime_err' => '',
+            'description_err' => '',
             'menucategory' => $menuCategories,
             'menu_added_success' => false,
         ];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = $this->processMenuForm($_POST, $_FILES);
-            if (empty($data['itemName_err']) && empty($data['price_err']) && empty($data['averageTime_err'])) {
+            if (empty($data['itemName_err']) && empty($data['price_err']) && empty($data['averageTime_err']) && empty($data['description_err'])) {
                 $menuData = [
                     'itemName' => $data['itemName'],
-                    'price' => $data['price'],
+                    'pricesmall' => $data['pricesmall'],
+                    'priceregular' => $data['priceregular'],
+                    'pricelarge' => $data['pricelarge'],
                     'averageTime' => $data['averageTime'],
                     'imagePath' => $data['imagePath'],
                     'category_ID' => $_POST['category'],
-                    'menucategory' => $data['menucategory']
+                    'menucategory' => $data['menucategory'],
+                    'description' => $data['description'],
                 ];
 
                 if ($this->managerModel->submitMenuitem($menuData)) {
@@ -134,12 +141,16 @@ class Managers extends Controller
         $menuCategories = $this->managerModel->getmenucategory();
         $data = [
             'itemName' => isset($postData['itemName']) ? trim($postData['itemName']) : '',
-            'price' => isset($postData['price']) ? trim($postData['price']) : '',
+            'pricesmall' => isset($postData['pricesmall']) ? trim($postData['pricesmall']) : '',
+            'priceregular' => isset($postData['priceregular']) ? trim($postData['priceregular']) : '',
+            'pricelarge' => isset($postData['pricelarge']) ? trim($postData['pricelarge']) : '',
             'averageTime' => isset($postData['averageTime']) ? trim($postData['averageTime']) : '',
+            'description' => isset($postData['description']) ? trim($postData['description']) : '',
             'menucategory' => $menuCategories,
             'itemName_err' => '',
             'price_err' => '',
             'averageTime_err' => '',
+            'description_err' => '',
             'imagePath' => '',
         ];
 
@@ -168,9 +179,9 @@ class Managers extends Controller
             $data['itemName_err'] = 'Item Name is already taken';
         }
 
-        if (empty($data['price'])) {
+        if (empty($data['pricesmall']) || empty($data['priceregular']) || empty($data['pricelarge'])) {
             $data['price_err'] = 'Please enter price';
-        } elseif (!is_numeric($data['price'])) {
+        } elseif (!is_numeric($data['pricesmall']) || !is_numeric($data['priceregular']) || !is_numeric($data['pricelarge'])) {
             $data['price_err'] = 'Price must be a valid number';
         }
         
@@ -179,12 +190,17 @@ class Managers extends Controller
         } elseif (!is_numeric($data['averageTime'])) {
             $data['averageTime_err'] = 'Average time must be a valid number';
         }
+        if (empty($data['description'])) {
+            $data['description_err'] = 'Please enter description';
+        }
 
         return $data;
     }
     public function editMenuitem($itemID)
     {
         $menuItem = $this->managerModel->getMenuItemById($itemID);
+        $menuitemtable = $this->managerModel->getmenuitemtablebyid($itemID);
+   
         $menuCategories = $this->managerModel->getmenucategory();
         if (!$menuItem) {
             // Handle the case where the category does not exist
@@ -212,23 +228,27 @@ class Managers extends Controller
                 }
             } else {
                 // If no new image is uploaded, use the existing image path from the database
-                $imagePath = $menuItem->imagePath;
+                $imagePath = $menuitemtable->imagePath;
             }
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
                 'itemID' => $itemID,
                 'itemName' => trim($_POST['itemName']),
-                'price' =>  trim($_POST['price']),
+                'pricesmall' =>  trim($_POST['pricesmall']),
+                'priceregular' =>  trim($_POST['priceregular']),
+                'pricelarge' =>  trim($_POST['pricelarge']),
                 'averageTime' => trim($_POST['averageTime']),
                 'imagePath' => $imagePath,
                 'menucategory' => $menuCategories,
+                'description' => trim($_POST['description']),
                 'itemName_err' => '',
                 'price_err' => '',
                 'averageTime_err' => '',
+                'description_err' => '',
             ];
 
             // Validate the name only if it has changed
-            if ($data['itemName'] !== $menuItem->itemName) {
+            if ($data['itemName'] !== $menuitemtable->itemName) {
                 if (empty($data['itemName'])) {
                     $data['itemName_err'] = 'Please enter name';
                 } else {
@@ -238,9 +258,9 @@ class Managers extends Controller
                 }
             }
 
-            if (empty($data['price'])) {
+            if (empty($data['pricesmall']) || empty($data['priceregular']) || empty($data['pricelarge'])){
                 $data['price_err'] = 'Please enter price';
-            } elseif (!is_numeric($data['price'])) {
+            } elseif (!is_numeric($data['pricesmall']) || !is_numeric($data['priceregular']) || !is_numeric($data['pricelarge'])){
                 $data['price_err'] = 'Price must be a valid number';
             }
             
@@ -249,17 +269,23 @@ class Managers extends Controller
             } elseif (!is_numeric($data['averageTime'])) {
                 $data['averageTime_err'] = 'Average time must be a valid number';
             }
+            if (empty($data['description'])) {
+                $data['description_err'] = 'Please enter description';
+            }
 
             if (empty($data['itemName_err']) && empty($data['price_err']) && empty($data['averageTime_err'])) {
                 $menuCategories = $this->managerModel->getmenucategory();
                 $menuData = [
                     'itemID' => $itemID,
                     'itemName' => $data['itemName'],
-                    'price' => $data['price'],
+                    'pricesmall' => $data['pricesmall'],
+                    'priceregular' => $data['priceregular'],
+                    'pricelarge' => $data['pricelarge'],
                     'averageTime' => $data['averageTime'],
                     'imagePath' => $imagePath, // Assign the image path to the menuData array
                     'category_ID' => $_POST['category'], // Assign the image path to the menuData array
-                    'menucategory' => $menuCategories
+                    'menucategory' => $menuCategories,
+                    'description' => $data['description'],
                 ];
                 if ($this->managerModel->editMenuitem($menuData)) {
                     // Handle success, e.g., redirect to another page
@@ -284,20 +310,31 @@ class Managers extends Controller
             }
         } else {
             // Populate form fields with data from the database
-            $data = [
-                'itemID' => $itemID,
-                'itemName' => $menuItem->itemName,
-                'price' => $menuItem->price,
-                'averageTime' => $menuItem->averageTime,
-                'imagePath' => $menuItem->imagePath,
-                'category_ID' => $menuItem->category_ID, // Pass the image path to the view
-                'itemName_err' => '',
-                'price_err' => '',
-                'averageTime_err' => '',
-            ];
+           // Populate form fields with data from the database
+// Populate form fields with data from the database
+// Populate form fields with data from the database
+$data = [
+    'itemID' => $itemID,
+    'itemName' => $menuItem[0]->itemName,
+    'pricesmall' => $menuItem[0]->itemPrice,
+    'priceregular' => $menuItem[1]->itemPrice ?? null,
+    'pricelarge' => $menuItem[2]->itemPrice ?? null,
+    'averageTime' => $menuItem[0]->averageTime,
+    'imagePath' => $menuItem[0]->imagePath,
+    'category_ID' => $menuItem[0]->category_ID,
+    'description' => $menuItem[0]->description,
+    'itemName_err' => '',
+    'price_err' => '',
+    'averageTime_err' => '',
+    'description_err' => '',
+    'menucategory' => $menuCategories
+];
 
-            $menuCategories = $this->managerModel->getmenucategory();
-            $data['menucategory'] = $menuCategories;
+
+
+
+            // $menuCategories = $this->managerModel->getmenucategory();
+            // $data['menucategory'] = $menuCategories;
             $this->view('manager/editmenu', $data);
         }
     }
@@ -383,15 +420,15 @@ class Managers extends Controller
         }
 
         // Fetch menu and categories
-        $menuitem = $this->managerModel->getMenuitem();
+        #$menuitem = $this->managerModel->getMenuitem();
         $categories = $this->managerModel->getmenucategory();
 
         // Merge with existing data
-        $data['menu'] = $menuitem;
+        #$data['menu'] = $menuitem;
         $data['categories'] = $categories;
 
         // Show the form with errors or redirect after showing the alert
-        $this->view('manager/menu', $data);
+        $this->view('manager/categories', $data);
     }
 
 
@@ -481,7 +518,7 @@ class Managers extends Controller
                 }
             } else {
                 // Validation failed, show the form with errors and the original category name
-                $this->view('manager/menu', $data);
+                $this->view('manager/categories', $data);
             }
         } else {
             // Initial load of the page, show the form without errors
@@ -490,10 +527,10 @@ class Managers extends Controller
                 'category_ID' => $category_ID,
                 'category_name' => $category->category_name,
                 'category_edit_name_err' => '',
-                'menu' => $menu,
+                //'menu' => $menu,
                 'categories' => $categories,
             ];
-            $this->view('manager/menu', $data);
+            $this->view('manager/categories', $data);
         }
     }
     public function updatetimecategories()
@@ -920,7 +957,7 @@ class Managers extends Controller
                     'dob' => $data['dob'],
                     'imagePath' => $imagePath,
                 ];
-                var_dump($userData);
+                //var_dump($userData);
                 // Insert the user and retrieve the user_id
                 // $userId =$ID;
 
@@ -1009,6 +1046,15 @@ class Managers extends Controller
             'users' => $user
         ];
         $this->view('manager/viewprofiles', $data);
+    }
+    public function viewmanagerprofile()
+    {
+        $manager = $this->managerModel->viewManagerProfile();
+        
+        $data = [
+            'manager' => $manager
+        ];
+        $this->view('manager/managerviewprofile', $data);
     }
     public function deleteprofile($ID)
     {
@@ -1228,57 +1274,116 @@ class Managers extends Controller
         }
     }
 
-    public function getpackages()
+    public function packages()
     {
         $packages = $this->managerModel->getpackages();
         $data = [
             'packages' => $packages
         ];
-        $this->view('manager/reservations', $data);
+        $this->view('manager/packages', $data);
     }
-    public function addtable()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $data = [
-                'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
-                'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+   
+    public function editpackage($ID){
+        $package = $this->managerModel->getpackagebyid($ID);
+        if (!$package) {
+            // Handle the case where the category does not exist
+            // For example, you can redirect to an error page or show an error message
+            ob_clean();
+                    $data['message'] = 'No Such Package Found';
+
+                    $this->redirectpage($data, true, URLROOT . '/managers/packages', 10, 'Error', 'Package Error');
+                    //
+                    exit();
+        }
+        $data = [
+            'package' => $package
+        ];
+        $this->view('manager/editpackage', $data);
+        if ($_SERVER['REQUEST_METHOD']=='POST'){
+            $_POST=filter_input_array(INPUT_POST,FILTER_SANITIZE_STRING);
+            $data=[
+                'packageID'=>$ID,
+                'packageName'=>isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
+                'tax'=>isset($_POST['tax']) ? trim($_POST['tax']) : '',
+                'capacity'=>isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+                'description'=>isset($_POST['description']) ? trim($_POST['description']) : '',
+                'packagename_err'=>'',
+                'vat_err'=>'',
+                'capacity_err'=>'',
+                'description_err'=>'',
             ];
-            if (empty($data['packageID'])) {
-                $data['packageID_err'] = 'Please select a package';
+            if (empty($data['packageName'])) {
+                $data['packagename_err'] = 'Please enter package name';
+            }
+            if (empty($data['tax'])) {
+                $data['vat_err'] = 'Please enter tax';
             }
             if (empty($data['capacity'])) {
                 $data['capacity_err'] = 'Please enter capacity';
             }
-            if (empty($data['packageID_err']) && empty($data['capacity_err'])) {
+            if (empty($data['description'])) {
+                $data['description_err'] = 'Please enter description';
+            }
+            if (empty($data['packagename_err']) && empty($data['vat_err']) && empty($data['capacity_err']) && empty($data['description_err'])) {
                 // Call the model function to insert user data
-                if ($this->managerModel->addtable($data)) {
+                if ($this->managerModel->editpackage($data)) {
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
-                    //redirect('managers/gettables');
+                    //redirect('managers/packages');
                     //exit();
                 } else {
-                    $this->view('manager/addtable', $data);
-                    die('Something went wrong');
+                    $this->view('manager/editpackage', $data);
+                    //die('Something went wrong');
                 }
             } else {
                 // Validation failed, show the form with errors
-                $this->view('manager/addtable', $data);
+                $this->view('manager/editpackage', $data);
             }
+        }
+    }
+//     public function addtable()
+//     {
+//         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+//             $data = [
+//                 'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
+//                 'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+//             ];
+//             if (empty($data['packageID'])) {
+//                 $data['packageID_err'] = 'Please select a package';
+//             }
+//             if (empty($data['capacity'])) {
+//                 $data['capacity_err'] = 'Please enter capacity';
+//             }
+//             if (empty($data['packageID_err']) && empty($data['capacity_err'])) {
+//                 // Call the model function to insert user data
+//                 if ($this->managerModel->addtable($data)) {
+//                     // Handle success, e.g., redirect to another page
+//                     // header('Location: ' . URLROOT . '/menus/submitMenu');
+//                     //redirect('managers/gettables');
+//                     //exit();
+//                 } else {
+//                     $this->view('manager/addtable', $data);
+//                     die('Something went wrong');
+//                 }
+//             } else {
+//                 // Validation failed, show the form with errors
+//                 $this->view('manager/addtable', $data);
+//             }
             
 
-        // Fetch menu and categories
-        $tables = $this->managerModel->gettables();
-        $packages = $this->managerModel->getpackages();
-        // Merge with existing data
-        $data=[
-            'tables' => $tables,
-            'packages' => $packages,
-        ];
+//         // Fetch menu and categories
+//         $tables = $this->managerModel->gettables();
+//         $packages = $this->managerModel->getpackages();
+//         // Merge with existing data
+//         $data=[
+//             'tables' => $tables,
+//             'packages' => $packages,
+//         ];
 
-        // Show the form with errors or redirect after showing the alert
-        $this->view('manager/reservations', $data);
-    }
-}
+//         // Show the form with errors or redirect after showing the alert
+//         $this->view('manager/reservations', $data);
+//     }
+// }
 
 }

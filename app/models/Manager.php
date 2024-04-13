@@ -44,6 +44,20 @@ class Manager {
     // Assuming you expect only one user for a given ID, return the first result
     return (!empty($results)) ? $results[0] : null;
 }
+public function viewManagerProfile()
+{
+    $this->db->query('SELECT users.user_id, users.name, users.email, users.dob, users.mobile_no, users.profile_picture, employee.address, employee.nic, role.role_name, role.role_id
+                     FROM employee
+                     JOIN users ON employee.user_id = users.user_id
+                     JOIN role ON employee.role_id = role.role_id
+                     WHERE employee.role_id = 1');
+
+    $results = $this->db->resultSet();
+
+    // Assuming you expect only one manager with role ID 1, return the first result
+    return (!empty($results)) ? $results[0] : null;
+}
+
 
 
     
@@ -114,19 +128,40 @@ class Manager {
 
     }
     public function submitMenuitem($data) {
-        $this->db->query('INSERT INTO menuitem (itemName, price, averageTime, hidden, imagePath, category_ID) VALUES (:itemName, :price, :averageTime, :hidden, :imagePath, :categoryID)');
+        $filename = basename($data['imagePath']);
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
+        $this->db->query('INSERT INTO menuitem (itemName, price, averageTime, hidden, imagePath, category_ID, description) VALUES (:itemName, :price, :averageTime, :hidden, :imagePath, :categoryID, :description)');
         $this->db->bind(':itemName', $data['itemName']);
-        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':price', $data['pricesmall']);
         $this->db->bind(':averageTime', $data['averageTime']);
         $this->db->bind(':hidden', 0);
-        $this->db->bind(':imagePath', $data['imagePath']);
+        $this->db->bind(':imagePath', $imagePath);
         // Use isset to ensure the key is present in $data
         $this->db->bind(':categoryID', isset($data['category_ID']) ? $data['category_ID'] : null);
+        $this->db->bind(':description', $data['description']);
         
         // Execute
+       
         if ($this->db->execute()) {
+            $menuitemID = $this->db->lastInsertId();
+            $this->db->query('INSERT INTO menuprices (itemID, itemSize, itemPrice) VALUES (:itemID, :itemSize, :itemPrice)');
+            $this->db->bind(':itemID', $menuitemID);
+            $this->db->bind(':itemSize', 'Small');
+            $this->db->bind(':itemPrice', $data['pricesmall']);
+            $this->db->execute();
+            $this->db->bind(':itemID', $menuitemID);
+            $this->db->bind(':itemSize', 'Regular');
+            $this->db->bind(':itemPrice', $data['priceregular']);
+            $this->db->execute();
+            $this->db->bind(':itemID', $menuitemID);
+            $this->db->bind(':itemSize', 'Large');
+            $this->db->bind(':itemPrice', $data['pricelarge']);
+            $this->db->execute();
+
             return true;
-        } else {
+        
+        }
+        else {
             return false;
         }
     }
@@ -201,17 +236,33 @@ return false;
         
     }
     public function editMenuitem($data){
+        $filename = basename($data['imagePath']);
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
     
-        $this->db->query('UPDATE menuitem SET itemName = :itemName, price = :price, averageTime = :averageTime, imagePath = :imagePath, category_ID = :categoryID WHERE itemID = :itemID');
+        $this->db->query('UPDATE menuitem SET itemName = :itemName, price = :price, averageTime = :averageTime, imagePath = :imagePath, category_ID = :categoryID, description = :description WHERE itemID = :itemID');
         $this->db->bind(':itemID', $data['itemID']);
         $this->db->bind(':itemName', $data['itemName']);
-        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':price', $data['pricesmall']);
         $this->db->bind(':averageTime', $data['averageTime']);
-        $this->db->bind(':imagePath', $data['imagePath']);
+        $this->db->bind(':imagePath', $imagePath);
         $this->db->bind(':categoryID', isset($data['category_ID']) ? $data['category_ID'] : null);
+        $this->db->bind(':description', $data['description']);
 
         //execute
         if ($this->db->execute()) {
+            $this->db->query('UPDATE menuprices SET itemPrice = :itemPrice WHERE itemID = :itemID AND itemSize = :itemSize');
+            $this->db->bind(':itemID', $data['itemID']);
+            $this->db->bind(':itemSize', 'Small');
+            $this->db->bind(':itemPrice', $data['pricesmall']);
+            $this->db->execute();
+            $this->db->bind(':itemID', $data['itemID']);
+            $this->db->bind(':itemSize', 'Regular');
+            $this->db->bind(':itemPrice', $data['priceregular']);
+            $this->db->execute();
+            $this->db->bind(':itemID', $data['itemID']);
+            $this->db->bind(':itemSize', 'Large');
+            $this->db->bind(':itemPrice', $data['pricelarge']);
+            $this->db->execute();
             return true;
         } else {
             return false;
@@ -230,13 +281,33 @@ return false;
         }
     }
     
-    public function getMenuitembyId($id){
-        $this->db->query('SELECT * FROM menuitem WHERE itemID = :id');
-        $this->db->bind(':id',$id);
-        $row = $this->db->single();
-        return $row;
-
+    public function getMenuitembyId($id) {
+        $this->db->query('SELECT m.*, 
+                                mp.itemSize,
+                                mp.itemPrice
+                          FROM menuitem m
+                          LEFT JOIN menuprices mp ON m.itemID = mp.itemID
+                          WHERE m.itemID = :id');
+        $this->db->bind(':id', $id);
+        $rows = $this->db->resultSet();
+        
+        // Debugging statements
+       
+    
+        return $rows;
     }
+   public function getmenuitemtablebyid($id){
+    $this->db->query(('SELECT * FROM menuitem WHERE itemID = :id'));
+    $this->db->bind(':id', $id);
+    $row = $this->db->single();
+    return $row;
+   }
+    
+    
+    
+    
+    
+    
     public function findEmployeeByEmail($email)
 {
     // Check if the user_id exists in both tables
@@ -324,7 +395,7 @@ return false;
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
                          WHERE users.name LIKE :name AND employee.delete_status = 0 AND employee.role_id != 1');
-        $this->db->bind(':name', $name);
+         $this->db->bind(':name', '%' . $name . '%');
         $result = $this->db->resultset(PDO::FETCH_ASSOC);
         
         return $result;
@@ -501,6 +572,12 @@ public function getpackages(){
     $results = $this->db->resultSet();
     return $results;
 }
+public function getpackagebyid($packageID){
+    $this->db->query('SELECT * FROM package WHERE packageID = :packageID');
+    $this->db->bind(':packageID', $packageID);
+    $row = $this->db->single();
+    return $row;
+}
 public function gettables(){
     $this->db->query('SELECT * FROM tables');
     $results = $this->db->resultSet();
@@ -509,6 +586,20 @@ public function gettables(){
 public function addtable($data){
     $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
     $this->db->bind(':capacity', $data['capacity']);
+    $this->db->bind(':packageID', $data['packageID']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+public function editpackage($data){
+    var_dump($data);
+    $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, capacity = :capacity, description = :description WHERE packageID = :packageID');
+    $this->db->bind(':packageName', $data['packageName']);
+    $this->db->bind(':tax', $data['tax']);
+    $this->db->bind(':capacity', $data['capacity']);
+    $this->db->bind(':description', $data['description']);
     $this->db->bind(':packageID', $data['packageID']);
     if ($this->db->execute()) {
         return true;
