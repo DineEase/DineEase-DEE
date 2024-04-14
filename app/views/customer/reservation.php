@@ -242,6 +242,7 @@
 
                                                     <fieldset>
                                                         <div class="form-card">
+                                                            <input type="text" hidden id="customerID"  value="<?php echo ($_SESSION['user_id']) ?>"></input>
                                                             <div class="row fixed-height-row-reservation">
                                                                 <div>
                                                                     <h3 class="fs-title">Select the Suite:</h3>
@@ -338,15 +339,15 @@
                                                                 <div class="pkg-selection">
                                                                     <div class="radio-inputs">
                                                                         <label class="radio">
-                                                                            <input type="radio" id="packageID1" value="1" name="packageID" checked>
+                                                                            <input type="radio" id="packageID" value="1" name="packageID" checked>
                                                                             <span class="name">Budget</span>
                                                                         </label>
                                                                         <label class="radio">
-                                                                            <input type="radio" id="packageID2" value="2" name="packageID">
+                                                                            <input type="radio" id="packageID" value="2" name="packageID">
                                                                             <span class="name">Gold</span>
                                                                         </label>
                                                                         <label class="radio">
-                                                                            <input type="radio" id="packageID3" value="3" name="packageID">
+                                                                            <input type="radio" id="packageID" value="3" name="packageID">
                                                                             <span class="name">Platinum</span>
                                                                         </label>
                                                                     </div>
@@ -507,7 +508,7 @@
 
                                                                         <input type="hidden" id="tableID" name="tableID" value="1">
                                                                     </div>
-                                                                    <button id="proceed-to-pay">Proceed to Pay</button>
+                                                                    <input class="" type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
                                                                 </div>
                                                             </div>
                                                         </div>

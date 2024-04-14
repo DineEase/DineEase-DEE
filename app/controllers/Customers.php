@@ -173,6 +173,10 @@ class Customers extends Controller
         $this->view('customer/review', $data);
     }
 
+    public function payhereprocesss(){
+        view();
+    }
+
     public function deleteReview($reviewID)
     {
         // Check if the form is submitted
@@ -230,11 +234,9 @@ class Customers extends Controller
                 $slot = date("H", strtotime($data['reservationStartTime']));
                
                 if($this->customerModel->addToSlot($reservationID,$data,$slot)){
-                    flash('reservation_message', 'Reservation Added');
-                    redirect('customers/reservation');
+                   
                 }
             } else {
-                // Something went wrong
                 die('Something went wrong');
             }
         }
