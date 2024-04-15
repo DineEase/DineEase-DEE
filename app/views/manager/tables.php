@@ -13,101 +13,65 @@
 </head>
 <style>
     body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
+        margin: 0;
+        padding: 0;
+        /* box-sizing: border-box; */
+        font-family: "Poppins", sans-serif;
         background-color: #f5f5f5;
+        transition: all 0.5s ease;
+        overflow-x: hidden;
     }
-
-    .header {
-        text-align: center;
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        font-size: 24px;
-    }
-
-    .profile-container {
-        max-width: 400px;
-        margin: auto;
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-    }
-
-    .profile-container h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .profile-image {
-        max-width: 100%;
-        height: auto;
+    .container {
+        max-width: 800px;
         margin-top: 20px;
-        margin-bottom: 20px;
-        border-radius: 5px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    .profile-field {
-        margin-bottom: 15px;
+    h1 {
+
+        color: #333;
     }
 
-    .profile-field label {
+    form {
+        max-width: 400px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
         display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
+        color: #555;
     }
 
-    .profile-field span {
-        display: inline-block;
+    select,
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
     }
 
-    .delete-button {
-        background-color: #ff0000;
+    input[type="submit"] {
+        background-color: #4caf50;
         color: #fff;
-        padding: 8px 15px;
-        border: none;
-        border-radius: 5px;
         cursor: pointer;
     }
 
-    .role-change-form {
-        margin-top: 20px;
-        text-align: center;
-    }
-
-    .role-change-form label,
-    .role-change-form select,
-    .role-change-form input[type="submit"] {
-        margin-bottom: 10px;
-    }
-
-    .home-button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #3498db;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        text-align: center;
-    }
-
-    /* Styling for success alert */
-    .alert {
-        background-color: #4CAF50;
-        color: #fff;
-        padding: 10px;
-        border-radius: 5px;
-        text-align: center;
-        margin-top: 10px;
+    input[type="submit"]:hover {
+        background-color: #45a049;
     }
 </style>
 
-
 <body>
-
     <div class="navbar-template">
         <nav class="navbar">
             <div class="topbar">
@@ -180,29 +144,29 @@
                             </a>
                         </li>
                         <li class="item">
-                                <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                Package
-                                            </span>
+                            <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu" id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            Package
                                         </span>
-                                        <span class="button-sidebar-menu-content">Packages </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT; ?>/managers/addtable" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                Table_Restaurant
-                                            </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Packages </span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="<?php echo URLROOT; ?>/managers/addtable" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu active-nav" id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            Table_Restaurant
                                         </span>
-                                        <span class="button-sidebar-menu-content">Tables </span>
-                                    </button>
-                                </a>
-                            </li>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Tables </span>
+                                </button>
+                            </a>
+                        </li>
                         <!-- End -->
 
 
@@ -217,7 +181,7 @@
                         <li class="item">
 
                             <a href="<?php echo URLROOT . '/managers/viewprofile/' . $user_id ?>" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu active-nav" id="reservationButton">
+                                <button class="button-sidebar-menu " id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
                                             account_circle
@@ -245,53 +209,25 @@
             </div>
         </nav>
     </div>
+    <div class="container">
+        <h1>Add Capacity and Package for a New Table</h1>
 
-    <div class="profile-container">
-        <?php if ($data['manager']) : ?>
-            <?php $manager = $data['manager']; ?>
+        <form action="<?php echo URLROOT; ?>/managers/addtable" method="post">
+            <label for="packageDropdown">Select Package:</label>
+            <select id="packageDropdown" name="packageID">
+                <?php
+                foreach ($data['packages'] as $package) {
+                    echo "<option value=\"{$package->packageID}\">{$package->packageName}</option>";
+                }
+                ?>
+            </select>
 
-            <img class="profile-image" src="<?php echo URLROOT; ?>/uploads/profile/<?php echo basename($manager->profile_picture); ?>" alt="Profile Image">
+            <label for="capacityInput">Enter Capacity (Numbers Only):</label>
+            <input type="number" id="capacityInput" name="capacity" pattern="\d+" required>
 
-            <div class="profile-field">
-                <label for="name">Name:</label>
-                <span id="name"><?php echo $manager->name; ?></span>
-            </div>
-
-            <div class="profile-field">
-                <label for="email">Email:</label>
-                <span id="email"><?php echo $manager->email; ?></span>
-            </div>
-
-            <div class="profile-field">
-                <label for="address">Address:</label>
-                <span id="address"><?php echo $manager->address; ?></span>
-            </div>
-            <div class="profile-field">
-                <label for="dob">Date of Birth:</label>
-                <span id="dob"><?php echo $manager->dob; ?></span>
-            </div>
-
-            <div class="profile-field">
-                <label for="role">Role:</label>
-                <span id="role"><?php echo $manager->role_name; ?></span>
-            </div>
-
-            <div class="profile-field">
-                <label for="nic">NIC:</label>
-                <span id="nic"><?php echo $manager->nic; ?></span>
-            </div>
-            <div class="profile-field">
-                <label for="mobile_number">Mobile Number:</label>
-                <span id="mobile_number"><?php echo $manager->mobile_no; ?></span>
-            </div>
-
-        <?php endif; ?>
-
+            <input type="submit" value="Add">
+        </form>
     </div>
-    <!-- Role Change Form -->
-
-
-
 </body>
 
 </html>

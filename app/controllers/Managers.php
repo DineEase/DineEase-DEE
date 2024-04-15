@@ -1341,49 +1341,56 @@ $data = [
             }
         }
     }
-//     public function addtable()
-//     {
-//         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-//             $data = [
-//                 'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
-//                 'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
-//             ];
-//             if (empty($data['packageID'])) {
-//                 $data['packageID_err'] = 'Please select a package';
-//             }
-//             if (empty($data['capacity'])) {
-//                 $data['capacity_err'] = 'Please enter capacity';
-//             }
-//             if (empty($data['packageID_err']) && empty($data['capacity_err'])) {
-//                 // Call the model function to insert user data
-//                 if ($this->managerModel->addtable($data)) {
-//                     // Handle success, e.g., redirect to another page
-//                     // header('Location: ' . URLROOT . '/menus/submitMenu');
-//                     //redirect('managers/gettables');
-//                     //exit();
-//                 } else {
-//                     $this->view('manager/addtable', $data);
-//                     die('Something went wrong');
-//                 }
-//             } else {
-//                 // Validation failed, show the form with errors
-//                 $this->view('manager/addtable', $data);
-//             }
+    public function addtable()
+    {
+        $tables = $this->managerModel->gettables();
+        $packages = $this->managerModel->getpackages();
+        $data=[
+            'tables' => $tables,
+            'packages' => $packages,
+        ];
+        $this->view('manager/tables', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
+                'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+            ];
+            if (empty($data['packageID'])) {
+                $data['packageID_err'] = 'Please select a package';
+            }
+            if (empty($data['capacity'])) {
+                $data['capacity_err'] = 'Please enter capacity';
+            }
+            if (empty($data['packageID_err']) && empty($data['capacity_err'])) {
+                // Call the model function to insert user data
+                if ($this->managerModel->addtable($data)) {
+                    // Handle success, e.g., redirect to another page
+                    // header('Location: ' . URLROOT . '/menus/submitMenu');
+                    //redirect('managers/gettables');
+                    //exit();
+                } else {
+                    $this->view('manager/tables', $data);
+                    die('Something went wrong');
+                }
+            } else {
+                // Validation failed, show the form with errors
+                $this->view('manager/tables', $data);
+            }
             
 
-//         // Fetch menu and categories
-//         $tables = $this->managerModel->gettables();
-//         $packages = $this->managerModel->getpackages();
-//         // Merge with existing data
-//         $data=[
-//             'tables' => $tables,
-//             'packages' => $packages,
-//         ];
+        // Fetch menu and categories
+        $tables = $this->managerModel->gettables();
+        $packages = $this->managerModel->getpackages();
+        // Merge with existing data
+        $data=[
+            'tables' => $tables,
+            'packages' => $packages,
+        ];
 
-//         // Show the form with errors or redirect after showing the alert
-//         $this->view('manager/reservations', $data);
-//     }
-// }
+        // Show the form with errors or redirect after showing the alert
+        $this->view('manager/tables', $data);
+    }
+}
 
 }
