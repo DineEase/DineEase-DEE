@@ -2,6 +2,7 @@
 var popupLink = document.getElementById("view-food-menu-in-cart");
 var popupWindow = document.getElementById("menu-div-purchase");
 var closeButton = document.getElementById("close-menu-div-purchase");
+var addedReservationID;
 
 // !show hide menus
 // Show the pop-up window when the link is clicked
@@ -47,44 +48,76 @@ $(document).on("click", ".product-quantity-subtract", function () {
 
 // Proceed to payment
 $("#proceed-to-pay").click(function () {
-  // var data = {
-  //   customerID: $("#customerID").val(),
-  //   tableID: 1,
-  //   packageID: $("#packageID:checked").val(),
-  //   date: $("#selectedDate").val(),
-  //   reservationStartTime: $("#selectedTime").val(),
-  //   numOfPeople: $("#numOfPeople").val(),
-  //   amount: $("#totalAmount").val(),
-  // };
+  var data = {
+    customerID: $("#customerID").val(),
+    //TODO Implement table selection logic
+    tableID: 1,
+    packageID: $("#packageID:checked").val(),
+    date: $("#selectedDate").val(),
+    reservationStartTime: $("#selectedTime").val(),
+    numOfPeople: $("#numOfPeople").val(),
+    amount: $("#totalAmount").val(),
+  };
 
-  // $.ajax({
-  //   url: 'addReservation',
-  //   type: 'POST',
-  //   contentType: 'application/x-www-form-urlencoded',
-  //   data: data,
-  //   success: function(response) {
-  //     console.log(response);
-  //     //reload page
-
-  //     location.reload();
-  //   }
-  // });
-
-  paymentGateway();
+  $.ajax({
+    url: "addReservation",
+    type: "POST",
+    contentType: "application/x-www-form-urlencoded",
+    data: data,
+    success: function (response) {
+      addedReservationID = response;
+      paymentGateway(response);
+    },
+  });
 });
 
-function paymentGateway() {
+function markPaid() {
+  $.ajax({
+    url: "markPaid",
+    type: "POST",
+    data: { reservationID: addedReservationID },
+    dataType: "json",
+    success: function (response) {
+      alert(response);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching data:", error);
+    },
+  });
+}
+
+function paymentGateway(ReservationID) {
+  var reservationID = ReservationID;
+  let amount = document.getElementById("totalAmount").value;
+
+  var formData = new FormData();
+  formData.append("amount", amount);
+
   var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "payhereprocesss", true);
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      alert(this.responseText);
-      // Payment gateway
       var obj = JSON.parse(this.responseText);
 
       // Payment completed. It can be a successful failure.
       payhere.onCompleted = function onCompleted(orderId) {
-        console.log("Payment completed. OrderID:" + orderId);
-        // Note: validate the payment and show success or failure page to the customer
+        var reservationData = {
+          reservationID: reservationID,
+          invoiceID: reservationID+"_INV",
+          amount: amount,
+          paymentMethod: "PayHere"
+        };
+
+        $.ajax({
+          url: "makePayment",
+          type: "POST",
+          data: reservationData,
+          contentType: "application/x-www-form-urlencoded",
+          success: function (response) {
+            alert(response);
+          },
+        });
+        markPaid();
       };
 
       // Payment window closed
@@ -115,13 +148,36 @@ function paymentGateway() {
         last_name: obj.last_name,
         email: obj.email,
         phone: obj.phone,
-        address:  obj.address,
+        address: obj.address,
         city: obj.city,
-        country:  obj.country,
+        country: obj.country,
       };
       payhere.startPayment(payment);
     }
-  };  
-  xhttp.open("GET", "payhereprocesss", true);
-  xhttp.send();
+  };
+  xhttp.send(formData);
+}
+
+//! ajax get request function
+function getAjaxRequest(url, data) {
+  return $.ajax({
+    url: url,
+    type: "GET",
+    data: data,
+    success: function (response) {
+      return response;
+    },
+  });
+}
+
+//! ajax post request function
+function postAjaxRequest(url, data) {
+  return $.ajax({
+    url: url,
+    type: "POST",
+    data: data,
+    success: function (response) {
+      return response;
+    },
+  });
 }

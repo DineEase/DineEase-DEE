@@ -111,8 +111,30 @@ class Customer
         }
     }
 
-
-
+    public function makePayment($data)
+    {
+        $this->db->query('INSERT INTO payment (invoiceID , reservationID, paymentMethod, amount ) VALUES ( :invoiceID ,:reservationID, :paymentMethod, :amount)');
+        $this->db->bind(':invoiceID', $data['invoiceID']);
+        $this->db->bind(':reservationID', $data['reservationID']);
+        $this->db->bind(':paymentMethod', $data['paymentMethod']);
+        $this->db->bind(':amount', $data['amount']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function markPaid($reservationID){
+        $this->db->query('UPDATE reservation SET status = "Paid" WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 
     public function removeReview($reviewID)
     {

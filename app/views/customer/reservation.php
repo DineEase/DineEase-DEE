@@ -509,7 +509,7 @@
 
                                                                         <input type="hidden" id="tableID" name="tableID" value="1">
                                                                     </div>
-                                                                    <input class=""  onclick="paymentGateWay();" type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
+                                                                    <input class=""  type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
                                                                 </div>
                                                             </div>
                                                         </div>
