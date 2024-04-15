@@ -173,9 +173,7 @@ class Customers extends Controller
         $this->view('customer/review', $data);
     }
 
-    public function payhereprocesss(){
-        view();
-    }
+    
 
     public function deleteReview($reviewID)
     {
@@ -265,6 +263,41 @@ class Customers extends Controller
         $slots = $this->customerModel->getSlots($date);
         header('Content-Type: application/json');
         echo json_encode($slots);
+    }
+    public function payhereprocesss(){
+        $amount = 1000;
+        $merchant_id = "1226500"; 
+        $order_id = '1';
+        $currency = 'LKR';
+        $merchant_secret = "Mzg2MDAyNTU4NzMyMTI4OTY5MTAyOTM1MDc1NDk1MjIzMDM4MjQzNQ==";
+        $hash = strtoupper(
+            md5(
+                $merchant_id . 
+                $order_id . 
+                number_format($amount, 2, '.', '') . 
+                $currency .  
+                strtoupper(md5($merchant_secret)) 
+            ) 
+        );
+        $array =[];
+        $array['amount'] = $amount;
+        $array['merchant_id'] = $merchant_id;
+        $array['order_id'] = $order_id;
+        $array['currency'] = $currency;
+        $array['hash'] = $hash;
+        $array['first_name'] = 'dew';
+        $array['last_name'] = 'Liyanage';
+        $array['email'] = 'dew@gmail.com';
+        $array['phone'] = '0771234567';
+        $array['address'] = 'No.1, Galle Road';
+        $array['city'] = 'Colombo';
+        $array['country'] = 'Sri Lanka';
+        $array['items'] = 'Dinner';
+
+        $jsonObj = json_encode($array);
+
+        echo $jsonObj;
+
     }
 
 }

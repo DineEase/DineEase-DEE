@@ -242,7 +242,7 @@
 
                                                     <fieldset>
                                                         <div class="form-card">
-                                                            <input type="text" hidden id="customerID"  value="<?php echo ($_SESSION['user_id']) ?>"></input>
+                                                            <input type="text" hidden id="customerID" value="<?php echo ($_SESSION['user_id']) ?>"></input>
                                                             <div class="row fixed-height-row-reservation">
                                                                 <div>
                                                                     <h3 class="fs-title">Select the Suite:</h3>
@@ -491,7 +491,7 @@
                                                                                     <div class="menu-box">
                                                                                         <div class="menu-items">
                                                                                             <div id="menu-container" class="menu-container-div-out">
-                                                                                                
+
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -499,6 +499,7 @@
                                                                                         <div class="pagination-view-only-menu">
                                                                                             <div class="pgbtn" id="prev-page">Previous</div>
                                                                                             <span id="page-info"></span>
+                                                                                            //TODO: Pagination does not stop at maximum no of pages
                                                                                             <div class="pgbtn" id="next-page">Next</div>
                                                                                         </div>
                                                                                     </div>
@@ -508,7 +509,7 @@
 
                                                                         <input type="hidden" id="tableID" name="tableID" value="1">
                                                                     </div>
-                                                                    <input class="" type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
+                                                                    <input class=""  onclick="paymentGateWay();" type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -531,6 +532,7 @@
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 
 </body>
 
