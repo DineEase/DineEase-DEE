@@ -74,14 +74,12 @@ class Customers extends Controller
             $reservations = $this->customerModel->getReservationWithDateRange($_SESSION['user_id'], $limit, $offset, $startDate, $endDate);
             $totalReservations = $this->customerModel->getTotalReservationCountWithDateRange($_SESSION['user_id'], $startDate, $endDate);
             $totalPages = ceil($totalReservations / $limit);
-        } 
-        
-        else if ($status != '' && $search == '' && ($startDate != '' || $endDate != '')) {
+        } else if ($status != '' && $search == '' && ($startDate != '' || $endDate != '')) {
             $reservations = $this->customerModel->getReservationWithStatusAndDateRange($_SESSION['user_id'], $limit, $offset, $status, $startDate, $endDate);
             $totalReservations = $this->customerModel->getTotalReservationCountWithStatusAndDateRange($_SESSION['user_id'], $status, $startDate, $endDate);
             $totalPages = ceil($totalReservations / $limit);
-        } 
-        
+        }
+
         //TODO #18 Add a condition to filter reservations based on search, status and date range
         //have to submit two forms to get this condition to work figure out a way to submit two forms at once
         //or use ajax to submit the second form
@@ -91,7 +89,7 @@ class Customers extends Controller
         //     $totalReservations = $this->customerModel->getTotalReservationCountWithSearchStatusAndDateRange($_SESSION['user_id'], $search, $status, $startDate, $endDate);
         //     $totalPages = ceil($totalReservations / $limit);
         // }
-        
+
         else {
             $reservations = $this->customerModel->getReservation($_SESSION['user_id'], $limit, $offset);
             $totalReservationsCount = $this->customerModel->getTotalReservationCount($_SESSION['user_id']);
@@ -111,7 +109,7 @@ class Customers extends Controller
             'reservationStatus' => $reservationStatus,
             'startDate' => $startDate,
             'endDate' => $endDate
-            
+
         ];
         $this->view('customer/reservation', $data);
     }
@@ -173,7 +171,7 @@ class Customers extends Controller
         $this->view('customer/review', $data);
     }
 
-    
+
 
     public function deleteReview($reviewID)
     {
@@ -195,16 +193,12 @@ class Customers extends Controller
         }
     }
 
-
-
     public function CancelReservation($reservationID)
     {
         $this->customerModel->cancelReservation($reservationID);
         flash('reservation_message', 'Reservation cancelled successfully');
         redirect('customers/reservation');
     }
-
-
 
     public function addReservation()
     {
@@ -219,7 +213,7 @@ class Customers extends Controller
                 'reservationEndTime' => date('Y-m-d H:i:s', strtotime('+1 hour', strtotime(trim($_POST['reservationStartTime'])))),
                 'numOfPeople' => trim($_POST['numOfPeople']),
                 'amount' => trim($_POST['amount']),
-                
+
             ];
 
             // Validate the data (similar to what you've done in AddReservation method)
@@ -228,15 +222,45 @@ class Customers extends Controller
             if ($this->customerModel->addReservation($data)) {
 
                 $reservationID = $this->customerModel->getAddedReservationID($data);
-            
+
                 $slot = date("H", strtotime($data['reservationStartTime']));
-               
-                if($this->customerModel->addToSlot($reservationID,$data,$slot)){
-                   
+
+                if ($this->customerModel->addToSlot($reservationID, $data, $slot)) {
+                    $reservationID = $this->customerModel->getAddedReservationID($data);
+                    echo json_encode($reservationID);
                 }
             } else {
                 die('Something went wrong');
             }
+        }
+    }
+
+    public function markPaid()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $reservationID = $_POST['reservationID'];
+        }
+        $this->customerModel->markPaid($reservationID);
+    }
+
+    public function makePayment()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'invoiceID' => trim($_POST['invoiceID']),
+                'reservationID' => trim($_POST['reservationID']),
+                'amount' => trim($_POST['amount']),
+                'paymentMethod' => trim($_POST['paymentMethod']),
+                'reservationID_err' => '',
+                'amount_err' => '',
+                'paymentMethod_err' => ''
+            ];
+        }
+        if ($this->customerModel->makePayment($data)) {
+            flash('reservation_message Payment Successful');
+            echo json_encode($data);
+
+        } else {
         }
     }
 
@@ -251,35 +275,42 @@ class Customers extends Controller
         echo json_encode($menuItems);
     }
 
-    public function getReservationSlots() {
-        $date = $_GET['date'] ?? null; 
-    
+    public function getReservationSlots()
+    {
+        $date = $_GET['date'] ?? null;
+
         if (!$date) {
-            http_response_code(400); 
+            http_response_code(400);
             echo json_encode(['error' => 'No date provided']);
-            return; 
+            return;
         }
-    
+
         $slots = $this->customerModel->getSlots($date);
         header('Content-Type: application/json');
         echo json_encode($slots);
     }
-    public function payhereprocesss(){
-        $amount = 1000;
-        $merchant_id = "1226500"; 
-        $order_id = '1';
+    public function payhereprocesss()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $data = [
+                'amount' => trim($_POST['amount'])
+            ];
+        }
+        $amount = $data['amount'];
+        $merchant_id = "1226500";
+        $order_id = 2;
         $currency = 'LKR';
         $merchant_secret = "Mzg2MDAyNTU4NzMyMTI4OTY5MTAyOTM1MDc1NDk1MjIzMDM4MjQzNQ==";
         $hash = strtoupper(
             md5(
-                $merchant_id . 
-                $order_id . 
-                number_format($amount, 2, '.', '') . 
-                $currency .  
-                strtoupper(md5($merchant_secret)) 
-            ) 
+                $merchant_id .
+                    $order_id .
+                    number_format($amount, 2, '.', '') .
+                    $currency .
+                    strtoupper(md5($merchant_secret))
+            )
         );
-        $array =[];
+        $array = [];
         $array['amount'] = $amount;
         $array['merchant_id'] = $merchant_id;
         $array['order_id'] = $order_id;
@@ -295,9 +326,6 @@ class Customers extends Controller
         $array['items'] = 'Dinner';
 
         $jsonObj = json_encode($array);
-
         echo $jsonObj;
-
     }
-
 }
