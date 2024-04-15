@@ -594,7 +594,7 @@ public function addtable($data){
     }
 }
 public function editpackage($data){
-    var_dump($data);
+   
     $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, capacity = :capacity, description = :description WHERE packageID = :packageID');
     $this->db->bind(':packageName', $data['packageName']);
     $this->db->bind(':tax', $data['tax']);
