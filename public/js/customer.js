@@ -6,6 +6,7 @@ let selectedPackageForReservation = "";
 let slotDetails;
 let slotMaxCapacity = 15;
 var today = new Date();
+const baseCostPerPerson = 500;
 
 $(document).ready(function () {
   var current = 1;
@@ -277,21 +278,22 @@ $("#summary-table").text($("#tableID").val());
 
 // !Function to update total amount
 
+function updateTotalAmount() {
+  console.log()
+  let total = baseCostPerPerson * parseInt($("#numOfPeople").val() || 1); 
+  
+  // $(".menu-item .price").each(function () {
+  //   total += parseFloat($(this).text());
+  // });
+
+  $("#total-amount").text(`Rs.${total.toFixed(2)}`);
+  $("#totalAmount").val(total.toFixed(2));
+}
+
 $(document).ready(function () {
   // Constants
-  const baseCostPerPerson = 500;
 
-  // Function to update total amount
-  function updateTotalAmount() {
-    let total = baseCostPerPerson * parseInt($("#numOfPeople").val() || 1); // Default to 1 person if not set
-    $(".menu-item .price").each(function () {
-      total += parseFloat($(this).text());
-    });
-
-    $("#total-amount").text(`Rs.${total.toFixed(2)}`);
-    $("#totalAmount").val(total.toFixed(2));
-  }
-
+  
   // Initialize the summary fields with the default values
   let selectedDate =
     $("#selectedDate").val() || new Date().toISOString().split("T")[0]; // Current date if not set
@@ -341,6 +343,4 @@ $(document).ready(function () {
     updateTotalAmount(); // Update total when an item is removed
   });
 
-  // Proceed to payment
-  $("#proceed-to-pay").click(function () {});
 });

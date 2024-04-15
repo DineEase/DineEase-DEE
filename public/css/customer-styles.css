@@ -1369,18 +1369,18 @@ input:focus-visible + label {
 }
 
 #proceed-to-pay {
-  background-color: var(--brandgreen);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 20px;
-  width: 100%;
+  background-color: var(--brandgreen) !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  margin-top: 20px !important;
+  width: 100% !important;
 }
 
 #proceed-to-pay:hover {
-  background-color: var(--brandgreen-dark);
-  transform: scale(1.01);
+  background-color: var(--brandgreen-dark) !important;
+  transform: scale(1.01) !important;
 }
 
 .added-items {
