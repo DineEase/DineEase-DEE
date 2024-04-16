@@ -120,7 +120,7 @@ $(document).ready(function () {
 
 function showCart() {
   var cartRowHTML = "";
-  var loopTotal =0;
+  var loopTotal = 0;
   var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
 
   cartArray.forEach(function (item, index) {
@@ -161,14 +161,21 @@ function showCart() {
 
   $("#cartTableBody").html(cartRowHTML);
 
-  if(loopTotal != grandTotal){
+  if (loopTotal != grandTotal) {
     grandTotal = loopTotal;
   }
 
   $("#itemCount").text(cartArray.length);
   $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
   updateTotalAmount();
-  
+}
+
+function emptyCart() {
+  sessionStorage.removeItem("food-cart");
+  grandTotal = 0;
+  $("#itemCount").text(0);
+  $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
+  showCart();
 }
 
 //! payment gateway
@@ -205,10 +212,37 @@ function markPaid() {
     data: { reservationID: addedReservationID },
     dataType: "json",
     success: function (response) {
-      alert(response);
+      console.log(response);
     },
     error: function (xhr, status, error) {
       console.error("Error fetching data:", error);
+    },
+  });
+}
+
+function createOrder() {
+  var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
+  var orderItems = [];
+  cartArray.forEach(function (item) {
+    orderItems.push({
+      itemID: item.itemID,
+      itemName: item.itemName,
+      quantity: item.quantity,
+      size: item.size,
+    });
+  });
+
+  var orderData = {
+    reservationID: addedReservationID,
+    orderItems: orderItems,
+  };
+
+  $.ajax({
+    url: "createOrder",
+    type: "POST",
+    data: orderData,
+    success: function (response) {
+      console.log(response);
     },
   });
 }
@@ -228,9 +262,10 @@ function paymentGateway(ReservationID) {
 
       // Payment completed. It can be a successful failure.
       payhere.onCompleted = function onCompleted(orderId) {
+        
         var reservationData = {
           reservationID: reservationID,
-          invoiceID: reservationID + "_INV",
+          invoiceID: reservationID,
           amount: amount,
           paymentMethod: "PayHere",
         };
@@ -240,10 +275,15 @@ function paymentGateway(ReservationID) {
           data: reservationData,
           contentType: "application/x-www-form-urlencoded",
           success: function (response) {
-            alert(response);
+            alert(response)
           },
         });
         markPaid();
+        createOrder();
+        emptyCart();
+        location.reload();
+
+        
       };
 
       // Payment window closed
@@ -263,7 +303,7 @@ function paymentGateway(ReservationID) {
       var payment = {
         sandbox: true,
         merchant_id: obj.merchant_id, // Replace your Merchant ID
-        return_url: "http://localhost/DineEase-DEE/customers/reservation", // Important
+        return_url: "http://localhost/DineEase-DEE/customers/reservation", 
         cancel_url: "http://localhost/DineEase-DEE/customers/reservation", // Important
         notify_url: "http://sample.com/notify",
         order_id: obj.order_id,

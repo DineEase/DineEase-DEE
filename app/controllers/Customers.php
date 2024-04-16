@@ -177,6 +177,7 @@ class Customers extends Controller
     {
         // Check if the form is submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             // Get the review ID from the hidden input field
             $reviewID = $_POST['remove_review_id'];
 
@@ -203,6 +204,7 @@ class Customers extends Controller
     public function addReservation()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             // Process the reservation form data
             $data = [
                 'customerID' => $_SESSION['user_id'],
@@ -238,6 +240,7 @@ class Customers extends Controller
     public function markPaid()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $reservationID = $_POST['reservationID'];
         }
         $this->customerModel->markPaid($reservationID);
@@ -246,6 +249,7 @@ class Customers extends Controller
     public function makePayment()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
                 'invoiceID' => trim($_POST['invoiceID']),
                 'reservationID' => trim($_POST['reservationID']),
@@ -257,11 +261,40 @@ class Customers extends Controller
             ];
         }
         if ($this->customerModel->makePayment($data)) {
-            flash('reservation_message Payment Successful');
             echo json_encode($data);
 
         } else {
         }
+    }
+
+    public function createOrder()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            if(isset($_POST['orderItems'])){
+                $orderItems = $_POST['orderItems'];
+            }
+            else{
+                $orderItems = [];
+            }
+            $data = [
+                'customerID' => $_SESSION['user_id'],
+                'reservationID' => trim($_POST['reservationID']),
+                'orderItems' => $orderItems,
+                'tableID' => 1,
+                'orderTime'=>date('Y-m-d H:i:s'),
+                'orderStatus'=>'Queued'
+            ];
+            
+            if ($this->customerModel->createOrder($data)) {
+                echo ("Order created successfully") ;
+            } else {
+                die('Something went wrong');
+            }
+
+        }
+       
     }
 
     public function getMenuItemsAPI()
