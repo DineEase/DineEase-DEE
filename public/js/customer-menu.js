@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  let currentCategoryId = "all"; // Default to show all categories
+  let currentCategoryId = "all"; 
   let currentPage = 1;
-  let itemsPerPage = 16; // Adjust based on your preference
+  let itemsPerPage = 16; 
   let menuItems = [];
 
   function paginateItems(items) {
@@ -93,8 +93,6 @@ $(document).ready(function () {
 
   fetchMenuItems();
 
-  // click event for size buttons
-
   function createMenuItemCard(item) {
     let starCount = 5;
     let stars = "";
@@ -120,6 +118,7 @@ $(document).ready(function () {
 
     let tag = `sizeSelector${item.itemID}`;
     let quantityTag = `quantitySelector${item.itemID}`;
+    let addToCartTag = `addtocart${item.itemID}`;
 
     return `
       <div class="menu-item-card" data-item-id="${
@@ -148,7 +147,7 @@ $(document).ready(function () {
               <i class="fa fa-chevron-right"></i>
           </div>
           </div>
-          <div class="add-to-cart-button-menu btn "><i class="fa-solid fa-cart-plus"></i></div>
+          <div class="add-to-cart-button-menu btn" onclick="addToCart(${item.itemID})" id="${addToCartTag}"><i class="fa-solid fa-cart-plus"></i></div>
         </div>
         
         </div>

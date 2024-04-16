@@ -3,6 +3,7 @@ var popupLink = document.getElementById("view-food-menu-in-cart");
 var popupWindow = document.getElementById("menu-div-purchase");
 var closeButton = document.getElementById("close-menu-div-purchase");
 var addedReservationID;
+var grandTotal = 0;
 
 // !show hide menus
 // Show the pop-up window when the link is clicked
@@ -27,7 +28,6 @@ $(document).on("click", ".product-quantity-subtract", function (e) {
   // CalcPrice(newValue);
 });
 
-// Import jQuery library
 $(document).on("click", ".product-quantity-add", function (e) {
   var value = $(this).attr("data-slot-label");
   var quantity = $("#" + value).val();
@@ -36,6 +36,7 @@ $(document).on("click", ".product-quantity-add", function (e) {
   $("#" + value).val(newValue);
 });
 
+//! What is thiss
 $(document).on("click", ".product-quantity-subtract", function () {
   var value = $(this).attr("data-slot-label");
   var quantity = $("#" + value).val();
@@ -43,6 +44,132 @@ $(document).on("click", ".product-quantity-subtract", function () {
   if (newValue < 1) newValue = 1;
   $("#" + value).val(newValue);
 });
+
+// //! Add item to cart function
+// // Add item to cart
+
+function addToCart(itemID) {
+  var quantity = parseInt($("#quantitySelector" + itemID).val());
+  var sizeIndex = $("#sizeSelector" + itemID).val();
+  var prices = JSON.parse(
+    $(".menu-item-card[data-item-id='" + itemID + "']").attr("data-prices")
+  );
+  var sizes = ["Large", "Medium", "Small"];
+  var itemName = $(".menu-item-card[data-item-id='" + itemID + "'] h3").text();
+
+  if (!quantity || isNaN(quantity) || quantity < 1) {
+    alert("Please enter a valid quantity.");
+    return;
+  }
+
+  var newItem = {
+    itemID: itemID,
+    itemName: itemName,
+    quantity: quantity,
+    size: sizes[sizeIndex],
+    price: prices[sizeIndex],
+  };
+
+  var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
+  cartArray.push(newItem);
+
+  sessionStorage.setItem("food-cart", JSON.stringify(cartArray));
+  showCart();
+  alert(
+    "Item added to cart: " +
+      newItem.itemName +
+      " x " +
+      newItem.quantity +
+      " " +
+      newItem.size +
+      " Price: " +
+      newItem.price
+  );
+
+  var itemPrice = newItem.price * newItem.quantity;
+  grandTotal += itemPrice;
+  $("#itemCount").text(cartArray.length);
+  $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
+  showCart();
+  updateTotalAmount();
+}
+
+function removeFromCart(index) {
+  var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
+
+  var itemPrice = cartArray[index].price;
+
+  var itemQuantity = cartArray[index].quantity;
+
+  var totalItemPrice = itemPrice * itemQuantity;
+
+  grandTotal -= totalItemPrice;
+
+  cartArray.splice(index, 1);
+  sessionStorage.setItem("food-cart", JSON.stringify(cartArray));
+  $("#itemCount").text(cartArray.length);
+  $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
+  showCart();
+  updateTotalAmount();
+}
+
+// Show the cart
+$(document).ready(function () {
+  showCart();
+});
+
+function showCart() {
+  var cartRowHTML = "";
+  var loopTotal =0;
+  var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
+
+  cartArray.forEach(function (item, index) {
+    var subTotal = parseFloat(item.price) * parseInt(item.quantity);
+    cartRowHTML +=
+      "<tr>" +
+      "<td>" +
+      "</td>" +
+      "<td>" +
+      item.itemName +
+      "</td>" +
+      "<td>" +
+      item.size +
+      "</td>" +
+      "<td>LKR" +
+      item.price +
+      "</td>" +
+      "<td><div class='cart-item-quantity-subtract' data-slot-label=''><i class='fa fa-chevron-left'</i> </div>" +
+      "</td>" +
+      "<td>" +
+      "<input type='text' class='product-quantity-input' id='cart-item-quantity-input' value=" +
+      item.quantity +
+      ">" +
+      "</td>" +
+      "<td>" +
+      "<div class='cart-item-quantity-add'  data-slot-label=''><i class='fa fa-chevron-right'></i></div>" +
+      "</td>" +
+      "<td>LKR." +
+      subTotal.toFixed(2) +
+      "</td>" +
+      "<td><button type='button' onclick='removeFromCart(" +
+      index +
+      ")'><i class='fa-solid fa-xmark'></i></button></td>" +
+      "</tr>";
+
+    loopTotal += subTotal;
+  });
+
+  $("#cartTableBody").html(cartRowHTML);
+
+  if(loopTotal != grandTotal){
+    grandTotal = loopTotal;
+  }
+
+  $("#itemCount").text(cartArray.length);
+  $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
+  updateTotalAmount();
+  
+}
 
 //! payment gateway
 
@@ -103,11 +230,10 @@ function paymentGateway(ReservationID) {
       payhere.onCompleted = function onCompleted(orderId) {
         var reservationData = {
           reservationID: reservationID,
-          invoiceID: reservationID+"_INV",
+          invoiceID: reservationID + "_INV",
           amount: amount,
-          paymentMethod: "PayHere"
+          paymentMethod: "PayHere",
         };
-
         $.ajax({
           url: "makePayment",
           type: "POST",
@@ -122,14 +248,15 @@ function paymentGateway(ReservationID) {
 
       // Payment window closed
       payhere.onDismissed = function onDismissed() {
-        // Note: Prompt user to pay again or show an error page
         console.log("Payment dismissed");
+        //TODO: Show an error page
       };
 
       // Error occurred
       payhere.onError = function onError(error) {
         // Note: show an error page
         console.log("Error:" + error);
+        //TODO: Show an error page
       };
 
       // Put the payment variables here
