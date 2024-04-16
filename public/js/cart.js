@@ -94,6 +94,50 @@ function addToCart(itemID) {
   updateTotalAmount();
 }
 
+function subtractQuantityFromCart(element){
+  alert("Subtracting");
+  var value = $(element).data("slot-label");
+  alert(value);
+  var quantity = $("#cart-item-quantity-input"+ value).val();
+  alert(quantity);
+  var newValue = parseInt(quantity) - 1;
+  if (newValue < 1) newValue = 1;
+  $("#cart-item-quantity-input"+ value).val(newValue);
+
+  updateSessionStorage(value, newValue);
+  
+}
+function addQuantityToCart(element){
+  alert("Subtracting");
+  var value = $(element).data("slot-label");
+  alert(value);
+  var quantity = $("#cart-item-quantity-input"+ value).val();
+  alert(quantity);
+  var newValue = parseInt(quantity) + 1;
+  if (newValue > 10) newValue = 10;
+  $("#cart-item-quantity-input"+ value).val(newValue);
+
+  updateSessionStorage(value, newValue);
+
+}
+
+function updateSessionStorage(itemID, newQuantity) {
+  // Retrieve the current cart from session storage
+  var cart = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
+
+  // Find the item and update its quantity
+  var found = cart.find(item => item.itemID == itemID);
+  if (found) {
+      found.quantity = newQuantity; // Update the quantity
+  }
+
+  // Save the updated cart back to session storage
+  sessionStorage.setItem("food-cart", JSON.stringify(cart));
+  showCart();
+  updateTotalAmount();
+}
+
+
 function removeFromCart(index) {
   var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
 
@@ -125,9 +169,11 @@ function showCart() {
 
   cartArray.forEach(function (item, index) {
     var subTotal = parseFloat(item.price) * parseInt(item.quantity);
+    var id=item.itemID;
     cartRowHTML +=
-      "<tr>" +
+      "<tr class='cart-table-row'>" +
       "<td>" +
+      "<img class='cart-item-image-added' src='https://via.placeholder.com/150' alt='item image' />" +
       "</td>" +
       "<td>" +
       item.itemName +
@@ -138,15 +184,15 @@ function showCart() {
       "<td>LKR" +
       item.price +
       "</td>" +
-      "<td><div class='cart-item-quantity-subtract' data-slot-label=''><i class='fa fa-chevron-left'</i> </div>" +
+      "<td><div class='cart-item-quantity-subtract' onclick='subtractQuantityFromCart(this);' data-slot-label='"+id+"'  ><i class='fa fa-chevron-left'</i> </div>" +
       "</td>" +
       "<td>" +
-      "<input type='text' class='product-quantity-input' id='cart-item-quantity-input' value=" +
+      "<input type='text' class='product-quantity-input' id='cart-item-quantity-input"+id+"' value=" +
       item.quantity +
       ">" +
       "</td>" +
       "<td>" +
-      "<div class='cart-item-quantity-add'  data-slot-label=''><i class='fa fa-chevron-right'></i></div>" +
+      "<div class='cart-item-quantity-add' onclick='addQuantityToCart(this);'  data-slot-label='"+id+"'><i class='fa fa-chevron-right'></i></div>" +
       "</td>" +
       "<td>LKR." +
       subTotal.toFixed(2) +
@@ -262,7 +308,6 @@ function paymentGateway(ReservationID) {
 
       // Payment completed. It can be a successful failure.
       payhere.onCompleted = function onCompleted(orderId) {
-        
         var reservationData = {
           reservationID: reservationID,
           invoiceID: reservationID,
@@ -274,16 +319,12 @@ function paymentGateway(ReservationID) {
           type: "POST",
           data: reservationData,
           contentType: "application/x-www-form-urlencoded",
-          success: function (response) {
-            alert(response)
-          },
+          success: function (response) {},
         });
         markPaid();
         createOrder();
         emptyCart();
         location.reload();
-
-        
       };
 
       // Payment window closed
@@ -303,7 +344,7 @@ function paymentGateway(ReservationID) {
       var payment = {
         sandbox: true,
         merchant_id: obj.merchant_id, // Replace your Merchant ID
-        return_url: "http://localhost/DineEase-DEE/customers/reservation", 
+        return_url: "http://localhost/DineEase-DEE/customers/reservation",
         cancel_url: "http://localhost/DineEase-DEE/customers/reservation", // Important
         notify_url: "http://sample.com/notify",
         order_id: obj.order_id,

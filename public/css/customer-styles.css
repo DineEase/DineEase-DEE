@@ -1038,12 +1038,14 @@ input:focus-visible + label {
 }
 .read table tbody tr {
   border-bottom: 1px solid #d3dae0;
+  height: 4em;
 }
 .read table tbody tr:nth-child(even) {
   background-color: #fbfcfc;
 }
 .read table tbody tr:hover {
   background-color: var(--brandgreen);
+  transform: scale(1.02);
 }
 .read table tbody tr:hover td {
   color: #ffffff;
@@ -1371,19 +1373,45 @@ input:focus-visible + label {
   transform: scale(1.01);
 }
 
+p.sum-amount {
+  font-size: large;
+  font-weight: 400
+  ;
+}
+span#total-amount {
+  font-weight: 600;
+}
+
+.cart-table-row {
+  
+  /* border-bottom: 1px solid #166c45; */
+  /* background-color: red; */
+  border: green solid 2px;
+  border-radius: 10px !important;
+  gap: 5px !important;
+
+}
+
 #proceed-to-pay {
-  background-color: var(--brandgreen) !important;
-  color: white !important;
-  border: none !important;
-  padding: 10px 20px !important;
-  cursor: pointer !important;
-  margin-top: 20px !important;
-  width: 100% !important;
+  background-color: var(--brandgreen-dark) !important;
+  display: flex;
+    color: white !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    margin-top: 20px !important;
+    width: 21% !important;
+    border-radius: 10px !important;
+    justify-content: center;
+    align-content: space-around;
+    margin-left: auto;
+    margin-right: auto;
+    height: 4em;
 }
 
 #proceed-to-pay:hover {
   background-color: var(--brandgreen-dark) !important;
-  transform: scale(1.01) !important;
+  transform: scale(1.05) !important;
 }
 
 .added-items {
@@ -1867,6 +1895,13 @@ form.search-form {
   left: 19rem;
 }
 
+.cart-item-image-added{
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+
+}
+
 .close-menu-div-purchase {
   position: relative;
   padding-right: 1em;
@@ -1898,6 +1933,7 @@ form.search-form {
   top: -10%;
   margin-right: auto;
   margin-left: auto;
+  box-shadow: 0 0 0 max(100vh, 100vw) rgba(0, 0, 0, 0.5);
 }
 
 .added-items .menu-view-filters {

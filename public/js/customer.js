@@ -138,39 +138,78 @@ function toggleComment(reviewID) {
 
 //!functions for time slots
 $(document).ready(function () {
-  $("#checkSlots").click(function () {
-    $("#time-slots").empty(); // This line clears the time slots container
-
+  $("#checkSlots").click(function () 
+  { var dateOfTheReservation = today.getDate();
+    if(selectedDateForReservation==dateOfTheReservation){
+      $.ajax({
+        url: "getReservationSlots",
+        data: { date: dateOfTheReservation },
+        dataType: "json",
+        success: function (response) {
+          slotDetails = response;
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching data:", error);
+        },
+      });
+    }
+    $("#time-slots").empty();
     createTimeSlot();
     addClickHandlers();
   });
 
+  //TODO: #36 Time slots are only being displayed correctly when the page is loaded for the first time.
   function createTimeSlot() {
+    
     for (var hour = 8; hour <= 23; hour++) {
       var timeString = (hour < 10 ? "0" + hour : hour) + ":00";
-
+      var slotIsFull = false;
+      var timeIsPassed = false;
       function checkIsSlotFull() {
         if (slotDetails) {
           for (var slot of slotDetails) {
+            var sum =
+              Number(slot.slotCapacity) +
+              Number(selectedNoOfPeopleForReservation);
             if (
+              //add condition to check the current time and disable the past time
               slot.slot === hour &&
-              (slot.slotCapacity + selectedNoOfPeopleForReservation >=
-                slotMaxCapacity ||
-                hour <= today.getHours())
+              sum >= slotMaxCapacity
             ) {
+              // console.log(hour);
+              // console.log(slot.slotCapacity +" "+ selectedNoOfPeopleForReservation +" "+sum+" " + slotMaxCapacity);
+              // console.log("Slot is full");
               return true;
             }
           }
         }
-        return false;
       }
 
-      var slotIsFull = checkIsSlotFull();
+      function checkIsTimePassed() {
+        console.log("called");
+        var currentTime = new Date();
+        // console.log(currentTime);
+        // console.log(selectedDateForReservation);
+        var currentHour = currentTime.getHours();
+        // console.log(currentHour);
+        // console.log(hour);
+        // console.log(hour < currentHour);
+        if (selectedDateForReservation === today.getDate()) {
+
+          if (hour <= currentHour) {
+            return true;
+          }
+
+        }
+      }
+
+     slotIsFull = checkIsSlotFull();
+     timeIsPassed = checkIsTimePassed();
 
       var $timeSlot = $("<div>", {
         class:
-          (slotIsFull ? " faded" : "time-slot") +
-          (hour === 8 ? " selected" : ""),
+          (slotIsFull || timeIsPassed ? " faded " : "time-slot") +
+          (hour === 8 && !slotIsFull && !timeIsPassed  ? " selected" : ""),
         id: "time-slot",
         "data-time": timeString,
         text: timeString,
@@ -179,6 +218,7 @@ $(document).ready(function () {
       $("#time-slots").append($timeSlot);
     }
   }
+
   function addClickHandlers() {
     $(".time-slot:not(.faded)").click(function () {
       $(".time-slot").removeClass("selected");
@@ -229,12 +269,13 @@ $(document).ready(function () {
     $("#selectedDate").val(selectedDate); // Set the value of the hidden input field
     $("#summary-date").text(selectedDate); // Update the text of the summary field
     selectedDateForReservation = selectedDate;
+    console.log(selectedDateForReservation);
     $.ajax({
-      url: "getReservationSlots", // Ensure this URL is correctly mapped in your server-side routing
-      type: "GET",
+      url: "getReservationSlots", 
       data: { date: selectedDate },
       dataType: "json",
       success: function (response) {
+        console.log(response);
         slotDetails = response;
       },
       error: function (xhr, status, error) {
@@ -280,7 +321,7 @@ $("#summary-table").text($("#tableID").val());
 
 function updateTotalAmount() {
   var totForFood = grandTotal;
-  
+
   let total = baseCostPerPerson * parseInt($("#numOfPeople").val() || 1);
 
   let totalPrice = total + totForFood;

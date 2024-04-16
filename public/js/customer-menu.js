@@ -1,8 +1,8 @@
+var menuItems = [];
 $(document).ready(function () {
   let currentCategoryId = "all"; 
   let currentPage = 1;
   let itemsPerPage = 16; 
-  let menuItems = [];
 
   function paginateItems(items) {
     const startIndex = (currentPage - 1) * itemsPerPage;

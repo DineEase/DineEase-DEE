@@ -38,7 +38,7 @@ class Customers extends Controller
 
         $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
         $search = isset($_POST['search']) && !empty($_POST['search']) ? $_POST['search'] : '';
-        $limit = 10;
+        $limit = 7;
         $offset = ($page - 1) * $limit;
         $status = isset($_POST['status']) && $_POST['status'] != "Select Status" ? $_POST['status'] : '';
 
