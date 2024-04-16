@@ -114,51 +114,48 @@ class Customer
     public function makePayment($data)
     {
         $this->db->query('INSERT INTO payment (invoiceID , reservationID, paymentMethod, amount ) VALUES ( :invoiceID ,:reservationID, :paymentMethod, :amount)');
-        $this->db->bind(':invoiceID', $data['invoiceID']);
+        $invoiceIDToAdd = $data['reservationID'] . '_INV';
+        $this->db->bind(':invoiceID', $invoiceIDToAdd);
         $this->db->bind(':reservationID', $data['reservationID']);
         $this->db->bind(':paymentMethod', $data['paymentMethod']);
         $this->db->bind(':amount', $data['amount']);
-        if ($this->db->execute()) {
-           
-            {
+        if ($this->db->execute()) { {
                 $this->db->query('UPDATE reservation SET invoiceID = :invoiceID WHERE reservationID = :reservationID');
                 $this->db->bind(':invoiceID', $data['invoiceID']);
                 $this->db->bind(':reservationID', $data['reservationID']);
                 $this->db->execute();
             }
             return true;
-
-        } else {    
+        } else {
             return false;
         }
     }
 
     public function createOrder($data)
     {
-        $this->db->query('INSERT INTO orders (reservationID) VALUES (:reservationID)');
+        $this->db->query('INSERT INTO orders (orderItemID,reservationID) VALUES (:orderItemID,:reservationID)');
         $this->db->bind(':reservationID', $data['reservationID']);
+        $orderIdToAdd = $data['reservationID'] . '_ORD';
+        $this->db->bind(':orderItemID', $orderIdToAdd);
 
         if ($this->db->execute()) {
-            $lastId = $this->db->lastInsertId(); {
 
-                $this->db->query('UPDATE reservation SET orderID = :orderID WHERE reservation.reservationID = :reservationID;');
-                $this->db->bind(':orderID', $lastId);
-                $this->db->bind(':reservationID', $data['reservationID']);
+            $this->db->query('UPDATE reservation SET orderID = :orderID WHERE reservation.reservationID = :reservationID;');
+            $this->db->bind(':orderID', $orderIdToAdd);
+            $this->db->bind(':reservationID', $data['reservationID']);
+            $this->db->execute();
+
+            $items = $data['orderItems'];
+            foreach ($items as $item) {
+
+                $this->db->query('INSERT INTO orderitem(orderNO, itemID,size ,quantity) VALUES (:orderID, :itemID, :size , :quantity)');
+                $this->db->bind(':orderID', $orderIdToAdd);
+                $this->db->bind(':itemID', $item['itemID']);
+                $this->db->bind(':size', $item['size']);
+                $this->db->bind(':quantity', $item['quantity']);
                 $this->db->execute();
-                
-                $items = $data['orderItems'];
-                foreach ($items as $item) {
-                    
-                    $this->db->query('INSERT INTO orderitem(orderNO, itemID,size ,quantity) VALUES (:orderID, :itemID, :size , :quantity)');
-                    $this->db->bind(':orderID', $lastId);
-                    $this->db->bind(':itemID', $item['itemID']);
-                    $this->db->bind(':size', $item['size']);
-                    $this->db->bind(':quantity', $item['quantity']);
-                    $this->db->execute();
-                }
             }
-            return $lastId;
-            // return true;
+            return true;
         } else {
             return false;
         }
@@ -342,6 +339,4 @@ class Customer
         $results = $this->db->resultSet();
         return $results;
     }
-
-   
 }
