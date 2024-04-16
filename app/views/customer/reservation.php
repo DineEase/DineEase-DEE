@@ -419,9 +419,9 @@
                                                         <input type="button" name="next" class="next action-button" value="Next" />
                                                         <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                                     </fieldset>
-                                                    <fieldset>
+                                                    <fieldset class="lastpage">
                                                         <div class="form-card">
-                                                            <div class="row fixed-height-row-reservation">
+                                                            <div class="row fixed-height-row-reservation lastpage">
                                                                 <div class="reservation-summary">
                                                                     <h3 class="fs-title">Thank you for your reservation</h3>
                                                                     <div class="summary-details">
@@ -439,9 +439,39 @@
                                                                     </div>
                                                                     <div class="added-items">
                                                                         <div class="menu-items" id="menu-items-list">
-                                                                            <!-- Menu items will be added here dynamically -->
+                                                                            <table class="tbl-cart" cellpadding="10" cellspacing="1">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th class="cart-image" width="10%"></th>
+                                                                                        <th width="30%">Name</th>
+                                                                                        <th class="" width="10%">Size</th>
+                                                                                        <th class='text-right' width="5%">Unit Price</th>
+                                                                                        <!-- <th width="3%"></th> -->
+                                                                                        <th class='text-right' width="10%" colspan="3">Quantity</th>
+                                                                                        <!-- <th width="3%"></th> -->
+                                                                                        <th class='text-right' width="10%">Sub Total</th>
+                                                                                        <th width="5%"></th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <!--  Cart table to load data on "add to cart" action -->
+                                                                                <tbody id="cartTableBody">
+                                                                                </tbody>
+                                                                                <tfoot>
+                                                                                    <tr>
+                                                                                        <td></td>
+                                                                                        <td></td>
+                                                                                        <td></td>
+                                                                                        <td class="text-right">Total:</td>
+
+                                                                                        <td id="itemCount" class="text-right" colspan="3"></td>
+
+                                                                                        <td id="cartTotalAmount" class="text-right">LKR.0.00</td>
+                                                                                        <td></td>
+                                                                                    </tr>
+                                                                                </tfoot>
+                                                                            </table>
                                                                         </div>
-                                                                        <button type="button" id="view-food-menu-in-cart">+ Add Food Items</button>
+                                                                        <button type="button" class="view-menu-to-add" id="view-food-menu-in-cart">+ Add Food Items</button>
 
                                                                         <div id="menu-div-purchase" class="menu-div-purchase">
                                                                             <div class="btn close-menu-div-purchase " id="close-menu-div-purchase"> <span class="material-symbols-outlined">
@@ -497,9 +527,9 @@
                                                                                     </div>
                                                                                     <div class="pagination-container">
                                                                                         <div class="pagination-view-only-menu">
+                                                                                            <!-- TODO: Pagination does not stop at maximum no of pages -->
                                                                                             <div class="pgbtn" id="prev-page">Previous</div>
                                                                                             <span id="page-info"></span>
-                                                                                            //TODO: Pagination does not stop at maximum no of pages
                                                                                             <div class="pgbtn" id="next-page">Next</div>
                                                                                         </div>
                                                                                     </div>
@@ -509,11 +539,11 @@
 
                                                                         <input type="hidden" id="tableID" name="tableID" value="1">
                                                                     </div>
-                                                                    <input class=""  type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
+                                                                    <input class="" type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                                        <input type="button" name="previous" class="previous action-button-previous lastpage" value="Previous" />
                                                     </fieldset>
                                                 </form>
                                             </div>

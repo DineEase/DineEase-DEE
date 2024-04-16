@@ -154,8 +154,9 @@ $(document).ready(function () {
           for (var slot of slotDetails) {
             if (
               slot.slot === hour &&
-              ((slot.slotCapacity + selectedNoOfPeopleForReservation >=
-                slotMaxCapacity ) || hour<=today.getHours() )
+              (slot.slotCapacity + selectedNoOfPeopleForReservation >=
+                slotMaxCapacity ||
+                hour <= today.getHours())
             ) {
               return true;
             }
@@ -207,7 +208,6 @@ $(document).ready(function () {
 //fixed: #27 Dater Picker does not take the default date as the selected date without clicking on it again.
 
 $(document).ready(function () {
-  
   var dateOfTheReservation = today.getDate();
   selectedDateForReservation = dateOfTheReservation;
   $.ajax({
@@ -279,21 +279,23 @@ $("#summary-table").text($("#tableID").val());
 // !Function to update total amount
 
 function updateTotalAmount() {
-  console.log()
-  let total = baseCostPerPerson * parseInt($("#numOfPeople").val() || 1); 
+  var totForFood = grandTotal;
   
-  // $(".menu-item .price").each(function () {
-  //   total += parseFloat($(this).text());
-  // });
+  let total = baseCostPerPerson * parseInt($("#numOfPeople").val() || 1);
 
-  $("#total-amount").text(`Rs.${total.toFixed(2)}`);
-  $("#totalAmount").val(total.toFixed(2));
+  let totalPrice = total + totForFood;
+
+  $("#total-amount").text(`Rs.${totalPrice.toFixed(2)}`);
+  $("#totalAmount").val(totalPrice.toFixed(2));
 }
+
+$(document).on("change", "#cartTotalAmount", function () {
+  updateTotalAmount();
+});
 
 $(document).ready(function () {
   // Constants
 
-  
   // Initialize the summary fields with the default values
   let selectedDate =
     $("#selectedDate").val() || new Date().toISOString().split("T")[0]; // Current date if not set
@@ -342,5 +344,4 @@ $(document).ready(function () {
     $(this).closest(".menu-item").remove();
     updateTotalAmount(); // Update total when an item is removed
   });
-
 });
