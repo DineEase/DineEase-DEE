@@ -28,7 +28,7 @@ $(document).ready(function () {
     });
     updatePageInfo(items.length);
   }
-
+    
   function fetchMenuItems() {
     $.ajax({
       url: "getMenuItemsAPI",

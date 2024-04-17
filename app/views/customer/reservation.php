@@ -197,7 +197,8 @@
                                                     <td>Rs. <?php echo $reservation->amount ?>.00</td>
                                                     <td><?php echo $reservation->status ?></td>
                                                     <td class="actions">
-                                                        <a href="<?php echo URLROOT; ?>/Customers/cancelReservation/<?php echo $reservation->reservationID ?>" class="trash <?php echo ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a>
+                                                        <!-- <a href="<?php echo URLROOT; ?>/Customers/cancelReservation/<?php echo $reservation->reservationID ?>" class="trash <?php echo ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a> -->
+                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View & Edit</button>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -222,6 +223,65 @@
                                         <?php endif; ?>
                                     </div>
 
+                                </div>
+                                <div id="reservation-details-container" class="reservation-details-container">
+                                <div class="rs-container" hidden>
+                                    <div class="rs-header">
+                                        <h2>Reservation Details</h2>
+                                        <div class="rs-header-items">
+                                            <div>Order No:&nbsp;<span id="rs-order-id"></span></div> 
+                                            <div id="rs-order-date-div">Order Date:&nbsp;<span id="rs-order-date">
+                                                    
+                                                </span></div>
+                                        </div>
+                                    </div>
+                                    <div class="rs-content">
+                                        <div class="rs-items">
+                                            
+                                        </div>
+                                        <div class="rs-details">
+                                            <h3> Order Summery</h3>
+                                            <table>
+                                                <tr>
+                                                    <td>Subtotal</td>
+                                                    <td id="rs-subtotal">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Reservation Fees</td>
+                                                    <td id="rs-reservation">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Service Charge</td>
+                                                    <td id="rs-service-charge">0</td>
+                                                </tr>
+
+                                                <tr class="rs-total">
+                                                    <td>Total Amount</td>
+                                                    <td id="rs-Payable">0</td>
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                        <div class="rs-actions">
+                                            <table>
+                                                <tr>
+                                                    <td class="-rs-text-cont">
+                                                        Want to Refund?: <input type="button" id="rs-refund" value="Refund Policy">
+                                                    </td>
+                                                    <td class="rs-button-cont">
+                                                        <button id="rs-review">Add Review</button>
+                                                    </td>
+                                                    <td class="rs-button-cont">
+                                                        <button id="rs-print">Print</button>
+                                                    </td>
+                                                    <td class="rs-button-cont">
+                                                        <button id="rs-cancel">Cancel</button>
+                                                    </td>
+
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
                             <section id="add" class="tab-panel">

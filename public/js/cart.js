@@ -54,7 +54,7 @@ function addToCart(itemID) {
   var prices = JSON.parse(
     $(".menu-item-card[data-item-id='" + itemID + "']").attr("data-prices")
   );
-  var sizes = ["Large", "Medium", "Small"];
+  var sizes = ["Large", "Regular", "Small"];
   var itemName = $(".menu-item-card[data-item-id='" + itemID + "'] h3").text();
 
   if (!quantity || isNaN(quantity) || quantity < 1) {
