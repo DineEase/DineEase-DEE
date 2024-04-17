@@ -243,20 +243,20 @@
                                             <h3> Order Summery</h3>
                                             <table>
                                                 <tr>
-                                                    <td>Subtotal</td>
+                                                    <td class="rs-os-head" >Subtotal</td>
                                                     <td id="rs-subtotal">0</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Reservation Fees</td>
+                                                    <td class="rs-os-head">Reservation Fees</td>
                                                     <td id="rs-reservation">0</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Service Charge</td>
+                                                    <td class="rs-os-head">Service Charge</td>
                                                     <td id="rs-service-charge">0</td>
                                                 </tr>
 
                                                 <tr class="rs-total">
-                                                    <td>Total Amount</td>
+                                                    <td class="rs-os-head-total">Total Amoun : </td>
                                                     <td id="rs-Payable">0</td>
                                                 </tr>
 
@@ -265,19 +265,18 @@
                                         <div class="rs-actions">
                                             <table>
                                                 <tr>
-                                                    <td class="-rs-text-cont">
-                                                        Want to Refund?: <input type="button" id="rs-refund" value="Refund Policy">
+                                                    <td class="rs-text-cont" width>
+                                                        Want to Refund?: <br/> <input type="button" id="rs-refund" value="Refund Policy">
                                                     </td>
                                                     <td class="rs-button-cont">
-                                                        <button id="rs-review">Add Review</button>
+                                                        <button class="light-green-btn" id="rs-review">Add Review</button>
                                                     </td>
                                                     <td class="rs-button-cont">
-                                                        <button id="rs-print">Print</button>
+                                                        <button  class="danger-btn" id="rs-cancel ">Cancel</button>
                                                     </td>
                                                     <td class="rs-button-cont">
-                                                        <button id="rs-cancel">Cancel</button>
+                                                        <button  class="" id="rs-close-btn">Close</button>
                                                     </td>
-
                                                 </tr>
                                             </table>
                                         </div>
