@@ -1044,14 +1044,14 @@ input:focus-visible + label {
   background-color: #fbfcfc;
 }
 .read table tbody tr:hover {
-  background-color: var(--brandgreen);
+  background-color: #17880015;
   transform: scale(1.02);
 }
 .read table tbody tr:hover td {
-  color: #ffffff;
+  color: black;
 }
 .read table tbody tr:hover td:nth-child(1) {
-  color: #ffffff;
+  color:black;
 }
 .read table tbody tr td {
   padding: 10px;
@@ -1760,6 +1760,8 @@ form.search-form {
   color: var(--brandgreen);
 }
 
+
+
 /* price range filter */
 /* .card-price-range {
   border: 2px solid #36b37e;
@@ -2372,6 +2374,25 @@ form.search-form {
   display: flex;
   align-self: end;
 }
+
+.edit-reservation-button {
+  display: flex !important;
+  background-color: var(--brandgreen);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  /* margin-top: 20px; */
+  width: 65%;
+  border-radius: 5px;
+  color: white;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 /* end suit cards */
 /* ! common styles */

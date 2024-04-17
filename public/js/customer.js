@@ -386,3 +386,26 @@ $(document).ready(function () {
     updateTotalAmount(); // Update total when an item is removed
   });
 });
+
+function popViewReservationDetails(element){
+  var reservationID = element.getAttribute("data-reservation-id");
+  $.ajax({
+    url: "getReservationDetails",
+    data: { reservationID: reservationID },
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+      var reservationDetails = response;
+      $("#reservationID").text(reservationDetails.reservationID);
+      $("#reservationDate").text(reservationDetails.reservationDate);
+      $("#reservationTime").text(reservationDetails.reservationTime);
+      $("#reservationTable").text(reservationDetails.tableID);
+      $("#reservationPeople").text(reservationDetails.noOfPeople);
+      $("#reservationPackage").text(reservationDetails.packageID);
+      $("#reservationTotal").text(reservationDetails.totalAmount);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching data:", error);
+    },
+  });
+}
