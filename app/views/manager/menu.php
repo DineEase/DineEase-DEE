@@ -204,8 +204,7 @@
 
 <body>
 
-
-
+    //TODO #39 Value Checking for the menu items are not implemented
     <div class="container">
         <div class="navbar-template">
             <nav class="navbar">

@@ -421,17 +421,21 @@ function popViewReservationDetails(element) {
         itemDiv.empty();
         reservationDetails[1].forEach((element) => {
           item += `<div class='rs-item-card'>
-          <img src='${element.imagePath.replace(
-            /\\\//g,
-            "/"
-          )}' alt='item'>
+          <img src='${element.imagePath.replace(/\\\//g, "/")}' alt='item'>
           <div class='rs-item-details'>
-            <p>Item Name: ${element.itemName}</p>
-            <p>Item Size: ${element.size}</p>
-            <p class='rs-item-price'>Item Price: Rs. ${element.price}.00</p>
-            <p>Quantity: ${element.quantity}</p>
-            <p class='rs-item-completed'>Completed</p>
-          </div>
+            <table>
+              <tr><td><p>Item Name: ${
+                element.itemName
+              }</p></td><td><p class='rs-item-price'>Item Price: Rs. ${
+            element.price
+          }.00</p></td></tr>
+              <tr><td><p>Item Size: ${element.size}</p></td><td><p>Quantity: ${
+            element.quantity
+          }</p></td></tr>
+            </table>
+             <p class='rs-item-completed'>Completed</p>
+
+            </div>
         </div>`;
         });
         itemDiv.append(item);
@@ -443,5 +447,9 @@ function popViewReservationDetails(element) {
       console.error("Error fetching data:", error);
       alert("Failed to fetch reservation details: " + error);
     },
+  });
+
+  $(document).on("click", "#rs-close-btn", function () {
+      $("#reservation-details-container").hide();
   });
 }
