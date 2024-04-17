@@ -387,25 +387,29 @@ $(document).ready(function () {
   });
 });
 
+
+
+//!functions for reservation view page 
+
+var reservationDetails;
+
 function popViewReservationDetails(element){
   var reservationID = element.getAttribute("data-reservation-id");
   $.ajax({
-    url: "getReservationDetails",
+    url: "getReservationDetails/" + reservationID,
     data: { reservationID: reservationID },
     dataType: "json",
     success: function (response) {
       console.log(response);
       var reservationDetails = response;
-      $("#reservationID").text(reservationDetails.reservationID);
-      $("#reservationDate").text(reservationDetails.reservationDate);
-      $("#reservationTime").text(reservationDetails.reservationTime);
-      $("#reservationTable").text(reservationDetails.tableID);
-      $("#reservationPeople").text(reservationDetails.noOfPeople);
-      $("#reservationPackage").text(reservationDetails.packageID);
-      $("#reservationTotal").text(reservationDetails.totalAmount);
+      alert(reservationDetails);
     },
     error: function (xhr, status, error) {
       console.error("Error fetching data:", error);
     },
   });
+
+  
+
 }
+

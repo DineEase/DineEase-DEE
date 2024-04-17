@@ -17,6 +17,14 @@ class Customer
         return $results;
     }
 
+    public function getReservationDetailsByID($reservationID)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $row = $this->db->single();
+        return $row;
+    }
+
     // Add a function to count the total number of reservations based on search criteria
     public function getTotalReservationCount($user_id)
     {

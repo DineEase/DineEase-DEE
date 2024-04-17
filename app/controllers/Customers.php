@@ -237,6 +237,12 @@ class Customers extends Controller
         }
     }
 
+    public function getReservationDetails($reservationID)
+    {
+        $reservationDetails = $this->customerModel->getReservationDetailsByID($reservationID);
+        echo json_encode($reservationDetails);
+    }
+
     public function markPaid()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -322,6 +328,7 @@ class Customers extends Controller
         header('Content-Type: application/json');
         echo json_encode($slots);
     }
+
     public function payhereprocesss()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

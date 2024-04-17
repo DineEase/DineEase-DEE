@@ -198,7 +198,7 @@
                                                     <td><?php echo $reservation->status ?></td>
                                                     <td class="actions">
                                                         <!-- <a href="<?php echo URLROOT; ?>/Customers/cancelReservation/<?php echo $reservation->reservationID ?>" class="trash <?php echo ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a> -->
-                                                        <button class="edit-reservation-button  onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID  ?> " btn">View $ Edit</button>
+                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View & Edit</button>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
