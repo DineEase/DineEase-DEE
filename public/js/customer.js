@@ -138,9 +138,9 @@ function toggleComment(reviewID) {
 
 //!functions for time slots
 $(document).ready(function () {
-  $("#checkSlots").click(function () 
-  { var dateOfTheReservation = today.getDate();
-    if(selectedDateForReservation==dateOfTheReservation){
+  $("#checkSlots").click(function () {
+    var dateOfTheReservation = today.getDate();
+    if (selectedDateForReservation == dateOfTheReservation) {
       $.ajax({
         url: "getReservationSlots",
         data: { date: dateOfTheReservation },
@@ -160,7 +160,6 @@ $(document).ready(function () {
 
   //TODO: #36 Time slots are only being displayed correctly when the page is loaded for the first time.
   function createTimeSlot() {
-    
     for (var hour = 8; hour <= 23; hour++) {
       var timeString = (hour < 10 ? "0" + hour : hour) + ":00";
       var slotIsFull = false;
@@ -195,21 +194,19 @@ $(document).ready(function () {
         // console.log(hour);
         // console.log(hour < currentHour);
         if (selectedDateForReservation === today.getDate()) {
-
           if (hour <= currentHour) {
             return true;
           }
-
         }
       }
 
-     slotIsFull = checkIsSlotFull();
-     timeIsPassed = checkIsTimePassed();
+      slotIsFull = checkIsSlotFull();
+      timeIsPassed = checkIsTimePassed();
 
       var $timeSlot = $("<div>", {
         class:
           (slotIsFull || timeIsPassed ? " faded " : "time-slot") +
-          (hour === 8 && !slotIsFull && !timeIsPassed  ? " selected" : ""),
+          (hour === 8 && !slotIsFull && !timeIsPassed ? " selected" : ""),
         id: "time-slot",
         "data-time": timeString,
         text: timeString,
@@ -271,7 +268,7 @@ $(document).ready(function () {
     selectedDateForReservation = selectedDate;
     console.log(selectedDateForReservation);
     $.ajax({
-      url: "getReservationSlots", 
+      url: "getReservationSlots",
       data: { date: selectedDate },
       dataType: "json",
       success: function (response) {
@@ -387,29 +384,64 @@ $(document).ready(function () {
   });
 });
 
+//!functions for reservation view page
 
-
-//!functions for reservation view page 
-
-var reservationDetails;
-
-function popViewReservationDetails(element){
+function popViewReservationDetails(element) {
   var reservationID = element.getAttribute("data-reservation-id");
+  var item = "";
+
   $.ajax({
     url: "getReservationDetails/" + reservationID,
-    data: { reservationID: reservationID },
     dataType: "json",
     success: function (response) {
-      console.log(response);
       var reservationDetails = response;
-      alert(reservationDetails);
+
+      if (reservationDetails && reservationDetails.length > 0) {
+        $("#reservation-details-container").show();
+        $("#rs-order-id").text(reservationDetails[0].orderID || "N/A");
+        $("#rs-subtotal").text(
+          "LKR : " +
+            (reservationDetails[0].amount -
+              reservationDetails[0].numOfPeople * 500) +
+            ".00" || "N/A"
+        );
+        $("#rs-order-date").text(reservationDetails[0].date || "N/A");
+        // $("#rs-time").text(reservationDetails[0].reservationStartTime || 'N/A');
+        $("#rs-reservation").text(
+          "LKR : " + reservationDetails[0].numOfPeople * 500 + ".00" || "N/A"
+        );
+        // $("#rs-package").text(reservationDetails[0].packageID || 'N/A');
+        $("#rs-Payable").text(
+          "LKR" + reservationDetails[0].amount + ".00" || "N/A"
+        );
+        // $("#rs-status").text(reservationDetails[0].status || 'N/A');
+        // $("#rs-table").text(reservationDetails[0].tableID || 'N/A');
+        // $("#rs-customer").text(reservationDetails[0].customerID || 'N/A');
+        var itemDiv = $(".rs-items");
+        itemDiv.empty();
+        reservationDetails[1].forEach((element) => {
+          item += `<div class='rs-item-card'>
+          <img src='${element.imagePath.replace(
+            /\\\//g,
+            "/"
+          )}' alt='item'>
+          <div class='rs-item-details'>
+            <p>Item Name: ${element.itemName}</p>
+            <p>Item Size: ${element.size}</p>
+            <p class='rs-item-price'>Item Price: Rs. ${element.price}.00</p>
+            <p>Quantity: ${element.quantity}</p>
+            <p class='rs-item-completed'>Completed</p>
+          </div>
+        </div>`;
+        });
+        itemDiv.append(item);
+      } else {
+        alert("No details available for this reservation.");
+      }
     },
     error: function (xhr, status, error) {
       console.error("Error fetching data:", error);
+      alert("Failed to fetch reservation details: " + error);
     },
   });
-
-  
-
 }
-

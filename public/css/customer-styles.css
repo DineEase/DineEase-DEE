@@ -63,7 +63,6 @@ body {
   vertical-align: top;
   position: fixed;
   z-index: 1000;
-  
 }
 
 .sidebar-template {
@@ -1051,7 +1050,7 @@ input:focus-visible + label {
   color: black;
 }
 .read table tbody tr:hover td:nth-child(1) {
-  color:black;
+  color: black;
 }
 .read table tbody tr td {
   padding: 10px;
@@ -1260,7 +1259,6 @@ input:focus-visible + label {
   padding-left: 100px;
   padding-right: 100px;
   margin-top: 20px;
-
 }
 
 .summery-row {
@@ -1375,38 +1373,35 @@ input:focus-visible + label {
 
 p.sum-amount {
   font-size: large;
-  font-weight: 400
-  ;
+  font-weight: 400;
 }
 span#total-amount {
   font-weight: 600;
 }
 
 .cart-table-row {
-  
   /* border-bottom: 1px solid #166c45; */
   /* background-color: red; */
   border: green solid 2px;
   border-radius: 10px !important;
   gap: 5px !important;
-
 }
 
 #proceed-to-pay {
   background-color: var(--brandgreen-dark) !important;
   display: flex;
-    color: white !important;
-    border: none !important;
-    padding: 10px 20px !important;
-    cursor: pointer !important;
-    margin-top: 20px !important;
-    width: 21% !important;
-    border-radius: 10px !important;
-    justify-content: center;
-    align-content: space-around;
-    margin-left: auto;
-    margin-right: auto;
-    height: 4em;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  margin-top: 20px !important;
+  width: 21% !important;
+  border-radius: 10px !important;
+  justify-content: center;
+  align-content: space-around;
+  margin-left: auto;
+  margin-right: auto;
+  height: 4em;
 }
 
 #proceed-to-pay:hover {
@@ -1760,8 +1755,6 @@ form.search-form {
   color: var(--brandgreen);
 }
 
-
-
 /* price range filter */
 /* .card-price-range {
   border: 2px solid #36b37e;
@@ -1873,11 +1866,9 @@ form.search-form {
 
 /* ! menu styles in cart */
 
-.lastpage{
-
+.lastpage {
   height: auto !important;
   vertical-align: top !important;
-
 }
 .menu-div-purchase {
   justify-content: center;
@@ -1897,11 +1888,10 @@ form.search-form {
   left: 19rem;
 }
 
-.cart-item-image-added{
+.cart-item-image-added {
   width: 100px;
   height: 100px;
   border-radius: 10px;
-
 }
 
 .close-menu-div-purchase {
@@ -2398,8 +2388,230 @@ form.search-form {
   background-color: var(--brandgreen-dark);
 }
 
-
 /* end suit cards */
+
+/* ! reservation styles */
+
+.reservation-details-container {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 10em;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+.rs-container {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  width: 80vh;
+  background-color: #dba3a3;
+  border-radius: 10px;
+  box-shadow: 0 0 10000px rgba(0, 0, 0, 0.5);
+  margin-left: auto;
+  margin-top: 102m;
+  margin-bottom: auto;
+  margin-right: auto;
+}
+
+.rs-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #f0f0f0;
+  /* border-radius: 10px; */
+  top: 0px;
+}
+
+.rs-header-items {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #f0f0f0;
+  margin-bottom: 1em;
+}
+
+.rs-header-items div {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  background-color: #f0f0f0;
+  margin-left: 2em;
+  margin-top: 0.5em;
+}
+
+#rs-order-date-div {
+  align-content: end;
+}
+
+.rs-header h2 {
+  margin-left: 0.75em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.rs-items-items {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rs-items-actions {
+  display: flex;
+  flex-direction: row;
+  width: 45%;
+  height: 10%;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rs-content {
+  display: flex;
+  margin-top: 1em;
+  flex-direction: column;
+  width: 95%;
+  background-color: #d6baba;
+  border-radius: 10px;
+  overflow-y: auto;
+  margin-bottom: 1em;
+}
+.rs-items {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+  margin-top: 1em;
+  background-color: #863333;
+  border-radius: 10px;
+  overflow-y: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rs-details {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 2.5%;
+  margin-left: 1em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+  background-color: #863333;
+  border-radius: 10px;
+  overflow-y: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rs-text-cont {
+  width: 30%;
+}
+
+.rs-button-cont {
+  width: 20%;
+}
+
+.rs-button-cont button {
+  width: 7em;
+  padding: 5px;
+}
+
+.rs-container tr {
+  border-radius: 20px;
+}
+
+.rs-total {
+  background-color: red;
+  border-radius: 10px;
+}
+.rs-container table {
+  /* //delete all table borders and .graph-representation */
+  border-collapse: collapse;
+  width: 100%;
+}
+.rs-container th,
+td {
+  text-align: left;
+  padding: 8px;
+}
+.rs-actions {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+  background-color: #f0f0f0;
+
+  margin-bottom: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rs-item-card {
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.rs-item-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.rs-item-card img {
+  width: 100px;
+  height: auto;
+  margin-right: 20px;
+  border-radius: 5px;
+}
+
+.rs-item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rs-item-details p {
+  margin: 4px 0;
+  color: #555;
+}
+
+.rs-item-details p:first-child {
+  margin-top: 0;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.rs-item-price {
+  color: #e8554e;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.rs-item-completed {
+  color: #5cb85c;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
 /* ! common styles */
 .btn {
   display: inline-block;

@@ -19,10 +19,36 @@ class Customer
 
     public function getReservationDetailsByID($reservationID)
     {
+        
         $this->db->query('SELECT * FROM reservation WHERE reservationID = :reservationID');
         $this->db->bind(':reservationID', $reservationID);
-        $row = $this->db->single();
-        return $row;
+        $row1 = $this->db->single();
+        
+        $this->db->query('SELECT * FROM orderitem WHERE orderNO = :orderNO');
+        $this->db->bind(':orderNO', $row1->orderID);
+        $row2 = $this->db->resultSet();
+
+        foreach($row2 as $item){
+            $this->db->query('SELECT * FROM menuitem WHERE itemID = :itemID');
+            $this->db->bind(':itemID', $item->itemID);
+            $row3 = $this->db->single();
+            $item->itemName = $row3->itemName;
+            $item->imagePath = $row3->imagePath;
+        }
+
+        foreach($row2 as $item){
+            $this->db->query('SELECT * FROM menuprices WHERE ItemID = :itemID AND itemSize = :size');
+            $this->db->bind(':itemID', $item->itemID);
+            $this->db->bind(':size', $item->size);
+            $row4 = $this->db->single();
+            $item->price = $row4->ItemPrice;
+        }
+    
+
+        $data[0]= $row1;
+        $data[1]= $row2;
+
+        return $data;
     }
 
     // Add a function to count the total number of reservations based on search criteria
@@ -202,6 +228,7 @@ class Customer
     //     $results = $this->db->resultSet();
     //     return $results;
     // }
+    
     public function getMenus()
     {
         $this->db->query("SELECT mi.itemID, mi.itemName, mi.imagePath , mi.category_ID, GROUP_CONCAT(mp.itemSize ORDER BY mp.itemSize SEPARATOR ', ') AS Sizes, GROUP_CONCAT(mp.ItemPrice ORDER BY mp.itemSize SEPARATOR ', ') AS Prices FROM menuitem mi JOIN menuprices mp ON mi.itemID = mp.ItemID WHERE mi.delete_status = 0 AND mi.hidden = 0 GROUP BY mi.itemID ORDER BY mi.itemID;");
