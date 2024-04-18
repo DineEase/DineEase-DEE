@@ -225,63 +225,117 @@
 
                                 </div>
                                 <div id="reservation-details-container" class="reservation-details-container">
-                                <div class="rs-container" hidden>
-                                    <div class="rs-header">
-                                        <h2>Reservation Details</h2>
-                                        <div class="rs-header-items">
-                                            <div>Order No:&nbsp;<span id="rs-order-id"></span></div> 
-                                            <div id="rs-order-date-div">Order Date:&nbsp;<span id="rs-order-date">
-                                                    
-                                                </span></div>
-                                        </div>
-                                    </div>
-                                    <div class="rs-content">
-                                        <div class="rs-items">
-                                            
-                                        </div>
-                                        <div class="rs-details">
-                                            <h3> Order Summery</h3>
-                                            <table>
-                                                <tr>
-                                                    <td class="rs-os-head" >Subtotal</td>
-                                                    <td id="rs-subtotal">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="rs-os-head">Reservation Fees</td>
-                                                    <td id="rs-reservation">0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="rs-os-head">Service Charge</td>
-                                                    <td id="rs-service-charge">0</td>
-                                                </tr>
+                                    <div class="rs-container" hidden>
+                                        <div class="rs-header">
+                                            <h2>Reservation Details</h2>
+                                            <div class="rs-header-items">
+                                                <div>Order No:&nbsp;<span id="rs-order-id"></span></div>
+                                                <div id="rs-order-date-div">Order Date:&nbsp;<span id="rs-order-date">
 
-                                                <tr class="rs-total">
-                                                    <td class="rs-os-head-total">Total Amoun : </td>
-                                                    <td id="rs-Payable">0</td>
-                                                </tr>
-
-                                            </table>
+                                                    </span></div>
+                                            </div>
                                         </div>
-                                        <div class="rs-actions">
-                                            <table>
-                                                <tr>
-                                                    <td class="rs-text-cont" width>
-                                                        Want to Refund?: <br/> <input type="button" id="rs-refund" value="Refund Policy">
-                                                    </td>
-                                                    <td class="rs-button-cont">
-                                                        <button class="light-green-btn" id="rs-review">Add Review</button>
-                                                    </td>
-                                                    <td class="rs-button-cont">
-                                                        <button  class="danger-btn" id="rs-cancel ">Cancel</button>
-                                                    </td>
-                                                    <td class="rs-button-cont">
-                                                        <button  class="" id="rs-close-btn">Close</button>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                        <div class="rs-content">
+                                            <div class="rs-items">
+
+                                            </div>
+                                            <div class="rs-details">
+                                                <h3> Order Summery</h3>
+                                                <table>
+                                                    <tr>
+                                                        <td class="rs-os-head">Subtotal</td>
+                                                        <td id="rs-subtotal">0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="rs-os-head">Reservation Fees</td>
+                                                        <td id="rs-reservation">0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="rs-os-head">Service Charge</td>
+                                                        <td id="rs-service-charge">0</td>
+                                                    </tr>
+
+                                                    <tr class="rs-total">
+                                                        <td class="rs-os-head-total">Total Amoun : </td>
+                                                        <td id="rs-Payable">0</td>
+                                                    </tr>
+
+                                                </table>
+                                            </div>
+                                            <div class="rs-actions">
+                                                <table>
+                                                    <tr>
+                                                        <td class="rs-text-cont" width>
+                                                            Want to Refund?: <br /> <input type="button" id="rs-refund" value="Refund Policy">
+                                                        </td>
+                                                        <td class="rs-button-cont">
+                                                            <button class="light-green-btn" id="rs-review" onclick="popAddReviewForTheReservation();" value="">Add Review</button>
+                                                        </td>
+                                                        <td class="rs-button-cont">
+                                                            <button class="danger-btn" id="rs-cancel ">Cancel</button>
+                                                        </td>
+                                                        <td class="rs-button-cont">
+                                                            <button class="" id="rs-close-btn">Close</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- review popup -->
+                                <div id="reservation-review-container" class="reservation-details-container">
+                                    <div class="rs-container" hidden>
+                                        <div class="rs-header">
+                                            <h2>Add Review</h2>
+                                            <div class="rs-header-items">
+                                                <div>Order No:&nbsp;<span id="rr-order-id"></span></div>
+                                                <div>Suite :&nbsp;<span id="rr-order-suite"></span></div>
+                                                <div id="rs-order-date-div">
+                                                    Order Date:&nbsp;<span id="rr-order-date"> </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rs-content">
+                                            <table>
+                                                <tr class="review-star-sets">
+                                                    <td>Overall Rating</td>
+                                                    <td> <?php for ($i = 0; $i < 5; $i++) {
+                                                                echo ('<i  class="fa-regular fa-star" onClick="setStarsOverallReview();" value="' . $i . ' " ></i>');
+                                                            } ?>
+                                                    </td>
+                                                </tr>
+                                                <tr class="review-star-sets">
+                                                    <td>Suite Rating</td>
+                                                    <td > <?php for ($i = 0; $i < 5; $i++) {
+                                                                echo ('<i  class="fa-regular fa-star" onClick="setStarsSuiteReview();" value="' . $i . ' " ></i>');
+                                                            } ?> </td>
+                                                </tr>
+                                            </table>
+                                            <div class="rs-details">
+                                                <h3>Reviw Menu Items</h3>
+                                                <hr>
+                                                <div class="review-order-item-container" id="review-order-item-container">
+
+                                                </div>
+                                            </div>
+                                            <div class="rs-actions">
+                                                <table>
+                                                    <tr>
+                                                        <td class="rs-button-cont">
+                                                            <button class="light-green-btn" id="rs-submit-review">Close</button>
+                                                        </td>
+                                                        <td class="rs-button-cont">
+                                                            <button class="" id="rs-close-btn-review">Close</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </section>
                             <section id="add" class="tab-panel">
                                 <div class="add-reservation-container">

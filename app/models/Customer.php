@@ -41,7 +41,14 @@ class Customer
             $this->db->bind(':itemID', $item->itemID);
             $this->db->bind(':size', $item->size);
             $row4 = $this->db->single();
-            $item->price = $row4->ItemPrice;
+            if ($row4) {
+                $item->price = $row4->ItemPrice;
+            } else {
+                $this->db->query('SELECT * FROM menuprices WHERE ItemID = :itemID AND itemSize = "Regular"');
+                $this->db->bind(':itemID', $item->itemID);
+                $row5 = $this->db->single();
+                $item->price = $row5->ItemPrice;
+            }
         }
     
 
