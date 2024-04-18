@@ -607,5 +607,70 @@ public function editpackage($data){
         return false;
     }
 }
+public function getdiscounts(){
+    $this->db->query('SELECT * FROM discounts');
+    $results = $this->db->resultSet();
+    return $results;
 }
+public function addmenudiscounts($data){
+    
+    $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
+    $this->db->bind(':type', 'menu');
+    $this->db->bind(':category_menu_id', $data['menu_ID']);
+    $this->db->bind(':discount_percentage', $data['discount']);
+    $this->db->bind(':start_date', $data['menu_start_date']);
+    $this->db->bind(':end_date', $data['menu_end_date']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+public function getdiscountedmenus(){
+    $this->db->query('SELECT discounts.*, menuitem.itemName 
+                      FROM discounts
+                      JOIN menuitem ON discounts.category_menu_id = menuitem.itemID
+                      WHERE discounts.type = "menu"');
+    $results = $this->db->resultSet();
+    return $results;
+}
+public function getdiscountedcategories(){
+    $this->db->query('SELECT discounts.*, menucategory.category_name 
+                      FROM discounts
+                      JOIN menucategory ON discounts.category_menu_id = menucategory.category_ID
+                      WHERE discounts.type = "category"');
+    $results = $this->db->resultSet();
+    return $results;
+}
+public function addcategorydiscounts($data){
+  
+    $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
+    $this->db->bind(':type', 'category');
+    $this->db->bind(':category_menu_id', $data['category_ID']);
+    $this->db->bind(':discount_percentage', $data['discount']);
+    $this->db->bind(':start_date', $data['menu_start_date']);
+    $this->db->bind(':end_date', $data['menu_end_date']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+public function addtotaldiscount($data){
+    $this->db->query('INSERT INTO discounts (type, discount_percentage,start_date, end_date) VALUES (:type, :discount_percentage, :start_date, :end_date)');
+    $this->db->bind(':type', 'total');
+    $this->db->bind(':discount_percentage', $data['discount']);
+    $this->db->bind(':start_date', $data['menu_start_date']);
+    $this->db->bind(':end_date', $data['menu_end_date']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+}
+
 ?>
