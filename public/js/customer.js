@@ -389,12 +389,13 @@ $(document).ready(function () {
 function popViewReservationDetails(element) {
   var reservationID = element.getAttribute("data-reservation-id");
   var item = "";
+  var reservationDetails;
 
   $.ajax({
     url: "getReservationDetails/" + reservationID,
     dataType: "json",
     success: function (response) {
-      var reservationDetails = response;
+      reservationDetails = response;
 
       if (reservationDetails && reservationDetails.length > 0) {
         $("#reservation-details-container").show();
@@ -405,6 +406,7 @@ function popViewReservationDetails(element) {
               reservationDetails[0].numOfPeople * 500) +
             ".00" || "N/A"
         );
+        $("#rs-review").val(reservationDetails[0].orderID);
         $("#rs-order-date").text(reservationDetails[0].date || "N/A");
         // $("#rs-time").text(reservationDetails[0].reservationStartTime || 'N/A');
         $("#rs-reservation").text(
@@ -450,6 +452,68 @@ function popViewReservationDetails(element) {
   });
 
   $(document).on("click", "#rs-close-btn", function () {
-      $("#reservation-details-container").hide();
+    $("#reservation-details-container").hide();
+  });
+}
+
+function popAddReviewForTheReservation() {
+  var reservationID = $("#rs-review").val();
+  var item = "";
+  var reservationDetails;
+  // alert(reservationID);
+  $.ajax({
+    url: "getReservationDetails/" + reservationID,
+    dataType: "json",
+    success: function (response) {
+      reservationDetails = response;
+
+      if (reservationDetails && reservationDetails.length > 0) {
+        
+        $("#reservation-details-container").hide();
+        $("#reservation-review-container").show();
+
+        var suites = [" ", "Budget", "Gold", "Platinum"];
+
+        $("#rr-order-id").text(reservationDetails[0].orderID || "N/A");
+        alert(reservationDetails[0].orderID);
+        $("#rr-order-date").text(reservationDetails[0].date || "N/A");
+        $("#rr-order-suite").text(
+          suites[reservationDetails[0].packageID] || "N/A"
+        );
+
+  //       // var itemDiv = $("#review-order-item-container");
+  //       // itemDiv.empty();
+  //       // reservationDetails[1].forEach((element) => {
+  //       //   item += `<div class='rs-item-card'>
+  //       //   <img src='${element.imagePath.replace(/\\\//g, "/")}' alt='item'>
+  //       //   <div class='rs-item-details'>
+  //       //     <table>
+  //       //       <tr><td><p>Item Name: ${
+  //       //         element.itemName
+  //       //       }</p></td><td><p class='rs-item-price'>Item Price: Rs. ${
+  //       //     element.price
+  //       //   }.00</p></td></tr>
+  //       //       <tr><td><p>Item Size: ${element.size}</p></td><td><p>Quantity: ${
+  //       //     element.quantity
+  //       //   }</p></td></tr>
+  //       //     </table>
+  //       //      <p class='rs-item-completed'>Completed</p>
+
+  //       //     </div>
+  //       // </div>`;
+  //       // });
+  //       // itemDiv.append(item);
+      } else {
+        alert("No details available for this reservation.");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching data:", error);
+      alert("Failed to fetch reservation details: " + error);
+    },
+  });
+  $(document).on("click", "#rs-close-btn-review", function () {
+    $("#reservation-review-container").hide();
+    $("#reservation-details-container").show();
   });
 }

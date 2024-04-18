@@ -57,10 +57,22 @@ function addToCart(itemID) {
   var sizes = ["Large", "Regular", "Small"];
   var itemName = $(".menu-item-card[data-item-id='" + itemID + "'] h3").text();
 
+  if(prices.length < 3) {
+    sizes = ["Regular", "Small"];
+  }
+
+  if (prices.length < 2) {
+    sizes = ["Regular"];
+  }
+
+
   if (!quantity || isNaN(quantity) || quantity < 1) {
     alert("Please enter a valid quantity.");
     return;
   }
+
+  var itemImage = $(".menu-item-card[data-item-id='" + itemID + "'] img").attr( "src" );
+  
 
   var newItem = {
     itemID: itemID,
@@ -68,6 +80,7 @@ function addToCart(itemID) {
     quantity: quantity,
     size: sizes[sizeIndex],
     price: prices[sizeIndex],
+    itemImage: itemImage,
   };
 
   var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
@@ -173,7 +186,7 @@ function showCart() {
     cartRowHTML +=
       "<tr class='cart-table-row'>" +
       "<td>" +
-      "<img class='cart-item-image-added' src='https://via.placeholder.com/150' alt='item image' />" +
+      "<img class='cart-item-image-added' src='"+ item.itemImage +"' alt='item image' />" +
       "</td>" +
       "<td>" +
       item.itemName +
@@ -225,6 +238,7 @@ function emptyCart() {
 }
 
 //! payment gateway
+
 
 // Proceed to payment
 $("#proceed-to-pay").click(function () {

@@ -2508,7 +2508,7 @@ form.search-form {
 
 .rs-items {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 95%;
   margin-top: 1em;
   background-color: #d6d0d0;
@@ -2517,6 +2517,7 @@ form.search-form {
   margin-left: auto;
   margin-right: auto;
   padding-left: 1em;
+  padding-bottom: 1em;
   padding-right: 1em;
 }
 .rs-details td {
@@ -2580,8 +2581,6 @@ td.rs-text-cont {
   color: white;
 }
 
-.yellw-btn {
-}
 
 .rs-os-head {
   font-weight: 500;
@@ -2631,10 +2630,10 @@ td {
   display: flex;
   align-items: center;
   padding: 16px;
-  margin-bottom: 1em;
+  /* margin-bottom: 1em; */
   margin-top: 1em;
   transition: box-shadow 0.3s ease-in-out;
-  width: 100%;
+  width: 95%;
 }
 
 .rs-item-card:hover {
