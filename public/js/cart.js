@@ -135,6 +135,15 @@ function addQuantityToCart(element) {
   updateSessionStorage(value, newValue);
 }
 
+function emptyCart() {
+  sessionStorage.removeItem("food-cart");
+  grandTotal = 0;
+  $("#itemCount").text(0);
+  $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
+  updateSessionStorage();
+  createTopbarCartItems();
+}
+
 function updateSessionStorage(itemID, newQuantity) {
   // Retrieve the current cart from session storage
   var cart = JSON.parse(sessionStorage.getItem("food-cart") || "[]");

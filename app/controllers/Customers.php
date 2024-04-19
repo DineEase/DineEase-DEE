@@ -96,11 +96,47 @@ class Customers extends Controller
             $totalPages = ceil($totalReservationsCount / $limit);
         }
 
-        $reservationStatus = $this->customerModel->getReservationStatus();
+        if ($reservationStatus = $this->customerModel->getReservationStatus()) {
+        } else {
+            die('Something went wrong');
+        }
+
+        if ($suite = $this->customerModel->getSuiteReviews()) {
+        } else {
+            die('Something went wrong');
+        }
+        if ($food = $this->customerModel->getFoodReviews()) {
+        } else {
+            die('Something went wrong');
+        }
+
+        foreach ($suite as $suiteName) {
+            if ($suiteName->suite === 'Budget') {
+                $totalReviewsForBudget = $suiteName->totalReviews;
+                $avgStarsForBudet = $suiteName->avgReviews;
+            } else if ($suiteName->suite === 'Gold') {
+                $totalReviewsForGold = $suiteName->totalReviews;
+                $avgSratingForGold = $suiteName->avgReviews;
+            } else if ($suiteName->suite === 'Platinum') {
+                $totalReviewsForPlatinum = $suiteName->totalReviews;
+                $avgStarsForPlatinum = $suiteName->avgReviews;
+            }
+        }
+
+        $suiteData = [
+            'totalReviewsForBudget' => $totalReviewsForBudget,
+            'avgStarsForBudet' => $avgStarsForBudet,
+            'totalReviewsForGold' => $totalReviewsForGold,
+            'avgStarsForGold' => $avgSratingForGold,
+            'totalReviewsForPlatinum' => $totalReviewsForPlatinum,
+            'avgStarsForPlatinum' => $avgStarsForPlatinum
+        ];
 
         $data = [
 
             'reservations' => $reservations,
+            'suiteReview' => $suiteData,
+            'foodReview' => $food,
             'status' => $status,
             'search' => $search,
             'page' => $page,
@@ -118,9 +154,15 @@ class Customers extends Controller
     {
         $menus = $this->customerModel->getMenus();
 
+        if ($food = $this->customerModel->getFoodReviews()) {
+        } else {
+            die('Something went wrong');
+        }
+
 
         $data = [
-            'menus' => $menus
+            'menus' => $menus,
+            'foodReview' => $food
         ];
 
 
@@ -219,8 +261,7 @@ class Customers extends Controller
             ];
             if ($error = $this->customerModel->submitReservationReview($data)) {
                 echo json_encode("success");
-            }
-            else {
+            } else {
                 echo json_encode($error);
             }
         }
@@ -325,6 +366,15 @@ class Customers extends Controller
                 die('Something went wrong');
             }
         }
+    }
+
+    //reviews
+    public function getAllReviews()
+    {
+        $data = [];
+
+
+        $this->view('customer/reservation', $data);
     }
 
     public function getMenuItemsAPI()

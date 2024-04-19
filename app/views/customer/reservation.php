@@ -275,7 +275,7 @@
                                                             <button class="light-green-btn" id="rs-review" onclick="popAddReviewForTheReservation();" value="">Add Review</button>
                                                         </td>
                                                         <td class="rs-button-cont">
-                                                            <button class="danger-btn" id="rs-cancel ">Cancel</button>
+                                                            <button class="danger-btn" id="rs-cancel" onclick="popupCancelReservation();">Cancel Reservation</button>
                                                         </td>
                                                         <td class="rs-button-cont">
                                                             <button class="" id="rs-close-btn">Close</button>
@@ -287,6 +287,46 @@
                                     </div>
                                 </div>
 
+                                <!-- cancel Reservation page -->
+                                <div id="reservation-cancel-container" class="reservation-details-container">
+                                    <div class="rs-container" hidden>
+                                        <div class="rs-header">
+                                            <h2>Cancel Reservation</h2>
+                                            <div class="rs-header-items">
+                                                <div>Order No:&nbsp;<span id="rc-order-id"></span></div>
+                                                <div>Suite :&nbsp;<span id="rc-order-suite"></span></div>
+                                                <div id="rs-order-date-div">
+                                                    Order Date:&nbsp;<span id="rc-order-date"> </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rs-content">
+                                            <div class="rs-details">
+                                                <h3>Refund Availability </h3>
+                                                <hr>
+                                                <div class="review-order-item-container" id="cancel-order-refund-possible">
+                                                <span>You are </span>    
+                                                <p></p>
+                                                </div>
+                                                <div class="review-order-item-container" id="cancel-order-refund-not-possible">
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="rs-actions">
+                                                <table class="rs-review-table">
+                                                    <tr>
+                                                        <td class="rs-button-cont ">
+                                                            <button class="red-btn review" onclick="submitCancelRequest();" id="rs-submit-cancel">Cancel Reservation</button>
+                                                        </td>
+                                                        <td class="rs-button-cont add-review">
+                                                            <button class="light-green-btn" onclick="closeCancelReservation();" id="rs-close-btn-cancel">Close</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- review popup -->
                                 <div id="reservation-review-container" class="reservation-details-container">
                                     <div class="rs-container" hidden>
@@ -367,7 +407,6 @@
                                                             <li id="confirm"><strong>Payment</strong></li>
                                                         </ul>
                                                     </div>
-
                                                     <fieldset>
                                                         <div class="form-card">
                                                             <input type="text" hidden id="customerID" value="<?php echo ($_SESSION['user_id']) ?>"></input>
@@ -390,8 +429,10 @@
 
                                                                                 <div class="rating">
 
-                                                                                    <?php echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', 4) . str_repeat('<span class="material-symbols-outlined">star</span>', 1); ?>
-                                                                                    <span>4/5 ( 20 ) </span>
+                                                                                    <?php
+                                                                                    $avgStarsB = $data['suiteReview']['avgStarsForBudet'];
+                                                                                    echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>',  $avgStarsB) . str_repeat('<span class="material-symbols-outlined">star</span>', (5 - $avgStarsB)); ?>
+                                                                                    <span> ( <?php echo $data['suiteReview']['totalReviewsForBudget']; ?>) </span>
                                                                                 </div>
 
                                                                                 <p class="desc">
@@ -418,8 +459,10 @@
 
                                                                                 <div class="rating">
 
-                                                                                    <?php echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', 5); ?>
-                                                                                    <span>5/5 ( 20 ) </span>
+                                                                                    <?php
+                                                                                    $avgStarsG = $data['suiteReview']['totalReviewsForGold'];
+                                                                                    echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', $avgStarsG) . str_repeat('<span class="material-symbols-outlined">star</span>', (5 - $avgStarsG)); ?>
+                                                                                    <span> ( <?php echo $data['suiteReview']['totalReviewsForPlatinum']; ?> ) </span>
                                                                                 </div>
 
                                                                                 <p class="desc">
@@ -446,9 +489,10 @@
                                                                                 <h1>Platinum</h1>
 
                                                                                 <div class="rating">
-
-                                                                                    <?php echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', 5); ?>
-                                                                                    <span>5/5 ( 20 ) </span>
+                                                                                    <?php
+                                                                                    $avgStarsP = $data['suiteReview']['avgStarsForPlatinum'];
+                                                                                    echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', $avgStarsP) . str_repeat('<span class="material-symbols-outlined">star</span>', (5 - $avgStarsP)); ?>
+                                                                                    <span>( <?php echo $data['suiteReview']['totalReviewsForPlatinum']; ?> ) </span>
                                                                                 </div>
 
                                                                                 <p class="desc">
@@ -692,9 +736,9 @@
 
                 </div>
                 <div class="topbar-cart-footer">
-                    <button>Empty Cart</button>
+                    <button id="topbar-cart-clear" onclick="emptyCart();">Empty Cart</button>
                     <div>
-                        <p id="cartTotalAmount"></p>
+                        <p id="topCartTotalAmount"></p>
                     </div>
                 </div>
             </div>

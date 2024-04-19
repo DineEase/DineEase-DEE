@@ -8,7 +8,6 @@ let slotMaxCapacity = 15;
 var today = new Date();
 const baseCostPerPerson = 500;
 
-
 $(document).ready(function () {
   var current = 1;
   var steps = $("fieldset").length;
@@ -326,7 +325,8 @@ function updateTotalAmount() {
 
   $("#total-amount").text(`Rs.${totalPrice.toFixed(2)}`);
   $("#totalAmount").val(totalPrice.toFixed(2));
-  $("#cartTotalAmount").text(totalPrice.toFixed(2));
+  document.getElementById("topCartTotalAmount").innerText =
+    totForFood.toFixed(2);
 }
 
 $(document).on("change", "#cartTotalAmount", function () {
@@ -647,14 +647,14 @@ function submitReviewForReservation() {
 //! topbar
 
 $(document).ready(function () {
-  function changeCartStatus() {
-    var cart = $(".topbar-shoping-cart");
-    cart.attr("value", "1");
-  }
+  // function changeCartStatus() {
+  //   var cart = $(".topbar-shoping-cart");
+  //   cart.attr("value", "1");
+  // }
 
-  $(document).on("click", ".topbar-notifications", function () {
-    changeCartStatus();
-  });
+  // $(document).on("click", ".topbar-notifications", function () {
+  //   changeCartStatus();
+  // });
 
   $(document).on("click", ".topbar-shoping-cart", function () {
     function createTopbarCartItems() {
@@ -669,21 +669,29 @@ $(document).ready(function () {
         cartRowHTML +=
           "<div class='topbar-cart-item'>" +
           "<div class='topbar-cart-image'>" +
-          "    <img src=' "+ item.itemImage +" '/>" +
+          "    <img src=' " +
+          item.itemImage +
+          " '/>" +
           " </div>" +
           " <div class='topbar-cart-details'>" +
-          "     <h4>"+ item.itemName+"</h4>" +
-          "    <p>Price : "+ item.price+  "</p>" +
-          "   <p>Quantity : "+ item.quantity+" </p>" +
+          "     <h4>" +
+          item.itemName +
+          "</h4>" +
+          "    <p>Price : " +
+          item.price +
+          "</p>" +
+          "   <p>Quantity : " +
+          item.quantity +
+          " </p>" +
           " </div>" +
           "   <div class='topbar-cart-clear'>" +
           "      <button>X</button>" +
           "    </div>" +
           "</div>";
-          subTotal = parseFloat(item.price) * parseInt(item.quantity);
+        subTotal = parseFloat(item.price) * parseInt(item.quantity);
         loopTotal += subTotal;
       });
-      
+
       $(".topbar-cart-content").empty();
       $(".topbar-cart-content").html(cartRowHTML);
     }
@@ -695,6 +703,9 @@ $(document).ready(function () {
     }
   });
 
+  $(document).on("click", "#topbar-cart-clear", function () {
+    $(".topbar-cart-container").hide();
+  });
 
   var cart = document.querySelector(".topbar-shoping-cart");
 
@@ -712,4 +723,19 @@ $(document).ready(function () {
   observer.observe(cart, {
     attributes: true,
   });
+});
+
+function popupCancelReservation() {
+  $("#reservation-cancel-container").show();
+  $("#reservation-details-container").hide();
+
+}
+
+function closeCancelReservation() {
+  $("#reservation-cancel-container").hide();
+  $("#reservation-details-container").show();
+}
+
+$(document).ready(function () {
+  
 });
