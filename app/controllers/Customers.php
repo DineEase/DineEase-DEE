@@ -201,6 +201,31 @@ class Customers extends Controller
         redirect('customers/reservation');
     }
 
+    //reservation functions
+
+    public function submitReservationReview()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'orderID' => trim($_POST['orderID']),
+                'reservationID' => trim($_POST['reservationID']),
+                'customerID' => trim($_POST['customerID']),
+                'overallRating' => trim($_POST['overallRating']),
+                'suitRating' => trim($_POST['suitRating']),
+                'comment' => trim($_POST['comment']),
+                'reviewChecked' => $_POST['reviewChecked'],
+                'suite' => $_POST['suite']
+            ];
+            if ($this->customerModel->submitReservationReview($data)) {
+                echo json_encode("added");
+            }
+        }
+    }
+
+
+
+
     public function addReservation()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -268,7 +293,6 @@ class Customers extends Controller
         }
         if ($this->customerModel->makePayment($data)) {
             echo json_encode($data);
-
         } else {
         }
     }
@@ -278,10 +302,9 @@ class Customers extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            if(isset($_POST['orderItems'])){
+            if (isset($_POST['orderItems'])) {
                 $orderItems = $_POST['orderItems'];
-            }
-            else{
+            } else {
                 $orderItems = [];
             }
             $data = [
@@ -289,18 +312,16 @@ class Customers extends Controller
                 'reservationID' => trim($_POST['reservationID']),
                 'orderItems' => $orderItems,
                 'tableID' => 1,
-                'orderTime'=>date('Y-m-d H:i:s'),
-                'orderStatus'=>'Queued'
+                'orderTime' => date('Y-m-d H:i:s'),
+                'orderStatus' => 'Queued'
             ];
-            
+
             if ($this->customerModel->createOrder($data)) {
-                echo ("Order created successfully") ;
+                echo ("Order created successfully");
             } else {
                 die('Something went wrong');
             }
-
         }
-       
     }
 
     public function getMenuItemsAPI()

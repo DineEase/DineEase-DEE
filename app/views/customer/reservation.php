@@ -332,6 +332,9 @@
                                             <div class="rs-actions">
                                                 <table class="rs-review-table">
                                                     <tr>
+                                                            <textarea class="reviewComment" id="review-comment" type="text" name="comment" value="" placeholder="Enter your comment here"></textarea>
+                                                        </tr>
+                                                    <tr>
                                                         <td class="rs-button-cont ">
                                                             <button class="light-green-btn review" onclick="submitReviewForReservation();" id="rs-submit-review">Add Review</button>
                                                         </td>

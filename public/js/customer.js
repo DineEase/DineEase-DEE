@@ -511,6 +511,7 @@ function popAddReviewForTheReservation() {
 
         review = {
           orderID: reservationDetails[0].orderID,
+          suite: suites[reservationDetails[0].packageID],
           reservationID: reservationDetails[0].reservationID,
           customerID: reservationDetails[0].customerID,
           items: reservationDetails[1],
@@ -599,7 +600,10 @@ function submitReviewForReservation() {
   var overallRating = document.getElementById("overall-rating-cont-input").value;
   var suitRating = document.getElementById("suit-rating-cont-input").value;
   var reviewedItemsIDst = review.reviewedItemsIDs;
+  var suite = review.suite;
+  console.log(suite);
   var reviewChecked = [];
+  var comment = document.getElementById("review-comment").value;
   for (let i = 0; i < reviewedItemsIDst.length; i++) {
   
     itemToCheck = reviewedItemsIDst[i] + "-input";
@@ -616,7 +620,9 @@ function submitReviewForReservation() {
     customerID: review.customerID,
     overallRating: overallRating,
     suitRating: suitRating,
+    comment: comment,
     reviewChecked: reviewChecked,
+    suite: suite,
   };
 
   $.ajax({
@@ -626,6 +632,7 @@ function submitReviewForReservation() {
     success: function (response) {
       alert("Review submitted successfully");
       $("#reservation-review-container").hide();
+      console.log(response);
     },
     error: function (xhr, status, error) {
       console.error("Error submitting review:", error);

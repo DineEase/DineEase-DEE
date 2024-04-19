@@ -19,16 +19,16 @@ class Customer
 
     public function getReservationDetailsByID($reservationID)
     {
-        
+
         $this->db->query('SELECT * FROM reservation WHERE reservationID = :reservationID');
         $this->db->bind(':reservationID', $reservationID);
         $row1 = $this->db->single();
-        
+
         $this->db->query('SELECT * FROM orderitem WHERE orderNO = :orderNO');
         $this->db->bind(':orderNO', $row1->orderID);
         $row2 = $this->db->resultSet();
 
-        foreach($row2 as $item){
+        foreach ($row2 as $item) {
             $this->db->query('SELECT * FROM menuitem WHERE itemID = :itemID');
             $this->db->bind(':itemID', $item->itemID);
             $row3 = $this->db->single();
@@ -36,7 +36,7 @@ class Customer
             $item->imagePath = $row3->imagePath;
         }
 
-        foreach($row2 as $item){
+        foreach ($row2 as $item) {
             $this->db->query('SELECT * FROM menuprices WHERE ItemID = :itemID AND itemSize = :size');
             $this->db->bind(':itemID', $item->itemID);
             $this->db->bind(':size', $item->size);
@@ -50,10 +50,10 @@ class Customer
                 $item->price = $row5->ItemPrice;
             }
         }
-    
 
-        $data[0]= $row1;
-        $data[1]= $row2;
+
+        $data[0] = $row1;
+        $data[1] = $row2;
 
         return $data;
     }
@@ -235,7 +235,7 @@ class Customer
     //     $results = $this->db->resultSet();
     //     return $results;
     // }
-    
+
     public function getMenus()
     {
         $this->db->query("SELECT mi.itemID, mi.itemName, mi.imagePath , mi.category_ID, GROUP_CONCAT(mp.itemSize ORDER BY mp.itemSize SEPARATOR ', ') AS Sizes, GROUP_CONCAT(mp.ItemPrice ORDER BY mp.itemSize SEPARATOR ', ') AS Prices FROM menuitem mi JOIN menuprices mp ON mi.itemID = mp.ItemID WHERE mi.delete_status = 0 AND mi.hidden = 0 GROUP BY mi.itemID ORDER BY mi.itemID;");
@@ -380,5 +380,32 @@ class Customer
         $this->db->bind(':date', $date);
         $results = $this->db->resultSet();
         return $results;
+    }
+
+    public function submitReservationReview($data)
+    {
+
+        $this->db->query('INSERT INTO reservationreview (customerID, overallrating, suitRating, comment, reservationID, suite) VALUES (:customerID, :overallrating, :suitRating, :comment, :reservationID, :suite )');
+        $this->db->bind(':customerID', $data['customerID']);
+        $this->db->bind(':overallrating', $data['overallRating']);
+        $this->db->bind(':suitRating', $data['suitRating']);
+        $this->db->bind(':comment', $data['comment']);
+        $this->db->bind(':reservationID', $data['reservationID']);
+        $this->db->bind(':suite', $data['suite']);
+
+        if ($this->db->execute()) {
+            $reviewID = $this->db->lastInsertId();
+            $items = $data['reviewChecked'];
+            foreach ($items as $item) {
+
+                $this->db->query('INSERT INTO reviewfood(reviewID, itemID,stars) VALUES (:reviewID, :itemID, :stars)');
+                $this->db->bind(':reviewID', $reviewID);
+                $this->db->bind(':itemID', $item['ItemID']);
+                $this->db->bind(':stars', $item['rating']);
+                $this->db->execute();
+            }
+        } else {
+            return false;
+        }
     }
 }
