@@ -26,7 +26,10 @@
                     </div>
                     <div class="navbar-content">
                         <div class="profile-details">
-                            <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
+                            <span class="material-symbols-outlined topbar-shoping-cart" value="0">
+                                shopping_cart_off
+                            </span>
+                            <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <img src="<?php echo URLROOT ?>/public/img/login/profilepic.png" alt="profile-photo" class="profile" />
                         </div>
@@ -304,21 +307,21 @@
                                                     <td id="overall-rating-cont">
                                                         <?php
                                                         for ($i = 0; $i < 5; $i++) {
-                                                            echo ('<i class="fa fa-star fa-regular" onclick="setStars(this);" id="overall-rating-cont-star' . $i . '" data-id="overall-rating-cont" value="' . $i . '"></i>');
+                                                            echo ('<i class="fa-solid fa-star reviewed-star" onclick="setStars(this);" id="overall-rating-cont-star' . $i . '" data-id="overall-rating-cont" value="' . $i . '"></i>');
                                                         }
                                                         ?>
-                                                        <input type="hidden" id="overall-rating-cont-input" name="overall-rating" value="-1">
+                                                        <input type="hidden" id="overall-rating-cont-input" name="overall-rating" value="5">
                                                     </td>
                                                 </tr>
                                                 <tr class="review-star-sets">
                                                     <td>Suite Rating</td>
                                                     <td id="suit-rating-cont">
-                                                    <?php
+                                                        <?php
                                                         for ($i = 0; $i < 5; $i++) {
-                                                            echo ('<i class="fa fa-star fa-regular" onclick="setStars(this);" id="suit-rating-cont-star' . $i . '" data-id="suit-rating-cont" value="' . $i . '"></i>');
+                                                            echo ('<i class=" fa-solid fa-star reviewed-star " onclick="setStars(this);" id="suit-rating-cont-star' . $i . '" data-id="suit-rating-cont" value="' . $i . '"></i>');
                                                         }
                                                         ?>
-                                                        <input type="hidden" id="suit-rating-cont-input" name="suit-rating-cont" value="-1">
+                                                        <input type="hidden" id="suit-rating-cont-input" name="suit-rating-cont" value="5">
                                                     </td>
                                                 </tr>
                                             </table>
@@ -332,8 +335,8 @@
                                             <div class="rs-actions">
                                                 <table class="rs-review-table">
                                                     <tr>
-                                                            <textarea class="reviewComment" id="review-comment" type="text" name="comment" value="" placeholder="Enter your comment here"></textarea>
-                                                        </tr>
+                                                        <textarea class="reviewComment" id="review-comment" type="text" name="comment" value="" placeholder="Enter your comment here"></textarea>
+                                                    </tr>
                                                     <tr>
                                                         <td class="rs-button-cont ">
                                                             <button class="light-green-btn review" onclick="submitReviewForReservation();" id="rs-submit-review">Add Review</button>
@@ -677,6 +680,21 @@
                                 </div>
                             </section>
                         </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="topbar-cart-container">
+                <div class="topbar-cart-header">
+                    <h3>Added Food Items</h3>
+                </div>
+                <div class="topbar-cart-content">
+
+                </div>
+                <div class="topbar-cart-footer">
+                    <button>Empty Cart</button>
+                    <div>
+                        <p id="cartTotalAmount"></p>
                     </div>
                 </div>
             </div>

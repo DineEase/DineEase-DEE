@@ -217,8 +217,11 @@ class Customers extends Controller
                 'reviewChecked' => $_POST['reviewChecked'],
                 'suite' => $_POST['suite']
             ];
-            if ($this->customerModel->submitReservationReview($data)) {
-                echo json_encode("added");
+            if ($error = $this->customerModel->submitReservationReview($data)) {
+                echo json_encode("success");
+            }
+            else {
+                echo json_encode($error);
             }
         }
     }

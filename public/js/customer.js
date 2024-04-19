@@ -8,6 +8,7 @@ let slotMaxCapacity = 15;
 var today = new Date();
 const baseCostPerPerson = 500;
 
+
 $(document).ready(function () {
   var current = 1;
   var steps = $("fieldset").length;
@@ -325,6 +326,7 @@ function updateTotalAmount() {
 
   $("#total-amount").text(`Rs.${totalPrice.toFixed(2)}`);
   $("#totalAmount").val(totalPrice.toFixed(2));
+  $("#cartTotalAmount").text(totalPrice.toFixed(2));
 }
 
 $(document).on("change", "#cartTotalAmount", function () {
@@ -538,7 +540,7 @@ function createStars(item) {
   orderItem = orderItem.toLowerCase();
   for (var i = 0; i < 5; i++) {
     stars +=
-      "<i class=' fa-star fa-regular reviewed-star ' onclick='setStarsItem(this);' id='" +
+      "<i class=' fa-star fa-solid reviewed-star ' onclick='setStarsItem(this);' id='" +
       orderItem +
       i +
       "'data-id='" +
@@ -597,7 +599,9 @@ function setStarsItem(element) {
 }
 
 function submitReviewForReservation() {
-  var overallRating = document.getElementById("overall-rating-cont-input").value;
+  var overallRating = document.getElementById(
+    "overall-rating-cont-input"
+  ).value;
   var suitRating = document.getElementById("suit-rating-cont-input").value;
   var reviewedItemsIDst = review.reviewedItemsIDs;
   var suite = review.suite;
@@ -605,12 +609,11 @@ function submitReviewForReservation() {
   var reviewChecked = [];
   var comment = document.getElementById("review-comment").value;
   for (let i = 0; i < reviewedItemsIDst.length; i++) {
-  
     itemToCheck = reviewedItemsIDst[i] + "-input";
     var rating = document.getElementById(itemToCheck).value;
     reviewChecked[i] = {
       reviewID: reviewedItemsIDst[i],
-      ItemID : review.items[i].itemID,
+      ItemID: review.items[i].itemID,
       rating: rating,
     };
   }
@@ -639,7 +642,74 @@ function submitReviewForReservation() {
       alert("Failed to submit review: " + error);
     },
   });
-
-
-
 }
+
+//! topbar
+
+$(document).ready(function () {
+  function changeCartStatus() {
+    var cart = $(".topbar-shoping-cart");
+    cart.attr("value", "1");
+  }
+
+  $(document).on("click", ".topbar-notifications", function () {
+    changeCartStatus();
+  });
+
+  $(document).on("click", ".topbar-shoping-cart", function () {
+    function createTopbarCartItems() {
+      var cartRowHTML = "";
+      var loopTotal = 0;
+      var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
+
+      cartArray.forEach(function (item, index) {
+        var subTotal = parseFloat(item.price) * parseInt(item.quantity);
+        var id = item.itemID;
+
+        cartRowHTML +=
+          "<div class='topbar-cart-item'>" +
+          "<div class='topbar-cart-image'>" +
+          "    <img src=' "+ item.itemImage +" '/>" +
+          " </div>" +
+          " <div class='topbar-cart-details'>" +
+          "     <h4>"+ item.itemName+"</h4>" +
+          "    <p>Price : "+ item.price+  "</p>" +
+          "   <p>Quantity : "+ item.quantity+" </p>" +
+          " </div>" +
+          "   <div class='topbar-cart-clear'>" +
+          "      <button>X</button>" +
+          "    </div>" +
+          "</div>";
+          subTotal = parseFloat(item.price) * parseInt(item.quantity);
+        loopTotal += subTotal;
+      });
+      
+      $(".topbar-cart-content").empty();
+      $(".topbar-cart-content").html(cartRowHTML);
+    }
+    createTopbarCartItems();
+    if ($(".topbar-cart-container").is(":visible")) {
+      $(".topbar-cart-container").hide();
+    } else {
+      $(".topbar-cart-container").show();
+    }
+  });
+
+
+  var cart = document.querySelector(".topbar-shoping-cart");
+
+  var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "value"
+      ) {
+        alert("Cart cahnged");
+      }
+    });
+  });
+
+  observer.observe(cart, {
+    attributes: true,
+  });
+});

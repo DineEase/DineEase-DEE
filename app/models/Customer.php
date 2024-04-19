@@ -404,6 +404,7 @@ class Customer
                 $this->db->bind(':stars', $item['rating']);
                 $this->db->execute();
             }
+            return true;
         } else {
             return false;
         }

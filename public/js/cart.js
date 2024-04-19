@@ -4,6 +4,7 @@ var popupWindow = document.getElementById("menu-div-purchase");
 var closeButton = document.getElementById("close-menu-div-purchase");
 var addedReservationID;
 var grandTotal = 0;
+var topCartTotal = 0;
 
 // !show hide menus
 // Show the pop-up window when the link is clicked
