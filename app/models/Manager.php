@@ -132,7 +132,7 @@ public function viewManagerProfile()
         $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
         $this->db->query('INSERT INTO menuitem (itemName, price, averageTime, hidden, imagePath, category_ID, description) VALUES (:itemName, :price, :averageTime, :hidden, :imagePath, :categoryID, :description)');
         $this->db->bind(':itemName', $data['itemName']);
-        $this->db->bind(':price', $data['pricesmall']);
+        $this->db->bind(':price', $data['priceregular']);
         $this->db->bind(':averageTime', $data['averageTime']);
         $this->db->bind(':hidden', 0);
         $this->db->bind(':imagePath', $imagePath);
