@@ -16,20 +16,6 @@
 
 /* common end */
 
-/* 
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-style: normal;
-  font-size: 24px;  
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-} */
-
 /* template style */
 body {
   margin: 0;
@@ -75,6 +61,78 @@ body {
 }
 
 /* template style  ends here*/
+
+.db-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 93vh;
+  background-color: #cb6a6a;
+  margin: 0;
+  padding: 0;
+}
+
+.db-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #f2eaea;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+  height: 15vh;
+}
+
+.db-body {
+  display: flex;
+  width: 100%;
+  height: 70vh;
+  background-color: #9b5656;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.db-body-tile {
+  width: 45%;
+  height: 100%;
+  background-color: #704a4a;
+  margin: 0;
+  padding: 0;
+}
+
+.db-footer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 15vh;
+  background-color: #0a0a0a;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+}
+
+.db-top-tile {
+  width: 20%;
+  height: 100%;
+  background-color: #f12424;
+  margin: 0;
+  padding: 0;
+}
+
+.db-footer-tile {
+  width: 45%;
+  height: 100%;
+  background-color: #38c23f;
+  margin: 0;
+  padding: 0;
+}
+
 
 /* NAVBAR STYLE STARTS HERE */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
@@ -2416,6 +2474,7 @@ form.search-form {
   margin-top: 7em;
   margin-bottom: 3em;
   margin-right: auto;
+  backdrop-filter: blur(3px);
 }
 
 .rs-header {
@@ -2553,7 +2612,7 @@ form.search-form {
   border-radius: 5px;
   padding: 5px;
   border: 1px solid;
-  
+  height:3em;
 }
 
 .rs-button-cont button:hover {
@@ -2624,7 +2683,7 @@ td {
 }
 
 .rs-item-card {
-  background: #fff;
+  background: #f0f0f0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   display: flex;
@@ -2634,6 +2693,7 @@ td {
   margin-top: 1em;
   transition: box-shadow 0.3s ease-in-out;
   width: 95%;
+  padding: 1em;
 }
 
 .rs-item-card:hover {
@@ -2686,6 +2746,28 @@ td {
   font-size: 0.9rem;
   margin-top: 8px;
   text-transform: uppercase;
+}
+/* 
+.rs-review-table td{
+  padding: 0.5em;
+} */
+.review-star-sets td {
+  padding-left: 3em;
+  height: 1em;
+  padding-top: 1em;
+}
+.reviewed-star{
+  color: var(--brandgreen);
+
+}
+
+.btn-review{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td.rs-button-cont {
+  text-align: center;
 }
 
 /* ! common styles */

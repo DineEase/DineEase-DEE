@@ -57,7 +57,7 @@ function addToCart(itemID) {
   var sizes = ["Large", "Regular", "Small"];
   var itemName = $(".menu-item-card[data-item-id='" + itemID + "'] h3").text();
 
-  if(prices.length < 3) {
+  if (prices.length < 3) {
     sizes = ["Regular", "Small"];
   }
 
@@ -65,14 +65,14 @@ function addToCart(itemID) {
     sizes = ["Regular"];
   }
 
-
   if (!quantity || isNaN(quantity) || quantity < 1) {
     alert("Please enter a valid quantity.");
     return;
   }
 
-  var itemImage = $(".menu-item-card[data-item-id='" + itemID + "'] img").attr( "src" );
-  
+  var itemImage = $(".menu-item-card[data-item-id='" + itemID + "'] img").attr(
+    "src"
+  );
 
   var newItem = {
     itemID: itemID,
@@ -107,31 +107,31 @@ function addToCart(itemID) {
   updateTotalAmount();
 }
 
-function subtractQuantityFromCart(element){
+//TODO #43 Slot reservation amount must be deducted from the total amount
+
+function subtractQuantityFromCart(element) {
   alert("Subtracting");
   var value = $(element).data("slot-label");
   alert(value);
-  var quantity = $("#cart-item-quantity-input"+ value).val();
+  var quantity = $("#cart-item-quantity-input" + value).val();
   alert(quantity);
   var newValue = parseInt(quantity) - 1;
   if (newValue < 1) newValue = 1;
-  $("#cart-item-quantity-input"+ value).val(newValue);
+  $("#cart-item-quantity-input" + value).val(newValue);
 
   updateSessionStorage(value, newValue);
-  
 }
-function addQuantityToCart(element){
+function addQuantityToCart(element) {
   alert("Subtracting");
   var value = $(element).data("slot-label");
   alert(value);
-  var quantity = $("#cart-item-quantity-input"+ value).val();
+  var quantity = $("#cart-item-quantity-input" + value).val();
   alert(quantity);
   var newValue = parseInt(quantity) + 1;
   if (newValue > 10) newValue = 10;
-  $("#cart-item-quantity-input"+ value).val(newValue);
+  $("#cart-item-quantity-input" + value).val(newValue);
 
   updateSessionStorage(value, newValue);
-
 }
 
 function updateSessionStorage(itemID, newQuantity) {
@@ -139,9 +139,9 @@ function updateSessionStorage(itemID, newQuantity) {
   var cart = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
 
   // Find the item and update its quantity
-  var found = cart.find(item => item.itemID == itemID);
+  var found = cart.find((item) => item.itemID == itemID);
   if (found) {
-      found.quantity = newQuantity; // Update the quantity
+    found.quantity = newQuantity; // Update the quantity
   }
 
   // Save the updated cart back to session storage
@@ -149,7 +149,6 @@ function updateSessionStorage(itemID, newQuantity) {
   showCart();
   updateTotalAmount();
 }
-
 
 function removeFromCart(index) {
   var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
@@ -182,11 +181,13 @@ function showCart() {
 
   cartArray.forEach(function (item, index) {
     var subTotal = parseFloat(item.price) * parseInt(item.quantity);
-    var id=item.itemID;
+    var id = item.itemID;
     cartRowHTML +=
       "<tr class='cart-table-row'>" +
       "<td>" +
-      "<img class='cart-item-image-added' src='"+ item.itemImage +"' alt='item image' />" +
+      "<img class='cart-item-image-added' src='" +
+      item.itemImage +
+      "' alt='item image' />" +
       "</td>" +
       "<td>" +
       item.itemName +
@@ -197,15 +198,21 @@ function showCart() {
       "<td>LKR" +
       item.price +
       "</td>" +
-      "<td><div class='cart-item-quantity-subtract' onclick='subtractQuantityFromCart(this);' data-slot-label='"+id+"'  ><i class='fa fa-chevron-left'</i> </div>" +
+      "<td><div class='cart-item-quantity-subtract' onclick='subtractQuantityFromCart(this);' data-slot-label='" +
+      id +
+      "'  ><i class='fa fa-chevron-left'</i> </div>" +
       "</td>" +
       "<td>" +
-      "<input type='text' class='product-quantity-input' id='cart-item-quantity-input"+id+"' value=" +
+      "<input type='text' class='product-quantity-input' id='cart-item-quantity-input" +
+      id +
+      "' value=" +
       item.quantity +
       ">" +
       "</td>" +
       "<td>" +
-      "<div class='cart-item-quantity-add' onclick='addQuantityToCart(this);'  data-slot-label='"+id+"'><i class='fa fa-chevron-right'></i></div>" +
+      "<div class='cart-item-quantity-add' onclick='addQuantityToCart(this);'  data-slot-label='" +
+      id +
+      "'><i class='fa fa-chevron-right'></i></div>" +
       "</td>" +
       "<td>LKR." +
       subTotal.toFixed(2) +
@@ -238,7 +245,6 @@ function emptyCart() {
 }
 
 //! payment gateway
-
 
 // Proceed to payment
 $("#proceed-to-pay").click(function () {

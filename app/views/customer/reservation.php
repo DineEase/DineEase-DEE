@@ -301,16 +301,25 @@
                                             <table>
                                                 <tr class="review-star-sets">
                                                     <td>Overall Rating</td>
-                                                    <td> <?php for ($i = 0; $i < 5; $i++) {
-                                                                echo ('<i  class="fa-regular fa-star" onClick="setStarsOverallReview();" value="' . $i . ' " ></i>');
-                                                            } ?>
+                                                    <td id="overall-rating-cont">
+                                                        <?php
+                                                        for ($i = 0; $i < 5; $i++) {
+                                                            echo ('<i class="fa fa-star fa-regular" onclick="setStars(this);" id="overall-rating-cont-star' . $i . '" data-id="overall-rating-cont" value="' . $i . '"></i>');
+                                                        }
+                                                        ?>
+                                                        <input type="hidden" id="overall-rating-cont-input" name="overall-rating" value="-1">
                                                     </td>
                                                 </tr>
                                                 <tr class="review-star-sets">
                                                     <td>Suite Rating</td>
-                                                    <td > <?php for ($i = 0; $i < 5; $i++) {
-                                                                echo ('<i  class="fa-regular fa-star" onClick="setStarsSuiteReview();" value="' . $i . ' " ></i>');
-                                                            } ?> </td>
+                                                    <td id="suit-rating-cont">
+                                                    <?php
+                                                        for ($i = 0; $i < 5; $i++) {
+                                                            echo ('<i class="fa fa-star fa-regular" onclick="setStars(this);" id="suit-rating-cont-star' . $i . '" data-id="suit-rating-cont" value="' . $i . '"></i>');
+                                                        }
+                                                        ?>
+                                                        <input type="hidden" id="suit-rating-cont-input" name="suit-rating-cont" value="-1">
+                                                    </td>
                                                 </tr>
                                             </table>
                                             <div class="rs-details">
@@ -321,12 +330,12 @@
                                                 </div>
                                             </div>
                                             <div class="rs-actions">
-                                                <table>
+                                                <table class="rs-review-table">
                                                     <tr>
-                                                        <td class="rs-button-cont">
-                                                            <button class="light-green-btn" id="rs-submit-review">Close</button>
+                                                        <td class="rs-button-cont ">
+                                                            <button class="light-green-btn review" onclick="submitReviewForReservation();" id="rs-submit-review">Add Review</button>
                                                         </td>
-                                                        <td class="rs-button-cont">
+                                                        <td class="rs-button-cont add-review">
                                                             <button class="" id="rs-close-btn-review">Close</button>
                                                         </td>
                                                     </tr>
@@ -675,7 +684,7 @@
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+    <!-- <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script> -->
 
 </body>
 
