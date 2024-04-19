@@ -22,110 +22,69 @@
         overflow-x: hidden;
     }
 
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+    /* Style for the menu details container */
+.menu-details-container {
+    margin: 20px auto;
+    width: 80%;
+}
 
-    h3 {
-        font-size: 3rem;
-        margin: 2rem 0;
-    }
+/* Style for the menu details section */
+.menu-details {
+    display: flex;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
 
-    .editmenu {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    }
+/* Style for the menu details image */
+.menu-details-image {
+    flex: 1;
+    padding: 20px;
+}
 
+.menu-details-image img {
+    max-width: 100%;
+    height: auto;
+}
 
-    .imagePart img {
-        margin-top: 40px;
-        width: 350px;
-        height: 400px;
-        border-radius: 1rem;
-        object-fit: cover;
-        border: 5px solid #2c3e50;
-    }
+/* Style for the menu details info */
+.menu-details-info {
+    flex: 2;
+    padding: 20px;
+}
 
-    .imagePart span {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.5rem 1.5rem;
-        border-radius: 0.5rem;
-        background-color: #000000;
-        color: #ffffff;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
+/* Style for the menu details rows */
+.menu-details-row {
+    margin-bottom: 10px;
+}
 
-    .NamePart input,
-    .NamePart select {
-        width: 100%;
-        padding: 1rem;
-        font-size: 1.2rem;
-        border: none;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-    }
+/* Style for the menu details label */
+.menu-details-label {
+    font-weight: bold;
+}
 
-    .invalid-feedback {
-        color: #ff0000;
-        /* Red color for error messages */
-        font-size: 1rem;
-        margin-top: 5px;
-        display: block;
-    }
+/* Style for the menu details value */
+.menu-details-value {
+    margin-left: 10px;
+}
 
-    .buttons button {
-        color: #ffffff;
-        background-color: #030303;
-        outline: none;
-        border: none;
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-        margin-right: 0.7rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
+/* Style for the menu details prices */
+.menu-details-prices {
+    display: flex;
+    flex-wrap: wrap;
+}
 
-    .imgbuttons button {
-        color: #ffffff;
-        background-color: #030303;
-        outline: none;
-        border: none;
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-        margin-top: 1rem;
-        margin-right: 0.7rem;
-        margin-left: 5rem;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
+/* Style for the menu details price */
+.menu-details-price {
+    margin-right: 10px;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
-    .menubuttons {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .buttons,
-    .menubuttons {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
 </style>
+
 
 
 <body>
@@ -279,94 +238,42 @@
             </div>
         </nav>
     </div>
-
-    <div class="editmenu">
-        <div class="others">
-            <div class="imagePart">
-                <img src="" />
-                <div class="imgbuttons">
-                    <form action="<?php echo URLROOT; ?>/managers/submitMenuitem" method="post" id="menuForm" enctype="multipart/form-data">
-                        <button type="button" id="imageButton">Add Image</button>
-                        <input type="file" name="imagePath" accept="image/*" style="display: none;" id="imageInput" onchange="previewImage(event)">
-
+    <div class="menu-details-container">
+    <div class="menu-details">
+        <div class="menu-details-image">
+            <img src="<?php echo URLROOT . '/uploads/' . basename($data['imagePath']); ?>" alt="Menu Item Image" />
+        </div>
+        <div class="menu-details-info">
+            <div class="menu-details-row">
+                <label class="menu-details-label" for="category">Category:</label>
+                <span class="menu-details-value"><?php echo htmlspecialchars($data['category']); ?></span>
+            </div>
+            <div class="menu-details-row">
+                <label class="menu-details-label" for="itemName">Name:</label>
+                <span class="menu-details-value"><?php echo htmlspecialchars($data['itemName']); ?></span>
+            </div>
+            <div class="menu-details-row">
+                <label class="menu-details-label" for="prices">Prices:</label>
+                <div class="menu-details-prices">
+                    <?php foreach ($data['sizes'] as $key => $size): ?>
+                        <span class="menu-details-price"><?php echo ucfirst($size) . ": $" . $data['prices'][$key]; ?></span>
+                    <?php endforeach; ?>
                 </div>
             </div>
-            <div class="NamePart">
-                <label for="category">Select Category:</label>
-                <select id="category" name="category" required>
-                    <?php foreach ($data['menucategory'] as $category) : ?>
-                        <option value="<?php echo $category->category_ID; ?>"><?php echo $category->category_name; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <span>Name:</span>
-                <input type="text" name="itemName" class="<?php echo (!empty($data['itemName_err'])) ? 'is-invalid' : '' ?>" placeholder="name" required>
-                <span class="invalid-feedback"> <?php echo $data['itemName_err'] ?> </span>
-                <span>Price(Small):</span>
-                <input type="number" name="pricesmall" placeholder="price" />
-                <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                <span>Price(Regular)(Required):</span>
-                <input type="number" name="priceregular" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" placeholder="price" required />
-                <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                <span>Price(Large):</span>
-                <input type="number" name="pricelarge" placeholder="price" />
-                <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                <span>Average Prepare Time MINS:</span>
-                <input type="text" name="averageTime" class="<?php echo (!empty($data['averageTime_err'])) ? 'is-invalid' : '' ?>" placeholder="time" required />
-                <span class="invalid-feedback"> <?php echo $data['averageTime_err'] ?> </span>
-                <span>Description:</span>
-                <input type="text" name="description" class="<?php echo (!empty($data['description_err'])) ? 'is-invalid' : '' ?>" placeholder="Description" required />
-                <span class="invalid-feedback"> <?php echo $data['description_err'] ?> </span>
-
-                <div class="buttons">
-                    <button type="submit">Save Changes</button>
-                    <button type="reset">Reset</button>
-                    <button type="button" id="cancelButton">Cancel</button>
-                </div>
-                </form>
+            <div class="menu-details-row">
+                <label class="menu-details-label" for="averageTime">Average Prepare Time MINS:</label>
+                <span class="menu-details-value"><?php echo htmlspecialchars($data['averageTime']); ?></span>
+            </div>
+            <div class="menu-details-row">
+                <label class="menu-details-label" for="description">Description:</label>
+                <span class="menu-details-value"><?php echo htmlspecialchars($data['description']); ?></span>
             </div>
         </div>
     </div>
-
-    <script>
-        // Declare the previewImage function in the global scope
-        function previewImage(event) {
-            var input = event.target;
-            var preview = document.querySelector('.imagePart img');
-            var reader = new FileReader();
-
-            reader.onload = function() {
-                preview.src = reader.result;
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
+</div>
 
 
-
-
-
-
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Image upload button click event
-            document.getElementById('imageButton').addEventListener('click', function() {
-                document.getElementById('imageInput').click();
-            });
-
-            // Get the cancel button element by its ID
-            var cancelButton = document.getElementById('cancelButton');
-
-            // Add click event listener to the cancel button
-            cancelButton.addEventListener('click', function(event) {
-                // Redirect to the index page when the button is clicked
-                window.location.href = '<?php echo URLROOT; ?>/managers/menu/';
-            });
-
-            // Set up the onchange event for file input
-            document.getElementById('imageInput').addEventListener('change', previewImage);
-        });
-    </script>
+    
 
 </body>
 

@@ -76,6 +76,36 @@ class Managers extends Controller
         ];
         $this->view('manager/menu', $data);
     }
+
+    public function viewmenuitem($itemID)
+    {
+        $menuItem = $this->managerModel->getmenudetails($itemID);
+        if (!$menuItem) {
+            // Handle the case where the menu item does not exist
+            // For example, you can redirect to an error page or show an error message
+            ob_clean();
+            $data['message'] = 'No Such Menu Item Found';
+            $this->redirectpage($data, true, URLROOT . '/managers/menu', 5, 'Error', 'Menu Error');
+            exit();
+        }
+        
+        // Create the $data array with retrieved menu item details
+        $data = [
+            'itemID' => $menuItem->itemID,
+            'itemName' => $menuItem->itemName,
+            'prices' => explode(',', $menuItem->prices), // Convert prices string to array
+            'sizes' => explode(',', $menuItem->sizes), // Convert sizes string to array
+            'averageTime' => $menuItem->averageTime,
+            'imagePath' => $menuItem->imagePath,
+            'category' => $menuItem->category_name,
+            'description' => $menuItem->description,
+        ];
+    
+        // Pass the $data array to the view
+        $this->view('manager/viewmenu', $data);
+    }
+    
+
     public function submitMenuitem()
     {
         $menuCategories = $this->managerModel->getmenucategory();

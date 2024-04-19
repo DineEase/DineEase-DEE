@@ -394,7 +394,9 @@
             foreach ($data['menu'] as $menuitem) {
                 echo '<div class="item-chef-menu">';
                 echo '<div class="image-box-chef-menu">';
+                echo '<a href="' . URLROOT . '/managers/viewmenuitem/' . $menuitem->itemID . '">';
                 echo '<img src="' . URLROOT . '/uploads/' . basename($menuitem->imagePath) . '" alt="Menu Item Image">';
+                echo '</a>';
                 echo '</div>';
                 echo '<div class="bottom-chef-menu">';
                 echo '<p class="title-chef-menu">' . $menuitem->itemName . '</p>';
