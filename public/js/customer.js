@@ -456,6 +456,8 @@ function popViewReservationDetails(element) {
   });
 }
 
+var review;
+
 function popAddReviewForTheReservation() {
   var reservationID = $("#rs-review").val();
   var item = "";
@@ -468,41 +470,52 @@ function popAddReviewForTheReservation() {
       reservationDetails = response;
 
       if (reservationDetails && reservationDetails.length > 0) {
-        
         $("#reservation-details-container").hide();
         $("#reservation-review-container").show();
 
         var suites = [" ", "Budget", "Gold", "Platinum"];
 
         $("#rr-order-id").text(reservationDetails[0].orderID || "N/A");
-        alert(reservationDetails[0].orderID);
         $("#rr-order-date").text(reservationDetails[0].date || "N/A");
         $("#rr-order-suite").text(
           suites[reservationDetails[0].packageID] || "N/A"
         );
 
-  //       // var itemDiv = $("#review-order-item-container");
-  //       // itemDiv.empty();
-  //       // reservationDetails[1].forEach((element) => {
-  //       //   item += `<div class='rs-item-card'>
-  //       //   <img src='${element.imagePath.replace(/\\\//g, "/")}' alt='item'>
-  //       //   <div class='rs-item-details'>
-  //       //     <table>
-  //       //       <tr><td><p>Item Name: ${
-  //       //         element.itemName
-  //       //       }</p></td><td><p class='rs-item-price'>Item Price: Rs. ${
-  //       //     element.price
-  //       //   }.00</p></td></tr>
-  //       //       <tr><td><p>Item Size: ${element.size}</p></td><td><p>Quantity: ${
-  //       //     element.quantity
-  //       //   }</p></td></tr>
-  //       //     </table>
-  //       //      <p class='rs-item-completed'>Completed</p>
+        var itemDiv = $("#review-order-item-container");
+        itemDiv.empty();
+        reservationDetails[1].forEach((element) => {
+          var stars = createStars(element);
+          item += `<div class='rs-item-card'>
+                    <img src='${element.imagePath.replace(
+                      /\\\//g,
+                      "/"
+                    )}' alt='item'>
+                    <div class='rs-item-details'>
+                    <table>
+                      <tr><td><p>Item Name: ${
+                        element.itemName
+                      }</p></td><td><p class='rs-item-price'></p></td></tr>
+                        <tr><td><p>Item Size: ${element.size}</p></td><td><p>
+                        Rating :  ${stars}</p></td></tr>
+                      </table>
+                  </div>
+                </div>`;
+        });
+        itemDiv.append(item);
 
-  //       //     </div>
-  //       // </div>`;
-  //       // });
-  //       // itemDiv.append(item);
+        var rID = [];
+
+        reservationDetails[1].forEach((element) => {
+          rID.push((element.orderNo + element.itemID).toLowerCase());
+        });
+
+        review = {
+          orderID: reservationDetails[0].orderID,
+          reservationID: reservationDetails[0].reservationID,
+          customerID: reservationDetails[0].customerID,
+          items: reservationDetails[1],
+          reviewedItemsIDs: rID,
+        };
       } else {
         alert("No details available for this reservation.");
       }
@@ -516,4 +529,110 @@ function popAddReviewForTheReservation() {
     $("#reservation-review-container").hide();
     $("#reservation-details-container").show();
   });
+}
+
+function createStars(item) {
+  var stars = "";
+  orderItem = item.orderNo + item.itemID;
+  orderItem = orderItem.toLowerCase();
+  for (var i = 0; i < 5; i++) {
+    stars +=
+      "<i class=' fa-star fa-regular reviewed-star ' onclick='setStarsItem(this);' id='" +
+      orderItem +
+      i +
+      "'data-id='" +
+      orderItem +
+      "' value='" +
+      i +
+      "'></i>";
+  }
+  stars +=
+    "<input type='hidden' id='" +
+    orderItem +
+    "-input' name='" +
+    orderItem +
+    "-rating' value='5'>";
+  return stars;
+}
+
+// Review in reservation page
+
+function setStars(element) {
+  var value = parseInt($(element).attr("value")) + 1;
+  var tdID = $(element).data("id");
+
+  $("#" + tdID)
+    .find("i")
+    .each(function (index) {
+      if (index < value) {
+        $(this).removeClass("fa-regular fa-star");
+        $(this).addClass("fa-solid fa-star reviewed-star");
+      } else {
+        $(this).removeClass("fa-solid fa-star reviewed-star");
+        $(this).addClass("fa-regular fa-star");
+      }
+    });
+
+  $("#" + tdID + "-input").val(value);
+}
+
+function setStarsItem(element) {
+  var value = parseInt($(element).attr("value")) + 1;
+  var tdID = $(element).data("id");
+  parent = element.parentElement;
+
+  $(parent)
+    .find("i")
+    .each(function (index) {
+      if (index < value) {
+        $(this).removeClass("fa-regular fa-star");
+        $(this).addClass("fa-solid fa-star reviewed-star");
+      } else {
+        $(this).removeClass("fa-solid fa-star reviewed-star");
+        $(this).addClass("fa-regular fa-star");
+      }
+    });
+  $("#" + tdID + "-input").val(value);
+}
+
+function submitReviewForReservation() {
+  var overallRating = document.getElementById("overall-rating-cont-input").value;
+  var suitRating = document.getElementById("suit-rating-cont-input").value;
+  var reviewedItemsIDst = review.reviewedItemsIDs;
+  var reviewChecked = [];
+  for (let i = 0; i < reviewedItemsIDst.length; i++) {
+  
+    itemToCheck = reviewedItemsIDst[i] + "-input";
+    var rating = document.getElementById(itemToCheck).value;
+    reviewChecked[i] = {
+      reviewID: reviewedItemsIDst[i],
+      ItemID : review.items[i].itemID,
+      rating: rating,
+    };
+  }
+  var reviewDataCollected = {
+    orderID: review.orderID,
+    reservationID: review.reservationID,
+    customerID: review.customerID,
+    overallRating: overallRating,
+    suitRating: suitRating,
+    reviewChecked: reviewChecked,
+  };
+
+  $.ajax({
+    url: "submitReservationReview",
+    method: "POST",
+    data: reviewDataCollected,
+    success: function (response) {
+      alert("Review submitted successfully");
+      $("#reservation-review-container").hide();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error submitting review:", error);
+      alert("Failed to submit review: " + error);
+    },
+  });
+
+
+
 }

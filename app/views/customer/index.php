@@ -135,9 +135,7 @@
             </nav>
         </div>
         <div class="body-template">
-            <div id="content">
-              Dashboard
-            </div>
+            
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>

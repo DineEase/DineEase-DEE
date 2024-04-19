@@ -676,7 +676,7 @@ $data = [
 
     private function handleImageUpload($imageFile)
     {
-        $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\';
+        $targetDirectory = 'D:\\xampp\\htdocs\\DineEase-DEE\\public\\uploads\\';
 
         $targetFile = $targetDirectory . basename($imageFile['name']);
 
