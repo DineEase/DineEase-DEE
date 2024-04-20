@@ -21,5 +21,8 @@
             "username": "root",
             "password": ""
         }
+    ],
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "main"
     ]
 }

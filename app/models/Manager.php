@@ -684,7 +684,29 @@ public function addtotaldiscount($data){
         return false;
     }
 }
+public function gettotaldiscount(){
+    $this->db->query('SELECT * FROM discounts WHERE type = "total"');
+    $results = $this->db->resultSet();
+    return $results;
+}
+public function getdiscountbyID($discountID){
+    $this->db->query('SELECT * FROM discounts WHERE discountID = :discountID');
+    $this->db->bind(':discountID', $discountID);
+    $row = $this->db->single();
+    return $row;
+}
+public function updatemenudiscounts($data){
+    $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE discountID = :discountID');
+    $this->db->bind(':discountID', $data['discountID']);
+    $this->db->bind(':discount_percentage', $data['discount']);
+    $this->db->bind(':start_date', $data['menu_start_date']);
+    $this->db->bind(':end_date', $data['menu_end_date']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
 
 }
-
+}
 ?>
