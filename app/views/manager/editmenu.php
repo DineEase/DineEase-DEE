@@ -66,7 +66,7 @@
         cursor: pointer;
     }
 
-   .NamePart input,
+    .NamePart input,
     .NamePart select {
         width: 100%;
         padding: 1rem;
@@ -131,7 +131,7 @@
 
 <body>
 
-     <div class="navbar-template">
+    <div class="navbar-template">
         <nav class="navbar">
             <div class="topbar">
                 <div class="logo-item">
@@ -156,7 +156,7 @@
                 </div>
             </div>
         </nav>
-    </div> 
+    </div>
     <div class="sidebar-template">
         <nav class="sidebar">
             <div class="sidebar-container">
@@ -203,41 +203,41 @@
                             </a>
                         </li>
                         <li class="item">
-                                <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                Package
-                                            </span>
+                            <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu" id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            Package
                                         </span>
-                                        <span class="button-sidebar-menu-content">Packages </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT; ?>/managers/addtable" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                Table_Restaurant
-                                            </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Packages </span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="<?php echo URLROOT; ?>/managers/addtable" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu" id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            Table_Restaurant
                                         </span>
-                                        <span class="button-sidebar-menu-content">Tables </span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT; ?>/managers/handlediscounts" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu " id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                sell
-                                            </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Tables </span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="<?php echo URLROOT; ?>/managers/handlediscounts" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu " id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            sell
                                         </span>
-                                        <span class="button-sidebar-menu-content">Discounts</span>
-                                    </button>
-                                </a>
-                            </li>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Discounts</span>
+                                </button>
+                            </a>
+                        </li>
                         <!-- End -->
 
 
@@ -291,39 +291,38 @@
                             <input type="file" name="imagePath" accept="image/*" style="display: none;" id="imageInput" onchange="previewImage(event)">
                     </div>
                 </div>
-
+               
                 <div class="NamePart">
-    <label for="category">Select Category:</label>
-    <select id="category" name="category" required>
-        <?php foreach ($data['menucategory'] as $category) : ?>
-            <?php $selected = ($category->category_ID == $data['category_ID']) ? 'selected' : ''; ?>
-            <option value="<?php echo $category->category_ID; ?>" <?php echo $selected; ?>>
-                <?php echo $category->category_name; ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+                    <label for="category">Select Category:</label>
+                    <select id="category" name="category" required>
+                        <?php foreach ($data['menucategory'] as $category) : ?>
+                            <?php $selected = ($category->category_ID == $data['category_ID']) ? 'selected' : ''; ?>
+                            <option value="<?php echo $category->category_ID; ?>" <?php echo $selected; ?>>
+                                <?php echo $category->category_name; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    
+                    <span>Name:</span> <?php echo htmlspecialchars($data['itemName']); ?>
+                    <input type="text" name="itemName" class="<?php echo (!empty($data['itemName_err'])) ? 'is-invalid' : '' ?>" placeholder="Name" required value="<?php echo $data['itemName']; ?>" />
+                    <span class="invalid-feedback"> <?php echo $data['itemName_err'] ?> </span>
+                    <span>Price(Small):</span> <?php echo htmlspecialchars($data['pricesmall']); ?>
+                    <input type="text" name="pricesmall" placeholder="Price(small)" value="<?php echo htmlspecialchars($data['pricesmall']); ?>" />
+                    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
+                    <span>Price(Regular):</span> <?php echo htmlspecialchars($data['priceregular']); ?>
+                    <input type="text" name="priceregular" placeholder="Price(Regular)" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['priceregular']); ?>" />
+                    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
+                    <span>Price(Large):</span> <?php echo htmlspecialchars($data['pricelarge']); ?>
+                    <input type="text" name="pricelarge" placeholder="Price(Large)"value="<?php echo htmlspecialchars($data['pricelarge']); ?>" />
+                    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
+                    <span>Average Prepare Time MINS:</span> <?php echo htmlspecialchars($data['averageTime']); ?>
+                    <input type="text" name="averageTime" placeholder="Time" class="<?php echo (!empty($data['averageTime_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['averageTime']); ?>" />
+                    <span class="invalid-feedback"> <?php echo $data['averageTime_err'] ?> </span>
+                    <span>Description:</span>
+                    <input type="text" name="description" placeholder="Description" class="<?php echo (!empty($data['description_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['description']); ?>" />
+                    <span class="invalid-feedback"> <?php echo $data['description_err'] ?> </span>
 
-  
-    <span>Name:</span> <?php echo htmlspecialchars($data['itemName']); ?>
-    <input type="text" name="itemName" class="<?php echo (!empty($data['itemName_err'])) ? 'is-invalid' : '' ?>" placeholder="Name" required value="<?php echo $data['itemName']; ?>" />
-    <span class="invalid-feedback"> <?php echo $data['itemName_err'] ?> </span>
-    <span>Average Prepare Time MINS:</span> <?php echo htmlspecialchars($data['averageTime']); ?>
-    <input type="text" name="averageTime" placeholder="Time" class="<?php echo (!empty($data['averageTime_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['averageTime']); ?>" />
-    <span class="invalid-feedback"> <?php echo $data['averageTime_err'] ?> </span>
-    <span>Description:</span>
-    <input type="text" name="description" placeholder="Description" class="<?php echo (!empty($data['description_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['description']); ?>" />
-    <span class="invalid-feedback"> <?php echo $data['description_err'] ?> </span>
-    <span>Price(Small):</span> <?php echo htmlspecialchars($data['pricesmall']); ?>
-    <input type="text" name="pricesmall" placeholder="Price(small)" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['pricesmall']); ?>" />
-    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-    <span>Price(Regular):</span> <?php echo htmlspecialchars($data['priceregular']); ?>
-    <input type="text" name="priceregular" placeholder="Price(Regular)" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['priceregular']); ?>" />
-    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-    <span>Price(Large):</span> <?php echo htmlspecialchars($data['pricelarge']); ?>
-    <input type="text" name="pricelarge" placeholder="Price(Large)" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['pricelarge']); ?>" />
-    <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-    
-    
+
 
 
 
@@ -339,6 +338,7 @@
             </div>
         </div>
     </div>
+   
     <script>
         document.getElementById('imageButton').addEventListener('click', function() {
             document.getElementById('imageInput').click();

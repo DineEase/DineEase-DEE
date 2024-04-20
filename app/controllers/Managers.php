@@ -76,6 +76,36 @@ class Managers extends Controller
         ];
         $this->view('manager/menu', $data);
     }
+
+    public function viewmenuitem($itemID)
+    {
+        $menuItem = $this->managerModel->getmenudetails($itemID);
+        if (!$menuItem) {
+            // Handle the case where the menu item does not exist
+            // For example, you can redirect to an error page or show an error message
+            ob_clean();
+            $data['message'] = 'No Such Menu Item Found';
+            $this->redirectpage($data, true, URLROOT . '/managers/menu', 5, 'Error', 'Menu Error');
+            exit();
+        }
+        
+        // Create the $data array with retrieved menu item details
+        $data = [
+            'itemID' => $menuItem->itemID,
+            'itemName' => $menuItem->itemName,
+            'prices' => explode(',', $menuItem->prices), // Convert prices string to array
+            'sizes' => explode(',', $menuItem->sizes), // Convert sizes string to array
+            'averageTime' => $menuItem->averageTime,
+            'imagePath' => $menuItem->imagePath,
+            'category' => $menuItem->category_name,
+            'description' => $menuItem->description,
+        ];
+    
+        // Pass the $data array to the view
+        $this->view('manager/viewmenu', $data);
+    }
+    
+
     public function submitMenuitem()
     {
         $menuCategories = $this->managerModel->getmenucategory();
@@ -179,11 +209,23 @@ class Managers extends Controller
             $data['itemName_err'] = 'Item Name is already taken';
         }
 
-        if (empty($data['pricesmall']) || empty($data['priceregular']) || empty($data['pricelarge'])) {
+        if (empty($data['priceregular'])) {
             $data['price_err'] = 'Please enter price';
-        } elseif (!is_numeric($data['pricesmall']) || !is_numeric($data['priceregular']) || !is_numeric($data['pricelarge'])) {
+        } elseif (!is_numeric($data['priceregular'])) {
             $data['price_err'] = 'Price must be a valid number';
+        } elseif (
+            (!empty($data['pricesmall']) && !is_numeric($data['pricesmall'])) ||
+            (!empty($data['pricelarge']) && !is_numeric($data['pricelarge'])) ||
+            (
+                (!empty($data['pricesmall']) && $data['pricesmall'] >= $data['priceregular']) ||
+                (!empty($data['pricelarge']) && $data['pricelarge'] <= $data['priceregular'])
+            )
+        ) {
+            $data['price_err'] = 'Prices must be in ascending order: Small < Regular < Large';
         }
+        
+        
+        
         
         if (empty($data['averageTime'])) {
             $data['averageTime_err'] = 'Please enter average time';
@@ -193,7 +235,7 @@ class Managers extends Controller
         if (empty($data['description'])) {
             $data['description_err'] = 'Please enter description';
         }
-
+        //var_dump($data);
         return $data;
     }
     public function editMenuitem($itemID)
@@ -258,10 +300,19 @@ class Managers extends Controller
                 }
             }
 
-            if (empty($data['pricesmall']) || empty($data['priceregular']) || empty($data['pricelarge'])){
+            if (empty($data['priceregular'])) {
                 $data['price_err'] = 'Please enter price';
-            } elseif (!is_numeric($data['pricesmall']) || !is_numeric($data['priceregular']) || !is_numeric($data['pricelarge'])){
+            } elseif (!is_numeric($data['priceregular'])) {
                 $data['price_err'] = 'Price must be a valid number';
+            } elseif (
+                (!empty($data['pricesmall']) && !is_numeric($data['pricesmall'])) ||
+                (!empty($data['pricelarge']) && !is_numeric($data['pricelarge'])) ||
+                (
+                    (!empty($data['pricesmall']) && $data['pricesmall'] >= $data['priceregular']) ||
+                    (!empty($data['pricelarge']) && $data['pricelarge'] <= $data['priceregular'])
+                )
+            ) {
+                $data['price_err'] = 'Prices must be in ascending order: Small < Regular < Large';
             }
             
             if (empty($data['averageTime'])) {
@@ -676,7 +727,7 @@ $data = [
 
     private function handleImageUpload($imageFile)
     {
-        $targetDirectory = 'D:\\xampp\\htdocs\\DineEase-DEE\\public\\uploads\\';
+        $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\';
 
         $targetFile = $targetDirectory . basename($imageFile['name']);
 

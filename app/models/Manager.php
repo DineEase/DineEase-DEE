@@ -132,7 +132,7 @@ public function viewManagerProfile()
         $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
         $this->db->query('INSERT INTO menuitem (itemName, price, averageTime, hidden, imagePath, category_ID, description) VALUES (:itemName, :price, :averageTime, :hidden, :imagePath, :categoryID, :description)');
         $this->db->bind(':itemName', $data['itemName']);
-        $this->db->bind(':price', $data['pricesmall']);
+        $this->db->bind(':price', $data['priceregular']);
         $this->db->bind(':averageTime', $data['averageTime']);
         $this->db->bind(':hidden', 0);
         $this->db->bind(':imagePath', $imagePath);
@@ -303,7 +303,21 @@ return false;
     return $row;
    }
     
+   public function getmenudetails($id){
+    $this->db->query('SELECT menuitem.*, 
+                            menucategory.category_name, 
+                            GROUP_CONCAT(DISTINCT menuprices.itemSize) AS sizes, 
+                            GROUP_CONCAT(DISTINCT menuprices.itemPrice) AS prices
+                      FROM menuitem
+                      LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
+                      LEFT JOIN menuprices ON menuitem.itemID = menuprices.itemID
+                      WHERE menuitem.itemID = :id');
+    $this->db->bind(':id', $id);
+    $row = $this->db->single();
     
+    return $row;
+}
+
     
     
     
