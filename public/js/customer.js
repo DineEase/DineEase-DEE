@@ -389,12 +389,30 @@ $(document).ready(function () {
 
 //!functions for reservation view page
 
-var openedReservationDetails;
+
+
+// function isAlreadyReviewed(reservationID) {
+  
+//   fetch(`isisThereAReview?reservationid=${reservationID}`)
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.reviewExists) {
+//             console.log("A review exists.");
+//         } else {
+//             console.log("No review available.");
+//         }
+//     })
+//     .catch(error => console.error('Error:', error));
+// }
 
 function popViewReservationDetails(element) {
+  
   var reservationID = element.getAttribute("data-reservation-id");
   var item = "";
   var reservationDetails;
+  var isAlreadyReviewed;
+
+  // isAlreadyReviewed(reservationID);
 
   $.ajax({
     url: "getReservationDetails/" + reservationID,
@@ -402,8 +420,21 @@ function popViewReservationDetails(element) {
     success: function (response) {
       reservationDetails = response;
       openedReservationDetails = reservationDetails;
+      
 
       if (reservationDetails && reservationDetails.length > 0) {
+
+        isAlreadyReviewed = reservationDetails[0].review;
+        console.log(isAlreadyReviewed);
+
+        if (isAlreadyReviewed > 0) {
+          $("#rs-review").prop("disabled", true);
+          $("#rs-review").css("background-color", "grey");
+          $("#rs-review").css("pointer-events", "none");
+          $("#rs-review").css("cursor", "not-allowed");
+          $("#rs-review").val("Already Reviewed");
+        }
+
         $("#reservation-details-container").show();
         $("#rs-order-id").text(reservationDetails[0].orderID || "N/A");
         $("#rs-subtotal").text(
@@ -609,7 +640,6 @@ function submitReviewForReservation() {
   var suitRating = document.getElementById("suit-rating-cont-input").value;
   var reviewedItemsIDst = review.reviewedItemsIDs;
   var suite = review.suite;
-  console.log(suite);
   var reviewChecked = [];
   var comment = document.getElementById("review-comment").value;
   for (let i = 0; i < reviewedItemsIDst.length; i++) {
@@ -735,7 +765,6 @@ function closeCancelReservation() {
 }
 
 $(document).ready(function () {
-
   var possibilityToRefund;
   var reservationID;
   var orderID;
@@ -749,18 +778,18 @@ $(document).ready(function () {
   $(document).on("click", "#rs-cancel", function () {
     $("#reservation-cancel-container").show();
     $("#reservation-details-container").hide();
-    console.log(openedReservationDetails);
 
-     reservationID = openedReservationDetails[0].reservationID;
+    reservationID = openedReservationDetails[0].reservationID;
 
-     orderID = openedReservationDetails[0].orderID;
-     amount = openedReservationDetails[0].amount;
-     date = openedReservationDetails[0].date;
-     suiteID = openedReservationDetails[0].packageID;
-     suite = ["Budget", "Gold", "Platinum"];
-     suiteName = suite[suiteID];
-     slotToCancel = openedReservationDetails[0].reservationStartTime;
-     possibilityToRefund;
+    orderID = openedReservationDetails[0].orderID;
+    amount = openedReservationDetails[0].amount;
+    date = openedReservationDetails[0].date;
+    suiteID = openedReservationDetails[0].packageID;
+    suite = ["Budget", "Gold", "Platinum"];
+    suiteName = suite[suiteID];
+
+    slotToCancel = openedReservationDetails[0].reservationStartTime;
+    possibilityToRefund;
 
     var checkingDate = new Date(date);
     checkingDate.setHours(0, 0, 0, 0);
@@ -780,19 +809,64 @@ $(document).ready(function () {
     $("#rc-order-id").text(orderID);
     $("#rc-order-suite").text(suiteName);
     $("#rc-order-date").text(date);
-
-    if (possibilityToRefund == 1) {
-      $("#cancel-order-refund-not-possible").hide();
-      $("#cancel-order-refund-possible").show();
-    } else if (possibilityToRefund == 0) {
-      $("#cancel-order-refund-possible").hide();
-      $("#cancel-order-refund-not-possible").show();
-    }
+    loadCancellationDetails(
+      openedReservationDetails[0].status,
+      possibilityToRefund
+    );
   });
 
   $(document).on("click", "#rc-submit-cancel", function () {
     cancelReservation(possibilityToRefund);
   });
+
+  function loadCancellationDetails(status, possibilityToRefund) {
+    if (
+      status == "Refund Requested" ||
+      status == "Cancelled" ||
+      status == "Refunded"
+    ) {
+      $("#rc-submit-cancel").prop("disabled", true);
+      $("#rc-submit-cancel").css("background-color", "grey");
+      $("#rc-submit-cancel").text("Already Cancelled");
+      $("#rc-submit-cancel").css("pointer-events", "none");
+      $("#rc-submit-cancel").css("cursor", "not-allowed");
+
+
+      if (status == "Refund Requested") {
+        $("#cancel-order-refund-given").hide();
+        $("#cancel-order-refund-possible").hide();
+        $("#cancel-order-refund-not-possible").hide();
+        $("#cancel-order-cancelled-no-refund").hide();
+        $("#cancel-order-refund-requested").show();
+      } else if (status == "Cancelled") {
+        $("#cancel-order-refund-given").hide();
+        $("#cancel-order-refund-requested").hide();
+        $("#cancel-order-refund-possible").hide();
+        $("#cancel-order-refund-not-possible").hide();
+        $("#cancel-order-cancelled-no-refund").show();
+      } else if (status == "Refunded") {
+        $("#cancel-order-refund-requested").hide();
+        $("#cancel-order-refund-possible").hide();
+        $("#cancel-order-refund-not-possible").hide();
+        $("#cancel-order-cancelled-no-refund").hide();
+        $("#cancel-order-refund-given").show();
+      }
+    } else {
+      if (possibilityToRefund == 1) {
+        $("#cancel-order-refund-given").hide();
+        $("#cancel-order-refund-not-possible").hide();
+        $("#cancel-order-cancelled-no-refund").hide();
+        $("#cancel-order-refund-requested").hide();
+        $("#cancel-order-refund-possible").show();
+      } else if (possibilityToRefund == 0) {
+        $("#cancel-order-refund-given").hide();
+        $("#cancel-order-cancelled-no-refund").hide();
+        $("#cancel-order-refund-possible").hide();
+        $("#cancel-order-refund-requested").hide();
+        $("#cancel-order-refund-not-possible").show();
+      }
+    }
+  }
 
   function cancelReservation(possibilityToRefunds) {
     $.ajax({
@@ -807,29 +881,27 @@ $(document).ready(function () {
       },
       success: function (response) {
         // $("#reservation-cancel-container").hide();
-        // location.reload();
-        // console.log(response);
         cancelationResponse = response;
 
         if (
           cancelationResponse.status == 1 &&
           cancelationResponse.refund == 1
         ) {
-          // $("#cancel-order-refund-possible").show();
-          // $("#cancel-order-refund-not-possible").hide();
-          // $("#cancel-order-refund-possible").text(
-          //   "Refund will be processed within 24 hours."
-          // );
+          $("#cancel-order-refund-possible").hide();
+          $("#cancel-order-refund-not-possible").hide();
+          $("#cancel-order-cancelled-no-refund").hide();
+          $("#cancel-order-refund-requested").show();
+
           console.log("Refund will be processed within 24 hours.");
         } else if (
           cancelationResponse.status == 1 &&
           cancelationResponse.refund == 0
         ) {
-          // $("#cancel-order-refund-possible").show();
-          // $("#cancel-order-refund-not-possible").hide();
-          // $("#cancel-order-refund-possible").text(
-          //   "Refund is not possible for this reservation."
-          // );
+          $("#cancel-order-refund-possible").hide();
+          $("#cancel-order-refund-not-possible").hide();
+          $("#cancel-order-refund-requested").hide();
+          $("#cancel-order-cancelled-no-refund").show();
+
           console.log(
             "Refund is not possible for this reservation but cancelled the reservation."
           );

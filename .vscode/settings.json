@@ -22,7 +22,4 @@
             "password": ""
         }
     ],
-    "githubPullRequests.ignoredPullRequestBranches": [
-        "main"
-    ]
 }
