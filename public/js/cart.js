@@ -4,6 +4,7 @@ var popupWindow = document.getElementById("menu-div-purchase");
 var closeButton = document.getElementById("close-menu-div-purchase");
 var addedReservationID;
 var grandTotal = 0;
+var topCartTotal = 0;
 
 // !show hide menus
 // Show the pop-up window when the link is clicked
@@ -132,6 +133,15 @@ function addQuantityToCart(element) {
   $("#cart-item-quantity-input" + value).val(newValue);
 
   updateSessionStorage(value, newValue);
+}
+
+function emptyCart() {
+  sessionStorage.removeItem("food-cart");
+  grandTotal = 0;
+  $("#itemCount").text(0);
+  $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
+  updateSessionStorage();
+  createTopbarCartItems();
 }
 
 function updateSessionStorage(itemID, newQuantity) {

@@ -325,6 +325,8 @@ function updateTotalAmount() {
 
   $("#total-amount").text(`Rs.${totalPrice.toFixed(2)}`);
   $("#totalAmount").val(totalPrice.toFixed(2));
+  document.getElementById("topCartTotalAmount").innerText =
+    totForFood.toFixed(2);
 }
 
 $(document).on("change", "#cartTotalAmount", function () {
@@ -386,6 +388,8 @@ $(document).ready(function () {
 
 //!functions for reservation view page
 
+var openedReservationDetails;
+
 function popViewReservationDetails(element) {
   var reservationID = element.getAttribute("data-reservation-id");
   var item = "";
@@ -396,6 +400,7 @@ function popViewReservationDetails(element) {
     dataType: "json",
     success: function (response) {
       reservationDetails = response;
+      openedReservationDetails = reservationDetails;
 
       if (reservationDetails && reservationDetails.length > 0) {
         $("#reservation-details-container").show();
@@ -538,7 +543,7 @@ function createStars(item) {
   orderItem = orderItem.toLowerCase();
   for (var i = 0; i < 5; i++) {
     stars +=
-      "<i class=' fa-star fa-regular reviewed-star ' onclick='setStarsItem(this);' id='" +
+      "<i class=' fa-star fa-solid reviewed-star ' onclick='setStarsItem(this);' id='" +
       orderItem +
       i +
       "'data-id='" +
@@ -597,7 +602,9 @@ function setStarsItem(element) {
 }
 
 function submitReviewForReservation() {
-  var overallRating = document.getElementById("overall-rating-cont-input").value;
+  var overallRating = document.getElementById(
+    "overall-rating-cont-input"
+  ).value;
   var suitRating = document.getElementById("suit-rating-cont-input").value;
   var reviewedItemsIDst = review.reviewedItemsIDs;
   var suite = review.suite;
@@ -605,12 +612,11 @@ function submitReviewForReservation() {
   var reviewChecked = [];
   var comment = document.getElementById("review-comment").value;
   for (let i = 0; i < reviewedItemsIDst.length; i++) {
-  
     itemToCheck = reviewedItemsIDst[i] + "-input";
     var rating = document.getElementById(itemToCheck).value;
     reviewChecked[i] = {
       reviewID: reviewedItemsIDst[i],
-      ItemID : review.items[i].itemID,
+      ItemID: review.items[i].itemID,
       rating: rating,
     };
   }
@@ -639,7 +645,147 @@ function submitReviewForReservation() {
       alert("Failed to submit review: " + error);
     },
   });
-
-
-
 }
+
+//! topbar
+
+$(document).ready(function () {
+  // function changeCartStatus() {
+  //   var cart = $(".topbar-shoping-cart");
+  //   cart.attr("value", "1");
+  // }
+
+  // $(document).on("click", ".topbar-notifications", function () {
+  //   changeCartStatus();
+  // });
+
+  $(document).on("click", ".topbar-shoping-cart", function () {
+    function createTopbarCartItems() {
+      var cartRowHTML = "";
+      var loopTotal = 0;
+      var cartArray = JSON.parse(sessionStorage.getItem("food-cart") || "[]");
+
+      cartArray.forEach(function (item, index) {
+        var subTotal = parseFloat(item.price) * parseInt(item.quantity);
+        var id = item.itemID;
+
+        cartRowHTML +=
+          "<div class='topbar-cart-item'>" +
+          "<div class='topbar-cart-image'>" +
+          "    <img src=' " +
+          item.itemImage +
+          " '/>" +
+          " </div>" +
+          " <div class='topbar-cart-details'>" +
+          "     <h4>" +
+          item.itemName +
+          "</h4>" +
+          "    <p>Price : " +
+          item.price +
+          "</p>" +
+          "   <p>Quantity : " +
+          item.quantity +
+          " </p>" +
+          " </div>" +
+          "   <div class='topbar-cart-clear'>" +
+          "      <button>X</button>" +
+          "    </div>" +
+          "</div>";
+        subTotal = parseFloat(item.price) * parseInt(item.quantity);
+        loopTotal += subTotal;
+      });
+
+      $(".topbar-cart-content").empty();
+      $(".topbar-cart-content").html(cartRowHTML);
+    }
+    createTopbarCartItems();
+    if ($(".topbar-cart-container").is(":visible")) {
+      $(".topbar-cart-container").hide();
+    } else {
+      $(".topbar-cart-container").show();
+    }
+  });
+
+  $(document).on("click", "#topbar-cart-clear", function () {
+    $(".topbar-cart-container").hide();
+  });
+
+  var cart = document.querySelector(".topbar-shoping-cart");
+
+  var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "value"
+      ) {
+        alert("Cart cahnged");
+      }
+    });
+  });
+
+  observer.observe(cart, {
+    attributes: true,
+  });
+});
+
+function popupCancelReservation() {
+  if (openedReservationDetails[0].setHours(openedReservationDetails[0].reservationStartTime) - today.setHours(today.getHours()) < 24) {
+    alert(
+      "You can only cancel reservations 24 hours before the reservation time."
+    );
+  } else {
+    alert("You can cancel the reservation");
+  }
+  $("#reservation-cancel-container").show();
+  $("#reservation-details-container").hide();
+}
+
+function closeCancelReservation() {
+  $("#reservation-cancel-container").hide();
+  $("#reservation-details-container").show();
+}
+
+$(document).ready(function () {
+  var reservationID = openedReservationDetails[0].reservationID;
+  var orderID = openedReservationDetails[0].orderID;
+  var amount = openedReservationDetails[0].amount;
+  var date = openedReservationDetails[0].date;
+  var suiteID = openedReservationDetails[0].packageID;
+  var suite = ["Budget", "Gold", "Platinum"];
+  var suiteName = suite[suiteID];
+  var slot = openedReservationDetails[0].reservationStartTime;
+
+  $("#rc-order-id").text(orderID);
+  $("#rc-order-suite").text(suiteName);
+  $("#rc-order-date").text(date);
+
+  if (date.setHours(slot) - today.setHours(today.getHours()) < 24) {
+    alert(
+      "You can only cancel reservations 24 hours before the reservation time."
+    );
+  } else {
+    alert("You can cancel the reservation");
+  }
+
+  $("#cancel-reservation").click(function () {
+    $.ajax({
+      url: "cancelReservation",
+      method: "POST",
+      data: {
+        reservationID: reservationID,
+        orderID: orderID,
+        amount: amount,
+        date: date,
+      },
+      success: function (response) {
+        alert("Reservation Cancelled Successfully");
+        $("#reservation-cancel-container").hide();
+        location.reload();
+      },
+      error: function (xhr, status, error) {
+        console.error("Error cancelling reservation:", error);
+        alert("Failed to cancel reservation: " + error);
+      },
+    });
+  });
+});

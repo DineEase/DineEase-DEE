@@ -1,8 +1,15 @@
 var menuItems = [];
+var itemReviewMap = foodReviews.reduce((map, item) => {
+  map[item.itemID] = item;
+  return map;
+}, {});
+
 $(document).ready(function () {
-  let currentCategoryId = "all"; 
+  console.log("Customer Menu JS Loaded");
+  console.log(foodReviews);
+  let currentCategoryId = "all";
   let currentPage = 1;
-  let itemsPerPage = 16; 
+  let itemsPerPage = 16;
 
   function paginateItems(items) {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -28,7 +35,7 @@ $(document).ready(function () {
     });
     updatePageInfo(items.length);
   }
-    
+
   function fetchMenuItems() {
     $.ajax({
       url: "getMenuItemsAPI",
@@ -94,14 +101,22 @@ $(document).ready(function () {
   fetchMenuItems();
 
   function createMenuItemCard(item) {
-    let starCount = 5;
+    let reviewDeets = getDetailsByItemIdFromMap(item.itemID);
+    let starCount = reviewDeets.stars;
     let stars = "";
     for (let i = 0; i < starCount; i++) {
       stars += '<i class="fa-solid fa-star"></i>';
     }
+    if (starCount < 5) {
+      for (let i = 0; i < 5 - starCount; i++) {
+        stars += '<i class="fa-regular fa-star"></i>';
+      }
+    }
+    
 
     let prices = item.Prices.split(",").map((price) => price.trim());
     let sizes = item.Sizes.split(",").map((size) => size.trim());
+
 
     let initialSelectedSize = "Regular";
     let initialPriceIndex = sizes.indexOf(initialSelectedSize);
@@ -135,7 +150,7 @@ $(document).ready(function () {
         </div>
         <div class="menu-card-footer">
           <div class="menu-card-footer-stars">${stars}</div>
-          <div class="menu-card-footer-num">(50)</div>
+          <div class="menu-card-footer-num">(${reviewDeets.count})</div>
         </div>
          <div class="cartOptions"> 
           <div class="product-quantity" >
@@ -147,7 +162,9 @@ $(document).ready(function () {
               <i class="fa fa-chevron-right"></i>
           </div>
           </div>
-          <div class="add-to-cart-button-menu btn" onclick="addToCart(${item.itemID})" id="${addToCartTag}"><i class="fa-solid fa-cart-plus"></i></div>
+          <div class="add-to-cart-button-menu btn" onclick="addToCart(${
+            item.itemID
+          })" id="${addToCartTag}"><i class="fa-solid fa-cart-plus"></i></div>
         </div>
         
         </div>
@@ -164,4 +181,19 @@ $(document).ready(function () {
     // Update the price based on selected size
     menuItemCard.find(".price").text(prices[selectedIndex]);
   });
+
+  function getDetailsByItemIdFromMap(itemId) {
+    if (itemReviewMap[itemId]) {
+      return {
+        stars: itemReviewMap[itemId].stars,
+        count: itemReviewMap[itemId].count,
+      };
+    }
+    else {
+      return {
+        stars: 5,
+        count: 1,
+      };
+    }
+  }
 });

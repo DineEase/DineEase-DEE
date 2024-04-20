@@ -221,6 +221,22 @@ class Customer
         $this->db->execute();
     }
 
+
+    public function getSuiteReviews()
+    {
+        $this->db->query('SELECT suite , COUNT(suitRating) as "totalReviews" , ROUND(SUM(suitRating) / COUNT(suitRating)) as "avgReviews"  FROM reservationreview GROUP BY suite');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+    public function getFoodReviews()
+    {
+        $this->db->query('SELECT  itemID , COUNT(stars) as "count" , ROUND(SUM(stars) / COUNT(stars)) as "stars" FROM reviewfood GROUP BY itemID');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+
     public function getReviews($user_ID)
     {
         $this->db->query('SELECT * FROM review WHERE customerID = :user_ID ORDER BY date DESC');
@@ -404,6 +420,7 @@ class Customer
                 $this->db->bind(':stars', $item['rating']);
                 $this->db->execute();
             }
+            return true;
         } else {
             return false;
         }
