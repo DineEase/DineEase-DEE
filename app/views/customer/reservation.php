@@ -200,7 +200,6 @@
                                                     <td>Rs. <?php echo $reservation->amount ?>.00</td>
                                                     <td><?php echo $reservation->status ?></td>
                                                     <td class="actions">
-                                                        <!-- <a href="<?php echo URLROOT; ?>/Customers/cancelReservation/<?php echo $reservation->reservationID ?>" class="trash <?php echo ($reservation->status == 'Cancelled' ? 'disabled-button' : ''); ?>" onclick="return confirm('Are you sure you want to cancel this reservation?');"><i class="fas fa-trash fa-xs"></i></a> -->
                                                         <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View & Edit</button>
                                                     </td>
                                                 </tr>
@@ -310,6 +309,18 @@
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-not-possible">
                                                 <span>You cant </span>    
+                                                <p></p>
+                                                </div>
+                                                <div class="review-order-item-container" id="cancel-order-refund-requested">
+                                                <span>You did  </span>
+                                                <p></p>
+                                                </div>
+                                                <div class="review-order-item-container" id="cancel-order-cancelled-no-refund">
+                                                <span>You did but with what cost?</span>
+                                                <p></p>
+                                                </div>
+                                                <div class="review-order-item-container" id="cancel-order-refund-given">
+                                                <span>mf</span>
                                                 <p></p>
                                                 </div>
                                             </div>
@@ -753,7 +764,7 @@
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+    <!-- <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script> -->
 
 </body>
 </html>
