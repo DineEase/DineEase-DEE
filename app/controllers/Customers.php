@@ -123,6 +123,8 @@ class Customers extends Controller
             }
         }
 
+
+
         $suiteData = [
             'totalReviewsForBudget' => $totalReviewsForBudget,
             'avgStarsForBudet' => $avgStarsForBudet,
@@ -214,6 +216,23 @@ class Customers extends Controller
     }
 
 
+    // public function isisThereAReview()
+    // {
+    //     $reservationID = $_GET['reservationid'] ?? null;
+
+    //     if (!$reservationID) {
+    //         http_response_code(400);
+    //         echo json_encode(['error' => 'No date provided']);
+    //         return;
+    //     }
+    //     if ($this->customerModel->isThereAReview($reservationID)) {
+    //         echo json_encode(['reviewExists' => true]);
+    //     } else {
+    //         echo json_encode(['reviewExists' => false]);
+    //     }
+    // }
+
+
 
     public function deleteReview($reviewID)
     {
@@ -248,20 +267,19 @@ class Customers extends Controller
             $possibleRefund = $_POST['possibilityToRefund'];
         }
         if ($possibleRefund == 0) {
-            $this->customerModel->cancelReservation($reservationID , $orderID);
-                        
+            $this->customerModel->cancelReservation($reservationID, $orderID);
+
             $cancellationStatus = [
                 'status' => 1,
                 'refund' => 0
             ];
             header('Content-Type: application/json');
             echo json_encode($cancellationStatus);
-            
         } else {
             if ($possibleRefund == 1) {
-                $this->customerModel->cancelReservation($reservationID , $orderID);
-                $this->customerModel->refundRequest($reservationID , $amount);
-                
+                $this->customerModel->cancelReservation($reservationID, $orderID);
+                $this->customerModel->refundRequest($reservationID, $amount);
+
                 $cancellationStatus = [
                     'status' => 1,
                     'refund' => 1

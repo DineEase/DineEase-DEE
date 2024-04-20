@@ -24,6 +24,14 @@ class Customer
         $this->db->bind(':reservationID', $reservationID);
         $row1 = $this->db->single();
 
+        $this->db->query('SELECT * FROM reservationreview WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        if ($this->db->single()) {
+            $row1->review = 1;
+        } else {
+            $row1->review = 0;
+        }
+
         $this->db->query('SELECT * FROM orderitem WHERE orderNO = :orderNO');
         $this->db->bind(':orderNO', $row1->orderID);
         $row2 = $this->db->resultSet();
@@ -50,6 +58,8 @@ class Customer
                 $item->price = $row5->ItemPrice;
             }
         }
+
+
 
 
         $data[0] = $row1;
@@ -115,7 +125,7 @@ class Customer
         }
     }
 
-    public function refundRequest($reservationID , $amount)
+    public function refundRequest($reservationID, $amount)
     {
         $this->db->query('UPDATE reservation SET status = "Refund Requested" WHERE reservationID = :reservationID');
         $this->db->bind(':reservationID', $reservationID);
@@ -437,6 +447,19 @@ class Customer
         $results = $this->db->resultSet();
         return $results;
     }
+
+
+    // public function isThereAReview($reservationID)
+    // {
+    //     $this->db->query('SELECT * FROM reservationreview WHERE reservationID = :reservationID');
+    //     $this->db->bind(':reservationID', $reservationID);
+    //     $row = $this->db->single();
+    //     if(!empty($row)){
+    //         return true;
+    //     }else{
+    //         return false;
+    //     }
+    // }
 
     public function submitReservationReview($data)
     {
