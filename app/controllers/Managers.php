@@ -88,7 +88,7 @@ class Managers extends Controller
             $this->redirectpage($data, true, URLROOT . '/managers/menu', 5, 'Error', 'Menu Error');
             exit();
         }
-        
+
         // Create the $data array with retrieved menu item details
         $data = [
             'itemID' => $menuItem->itemID,
@@ -100,11 +100,11 @@ class Managers extends Controller
             'category' => $menuItem->category_name,
             'description' => $menuItem->description,
         ];
-    
+
         // Pass the $data array to the view
         $this->view('manager/viewmenu', $data);
     }
-    
+
 
     public function submitMenuitem()
     {
@@ -223,10 +223,10 @@ class Managers extends Controller
         ) {
             $data['price_err'] = 'Prices must be in ascending order: Small < Regular < Large';
         }
-        
-        
-        
-        
+
+
+
+
         if (empty($data['averageTime'])) {
             $data['averageTime_err'] = 'Please enter average time';
         } elseif (!is_numeric($data['averageTime'])) {
@@ -242,7 +242,7 @@ class Managers extends Controller
     {
         $menuItem = $this->managerModel->getMenuItemById($itemID);
         $menuitemtable = $this->managerModel->getmenuitemtablebyid($itemID);
-   
+
         $menuCategories = $this->managerModel->getmenucategory();
         if (!$menuItem) {
             // Handle the case where the category does not exist
@@ -314,7 +314,7 @@ class Managers extends Controller
             ) {
                 $data['price_err'] = 'Prices must be in ascending order: Small < Regular < Large';
             }
-            
+
             if (empty($data['averageTime'])) {
                 $data['averageTime_err'] = 'Please enter average time';
             } elseif (!is_numeric($data['averageTime'])) {
@@ -361,25 +361,25 @@ class Managers extends Controller
             }
         } else {
             // Populate form fields with data from the database
-           // Populate form fields with data from the database
-// Populate form fields with data from the database
-// Populate form fields with data from the database
-$data = [
-    'itemID' => $itemID,
-    'itemName' => $menuItem[0]->itemName,
-    'pricesmall' => $menuItem[0]->itemPrice,
-    'priceregular' => $menuItem[1]->itemPrice ?? null,
-    'pricelarge' => $menuItem[2]->itemPrice ?? null,
-    'averageTime' => $menuItem[0]->averageTime,
-    'imagePath' => $menuItem[0]->imagePath,
-    'category_ID' => $menuItem[0]->category_ID,
-    'description' => $menuItem[0]->description,
-    'itemName_err' => '',
-    'price_err' => '',
-    'averageTime_err' => '',
-    'description_err' => '',
-    'menucategory' => $menuCategories
-];
+            // Populate form fields with data from the database
+            // Populate form fields with data from the database
+            // Populate form fields with data from the database
+            $data = [
+                'itemID' => $itemID,
+                'itemName' => $menuItem[0]->itemName,
+                'pricesmall' => $menuItem[0]->itemPrice,
+                'priceregular' => $menuItem[1]->itemPrice ?? null,
+                'pricelarge' => $menuItem[2]->itemPrice ?? null,
+                'averageTime' => $menuItem[0]->averageTime,
+                'imagePath' => $menuItem[0]->imagePath,
+                'category_ID' => $menuItem[0]->category_ID,
+                'description' => $menuItem[0]->description,
+                'itemName_err' => '',
+                'price_err' => '',
+                'averageTime_err' => '',
+                'description_err' => '',
+                'menucategory' => $menuCategories
+            ];
 
 
 
@@ -1087,11 +1087,11 @@ $data = [
             // Handle the case where the category does not exist
             // For example, you can redirect to an error page or show an error message
             ob_clean();
-                    $data['message'] = 'No Such User Found';
+            $data['message'] = 'No Such User Found';
 
-                    $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'User Error');
-                    //
-                    exit();
+            $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'User Error');
+            //
+            exit();
         }
         $data = [
             'users' => $user
@@ -1101,7 +1101,7 @@ $data = [
     public function viewmanagerprofile()
     {
         $manager = $this->managerModel->viewManagerProfile();
-        
+
         $data = [
             'manager' => $manager
         ];
@@ -1220,22 +1220,22 @@ $data = [
         if ($mail->send()) {
             // Email sent successfully
             ob_clean();
-                    $data['message'] = 'Email Sent Successfully';
+            $data['message'] = 'Email Sent Successfully';
 
-                    $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Success', 'Mail Delivered');
-                    //
-                    exit();
+            $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Success', 'Mail Delivered');
+            //
+            exit();
             //
             //echo 'Email sent successfully.';
             return true;
         } else {
             // Error in sending email
             ob_clean();
-                    $data['message'] = 'Email could not be sent. Error: ' . $mail->ErrorInfo;
+            $data['message'] = 'Email could not be sent. Error: ' . $mail->ErrorInfo;
 
-                    $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'Mail Error');
-                    //
-                    exit();
+            $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'Mail Error');
+            //
+            exit();
             //echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
             return false;
         }
@@ -1333,35 +1333,36 @@ $data = [
         ];
         $this->view('manager/packages', $data);
     }
-   
-    public function editpackage($ID){
+
+    public function editpackage($ID)
+    {
         $package = $this->managerModel->getpackagebyid($ID);
         if (!$package) {
             // Handle the case where the category does not exist
             // For example, you can redirect to an error page or show an error message
             ob_clean();
-                    $data['message'] = 'No Such Package Found';
+            $data['message'] = 'No Such Package Found';
 
-                    $this->redirectpage($data, true, URLROOT . '/managers/packages', 10, 'Error', 'Package Error');
-                    //
-                    exit();
+            $this->redirectpage($data, true, URLROOT . '/managers/packages', 10, 'Error', 'Package Error');
+            //
+            exit();
         }
         $data = [
             'package' => $package
         ];
         $this->view('manager/editpackage', $data);
-        if ($_SERVER['REQUEST_METHOD']=='POST'){
-            $_POST=filter_input_array(INPUT_POST,FILTER_SANITIZE_STRING);
-            $data=[
-                'packageID'=>$ID,
-                'packageName'=>isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
-                'tax'=>isset($_POST['tax']) ? trim($_POST['tax']) : '',
-                'capacity'=>isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
-                'description'=>isset($_POST['description']) ? trim($_POST['description']) : '',
-                'packagename_err'=>'',
-                'vat_err'=>'',
-                'capacity_err'=>'',
-                'description_err'=>'',
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'packageID' => $ID,
+                'packageName' => isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
+                'tax' => isset($_POST['tax']) ? trim($_POST['tax']) : '',
+                'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+                'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
+                'packagename_err' => '',
+                'vat_err' => '',
+                'capacity_err' => '',
+                'description_err' => '',
             ];
             if (empty($data['packageName'])) {
                 $data['packagename_err'] = 'Please enter package name';
@@ -1396,7 +1397,7 @@ $data = [
     {
         $tables = $this->managerModel->gettables();
         $packages = $this->managerModel->getpackages();
-        $data=[
+        $data = [
             'tables' => $tables,
             'packages' => $packages,
         ];
@@ -1428,151 +1429,164 @@ $data = [
                 // Validation failed, show the form with errors
                 $this->view('manager/tables', $data);
             }
-            
 
-        // Fetch menu and categories
-        $tables = $this->managerModel->gettables();
-        $packages = $this->managerModel->getpackages();
-        // Merge with existing data
-        $data=[
-            'tables' => $tables,
-            'packages' => $packages,
-        ];
 
-        // Show the form with errors or redirect after showing the alert
-        $this->view('manager/tables', $data);
-    }
-}
-public function addmenudiscounts(){
-$categories = $this->managerModel->getmenucategory();
-$menus = $this->managerModel->getMenuitem();
-$discountedmenus = $this->managerModel->getdiscountedmenus();
-$data = [
-    'categories' => $categories,
-    'menus' => $menus,
-    'discountedmenus' => $discountedmenus,
-];
-$this->view('manager/discounts', $data);
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    $data = [
-        'menu_ID' => isset($_POST['menu_id']) ? trim($_POST['menu_id']) : '',
-        'discount' => isset($_POST['menu_dis']) ? trim($_POST['menu_dis']) : '',
-        'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
-        'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
-        'menu_ID_err' => '',
-        'discount_err' => '',
-        'menu_start_date_err' => '',
-        'menu_end_date_err' => '',
-    ];
-    if (empty($data['menu_ID'])) {
-        $data['menu_ID_err'] = 'Please select a menu';
-    }
-    if (empty($data['discount'])) {
-        $data['discount_err'] = 'Please enter discount';
-    }
-    if (empty($data['menu_start_date'])) {
-        $data['menu_start_date_err'] = 'Please enter start date';
-    }
-    if (empty($data['menu_end_date'])) {
-        $data['menu_end_date_err'] = 'Please enter end date';
-    }
-    if ($data['menu_start_date'] > $data['menu_end_date']) {
-        $data['menu_start_date_err'] = 'Start date must be before end date';
-    }
-    
-    if (empty($data['menu_ID_err']) && empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
-        // Call the model function to insert user data
-        if ($this->managerModel->addmenudiscounts($data)) {
-            // Handle success, e.g., redirect to another page
-            // header('Location: ' . URLROOT . '/menus/submitMenu');
-            redirect('managers/handlediscounts');
-            exit();
-        } else {
-            $this->view('manager/discounts', $data);
-            die('Something went wrong');
+            // Fetch menu and categories
+            $tables = $this->managerModel->gettables();
+            $packages = $this->managerModel->getpackages();
+            // Merge with existing data
+            $data = [
+                'tables' => $tables,
+                'packages' => $packages,
+            ];
+
+            // Show the form with errors or redirect after showing the alert
+            $this->view('manager/tables', $data);
         }
-    } else {
-        // Validation failed, show the form with errors
+    }
+    public function addmenudiscounts()
+    {
+        ob_start();
+        $categories = $this->managerModel->getmenucategory();
+        $menus = $this->managerModel->getMenuitem();
+        $discountedmenus = $this->managerModel->getdiscountedmenus();
+        $data = [
+            'categories' => $categories,
+            'menus' => $menus,
+            'discountedmenus' => $discountedmenus,
+        ];
+        $this->view('manager/discounts', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'menu_ID' => isset($_POST['menu_id']) ? trim($_POST['menu_id']) : '',
+                'discount' => isset($_POST['menu_dis']) ? trim($_POST['menu_dis']) : '',
+                'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
+                'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
+                'menu_ID_err' => '',
+                'discount_err' => '',
+                'menu_start_date_err' => '',
+                'menu_end_date_err' => '',
+            ];
+            if (empty($data['menu_ID'])) {
+                $data['menu_ID_err'] = 'Please select a menu';
+            }
+            if (empty($data['discount'])) {
+                $data['discount_err'] = 'Please enter discount';
+            } elseif ($data['discount'] < 0 || $data['discount'] > 100) {
+                $data['discount_err'] = 'Discount must be between 0 and 100';
+            }
+            if (empty($data['menu_start_date'])) {
+                $data['menu_start_date_err'] = 'Please enter start date';
+            }
+            if (empty($data['menu_end_date'])) {
+                $data['menu_end_date_err'] = 'Please enter end date';
+            }
+            if ($data['menu_start_date'] > $data['menu_end_date']) {
+                $data['menu_start_date_err'] = 'Start date must be before end date';
+            }
+
+            if (empty($data['menu_ID_err']) && empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
+                // Call the model function to insert user data
+                if ($this->managerModel->addmenudiscounts($data)) {
+                    // Handle success, e.g., redirect to another page
+                    // header('Location: ' . URLROOT . '/menus/submitMenu');
+                    ob_clean();
+                   
+                    ob_end_flush();
+                    redirect('managers/handlediscounts');
+                    exit();
+                } else {
+                    $this->view('manager/discounts', $data);
+                    die('Something went wrong');
+                }
+            } else {
+                // Validation failed, show the form with errors
+                $this->view('manager/discounts', $data);
+            }
+        }
+    }
+    public function handlediscounts()
+    {
+        $categories = $this->managerModel->getmenucategory();
+        $menus = $this->managerModel->getMenuitem();
+        $discountedcategories = $this->managerModel->getdiscountedcategories();
+        $discountedmenus = $this->managerModel->getdiscountedmenus();
+        $checktotaldiscount = $this->managerModel->checktotaldiscount();
+        $data = [
+            'categories' => $categories,
+            'menus' => $menus,
+            'discountedmenus' => $discountedmenus,
+            'discountedcategories' => $discountedcategories,
+            'checktotaldiscount' => $checktotaldiscount,
+        ];
         $this->view('manager/discounts', $data);
     }
 
-
-}
-}
-public function handlediscounts(){
-    $categories = $this->managerModel->getmenucategory();
-    $menus = $this->managerModel->getMenuitem();
-    $discountedcategories = $this->managerModel->getdiscountedcategories();
-    $discountedmenus = $this->managerModel->getdiscountedmenus();
-    $data = [
-        'categories' => $categories,
-        'menus' => $menus,
-        'discountedmenus' => $discountedmenus,
-        'discountedcategories' => $discountedcategories,
-    ];
-    $this->view('manager/discounts', $data);
-}
-
-public function addcategorydiscounts(){
-    $categories = $this->managerModel->getmenucategory();
-    $menus = $this->managerModel->getMenuitem();
-    $discountedcategories = $this->managerModel->getdiscountedcategories();
-    $data = [
-        'categories' => $categories,
-        'menus' => $menus,
-        'discountedcategories' => $discountedcategories,
-    ];
-    $this->view('manager/discounts', $data);
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    public function addcategorydiscounts()
+    {  ob_start();
+        $categories = $this->managerModel->getmenucategory();
+        $menus = $this->managerModel->getMenuitem();
+        $discountedcategories = $this->managerModel->getdiscountedcategories();
         $data = [
-            'category_ID' => isset($_POST['category_id']) ? trim($_POST['category_id']) : '',
-            'discount' => isset($_POST['category_discount']) ? trim($_POST['category_discount']) : '',
-            'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
-            'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
-            'menu_ID_err' => '',
-            'discount_err' => '',
-            'menu_start_date_err' => '',
-            'menu_end_date_err' => '',
+            'categories' => $categories,
+            'menus' => $menus,
+            'discountedcategories' => $discountedcategories,
         ];
-        if (empty($data['category_ID'])) {
-            $data['menu_ID_err'] = 'Please select a menu';
-        }
-        if (empty($data['discount'])) {
-            $data['discount_err'] = 'Please enter discount';
-        }
-        if (empty($data['menu_start_date'])) {
-            $data['menu_start_date_err'] = 'Please enter start date';
-        }
-        if (empty($data['menu_end_date'])) {
-            $data['menu_end_date_err'] = 'Please enter end date';
-        }
-        if ($data['menu_start_date'] > $data['menu_end_date']) {
-            $data['menu_start_date_err'] = 'Start date must be before end date';
-        }
-        
-        if (empty($data['menu_ID_err']) && empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
-            // Call the model function to insert user data
-            if ($this->managerModel->addcategorydiscounts($data)) {
-                // Handle success, e.g., redirect to another page
-                //header('Location: ' . URLROOT . '/managers/handlediscounts');
-                //redirect('managers/handlediscounts');
-                //exit();
-            } else {
-                $this->view('manager/discounts', $data);
-                die('Something went wrong');
+        $this->view('manager/discounts', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'category_ID' => isset($_POST['category_id']) ? trim($_POST['category_id']) : '',
+                'discount' => isset($_POST['category_discount']) ? trim($_POST['category_discount']) : '',
+                'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
+                'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
+                'menu_ID_err' => '',
+                'discount_err' => '',
+                'menu_start_date_err' => '',
+                'menu_end_date_err' => '',
+            ];
+            if (empty($data['category_ID'])) {
+                $data['menu_ID_err'] = 'Please select a menu';
             }
-        } else {
-            // Validation failed, show the form with errors
-            $this->view('manager/discounts', $data);
+            if (empty($data['discount'])) {
+                $data['discount_err'] = 'Please enter discount';
+            } elseif ($data['discount'] < 0 || $data['discount'] > 100) {
+                $data['discount_err'] = 'Discount must be between 0 and 100';
+            }
+            if (empty($data['menu_start_date'])) {
+                $data['menu_start_date_err'] = 'Please enter start date';
+            }
+            if (empty($data['menu_end_date'])) {
+                $data['menu_end_date_err'] = 'Please enter end date';
+            }
+            if ($data['menu_start_date'] > $data['menu_end_date']) {
+                $data['menu_start_date_err'] = 'Start date must be before end date';
+            }
+
+            if (empty($data['menu_ID_err']) && empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
+                // Call the model function to insert user data
+                if ($this->managerModel->addcategorydiscounts($data)) {
+                    // Handle success, e.g., redirect to another page
+                    //header('Location: ' . URLROOT . '/managers/handlediscounts');
+                    ob_clean();
+                    
+                    ob_end_flush();
+                    redirect('managers/handlediscounts');
+                    exit();
+                } else {
+                    $this->view('manager/discounts', $data);
+                    die('Something went wrong');
+                }
+            } else {
+                // Validation failed, show the form with errors
+                $this->view('manager/discounts', $data);
+            }
         }
-    
-    
     }
-    
-    }
-    public function addtotaldiscount(){
+    public function addtotaldiscount()
+    {
+        ob_start();
         $categories = $this->managerModel->getmenucategory();
         $menus = $this->managerModel->getMenuitem();
         $discountedcategories = $this->managerModel->getdiscountedcategories();
@@ -1594,6 +1608,8 @@ public function addcategorydiscounts(){
             ];
             if (empty($data['discount'])) {
                 $data['discount_err'] = 'Please enter discount';
+            } elseif ($data['discount'] < 0 || $data['discount'] > 100) {
+                $data['discount_err'] = 'Discount must be between 0 and 100';
             }
             if (empty($data['menu_start_date'])) {
                 $data['menu_start_date_err'] = 'Please enter start date';
@@ -1604,14 +1620,17 @@ public function addcategorydiscounts(){
             if ($data['menu_start_date'] > $data['menu_end_date']) {
                 $data['menu_start_date_err'] = 'Start date must be before end date';
             }
-            
+
             if (empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
                 // Call the model function to insert user data
                 if ($this->managerModel->addtotaldiscount($data)) {
                     // Handle success, e.g., redirect to another page
                     //header('Location: ' . URLROOT . '/managers/handlediscounts');
-                    //redirect('managers/handlediscounts');
-                    //exit();
+                    ob_clean();
+                    
+                    ob_end_flush();
+                    redirect('managers/handlediscounts');
+                    exit();
                 } else {
                     $this->view('manager/discounts', $data);
                     die('Something went wrong');
@@ -1620,66 +1639,259 @@ public function addcategorydiscounts(){
                 // Validation failed, show the form with errors
                 $this->view('manager/discounts', $data);
             }
-        
-        
         }
+    }
+    public function getmenudiscountdetails($ID)
+   
+    {
+        ob_start();
+        $discountdetails = $this->managerModel->getdiscountedmenubyid($ID);
+
+        $data = [
+            'discountdetails' => $discountdetails
+        ];
         
+        $this->view('manager/updatemenudiscounts', $data);
+        if(!$discountdetails){
+            ob_clean();
+        ob_end_flush();
+            redirect('managers/handlediscounts');
+            exit();
         }
-        public function updatemenudiscounts(){
-            $categories = $this->managerModel->getmenucategory();
-            $menus = $this->managerModel->getMenuitem();
-            $discountedmenus = $this->managerModel->getdiscountedmenus();
+
+        //$this->view('manager/testvardump', $data);
+        
+    }
+    public function getcategorydiscountdetails($ID)
+    {
+        ob_start();
+        $discountdetails = $this->managerModel->getdiscountedcategorybyid($ID);
+
+        $data = [
+            'discountdetails' => $discountdetails
+        ];
+       
+        $this->view('manager/updatecategorydiscount', $data);
+        if(!$discountdetails){
+            ob_clean();
+        ob_end_flush();
+            redirect('managers/handlediscounts');
+            exit();
+        }
+
+        // $this->view('manager/testvardump', $data);
+    }
+    public function updatemenudiscounts()
+    {
+        ob_start();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
-                'categories' => $categories,
-                'menus' => $menus,
-                'discountedmenus' => $discountedmenus,
+                //'menu_ID' => isset($_POST['menu_id']) ? trim($_POST['menu_id']) : '',
+                //'menu_ID' => $ID,
+                'discount_id' => isset($_POST['discount_id']) ? trim($_POST['discount_id']) : '',
+                'category_menu_id' => isset($_POST['category_menu_id']) ? trim($_POST['category_menu_id']) : '',
+                'discount' => isset($_POST['menu_dis']) ? trim($_POST['menu_dis']) : '',
+                'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
+                'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
+                //'menu_ID_err' => '',
+                'discount_err' => '',
+                'menu_start_date_err' => '',
+                'menu_end_date_err' => '',
             ];
-            $this->view('manager/editdiscounts', $data);
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-                $data = [
-                    'menu_ID' => isset($_POST['menu_id']) ? trim($_POST['menu_id']) : '',
-                    'discount' => isset($_POST['menu_dis']) ? trim($_POST['menu_dis']) : '',
-                    'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
-                    'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
-                    'menu_ID_err' => '',
-                    'discount_err' => '',
-                    'menu_start_date_err' => '',
-                    'menu_end_date_err' => '',
-                ];
-                if (empty($data['menu_ID'])) {
-                    $data['menu_ID_err'] = 'Please select a menu';
-                }
-                if (empty($data['discount'])) {
-                    $data['discount_err'] = 'Please enter discount';
-                }
-                if (empty($data['menu_start_date'])) {
-                    $data['menu_start_date_err'] = 'Please enter start date';
-                }
-                if (empty($data['menu_end_date'])) {
-                    $data['menu_end_date_err'] = 'Please enter end date';
-                }
-                if ($data['menu_start_date'] > $data['menu_end_date']) {
-                    $data['menu_start_date_err'] = 'Start date must be before end date';
-                }
-                
-                if (empty($data['menu_ID_err']) && empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
-                    // Call the model function to insert user data
-                    if ($this->managerModel->updatemenudiscounts($data)) {
-                        // Handle success, e.g., redirect to another page
-                        // header('Location: ' . URLROOT . '/menus/submitMenu');
-                        //redirect('managers/handlediscounts');
-                        exit();
-                    } else {
-                        $this->view('manager/updatediscounts', $data);
-                        die('Something went wrong');
-                    }
-                } else {
-                    // Validation failed, show the form with errors
-                    $this->view('manager/updatediscounts', $data);
-                }
-            
-            
+
+            if (empty($data['discount'])) {
+                $data['discount_err'] = 'Please enter discount';
+            } elseif ($data['discount'] < 0 || $data['discount'] > 100) {
+                $data['discount_err'] = 'Discount must be between 0 and 100';
             }
-            }   
+            if (empty($data['menu_start_date'])) {
+                $data['menu_start_date_err'] = 'Please enter start date';
+            }
+            if (empty($data['menu_end_date'])) {
+                $data['menu_end_date_err'] = 'Please enter end date';
+            }
+            if ($data['menu_start_date'] > $data['menu_end_date']) {
+                $data['menu_start_date_err'] = 'Start date must be before end date';
+            }
+
+            if (empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
+                // Call the model function to insert user data
+                if ($this->managerModel->updatemenudiscounts($data)) {
+                    // Handle success, e.g., redirect to another page
+                    // header('Location: ' . URLROOT . '/menus/submitMenu');
+                    ob_clean();
+                    
+                    ob_end_flush();
+                    redirect('managers/viewdiscounteditems');
+                    exit();
+                } else {
+                    $this->view('manager/updatemenudiscounts', $data);
+                    die('Something went wrong');
+                }
+            } else {
+                // Validation failed, show the form with errors
+                $this->view('manager/updatemenudiscounts', $data);
+            }
+        }
+    }
+    public function viewdiscounteditems()
+    {
+        //$categories = $this->managerModel->getmenucategory();
+        //$menus = $this->managerModel->getMenuitem();
+        $discountedcategories = $this->managerModel->getdiscountedcategories();
+        $discountedmenus = $this->managerModel->getdiscountedmenus();
+        $totaldiscount = $this->managerModel->gettotaldiscount();
+        $data = [
+            //'categories' => $categories,
+            //'menus' => $menus,
+            'discountedcategories' => $discountedcategories,
+            'discountedmenus' => $discountedmenus,
+            'totaldiscount' => $totaldiscount,
+        ];
+        //$this->view('manager/testvardump', $data);
+        $this->view('manager/viewdiscounts', $data);
+    }
+
+    public function deletediscount()
+    {
+        ob_start();
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $ID = isset($_POST['discount_id']) ? trim($_POST['discount_id']) : '';
+
+        if ($this->managerModel->deletediscount($ID)) {
+
+            ob_clean();
+            ob_end_flush();
+            
+            
+        }
+    }
+
+    public function updatecategorydiscounts()
+    {
+        ob_start();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                //'menu_ID' => isset($_POST['menu_id']) ? trim($_POST['menu_id']) : '',
+                //'menu_ID' => $ID,
+                'discount_id' => isset($_POST['discount_id']) ? trim($_POST['discount_id']) : '',
+                'category_menu_id' => isset($_POST['category_menu_id']) ? trim($_POST['category_menu_id']) : '',
+                'discount' => isset($_POST['menu_dis']) ? trim($_POST['menu_dis']) : '',
+                'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
+                'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
+                //'menu_ID_err' => '',
+                'discount_err' => '',
+                'menu_start_date_err' => '',
+                'menu_end_date_err' => '',
+            ];
+
+            if (empty($data['discount'])) {
+                $data['discount_err'] = 'Please enter discount';
+            } elseif ($data['discount'] < 0 || $data['discount'] > 100) {
+                $data['discount_err'] = 'Discount must be between 0 and 100';
+            }
+            if (empty($data['menu_start_date'])) {
+                $data['menu_start_date_err'] = 'Please enter start date';
+            }
+            if (empty($data['menu_end_date'])) {
+                $data['menu_end_date_err'] = 'Please enter end date';
+            }
+            if ($data['menu_start_date'] > $data['menu_end_date']) {
+                $data['menu_start_date_err'] = 'Start date must be before end date';
+            }
+
+            if (empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
+                // Call the model function to insert user data
+                if ($this->managerModel->updatecategorydiscounts($data)) {
+                    // Handle success, e.g., redirect to another page
+                    // header('Location: ' . URLROOT . '/menus/submitMenu');
+                    ob_clean();
+                   
+                    ob_end_flush();
+                    redirect('managers/viewdiscounteditems');
+                    exit();
+                    
+                } else {
+                    $this->view('manager/updatcategorydiscounts', $data);
+                    die('Something went wrong');
+                }
+            } else {
+                // Validation failed, show the form with errors
+                $this->view('manager/updatcategorydiscounts', $data);
+            }
+        }
+    }
+    public function updatetotaldiscount()
+    {
+        ob_start();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                //'menu_ID' => isset($_POST['menu_id']) ? trim($_POST['menu_id']) : '',
+                //'menu_ID' => $ID,
+                'discount_id' => isset($_POST['discount_id']) ? trim($_POST['discount_id']) : '',
+                //'category_menu_id' => isset($_POST['category_menu_id']) ? trim($_POST['category_menu_id']) : '',
+                'discount' => isset($_POST['menu_dis']) ? trim($_POST['menu_dis']) : '',
+                'menu_start_date' => isset($_POST['menu_start_date']) ? trim($_POST['menu_start_date']) : '',
+                'menu_end_date' => isset($_POST['menu_end_date']) ? trim($_POST['menu_end_date']) : '',
+                //'menu_ID_err' => '',
+                'discount_err' => '',
+                'menu_start_date_err' => '',
+                'menu_end_date_err' => '',
+            ];
+
+            if (empty($data['discount'])) {
+                $data['discount_err'] = 'Please enter discount';
+            } elseif ($data['discount'] < 0 || $data['discount'] > 100) {
+                $data['discount_err'] = 'Discount must be between 0 and 100';
+            }
+            if (empty($data['menu_start_date'])) {
+                $data['menu_start_date_err'] = 'Please enter start date';
+            }
+            if (empty($data['menu_end_date'])) {
+                $data['menu_end_date_err'] = 'Please enter end date';
+            }
+            if ($data['menu_start_date'] > $data['menu_end_date']) {
+                $data['menu_start_date_err'] = 'Start date must be before end date';
+            }
+
+            if (empty($data['discount_err']) && empty($data['menu_start_date_err']) && empty($data['menu_end_date_err'])) {
+                // Call the model function to insert user data
+                if ($this->managerModel->updatetotaldiscount($data)) {
+                    // Handle success, e.g., redirect to another page
+                    // header('Location: ' . URLROOT . '/menus/submitMenu');
+                    ob_clean();
+                   
+                    ob_end_flush();
+                    redirect('managers/viewdiscounteditems');
+                    exit();
+                    
+                } else {
+                    $this->view('manager/updatcategorydiscounts', $data);
+                    die('Something went wrong');
+                }
+            } else {
+                // Validation failed, show the form with errors
+                $this->view('manager/updatcategorydiscounts', $data);
+            }
+        }
+    }
+    public function viewtotaldiscount()
+    {
+        ob_start();
+        $discountdetails = $this->managerModel->gettotaldiscountdetails();
+        $data = [
+            'discountdetails' => $discountdetails
+        ];
+        $this->view('manager/updatetotaldiscount', $data);
+        if(!$discountdetails){
+            ob_clean();
+        ob_end_flush();
+            redirect('managers/handlediscounts');
+            exit();
+        }
+    }
+    
 }
