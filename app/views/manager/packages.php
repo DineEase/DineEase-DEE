@@ -96,6 +96,14 @@
 .edit-btn:hover {
     background-color: #45a049;
 }
+.package-image {
+    width: 300px; /* adjust the width as needed */
+    height: auto; /* maintain aspect ratio */
+    border-radius: 10px; /* add rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* add a subtle shadow */
+    /* You can add more styles here */
+}
+
 
 </style>
 
@@ -253,7 +261,9 @@
         <h1>Package Details</h1>
         <?php foreach ($data['packages'] as $package) : ?>
             <div class="package">
+
                 <h2><?php echo $package->packageName; ?> Package</h2>
+                <img class="package-image" src="<?php echo URLROOT; ?>/uploads/package/<?php echo basename($package->image); ?>" alt="Package Image">
                 <p>Includes:</p>
                 <ul>
                     <li><?php echo $package->capacity; ?> Tables</li>
@@ -262,7 +272,7 @@
                 </ul>
                 <!-- Price can be added dynamically or fetched from database if available -->
                 <p class="description"><?php echo $package->description; ?></p>
-                <a href="<?php echo URLROOT . '/managers/editpackage/' . $package->packageID; ?>" class="edit-btn">Edit</a>
+                <a href="<?php echo URLROOT . '/managers/getpackagedetails/' . $package->packageID; ?>" class="edit-btn">Edit</a>
             </div>
         <?php endforeach; ?>
     </div>

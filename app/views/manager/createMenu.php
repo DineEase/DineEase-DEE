@@ -314,7 +314,7 @@
                 <input type="text" name="averageTime" class="<?php echo (!empty($data['averageTime_err'])) ? 'is-invalid' : '' ?>" placeholder="time" required />
                 <span class="invalid-feedback"> <?php echo $data['averageTime_err'] ?> </span>
                 <span>Description:</span>
-                <input type="text" name="description" class="<?php echo (!empty($data['description_err'])) ? 'is-invalid' : '' ?>" placeholder="Description" required />
+                <textarea name="description" placeholder="Description" class="<?php echo (!empty($data['description_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['description']); ?>" ></textarea>
                 <span class="invalid-feedback"> <?php echo $data['description_err'] ?> </span>
 
                 <div class="buttons">
