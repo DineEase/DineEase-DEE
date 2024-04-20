@@ -7,6 +7,7 @@ let slotDetails;
 let slotMaxCapacity = 15;
 var today = new Date();
 const baseCostPerPerson = 500;
+var minTimeToCancel = 24;
 
 $(document).ready(function () {
   var current = 1;
@@ -728,46 +729,72 @@ $(document).ready(function () {
   });
 });
 
-function popupCancelReservation() {
-  if (openedReservationDetails[0].setHours(openedReservationDetails[0].reservationStartTime) - today.setHours(today.getHours()) < 24) {
-    alert(
-      "You can only cancel reservations 24 hours before the reservation time."
-    );
-  } else {
-    alert("You can cancel the reservation");
-  }
-  $("#reservation-cancel-container").show();
-  $("#reservation-details-container").hide();
-}
-
 function closeCancelReservation() {
   $("#reservation-cancel-container").hide();
   $("#reservation-details-container").show();
 }
 
 $(document).ready(function () {
-  var reservationID = openedReservationDetails[0].reservationID;
-  var orderID = openedReservationDetails[0].orderID;
-  var amount = openedReservationDetails[0].amount;
-  var date = openedReservationDetails[0].date;
-  var suiteID = openedReservationDetails[0].packageID;
-  var suite = ["Budget", "Gold", "Platinum"];
-  var suiteName = suite[suiteID];
-  var slot = openedReservationDetails[0].reservationStartTime;
 
-  $("#rc-order-id").text(orderID);
-  $("#rc-order-suite").text(suiteName);
-  $("#rc-order-date").text(date);
+  var possibilityToRefund;
+  var reservationID;
+  var orderID;
+  var amount;
+  var date;
+  var suiteID;
+  var suite;
+  var suiteName;
+  var slotToCancel;
 
-  if (date.setHours(slot) - today.setHours(today.getHours()) < 24) {
-    alert(
-      "You can only cancel reservations 24 hours before the reservation time."
-    );
-  } else {
-    alert("You can cancel the reservation");
-  }
+  $(document).on("click", "#rs-cancel", function () {
+    $("#reservation-cancel-container").show();
+    $("#reservation-details-container").hide();
+    console.log(openedReservationDetails);
 
-  $("#cancel-reservation").click(function () {
+     reservationID = openedReservationDetails[0].reservationID;
+
+     orderID = openedReservationDetails[0].orderID;
+     amount = openedReservationDetails[0].amount;
+     date = openedReservationDetails[0].date;
+     suiteID = openedReservationDetails[0].packageID;
+     suite = ["Budget", "Gold", "Platinum"];
+     suiteName = suite[suiteID];
+     slotToCancel = openedReservationDetails[0].reservationStartTime;
+     possibilityToRefund;
+
+    var checkingDate = new Date(date);
+    checkingDate.setHours(0, 0, 0, 0);
+    slotToHourFormat(slotToCancel);
+    checkingDate.setHours(checkingDate.getHours() + parseInt(slotToCancel));
+
+    let timeDifference = checkingDate - today;
+
+    let rangeToCheck = minTimeToCancel * 60 * 60 * 1000;
+
+    if (timeDifference < rangeToCheck) {
+      possibilityToRefund = 0;
+    } else {
+      possibilityToRefund = 1;
+    }
+
+    $("#rc-order-id").text(orderID);
+    $("#rc-order-suite").text(suiteName);
+    $("#rc-order-date").text(date);
+
+    if (possibilityToRefund == 1) {
+      $("#cancel-order-refund-not-possible").hide();
+      $("#cancel-order-refund-possible").show();
+    } else if (possibilityToRefund == 0) {
+      $("#cancel-order-refund-possible").hide();
+      $("#cancel-order-refund-not-possible").show();
+    }
+  });
+
+  $(document).on("click", "#rc-submit-cancel", function () {
+    cancelReservation(possibilityToRefund);
+  });
+
+  function cancelReservation(possibilityToRefunds) {
     $.ajax({
       url: "cancelReservation",
       method: "POST",
@@ -776,16 +803,63 @@ $(document).ready(function () {
         orderID: orderID,
         amount: amount,
         date: date,
+        possibilityToRefund: possibilityToRefunds,
       },
       success: function (response) {
-        alert("Reservation Cancelled Successfully");
-        $("#reservation-cancel-container").hide();
-        location.reload();
+        // $("#reservation-cancel-container").hide();
+        // location.reload();
+        // console.log(response);
+        cancelationResponse = response;
+
+        if (
+          cancelationResponse.status == 1 &&
+          cancelationResponse.refund == 1
+        ) {
+          // $("#cancel-order-refund-possible").show();
+          // $("#cancel-order-refund-not-possible").hide();
+          // $("#cancel-order-refund-possible").text(
+          //   "Refund will be processed within 24 hours."
+          // );
+          console.log("Refund will be processed within 24 hours.");
+        } else if (
+          cancelationResponse.status == 1 &&
+          cancelationResponse.refund == 0
+        ) {
+          // $("#cancel-order-refund-possible").show();
+          // $("#cancel-order-refund-not-possible").hide();
+          // $("#cancel-order-refund-possible").text(
+          //   "Refund is not possible for this reservation."
+          // );
+          console.log(
+            "Refund is not possible for this reservation but cancelled the reservation."
+          );
+        } else {
+          // $("#cancel-order-refund-possible").hide();
+          // $("#cancel-order-refund-not-possible").show();
+          // $("#cancel-order-refund-not-possible").text(
+          //   "Failed to cancel reservation."
+          // );
+          console.log("Failed to cancel reservation.");
+        }
       },
       error: function (xhr, status, error) {
         console.error("Error cancelling reservation:", error);
         alert("Failed to cancel reservation: " + error);
       },
     });
-  });
+  }
 });
+
+function slotToHourFormat(slot) {
+  if (slot < 0) {
+    throw new Error("Number must be non-negative.");
+  }
+
+  const hours = Math.floor(slot);
+  const minutes = Math.floor((slot - hours) * 60);
+
+  const paddedHours = hours.toString().padStart(2, "0");
+  const paddedMinutes = minutes.toString().padStart(2, "0");
+
+  return `${paddedHours}:${paddedMinutes}`;
+}
