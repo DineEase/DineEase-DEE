@@ -236,11 +236,43 @@ class Customers extends Controller
         }
     }
 
-    public function CancelReservation($reservationID)
+    public function CancelReservation()
     {
-        $this->customerModel->cancelReservation($reservationID);
-        flash('reservation_message', 'Reservation cancelled successfully');
-        redirect('customers/reservation');
+        //TODO Implement reservation cancellation functionality
+        $cancellationStatus = [];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $reservationID = $_POST['reservationID'];
+            $orderID = $_POST['orderID'];
+            $amount = $_POST['amount'];
+            $possibleRefund = $_POST['possibilityToRefund'];
+        }
+        if ($possibleRefund == 0) {
+            $this->customerModel->cancelReservation($reservationID , $orderID);
+                        
+            $cancellationStatus = [
+                'status' => 1,
+                'refund' => 0
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($cancellationStatus);
+            
+        } else {
+            if ($possibleRefund == 1) {
+                $this->customerModel->cancelReservation($reservationID , $orderID);
+                $this->customerModel->refundRequest($reservationID , $amount);
+                
+                $cancellationStatus = [
+                    'status' => 1,
+                    'refund' => 1
+                ];
+                header('Content-Type: application/json');
+                echo json_encode($cancellationStatus);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode("error");
+            }
+        }
     }
 
     //reservation functions

@@ -87,21 +87,61 @@ class Customer
         return $row->count;
     }
 
-    // public function cancelReservation($reservationID)
-    // {
-    //     $this->db->query('DELETE FROM reservation WHERE reservationID = :reservationID');
-    //     $this->db->bind(':reservationID', $reservationID);
-    //     $results = $this->db->execute();
-    //     return $results;
-    // }
 
-    public function cancelReservation($reservationID)
+    public function cancelReservation($reservationID, $orderID)
     {
-        $this->db->query("UPDATE reservation SET status = 'Cancelled' WHERE reservationID = :reservationID");
+        $this->db->query('UPDATE reservation SET status = "Cancelled" WHERE reservationID = :reservationID');
         $this->db->bind(':reservationID', $reservationID);
-        $results = $this->db->execute();
-        return $results;
+        if ($this->db->execute()) {
+            $this->db->query('UPDATE orders SET status = "Cancelled" WHERE orderItemID = :orderID');
+            $this->db->bind(':orderID', $orderID);
+            if ($this->db->execute()) {
+                $this->db->query('UPDATE orderitem SET status = "Cancelled" WHERE orderNO = :orderID');
+                $this->db->bind(':orderID', $orderID);
+                $this->db->execute();
+                if ($this->db->execute()) {
+                    $this->db->query('DELETE FROM slots WHERE reservationID = :reservationID');
+                    $this->db->bind(':reservationID', $reservationID);
+                    $this->db->execute();
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
+
+    public function refundRequest($reservationID , $amount)
+    {
+        $this->db->query('UPDATE reservation SET status = "Refund Requested" WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $row = $this->db->execute();
+        if ($row) {
+            $this->db->query('UPDATE payment SET status = "Refund Requested" WHERE reservationID = :reservationID');
+            $this->db->bind(':reservationID', $reservationID);
+            if ($this->db->execute()) {
+                $this->db->query(('INSERT INTO refundrequest (reservationID , amount ,status ) VALUES (:reservationID , :amount ,"Pending")'));
+                $this->db->bind(':reservationID', $reservationID);
+                $this->db->bind(':amount', $amount);
+                if ($this->db->execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+
+
 
 
     public function addReservation($data)
@@ -174,7 +214,7 @@ class Customer
 
     public function createOrder($data)
     {
-        $this->db->query('INSERT INTO orders (orderItemID,reservationID) VALUES (:orderItemID,:reservationID)');
+        $this->db->query('INSERT INTO orders (orderItemID,reservationID , status ) VALUES (:orderItemID,:reservationID , "Pending")');
         $this->db->bind(':reservationID', $data['reservationID']);
         $orderIdToAdd = $data['reservationID'] . '_ORD';
         $this->db->bind(':orderItemID', $orderIdToAdd);
@@ -189,7 +229,7 @@ class Customer
             $items = $data['orderItems'];
             foreach ($items as $item) {
 
-                $this->db->query('INSERT INTO orderitem(orderNO, itemID,size ,quantity) VALUES (:orderID, :itemID, :size , :quantity)');
+                $this->db->query('INSERT INTO orderitem(orderNO, itemID,size ,quantity , status) VALUES (:orderID, :itemID, :size , :quantity , "Pending")');
                 $this->db->bind(':orderID', $orderIdToAdd);
                 $this->db->bind(':itemID', $item['itemID']);
                 $this->db->bind(':size', $item['size']);

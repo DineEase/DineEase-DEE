@@ -2932,6 +2932,14 @@ td.rs-button-cont {
   text-align: center;
 }
 
+#reservation-cancel-container #rs-order-date-div {
+  margin-right: 1em;
+}
+
+.rc-cancel-suite {
+  text-align: center;
+}
+
 /* ! common styles */
 .btn {
   display: inline-block;

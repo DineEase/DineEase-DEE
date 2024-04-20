@@ -275,7 +275,7 @@
                                                             <button class="light-green-btn" id="rs-review" onclick="popAddReviewForTheReservation();" value="">Add Review</button>
                                                         </td>
                                                         <td class="rs-button-cont">
-                                                            <button class="danger-btn" id="rs-cancel" onclick="popupCancelReservation();">Cancel Reservation</button>
+                                                            <button class="danger-btn" id="rs-cancel" >Cancel Reservation</button>
                                                         </td>
                                                         <td class="rs-button-cont">
                                                             <button class="" id="rs-close-btn">Close</button>
@@ -294,7 +294,7 @@
                                             <h2>Cancel Reservation</h2>
                                             <div class="rs-header-items">
                                                 <div>Order No:&nbsp;<span id="rc-order-id"></span></div>
-                                                <div>Suite :&nbsp;<span id="rc-order-suite"></span></div>
+                                                <div class="rc-cancel-suite" >Suite :&nbsp;<span id="rc-order-suite"></span></div>
                                                 <div id="rs-order-date-div">
                                                     Order Date:&nbsp;<span id="rc-order-date"> </span>
                                                 </div>
@@ -305,21 +305,22 @@
                                                 <h3>Refund Availability </h3>
                                                 <hr>
                                                 <div class="review-order-item-container" id="cancel-order-refund-possible">
-                                                <span>You are </span>    
+                                                <span>You can </span>    
                                                 <p></p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-not-possible">
-                                            
+                                                <span>You cant </span>    
+                                                <p></p>
                                                 </div>
                                             </div>
                                             <div class="rs-actions">
                                                 <table class="rs-review-table">
                                                     <tr>
                                                         <td class="rs-button-cont ">
-                                                            <button class="red-btn review" onclick="submitCancelRequest();" id="rs-submit-cancel">Cancel Reservation</button>
+                                                            <button class="red-btn review" id="rc-submit-cancel">Cancel Reservation</button>
                                                         </td>
                                                         <td class="rs-button-cont add-review">
-                                                            <button class="light-green-btn" onclick="closeCancelReservation();" id="rs-close-btn-cancel">Close</button>
+                                                            <button class="light-green-btn" onclick="closeCancelReservation();" id="rc-close-btn-cancel">Close</button>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -751,7 +752,6 @@
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
-    <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
     <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 
