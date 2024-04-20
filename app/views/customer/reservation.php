@@ -744,13 +744,16 @@
             </div>
         </div>
     </div>
+    <script>
+        const URLROOT = "<?php echo URLROOT; ?>";
+        var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
+    </script>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-reservation.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-    <!-- <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script> -->
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 
 </body>
-
 </html>

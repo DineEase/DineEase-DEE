@@ -388,6 +388,8 @@ $(document).ready(function () {
 
 //!functions for reservation view page
 
+var openedReservationDetails;
+
 function popViewReservationDetails(element) {
   var reservationID = element.getAttribute("data-reservation-id");
   var item = "";
@@ -398,6 +400,7 @@ function popViewReservationDetails(element) {
     dataType: "json",
     success: function (response) {
       reservationDetails = response;
+      openedReservationDetails = reservationDetails;
 
       if (reservationDetails && reservationDetails.length > 0) {
         $("#reservation-details-container").show();
@@ -726,9 +729,15 @@ $(document).ready(function () {
 });
 
 function popupCancelReservation() {
+  if (openedReservationDetails[0].setHours(openedReservationDetails[0].reservationStartTime) - today.setHours(today.getHours()) < 24) {
+    alert(
+      "You can only cancel reservations 24 hours before the reservation time."
+    );
+  } else {
+    alert("You can cancel the reservation");
+  }
   $("#reservation-cancel-container").show();
   $("#reservation-details-container").hide();
-
 }
 
 function closeCancelReservation() {
@@ -737,5 +746,46 @@ function closeCancelReservation() {
 }
 
 $(document).ready(function () {
-  
+  var reservationID = openedReservationDetails[0].reservationID;
+  var orderID = openedReservationDetails[0].orderID;
+  var amount = openedReservationDetails[0].amount;
+  var date = openedReservationDetails[0].date;
+  var suiteID = openedReservationDetails[0].packageID;
+  var suite = ["Budget", "Gold", "Platinum"];
+  var suiteName = suite[suiteID];
+  var slot = openedReservationDetails[0].reservationStartTime;
+
+  $("#rc-order-id").text(orderID);
+  $("#rc-order-suite").text(suiteName);
+  $("#rc-order-date").text(date);
+
+  if (date.setHours(slot) - today.setHours(today.getHours()) < 24) {
+    alert(
+      "You can only cancel reservations 24 hours before the reservation time."
+    );
+  } else {
+    alert("You can cancel the reservation");
+  }
+
+  $("#cancel-reservation").click(function () {
+    $.ajax({
+      url: "cancelReservation",
+      method: "POST",
+      data: {
+        reservationID: reservationID,
+        orderID: orderID,
+        amount: amount,
+        date: date,
+      },
+      success: function (response) {
+        alert("Reservation Cancelled Successfully");
+        $("#reservation-cancel-container").hide();
+        location.reload();
+      },
+      error: function (xhr, status, error) {
+        console.error("Error cancelling reservation:", error);
+        alert("Failed to cancel reservation: " + error);
+      },
+    });
+  });
 });
