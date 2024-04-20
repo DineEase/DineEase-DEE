@@ -10,96 +10,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
     <title><?php echo SITENAME; ?></title>
+
+    <style>
+        /* Overall page styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* Discount details styles */
+        .discount-details {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .discount-details p {
+            margin: 0;
+            padding: 5px 0;
+        }
+
+        /* Form styles */
+        .discount-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .discount-form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .discount-form input[type="number"],
+        .discount-form input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .discount-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .discount-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Delete button styles */
+        #delete-discount {
+            background-color: #f44336;
+            margin-top: 10px;
+        }
+
+        #delete-discount:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Section heading styles */
+       
+    </style>
 </head>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-
-    .menu-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .menu-item {
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .menu-item:last-child {
-        border-bottom: none;
-    }
-
-    .menu-item h3 {
-        margin: 0;
-        color: #333;
-    }
-
-    .menu-item p {
-        margin: 5px 0;
-        color: #666;
-    }
-
-    .discount-form {
-        margin-top: 20px;
-    }
-
-    .discount-form label {
-        display: block;
-        margin-bottom: 10px;
-        color: #333;
-    }
-
-    .discount-form input[type="number"] {
-        width: 100%;
-        padding: 8px;
-        font-size: 16px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-
-    .discount-form button {
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .discount-form button:hover {
-        background-color: #45a049;
-    }
-
-    .error {
-        color: #ff0000;
-        /* Red color for error messages */
-        font-size: 14px;
-        /* Font size for error messages */
-        margin-top: 5px;
-        /* Margin to separate error messages from the input fields */
-    }
-</style>
-
 <div class="navbar-template">
     <nav class="navbar">
         <div class="topbar">
@@ -117,7 +123,7 @@
                     $user_id = $_SESSION['user_id'];
                     $profile_picture_url = URLROOT . '/uploads/profile/' . basename($_SESSION['profile_picture']);
                     ?>
-                    Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?><span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
+                    Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                     <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>">
                         <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
                     </a>
@@ -135,9 +141,9 @@
                     <div class="menu_title menu_menu"></div>
                     <li class="item">
                         <a href="<?php echo URLROOT ?>/managers/getUsers" class="nav_link nav_link_switch" data-content='home'>
-                            <button class="button-sidebar-menu" id="homeButton">
+                            <button class="button-sidebar-menu " id="homeButton">
                                 <span class="navlink_icon">
-                                    <span class="material-symbols-outlined">
+                                    <span class="material-symbols-outlined ">
                                         manage_accounts
                                     </span>
                                 </span>
@@ -250,41 +256,34 @@
     </nav>
 </div>
 
+<body>
+
 <div class="container">
     <h1>Discounts</h1>
 
-    <h2>Menu-wise Discounts</h2>
-    <a href="<?php echo URLROOT; ?>/managers/viewdiscounteditems">View Current Discounts</a>
-    <form class="discount-form" action="<?php echo URLROOT; ?>/managers/addmenudiscounts" method="POST">
-        <label for="menu-discount">Select Menu:</label>
+    <h2>Category-wise Discounts</h2>
 
-        <select name="menu_id" id="menu-discount">
-            <?php foreach ($data['menus'] as $menu) : ?>
-                <?php $menuID = $menu->itemID; ?>
-                <?php $isDiscounted = false; ?>
-                <?php foreach ($data['discountedmenus'] as $discountedMenu) : ?>
-                    <?php if ($menuID == $discountedMenu->category_menu_id) : ?>
-                        <?php $isDiscounted = true; ?>
-                        <?php break; ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-                <?php if ($isDiscounted) : ?>
-                    <option value="<?php echo $menuID; ?>" disabled><?php echo $menu->itemName; ?></option>
-                <?php else : ?>
-                    <option value="<?php echo $menuID; ?>"><?php echo $menu->itemName; ?></option>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </select>
+    <!-- Display the discount details -->
+    <div class="discount-details">
+        <p><strong>Discount ID:</strong> <?php echo $data['discountdetails']->discountID; ?></p>
+        <p><strong>Type:</strong> <?php echo $data['discountdetails']->type; ?></p>
+        <p><strong>Category/Menu ID:</strong> <?php echo $data['discountdetails']->category_menu_id; ?></p>
+        <p><strong>Discount Percentage:</strong> <?php echo $data['discountdetails']->discount_percentage; ?>%</p>
+        <p><strong>Start Date:</strong> <?php echo $data['discountdetails']->start_date; ?></p>
+        <p><strong>End Date:</strong> <?php echo $data['discountdetails']->end_date; ?></p>
+        <p><strong>Category Name:</strong> <?php echo $data['discountdetails']->category_name; ?></p>
+    </div>
 
-        <?php if (!empty($data['menu_ID_err'])) : ?>
-            <span class="error"><?php echo $data['menu_dis_err']; ?></span>
-        <?php endif; ?>
+    <!-- Form for updating the menu-wise discount -->
+    <form class="discount-form" action="<?php echo URLROOT; ?>/managers/updatecategorydiscounts" method="POST">
+        <input type="hidden" name="discount_id" value="<?php echo $data['discountdetails']->discountID; ?>">
+        <input type="hidden" name="category_menu_id" value="<?php echo $data['discountdetails']->category_menu_id; ?>">
 
         <label for="menu-discount-value">Enter Discount (%):</label>
         <?php if (!empty($data['discount_err'])) : ?>
             <span class="error"><?php echo $data['discount_err']; ?></span>
         <?php endif; ?>
-        <input type="number" name="menu_dis" id="menu-discount-value" min="0" step="1" placeholder="Enter discount percentage" required>
+        <input type="number" name="menu_dis" id="menu-discount-value" min="0" max= "100"step="1" placeholder="Enter discount percentage" required>
         <?php if (!empty($data['menu_start_date_err'])) : ?>
             <span class="error"><?php echo $data['menu_start_date_err']; ?></span>
         <?php endif; ?>
@@ -296,81 +295,47 @@
         <label for="end-date">End Date:</label>
         <input type="date" name="menu_end_date" id="end-date" min="<?php echo date('Y-m-d'); ?>">
         <button type="submit">Apply Discount</button>
-    </form>
-
-
-    <?php
-
-    if ($data['checktotaldiscount']) {
-    echo '<h2>Total Price-wise Discounts</h2>';
-    echo '<p>A total discount is already available. You cannot add another total discount.</p>';
-    echo '<a href="' . URLROOT . '/managers/viewtotaldiscount">Click here to edit total discount</a>.</p>';
-} else {
-    // Display the form to add a total discount
-    echo '<h2>Total Price-wise Discounts</h2>';
-    echo '<form class="discount-form" action="' . URLROOT . '/managers/addtotaldiscount" method="POST">';
-    echo '<label for="total-discount">Enter Discount (%):</label>';
-    if (!empty($data['discount_err'])) {
-        echo '<span class="error">' . $data['discount_err'] . '</span>';
-    }
-    echo '<input type="number" name="total_discount" id="total-discount" min="0" step="1" placeholder="Enter discount percentage" required>';
-    if (!empty($data['menu_start_date_err'])) {
-        echo '<span class="error">' . $data['menu_start_date_err'] . '</span>';
-    }
-    echo '<label for="start-date">Start Date:</label>';
-    echo '<input type="date" name="menu_start_date" id="start-date" min="' . date('Y-m-d') . '" required>';
-    if (!empty($data['menu_end_date_err'])) {
-        echo '<span class="error">' . $data['menu_end_date_err'] . '</span>';
-    }
-    echo '<label for="end-date">End Date:</label>';
-    echo '<input type="date" name="menu_end_date" id="end-date" min="' . date('Y-m-d') . '" required>';
-    echo '<button type="submit">Apply Discount</button>';
-    echo '</form>';
-}
-?>
-
-    <h2>Category-wise Discounts</h2>
-    <form class="discount-form" action="<?php echo URLROOT; ?>/managers/addcategorydiscounts" method="POST">
-        <label for="category-discount">Select Category:</label>
-        <select name="category_id" id="category-discount">
-            <?php foreach ($data['categories'] as $category) : ?>
-                <?php $categoryID = $category->category_ID; ?>
-                <?php $isDiscounted = false; ?>
-                <?php foreach ($data['discountedcategories'] as $discountedcategory) : ?>
-                    <?php if ($categoryID == $discountedcategory->category_menu_id) : ?>
-                        <?php $isDiscounted = true; ?>
-                        <?php break; ?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-                <?php if ($isDiscounted) : ?>
-                    <option value="<?php echo $categoryID; ?>" disabled><?php echo $category->category_name; ?></option>
-                <?php else : ?>
-                    <option value="<?php echo $categoryID; ?>"><?php echo $category->category_name; ?></option>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </select>
-        <label for="category-discount-value">Enter Discount (%):</label>
-        <?php if (!empty($data['discount_err'])) : ?>
-            <span class="error"><?php echo $data['discount_err']; ?></span>
-        <?php endif; ?>
-        <input type="number" name="category_discount" id="category-discount-value" min="0" step="1" placeholder="Enter discount percentage">
-        <?php if (!empty($data['menu_start_date_err'])) : ?>
-            <span class="error"><?php echo $data['menu_start_date_err']; ?></span>
-        <?php endif; ?>
-        <label for="start-date">Start Date:</label>
-        <input type="date" name="menu_start_date" id="start-date" min="<?php echo date('Y-m-d'); ?>">
-        <?php if (!empty($data['menu_end_date_err'])) : ?>
-            <span class="error"><?php echo $data['menu_end_date_err']; ?></span>
-        <?php endif; ?>
-        <label for="end-date">End Date:</label>
-        <input type="date" name="menu_end_date" id="end-date" min="<?php echo date('Y-m-d'); ?>">
-        <button type="submit">Apply Discount</button>
+        
+        <!-- Delete button -->
+        <button type="button" class="delete-discount" data-discount-id="<?php echo $data['discountdetails']->discountID; ?>">Delete</button>
     </form>
 </div>
-
 <script>
+        // Function to handle deletion
+        function deleteDiscount(discountID) {
+            // Confirm deletion
+            if (confirm("Are you sure you want to delete this discount?")) {
+                // Send AJAX request
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // If deletion is successful, reload the page or update UI as needed
+                            location.reload(); // Reload the page
+                        } else {
+                            // Handle error
+                            console.error('Error:', xhr.statusText);
+                        }
+                    }
+                };
+                xhr.open("POST", "<?php echo URLROOT; ?>/managers/deletediscount", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send("discount_id=" + discountID);
+            }
+        }
 
-</script>
+        // Add click event listener to delete buttons
+        var deleteButtons = document.querySelectorAll('.delete-discount');
+        deleteButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                // Get discount ID from data attribute
+                var discountID = button.getAttribute('data-discount-id');
+                // Call deleteDiscount function
+                deleteDiscount(discountID);
+            });
+        });
+    </script>
+
 </body>
 
 </html>

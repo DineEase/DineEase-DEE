@@ -621,11 +621,7 @@ public function editpackage($data){
         return false;
     }
 }
-public function getdiscounts(){
-    $this->db->query('SELECT * FROM discounts');
-    $results = $this->db->resultSet();
-    return $results;
-}
+
 public function addmenudiscounts($data){
     
     $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
@@ -657,6 +653,11 @@ public function getdiscountedcategories(){
     $results = $this->db->resultSet();
     return $results;
 }
+public function gettotaldiscount(){
+    $this->db->query('SELECT * FROM discounts WHERE type = "total"');
+    $results = $this->db->resultSet();
+    return $results;
+}
 public function addcategorydiscounts($data){
   
     $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
@@ -685,6 +686,90 @@ public function addtotaldiscount($data){
     }
 }
 
+public function updatemenudiscounts($data){
+    #use type menu
+    $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "menu" AND category_menu_id = :category_menu_id');  
+    $this->db->bind(':category_menu_id', $data['category_menu_id']);
+    $this->db->bind(':discount_percentage', $data['discount']);
+    $this->db->bind(':start_date', $data['menu_start_date']);
+    $this->db->bind(':end_date', $data['menu_end_date']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
 }
+public function updatecategorydiscounts($data){
+    #use type category
+    $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "category" AND category_menu_id = :category_menu_id');  
+    $this->db->bind(':category_menu_id', $data['category_menu_id']);
+    $this->db->bind(':discount_percentage', $data['discount']);
+    $this->db->bind(':start_date', $data['menu_start_date']);
+    $this->db->bind(':end_date', $data['menu_end_date']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+    
 
-?>
+}
+public function getdiscountedmenubyid($id){
+    #use categeroy_menu_id to get the discount and menuname
+    $this->db->query('SELECT discounts.*, menuitem.itemName 
+                      FROM discounts
+                      JOIN menuitem ON discounts.category_menu_id = menuitem.itemID
+                      WHERE discounts.type = "menu" AND discounts.category_menu_id = :id');
+    $this->db->bind(':id', $id);
+    $row = $this->db->single();
+    return $row;
+
+}
+public function getdiscountedcategorybyid($id){
+    #use categeroy_menu_id to get the discount and menuname
+    $this->db->query('SELECT discounts.*, menucategory.category_name 
+                      FROM discounts
+                      JOIN menucategory ON discounts.category_menu_id = menucategory.category_ID
+                      WHERE discounts.type = "category" AND discounts.category_menu_id = :id');
+    $this->db->bind(':id', $id);
+    $row = $this->db->single();
+    return $row;
+
+}
+public function deletediscount($id){
+    $this->db->query('DELETE FROM discounts WHERE discountID = :id');
+    $this->db->bind(':id', $id);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+public function checktotaldiscount(){
+    // function retrieve total type from discounts table
+    $this->db->query('SELECT * FROM discounts WHERE type = "total"');
+    $row = $this->db->single();
+    if ($this->db->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+    
+}
+public function gettotaldiscountdetails(){
+    $this->db->query('SELECT * FROM discounts WHERE type = "total"');
+    $row = $this->db->single();
+    return $row;
+}
+public function updatetotaldiscount($data){
+    $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "total"');  
+    $this->db->bind(':discount_percentage', $data['discount']);
+    $this->db->bind(':start_date', $data['menu_start_date']);
+    $this->db->bind(':end_date', $data['menu_end_date']);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+}

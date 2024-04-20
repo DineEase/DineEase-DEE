@@ -256,7 +256,7 @@
                 <label class="menu-details-label" for="prices">Prices:</label>
                 <div class="menu-details-prices">
                     <?php foreach ($data['sizes'] as $key => $size): ?>
-                        <span class="menu-details-price"><?php echo ucfirst($size) . ": $" . $data['prices'][$key]; ?></span>
+                        <span class="menu-details-price"><?php echo ucfirst($size) . ": LKR:" . $data['prices'][$key]; ?></span>
                     <?php endforeach; ?>
                 </div>
             </div>
