@@ -14,3 +14,10 @@ define('APPROOT', dirname(dirname(__FILE__)));
 define('URLROOT', 'http://localhost/DineEase-DEE');
 //Site Name
 define('SITENAME', 'DineEase-DEV');
+
+define('IMAGEROOT', 'http://localhost/DineEase-DEE/public/' );
+// define('IMAGEROOT', 'https://dineease.azurewebsites.net/public/' );
+
+define('UPLOADROOT', 'http://localhost/DineEase-DEE/public/uploads/' );
+// define('UPLOADROOT', 'https://dineease.azurewebsites.net/public/uploads/' );
+
