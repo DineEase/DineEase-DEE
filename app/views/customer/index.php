@@ -16,7 +16,7 @@
     <div class="container">
         <div class="navbar-template">
             <nav class="navbar">
-                <div class="topbar">
+            <div class="topbar">
                     <div class="logo-item">
                         <i class="bx bx-menu" id="sidebarOpen"></i>
                         <img src="<?php echo URLROOT ?>/public/img/login/dineease-logo.svg" alt="DineEase Logo">
@@ -26,12 +26,12 @@
                     </div>
                     <div class="navbar-content">
                         <div class="profile-details">
-                            <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
+                            <span class="material-symbols-outlined topbar-shoping-cart" value="0">
+                                shopping_cart_off
+                            </span>
+                            <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                           
-
-                            <img src="<?php echo URLROOT; ?>/uploads/profile/<?php echo basename($_SESSION['profile_picture']); ?>" alt="profile-photo" class="profile" />
-                            
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/dew.jpg" alt="profile-photo" class="profile" />
                         </div>
                     </div>
                 </div>

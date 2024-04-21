@@ -27,9 +27,12 @@
                     </div>
                     <div class="navbar-content">
                         <div class="profile-details">
-                            <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
+                            <span class="material-symbols-outlined topbar-shoping-cart" value="0">
+                                shopping_cart_off
+                            </span>
+                            <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                            <img src="<?php echo URLROOT ?>/public/img/login/profilepic.png" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/dew.jpg" alt="profile-photo" class="profile" />
                         </div>
                     </div>
                 </div>
@@ -188,7 +191,7 @@
                                                 </p>
                                                 <form action="<?php echo URLROOT; ?>/customers/deleteReview/<?php echo $review->reviewID; ?>" method="post">
                                                     <input type="hidden" name="remove_review_id" value="<?php echo $review->reviewID; ?>">
-                                                    <button type="submit" class="menu-remove-button" onclick="return confirm('Are you sure you want to remove this review?');" >Remove Review</button>
+                                                    <button type="submit" class="menu-remove-button" onclick="return confirm('Are you sure you want to remove this review?');">Remove Review</button>
                                                 </form>
 
                                             </div>

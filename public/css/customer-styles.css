@@ -325,6 +325,19 @@ body {
   margin-left: 10px;
 }
 
+img.profile {
+  width: 3.5em;
+  border-radius: 29px;
+  height: 3.5em;
+  border: solid var(--brandgreen) 2px;
+}
+
+img.profile:hover {
+  border: solid var(--brandgreen-dark) 2px;
+  transform: scale(1.01 smooth)
+
+}
+
 .profile-details {
   display: flex;
   align-items: center;
@@ -2940,6 +2953,9 @@ td.rs-button-cont {
   text-align: center;
 }
 
+
+
+
 /* ! common styles */
 .btn {
   display: inline-block;
@@ -2974,4 +2990,11 @@ td.rs-button-cont {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.button-disabled{
+  background-color: #7c7777 !important;
+  color: #516949;
+  cursor: not-allowed;
+  pointer-events: none;
 }
