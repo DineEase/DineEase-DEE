@@ -681,15 +681,7 @@ function submitReviewForReservation() {
 //! topbar
 
 $(document).ready(function () {
-  // function changeCartStatus() {
-  //   var cart = $(".topbar-shoping-cart");
-  //   cart.attr("value", "1");
-  // }
-
-  // $(document).on("click", ".topbar-notifications", function () {
-  //   changeCartStatus();
-  // });
-
+  
   $(document).on("click", ".topbar-shoping-cart", function () {
     function createTopbarCartItems() {
       var cartRowHTML = "";
@@ -741,22 +733,22 @@ $(document).ready(function () {
     $(".topbar-cart-container").hide();
   });
 
-  var cart = document.querySelector(".topbar-shoping-cart");
+  // var cart = document.querySelector(".topbar-shoping-cart");
 
-  var observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-      if (
-        mutation.type === "attributes" &&
-        mutation.attributeName === "value"
-      ) {
-        alert("Cart cahnged");
-      }
-    });
-  });
+  // var observer = new MutationObserver(function (mutations) {
+  //   mutations.forEach(function (mutation) {
+  //     if (
+  //       mutation.type === "attributes" &&
+  //       mutation.attributeName === "value"
+  //     ) {
+  //       alert("Cart cahnged");
+  //     }
+  //   });
+  // });
 
-  observer.observe(cart, {
-    attributes: true,
-  });
+  // observer.observe(cart, {
+  //   attributes: true,
+  // });
 });
 
 function closeCancelReservation() {

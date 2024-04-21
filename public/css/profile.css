@@ -1,0 +1,257 @@
+.profile-container {
+  .profile-container {
+    max-width: 101em;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.user-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.user-header h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.heroimage {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.buttons {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button.update,
+button.cancel,
+button.change-btn {
+  background-color: var(--brandgreen);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button.cancel {
+  background-color: #ccc;
+}
+
+.upload-container {
+  display: none;
+  position: fixed;
+  left: 56%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 300px;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: -8px 9px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border: solid var(--brandgreen);
+}
+
+.upload-container button {
+  background-color: var(--brandgreen);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.upload-container h2{
+    
+}
+
+.upload-container button:hover {
+  background-color: var(--brandgreen-dark);
+    transform: scale(1.03);
+}
+
+input[type="file" i]{
+    padding: 5px
+    ;
+}
+
+.overlay-profile {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.uploadb-file-name {
+    display: block;
+    margin-top: 10px;
+    color: red;
+    font-size: 14px;
+}
+
+
+.upload-container hr{
+    color: var(--brandgreen);
+}
+
+
+.upload-container h2 {
+  font-size: 20px;
+  color: #000;
+
+}
+
+.file-input {
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.important-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.loyalty-container {
+  max-width: 50em;
+  margin: auto;
+  margin-top: 2em;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.loyalty-container h2 {
+  font-size: 20px;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.profilecard td {
+  height: 22px !important;
+  margin: 0;
+  padding: 0 !important;
+}
+
+.loyalty-points {
+  font-size: 22px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.profilecard {
+  max-width: 50em;
+  /* margin-top: 20px; */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin: auto;
+}
+.card-body table {
+  width: 100%;
+}
+
+.profdetails {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.change-password {
+  margin-top: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.change-password label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+.change-password input {
+  max-width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  /* margin-right: 20px !important; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 27em;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.change-password input[type="submit"] {
+  background-color: var(--brandgreen);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.change-password-div {
+  display: none;
+  max-width: 25em;
+  margin: auto;
+  margin-top: 2em;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+button.update:hover,
+button.cancel:hover,
+button.change-btn:hover {
+  background-color: var(--brandgreen-dark);
+  transform: scale(1.05);
+}
+
+.change-password input[type="submit"]:hover {
+  background-color: var(--brandgreen);
+}
+
+@media screen and (max-width: 480px) {
+  .profile-container {
+    padding: 10px;
+  }
+}
+
+.main-profile-div {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  top: 7vh;
+}

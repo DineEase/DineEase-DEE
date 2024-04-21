@@ -492,4 +492,61 @@ class Customers extends Controller
         $jsonObj = json_encode($array);
         echo $jsonObj;
     }
+
+
+    public function uploadUserImage()
+    {
+        
+
+        if (!isset($_SESSION['user_id'])) {
+            die("You must be logged in to upload a photo.");
+        }
+
+        $userId = $_SESSION['user_id'];
+        $uploadDir = 'img/profilePhotos/'; // Ensure path is correctly specified without double slashes
+        $allowedTypes = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png'];
+
+        if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
+            $fileTmpPath = $_FILES['photo']['tmp_name'];
+            $fileType = $_FILES['photo']['type'];
+            $fileSize = $_FILES['photo']['size'];
+            $fileName = $_FILES['photo']['name'];
+            $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+            if (!array_key_exists($fileExt, $allowedTypes) || !in_array($fileType, $allowedTypes)) {
+                echo "Error: Only JPG, JPEG, and PNG files are allowed.";
+            } elseif ($fileSize > 5000000) { // 5MB limit
+                echo "Error: File size is too large.";
+            } else {
+                $newFileName = $userId . '_' . time() . '.' . $fileExt;
+                $destination = $uploadDir . $newFileName;
+
+                if (move_uploaded_file($fileTmpPath, $destination)) {
+                    redirect('customers/profile');
+                    echo "<script>alert('Image uploaded successfully')</script>";
+                } else {
+                    echo "Error uploading the file.";
+                }
+            }
+        } else {
+            // Use this opportunity to handle other potential upload errors
+            echo "Error: " . $this->fileUploadError($_FILES['photo']['error']);
+        }
+    }
+
+
+    private function fileUploadError($error_code)
+    {
+        $errors = [
+            UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+            UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+            UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded.',
+            UPLOAD_ERR_NO_FILE => 'No file was uploaded.',
+            UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.',
+            UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.',
+            UPLOAD_ERR_EXTENSION => 'A PHP extension stopped the file upload.',
+        ];
+
+        return $errors[$error_code] ?? 'Unknown upload error.';
+    }
 }

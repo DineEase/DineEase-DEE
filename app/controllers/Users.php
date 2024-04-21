@@ -3,7 +3,7 @@ class Users extends Controller
 {
     public $userModel;
     public function __construct()
-    {   
+    {
         unset($_SESSION['user_id']);
         unset($_SESSION['user_name']);
         unset($_SESSION['user_mobile_no']);
@@ -119,17 +119,15 @@ class Users extends Controller
             $hunterApiKey = 'f0b22562feaf8e34e1332f9e148c6f246dc78045';
             if (!$this->verifyEmailUsingHunter($data['email'], $hunterApiKey)) {
                 $data['email_err'] = 'Email address is not deliverable';
-            }  
+            }
             //validate dob
             if (empty($data['dob'])) {
-                $data['dob_err'] = 'Please enter dob';   
-            }
-            else 
-            {
+                $data['dob_err'] = 'Please enter dob';
+            } else {
                 if (strtotime($data['dob']) > strtotime('now')) {
                     $data['dob_err'] = 'Please enter a valid date of birth.';
                 }
-            }            
+            }
             //validate mobile_no
             if (empty($data['mobile_no'])) {
                 $data['mobile_no_err'] = 'Please enter mobile number';
@@ -162,12 +160,11 @@ class Users extends Controller
                 //register user
                 if ($this->userModel->register($data)) {
                     $token = $this->userModel->generateactivationToken($data['email']);
-                    if($this->sendaccountactivateEmail($data['email'], $token)){
-                    flash('register_success', 'Check email for activation link');
-                    
-                    redirect('users/login');
-                    }
-                    else{
+                    if ($this->sendaccountactivateEmail($data['email'], $token)) {
+                        flash('register_success', 'Check email for activation link');
+
+                        redirect('users/login');
+                    } else {
                         flash('register_success', 'Cannot Send Activation Link. Contact Us');
                     }
                 } else {
@@ -292,7 +289,7 @@ class Users extends Controller
         $_SESSION['employee_id'] = $employee->user_id;
         $_SESSION['role'] = $employee->role_id;
         $_SESSION['profile_picture'] = $user->profile_picture;
-        
+
 
         // echo '<pre>';
         // print_r($_SESSION);
@@ -330,7 +327,8 @@ class Users extends Controller
         redirect('users/login');
     }
 
-    public function forgotPassword() {
+    public function forgotPassword()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset-password'])) {
             // Process the form
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -346,7 +344,7 @@ class Users extends Controller
 
                     // Send email with the reset link
                     $this->sendPasswordResetEmail($email, $token);
-                    
+
                     //var_dump('error');
                     flash('password_reset', 'Password reset link sent to your email.');
                     redirect('users/login');
@@ -363,40 +361,41 @@ class Users extends Controller
         }
     }
 
-    public function resetPassword($token) {
+    public function resetPassword($token)
+    {
         $email = $this->userModel->getEmailByPasswordResetToken($token);
 
-        
+
         $data = []; // Initialize $data array
         //var_dump($token);
         //var_dump($email);
         //var_dump($this->userModel->verifyPasswordResetToken($email, $token));
         if ($this->userModel->verifyPasswordResetToken($email, $token)) {
-            
+
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Process the password reset form
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
+
                 $newPassword = isset($_POST['new_password']) ? trim($_POST['new_password']) : '';
                 $confirmPassword = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : '';
-    
+
                 // Validate passwords
                 if (empty($newPassword)) {
                     $data['new_password_err'] = 'Please enter a new password.';
                 } elseif (strlen($newPassword) < 8) {
                     $data['new_password_err'] = 'Password must be at least 8 characters.';
                 }
-    
+
                 if (empty($confirmPassword)) {
                     $data['confirm_password_err'] = 'Please confirm your password.';
                 } elseif ($newPassword != $confirmPassword) {
                     $data['confirm_password_err'] = 'Passwords do not match.';
                 }
-    
+
                 // If no errors, update the password
                 if (empty($data['new_password_err']) && empty($data['confirm_password_err'])) {
                     $this->userModel->resetPassword($email, $newPassword);
-    
+
                     // Mark the token as used
                     $this->userModel->markPasswordResetTokenAsUsed($token);
                     //$this->userModel->activateEmployeeByEmail($email);
@@ -404,7 +403,7 @@ class Users extends Controller
                     $data['success'] = 'Password reset successfully.';
                 }
             }
-    
+
             $data['token'] = $token;
             $this->view('users/reset_password', $data);
         } else {
@@ -415,8 +414,9 @@ class Users extends Controller
             //redirect('users/login');
         }
     }
-    
-    public function resetPasswordEmployee($token) {
+
+    public function resetPasswordEmployee($token)
+    {
         $email = $this->userModel->getEmailByPasswordResetToken($token);
 
         //var_dump($email);
@@ -425,53 +425,53 @@ class Users extends Controller
         //var_dump($email);
         //var_dump($this->userModel->verifyPasswordResetToken($email, $token));
         if ($this->userModel->verifyPasswordResetToken($email, $token)) {
-            
+
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Process the password reset form
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
+
                 $newPassword = isset($_POST['new_password']) ? trim($_POST['new_password']) : '';
                 $confirmPassword = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : '';
-    
+
                 // Validate passwords
                 if (empty($newPassword)) {
                     $data['new_password_err'] = 'Please enter a new password.';
                 } elseif (strlen($newPassword) < 8) {
                     $data['new_password_err'] = 'Password must be at least 8 characters.';
                 }
-    
+
                 if (empty($confirmPassword)) {
                     $data['confirm_password_err'] = 'Please confirm your password.';
                 } elseif ($newPassword != $confirmPassword) {
                     $data['confirm_password_err'] = 'Passwords do not match.';
                 }
-    
+
                 // If no errors, update the password
                 if (empty($data['new_password_err']) && empty($data['confirm_password_err'])) {
                     try {
                         // Reset the password
                         $this->userModel->resetPassword($email, $newPassword);
-            
+
                         // Activate the employee
-                        if($this->userModel->activateEmployeeByEmail($email)){
-                           
-                        // Mark the token as used
-                        $this->userModel->markPasswordResetTokenAsUsed($token);
-            
-                        // Set success message for display
-                        $data['success'] = 'Password reset successfully.';
+                        if ($this->userModel->activateEmployeeByEmail($email)) {
+
+                            // Mark the token as used
+                            $this->userModel->markPasswordResetTokenAsUsed($token);
+
+                            // Set success message for display
+                            $data['success'] = 'Password reset successfully.';
                         }
                     } catch (Exception $e) {
                         // Log the exception for debugging purposes
                         error_log('Exception in resetPasswordEmployee: ' . $e->getMessage());
-            
+
                         // Provide a user-friendly message
                         // You might want to redirect the user or show an appropriate message on the page
                         $data['error_message'] = 'Something went wrong. Please try again.';
                     }
                 }
             }
-    
+
             $data['token'] = $token;
             $this->view('manager/reset_password_employee', $data);
         } else {
@@ -482,23 +482,24 @@ class Users extends Controller
             //redirect('users/login');
         }
     }
-    
-    
-    
-    
+
+
+
+
 
     // Helper method to send the password reset email
-private function sendPasswordResetEmail($email, $token) {
+    private function sendPasswordResetEmail($email, $token)
+    {
         // Load PHPMailer library
         // Adjust the paths based on your PHPMailer location
 
-require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
+        require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
 
 
-    
+
         // Create a new PHPMailer instance
         $mail = new PHPMailer\PHPMailer\PHPMailer();
-    
+
         // Set up SMTP
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // Your SMTP server
@@ -507,16 +508,16 @@ require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
         $mail->Password   = 'soqrsqcrcwsmxpyd ';
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
-    
+
         // Set up sender and recipient
         $mail->setFrom('pachax001@gmail.com', 'pachax001');
         $mail->addAddress($email);
-    
+
         // Set email content
         $mail->isHTML(true);
         $mail->Subject = 'Password Reset';
         $mail->Body    = 'Link is only valid for 1 hour. Click the following link to reset your password: ' . URLROOT . '/users/resetPassword/' . $token;
-    
+
         // Send the email
         if ($mail->send()) {
             // Email sent successfully
@@ -524,12 +525,13 @@ require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
             return true;
         } else {
             // Error in sending email
-            
+
             echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
             return false;
         }
     }
-    public function activateaccount($token) {
+    public function activateaccount($token)
+    {
         $email = $this->userModel->getEmailByactivationToken($token);
 
         var_dump($email);
@@ -541,42 +543,42 @@ require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
             $this->userModel->activateaccount($email);
             $this->userModel->markactivationTokenAsUsed($token);
             flash('password_reset', 'Activated');
-                    redirect('users/login');
-            
+            redirect('users/login');
+        }
     }
-}
-private function verifyEmailUsingHunter($email, $apiKey)
-{
-    require_once APPROOT . '/vendor/autoload.php';
-    $url = "https://api.hunter.io/v2/email-verifier?email=" . urlencode($email) . "&api_key=" . $apiKey;
+    private function verifyEmailUsingHunter($email, $apiKey)
+    {
+        require_once APPROOT . '/vendor/autoload.php';
+        $url = "https://api.hunter.io/v2/email-verifier?email=" . urlencode($email) . "&api_key=" . $apiKey;
 
-    $client = new \GuzzleHttp\Client(['verify' => false]);
+        $client = new \GuzzleHttp\Client(['verify' => false]);
 
-    $response = $client->get($url);
+        $response = $client->get($url);
 
-    $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody(), true);
 
-    // Check if the API request was successful
-    if ($response->getStatusCode() === 200) {
-        return $data['data']['result'] === 'deliverable';
-    } else {
-        // Handle API error
-        return false;
+        // Check if the API request was successful
+        if ($response->getStatusCode() === 200) {
+            return $data['data']['result'] === 'deliverable';
+        } else {
+            // Handle API error
+            return false;
+        }
     }
-}
 
-    
-    private function sendaccountactivateEmail($email, $token) {
+
+    private function sendaccountactivateEmail($email, $token)
+    {
         // Load PHPMailer library
         // Adjust the paths based on your PHPMailer location
 
-require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
+        require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
 
 
-    
+
         // Create a new PHPMailer instance
         $mail = new PHPMailer\PHPMailer\PHPMailer();
-    
+
         // Set up SMTP
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // Your SMTP server
@@ -585,16 +587,16 @@ require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
         $mail->Password   = 'soqrsqcrcwsmxpyd ';
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
-    
+
         // Set up sender and recipient
         $mail->setFrom('pachax001@gmail.com', 'pachax001');
         $mail->addAddress($email);
-    
+
         // Set email content
         $mail->isHTML(true);
         $mail->Subject = 'Activate Account';
         $mail->Body    = 'Link is only valid for 1 hour. Click the following link to activate your account: ' . URLROOT . '/users/activateaccount/' . $token;
-    
+
         // Send the email
         if ($mail->send()) {
             // Email sent successfully
@@ -602,11 +604,11 @@ require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
             return true;
         } else {
             // Error in sending email
-            
+
             echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
             return false;
         }
     }
-    
-    
+
+   
 }
