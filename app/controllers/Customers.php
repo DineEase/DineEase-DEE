@@ -522,8 +522,12 @@ class Customers extends Controller
                 $destination = $uploadDir . $newFileName;
 
                 if (move_uploaded_file($fileTmpPath, $destination)) {
-                    redirect('customers/profile');
-                    echo "<script>alert('Image uploaded successfully')</script>";
+
+                    if ($this->customerModel->updateProfilePhoto($userId, $newFileName)) {
+                        $_SESSION['profile_picture'] = $newFileName;
+                        redirect('customers/profile');
+                    }
+
                 } else {
                     echo "Error uploading the file.";
                 }

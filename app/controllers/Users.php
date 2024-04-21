@@ -271,7 +271,11 @@ class Users extends Controller
         $_SESSION['user_name'] = $user->name;
         $_SESSION['user_mobile_no'] = $user->mobile_no;
         $_SESSION['role'] = 'customer';
-        $_SESSION['profile_picture'] = $user->profile_picture;
+        $_SESSION['profile_picture'] = $user->imagePath;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['dob'] = $user->dob;
+        $_SESSION['mobile_no'] = $user->mobile_no;
+
         redirect('customers/reservation');
     }
 

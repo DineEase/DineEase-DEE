@@ -32,7 +32,7 @@
                             </span>
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                            <img src="<?php echo URLROOT ?>/img/profilePhotos/dew.jpg" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                         </div>
                     </div>
                 </div>
@@ -135,9 +135,22 @@
                 <div id="overlay-profile" class="overlay-profile"></div>
 
                 <div class="profile-container">
+
+                    <div id="change-password-div" class="change-password-div">
+                        <form action="/uploadUserImage" class="change-password">
+                            <h2>Change User Name & Password</h2>
+                            <label for="old-psw">Old Password</label>
+                            <input type="password" id="old-psw" name="old-psw" pattern="" title="" required>
+                            <label for="new-psw">New Password</label>
+                            <input type="password" id="new-psw" name="new-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <label for="confirm-psw">Confirm New Password</label>
+                            <input type="password" id="confirm-psw" name="confirm-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <input type="submit" value="Submit">
+                        </form>
+                    </div>
                     <div class="user-header">
                         <h2>User Profile</h2>
-                        <img class="heroimage" src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar">
+                        <img class="heroimage" src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="Avatar">
                     </div>
                     <div class="buttons">
                         <button class="update" id="update-dp"><i class="fa-solid fa-square-pen"></i> Update</button>
@@ -151,29 +164,29 @@
                                         <p class="profdetails">User Name</p>
                                     </td>
                                     <td>:</td>
-                                    <td>MR Eve Perera</td>
+                                    <td><?php echo $_SESSION['user_name'] ?></td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class="profdetails">Address</p>
+                                        <p class="profdetails">Email Address</p>
                                     </td>
                                     <td>:</td>
-                                    <td>222/1, Saman Mawatha, East</td>
+                                    <td><?php echo $_SESSION['email'] ?></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <p class="profdetails">Contact Number</p>
                                     </td>
                                     <td>:</td>
-                                    <td>0715714175</td>
+                                    <td><?php echo $_SESSION['mobile_no'] ?></td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class="profdetails">Email</p>
+                                        <p class="profdetails"></p>
                                     </td>
-                                    <td>:</td>
-                                    <td>eve@gmail.com</td>
-                                    <td><button class="change-btn">Change</button></td>
+                                    <td></td>
+                                    <td><button id="change-user-password" class="change-btn">Change Password</button></td>
+                                    <td><button id="change-user-details" class="change-btn">Change Details</button></td>
                                 </tr>
                             </table>
                         </div>
@@ -186,7 +199,7 @@
                                 <input type="file" class="uploadb-file-input" id="file-upload" name="photo" accept=".jpg, .jpeg, .png" required>
                                 <span id="file-name" class="uploadb-file-name"></span>
                             </label>
-                            <button type="submit" id="upload-dp-btn" class="upload-btn button-disabled"  >Upload Photo</button>
+                            <button type="submit" id="upload-dp-btn" class="upload-btn button-disabled">Upload Photo</button>
                         </form>
                     </div>
 
@@ -195,20 +208,6 @@
                         <p>Your current loyalty points: <span class="loyalty-points">250</span></p>
                     </div>
 
-                    <div class="change-password-div">
-                        <form action="/uploadUserImage" class="change-password">
-                            <h2>Change User Name & Password</h2>
-                            <label for="usrname">Username</label>
-                            <input type="text" id="usrname" name="usrname" required>
-                            <label for="old-psw">Old Password</label>
-                            <input type="password" id="old-psw" name="old-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                            <label for="new-psw">New Password</label>
-                            <input type="password" id="new-psw" name="new-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                            <label for="confirm-psw">Confirm New Password</label>
-                            <input type="password" id="confirm-psw" name="confirm-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                            <input type="submit" value="Submit">
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

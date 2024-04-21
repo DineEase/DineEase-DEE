@@ -31,7 +31,7 @@ function isLoggedIn()
     }
 }
 
- function destroyOldSession() //this was a temp solution to destroy old session when user logs in with different role
+ function destroyOldSession() 
     {
         unset($_SESSION['user_id']);
         unset($_SESSION['user_name']);
