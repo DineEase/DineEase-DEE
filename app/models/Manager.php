@@ -1,77 +1,82 @@
 <?php
-class Manager {
+class Manager
+{
     private $db;
 
     public function __construct()
     {
         $this->db = new Database;
     }
-    public function getUsers() {
+    public function getUsers()
+    {
         $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
                          WHERE role.role_name != "manager" AND employee.delete_status = 0 ANd employee.active = 1');
-        
+
         $result = $this->db->resultset(PDO::FETCH_ASSOC);
-        
+
         return $result;
     }
-    public function getNonactivatedUsers() {
+    public function getNonactivatedUsers()
+    {
         $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
                          WHERE role.role_name != "manager" AND employee.delete_status = 0 ANd employee.active = 0');
-        
+
         $result = $this->db->resultset(PDO::FETCH_ASSOC);
-        
+
         return $result;
     }
-    
-    
+
+
 
     public function viewprofile($ID)
-{
-    $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, employee.nic, role.role_name, role.role_id
+    {
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, employee.nic, role.role_name, role.role_id
                      FROM employee
                      JOIN users ON employee.user_id = users.user_id
                      JOIN role ON employee.role_id = role.role_id
                      WHERE users.user_id = :ID');
-    $this->db->bind(':ID', $ID);
-    $results = $this->db->resultSet();
+        $this->db->bind(':ID', $ID);
+        $results = $this->db->resultSet();
 
-    // Assuming you expect only one user for a given ID, return the first result
-    return (!empty($results)) ? $results[0] : null;
-}
-public function viewManagerProfile()
-{
-    $this->db->query('SELECT users.user_id, users.name, users.email, users.dob, users.mobile_no, users.profile_picture, employee.address, employee.nic, role.role_name, role.role_id
+        // Assuming you expect only one user for a given ID, return the first result
+        return (!empty($results)) ? $results[0] : null;
+    }
+    public function viewManagerProfile()
+    {
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.dob, users.mobile_no, users.profile_picture, employee.address, employee.nic, role.role_name, role.role_id
                      FROM employee
                      JOIN users ON employee.user_id = users.user_id
                      JOIN role ON employee.role_id = role.role_id
                      WHERE employee.role_id = 1');
 
-    $results = $this->db->resultSet();
+        $results = $this->db->resultSet();
 
-    // Assuming you expect only one manager with role ID 1, return the first result
-    return (!empty($results)) ? $results[0] : null;
-}
+        // Assuming you expect only one manager with role ID 1, return the first result
+        return (!empty($results)) ? $results[0] : null;
+    }
 
 
 
-    
-    
-    
+
+
+
     public function addUsers($data)
     {
+        $filename = basename($data['imagePath']);
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile' . $filename;
         $this->db->query('INSERT INTO users (name, email, password, mobile_no, dob, profile_picture, active) VALUES (:name, :email, :password, :mobile_number, :dob, :imagePath, 1)');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
         $this->db->bind(':mobile_number', $data['mobile_number']);
         $this->db->bind(':dob', $data['dob']);
-        $this->db->bind(':imagePath', $data['imagePath']);
+        $this->db->bind(':imagePath', $imagePath);
 
         if ($this->db->execute()) {
             // Get the last inserted user ID
@@ -90,16 +95,16 @@ public function viewManagerProfile()
         return false;
     }
     public function getMenuitem()
-{
-    $this->db->query('SELECT menuitem.*, menucategory.category_name 
+    {
+        $this->db->query('SELECT menuitem.*, menucategory.category_name 
                       FROM menuitem
                       LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
                       WHERE menuitem.delete_status = 0');
-    $results = $this->db->resultSet();
-    return $results;
-}
+        $results = $this->db->resultSet();
+        return $results;
+    }
 
-        public function findMenuitemByID($id)
+    public function findMenuitemByID($id)
     {
         $this->db->query('SELECT * FROM menuitem WHERE itemID = :id AND delete_status = 0');
         //bind value
@@ -111,7 +116,6 @@ public function viewManagerProfile()
         } else {
             return false;
         }
-
     }
     public function findMenuitemByName($name)
     {
@@ -125,9 +129,9 @@ public function viewManagerProfile()
         } else {
             return false;
         }
-
     }
-    public function submitMenuitem($data) {
+    public function submitMenuitem($data)
+    {
         $filename = basename($data['imagePath']);
         $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
         $this->db->query('INSERT INTO menuitem (itemName, price, averageTime, hidden, imagePath, category_ID, description) VALUES (:itemName, :price, :averageTime, :hidden, :imagePath, :categoryID, :description)');
@@ -139,9 +143,9 @@ public function viewManagerProfile()
         // Use isset to ensure the key is present in $data
         $this->db->bind(':categoryID', isset($data['category_ID']) ? $data['category_ID'] : null);
         $this->db->bind(':description', $data['description']);
-        
+
         // Execute
-       
+
         if ($this->db->execute()) {
             $menuitemID = $this->db->lastInsertId();
             $this->db->query('INSERT INTO menuprices (itemID, itemSize, itemPrice) VALUES (:itemID, :itemSize, :itemPrice)');
@@ -159,59 +163,59 @@ public function viewManagerProfile()
             $this->db->execute();
 
             return true;
-        
-        }
-        else {
+        } else {
             return false;
         }
     }
     public function promotecustomer($data)
-{
-    // Check if the user ID is provided for the update
-    if (isset($data['user_id'])) {
-        // Perform an update
-        $this->db->query('UPDATE users SET name = :name, email = :email, password = :password, mobile_no = :mobile_number, dob = :dob, profile_picture = :imagePath WHERE user_id = :user_id');
-        $this->db->bind(':user_id', $data['user_id']);
-    } else {
-        // If it's an insert, bind a placeholder for user_id
-        $this->db->bind(':user_id', null, PDO::PARAM_INT);
+    {
+        // Check if the user ID is provided for the update
+        if (isset($data['user_id'])) {
+            // Perform an update
+            $this->db->query('UPDATE users SET name = :name, email = :email, password = :password, mobile_no = :mobile_number, dob = :dob, profile_picture = :imagePath WHERE user_id = :user_id');
+            $this->db->bind(':user_id', $data['user_id']);
+        } else {
+            // If it's an insert, bind a placeholder for user_id
+            $this->db->bind(':user_id', null, PDO::PARAM_INT);
+        }
+
+        // Common bindings for both update and insert
+        $filename = basename($data['imagePath']);
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile' . $filename;
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':password', $data['password']);
+        $this->db->bind(':mobile_number', $data['mobile_number']);
+        $this->db->bind(':dob', $data['dob']);
+        $this->db->bind(':imagePath', $imagePath);
+
+        // Execute the query
+        // Execute the query
+        if ($this->db->execute()) {
+            // Get the last inserted or updated user ID
+            $userId = isset($data['user_id']) ? $data['user_id'] : $this->db->lastInsertId();
+
+            // Insert into the employee table using the obtained user ID
+            $this->db->query('INSERT INTO employee (user_id, role_id, address, nic, delete_status, active) VALUES (:user_id, :role, :address, :nic, 0, 0)');
+            $this->db->bind(':user_id', $userId);  // Use the obtained user ID here
+            $this->db->bind(':role', $data['role']);
+            $this->db->bind(':address', $data['address']);
+            $this->db->bind(':nic', $data['nic']);
+
+            return $this->db->execute();
+        }
+
+        return false;
     }
 
-    // Common bindings for both update and insert
-    $this->db->bind(':name', $data['name']);
-    $this->db->bind(':email', $data['email']);
-    $this->db->bind(':password', $data['password']);
-    $this->db->bind(':mobile_number', $data['mobile_number']);
-    $this->db->bind(':dob', $data['dob']);
-    $this->db->bind(':imagePath', $data['imagePath']);
 
-    // Execute the query
-    // Execute the query
-if ($this->db->execute()) {
-    // Get the last inserted or updated user ID
-    $userId = isset($data['user_id']) ? $data['user_id'] : $this->db->lastInsertId();
 
-    // Insert into the employee table using the obtained user ID
-    $this->db->query('INSERT INTO employee (user_id, role_id, address, nic, delete_status, active) VALUES (:user_id, :role, :address, :nic, 0, 0)');
-    $this->db->bind(':user_id', $userId);  // Use the obtained user ID here
-    $this->db->bind(':role', $data['role']);
-    $this->db->bind(':address', $data['address']);
-    $this->db->bind(':nic', $data['nic']);
+    public function hideMenuitem($itemID)
+    {
 
-    return $this->db->execute();
-}
-
-return false;
-
-}
-
-    
-
-    public function hideMenuitem($itemID){
-    
         $this->db->query('UPDATE menuitem SET hidden = 0 WHERE itemID = :itemID');
         $this->db->bind(':itemID', $itemID);
-        
+
 
         //execute
         if ($this->db->execute()) {
@@ -219,13 +223,13 @@ return false;
         } else {
             return false;
         }
-        
     }
-    public function showMenuitem($itemID){
-    
+    public function showMenuitem($itemID)
+    {
+
         $this->db->query('UPDATE menuitem SET hidden = 1 WHERE itemID = :itemID');
         $this->db->bind(':itemID', $itemID);
-        
+
 
         //execute
         if ($this->db->execute()) {
@@ -233,12 +237,12 @@ return false;
         } else {
             return false;
         }
-        
     }
-    public function editMenuitem($data){
+    public function editMenuitem($data)
+    {
         $filename = basename($data['imagePath']);
         $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
-    
+
         $this->db->query('UPDATE menuitem SET itemName = :itemName, price = :price, averageTime = :averageTime, imagePath = :imagePath, category_ID = :categoryID, description = :description WHERE itemID = :itemID');
         $this->db->bind(':itemID', $data['itemID']);
         $this->db->bind(':itemName', $data['itemName']);
@@ -267,12 +271,12 @@ return false;
         } else {
             return false;
         }
-        
     }
-    public function deleteMenuitem($itemID){
+    public function deleteMenuitem($itemID)
+    {
         $this->db->query('UPDATE menuitem SET delete_status = 1 WHERE itemID = :itemID');
         $this->db->bind(':itemID', $itemID);
-    
+
         // Execute the query
         if ($this->db->execute()) {
             return true;
@@ -280,8 +284,9 @@ return false;
             return false;
         }
     }
-    
-    public function getMenuitembyId($id) {
+
+    public function getMenuitembyId($id)
+    {
         $this->db->query('SELECT m.*, 
                                 mp.itemSize,
                                 mp.itemPrice
@@ -290,21 +295,23 @@ return false;
                           WHERE m.itemID = :id');
         $this->db->bind(':id', $id);
         $rows = $this->db->resultSet();
-        
+
         // Debugging statements
-       
-    
+
+
         return $rows;
     }
-   public function getmenuitemtablebyid($id){
-    $this->db->query(('SELECT * FROM menuitem WHERE itemID = :id'));
-    $this->db->bind(':id', $id);
-    $row = $this->db->single();
-    return $row;
-   }
-    
-   public function getmenudetails($id){
-    $this->db->query('SELECT menuitem.*, 
+    public function getmenuitemtablebyid($id)
+    {
+        $this->db->query(('SELECT * FROM menuitem WHERE itemID = :id'));
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+        return $row;
+    }
+
+    public function getmenudetails($id)
+    {
+        $this->db->query('SELECT menuitem.*, 
                             menucategory.category_name, 
                             GROUP_CONCAT(DISTINCT menuprices.itemSize) AS sizes, 
                             GROUP_CONCAT(DISTINCT menuprices.itemPrice) AS prices
@@ -312,38 +319,38 @@ return false;
                       LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
                       LEFT JOIN menuprices ON menuitem.itemID = menuprices.itemID
                       WHERE menuitem.itemID = :id');
-    $this->db->bind(':id', $id);
-    $row = $this->db->single();
-    
-    return $row;
-}
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
 
-    
-    
-    
-    
+        return $row;
+    }
+
+
+
+
+
     public function findEmployeeByEmail($email)
-{
-    // Check if the user_id exists in both tables
-    $this->db->query('SELECT u.user_id FROM users u
+    {
+        // Check if the user_id exists in both tables
+        $this->db->query('SELECT u.user_id FROM users u
                       INNER JOIN employee e ON u.user_id = e.user_id
                       WHERE u.email = :email 
                         AND e.delete_status = 0
                         AND e.active = 1');
 
-    // Bind value
-    $this->db->bind(':email', $email);
-    $userRow = $this->db->single();
+        // Bind value
+        $this->db->bind(':email', $email);
+        $userRow = $this->db->single();
 
-    // Check if the user_id exists in both tables
-    if ($userRow) {
-        return true;
-    } else {
-        return false;
+        // Check if the user_id exists in both tables
+        if ($userRow) {
+            return true;
+        } else {
+            return false;
+        }
     }
-}
 
-    
+
     public function findEmployeeByMobile($mobile_no)
     {
         // Check if the user_id exists in both tables
@@ -352,18 +359,17 @@ return false;
                           WHERE u.mobile_no = :mobile_no 
                             AND e.delete_status = 0
                             AND e.active = 1');
-    
+
         // Bind value
         $this->db->bind(':mobile_no', $mobile_no);
         $userRow = $this->db->single();
-    
+
         // Check if the user_id exists in both tables
         if ($userRow) {
             return true;
         } else {
             return false;
         }
-
     }
     // Assuming you have a class method to execute queries, you might have something like this in your model
 
@@ -373,18 +379,19 @@ return false;
         $this->db->query('SELECT * FROM users WHERE email = :searchTerm OR mobile_no = :searchTerm');
         // Bind values
         $this->db->bind(':searchTerm', $searchTerm);
-    
+
         // Execute the query
         $results = $this->db->single();
-    
+
         return $results;
     }
-    
 
-    public function deleteprofile($user_id){
+
+    public function deleteprofile($user_id)
+    {
         $this->db->query('UPDATE employee SET delete_status = 1 WHERE user_id = :user_id AND role_id != 1');
         $this->db->bind(':user_id', $user_id);
-    
+
         // Execute the query
         if ($this->db->execute()) {
             return true;
@@ -392,7 +399,8 @@ return false;
             return false;
         }
     }
-    public function filterbyrole($role){
+    public function filterbyrole($role)
+    {
         $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
@@ -400,37 +408,40 @@ return false;
                          WHERE role.role_name = :role AND role.role_name != \'Manager\' AND employee.delete_status = 0');
         $this->db->bind(':role', $role);
         $result = $this->db->resultset(PDO::FETCH_ASSOC);
-        
+
         return $result;
     }
-    public function searchemployeebyname($name){
+    public function searchemployeebyname($name)
+    {
         $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
                          WHERE users.name LIKE :name AND employee.delete_status = 0 AND employee.role_id != 1');
-         $this->db->bind(':name', '%' . $name . '%');
+        $this->db->bind(':name', '%' . $name . '%');
         $result = $this->db->resultset(PDO::FETCH_ASSOC);
-        
+
         return $result;
     }
-    public function searchmenubyname($name) {
+    public function searchmenubyname($name)
+    {
         $this->db->query('SELECT menuitem.*, menucategory.category_name 
                           FROM menuitem
                           LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
                           WHERE menuitem.itemName LIKE :name AND menuitem.delete_status = 0');
-        
+
         $this->db->bind(':name', '%' . $name . '%');
         $results = $this->db->resultSet();
-        
+
         return $results;
     }
-    
-public function updateuserrole($role){
+
+    public function updateuserrole($role)
+    {
         $this->db->query('UPDATE employee SET role_id = :role WHERE user_id = :user_id');
         $this->db->bind(':role', $role['role']);
         $this->db->bind(':user_id', $role['user_id']);
-    
+
         // Execute the query
         if ($this->db->execute()) {
             return true;
@@ -438,9 +449,10 @@ public function updateuserrole($role){
             return false;
         }
     }
-    public function addmenucategory($data){
+    public function addmenucategory($data)
+    {
         $this->db->query('INSERT INTO menucategory (category_name) VALUES (:category_name)');
-        $this->db->bind(':category_name', $data['category_name']); 
+        $this->db->bind(':category_name', $data['category_name']);
         // Execute
         if ($this->db->execute()) {
             return true;
@@ -448,13 +460,14 @@ public function updateuserrole($role){
             return false;
         }
     }
-    public function getmenucategory(){
+    public function getmenucategory()
+    {
         $this->db->query('SELECT * FROM menucategory ORDER BY category_name ASC');
-        
+
         $results = $this->db->resultset();
         return $results;
     }
-    
+
     public function findcategorybyname($category_name)
     {
         $this->db->query('SELECT * FROM menucategory WHERE category_name = :category_name');
@@ -467,26 +480,27 @@ public function updateuserrole($role){
         } else {
             return false;
         }
-
     }
-    public function filtermenubycategory($categoryFilter = null) {
+    public function filtermenubycategory($categoryFilter = null)
+    {
         $this->db->query('SELECT menuitem.*, menucategory.category_name 
                           FROM menuitem
                           LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
                           WHERE menuitem.delete_status = 0' . ($categoryFilter !== null ? ' AND menucategory.category_ID = :categoryFilter' : ''));
-    
+
         if ($categoryFilter !== null) {
             $this->db->bind(':categoryFilter', $categoryFilter);
         }
-    
+
         $this->db->execute();
         $results = $this->db->resultSet();
-    
+
         return $results;
     }
-    
-    
-     public function generatePasswordResetToken($email) {
+
+
+    public function generatePasswordResetToken($email)
+    {
         $token = bin2hex(random_bytes(32));
         $expiration = time() + 3600; // Set expiration time to 1 hour from now
 
@@ -497,10 +511,11 @@ public function updateuserrole($role){
 
         return $this->db->execute() ? $token : false;
     }
-   public function manuallyactivateemployee($user_ID){
+    public function manuallyactivateemployee($user_ID)
+    {
         $this->db->query('UPDATE employee SET active = 1 WHERE user_id = :user_id');
         $this->db->bind(':user_id', $user_ID);
-    
+
         // Execute the query
         if ($this->db->execute()) {
             return true;
@@ -508,11 +523,12 @@ public function updateuserrole($role){
             return false;
         }
     }
-    public function getEmployeeEmail($user_ID) {
+    public function getEmployeeEmail($user_ID)
+    {
         $this->db->query('SELECT email FROM users WHERE user_id = :user_id');
         $this->db->bind(':user_id', $user_ID);
         $row = $this->db->single();
-    
+
         // Check if the row exists and has the 'email' property
         if ($row && isset($row->email)) {
             return $row->email;
@@ -520,26 +536,28 @@ public function updateuserrole($role){
             return null; // Or handle the case where email is not found
         }
     }
-    public function editmenucategory($ID, $category_name){
+    public function editmenucategory($ID, $category_name)
+    {
         $this->db->query('UPDATE menucategory SET category_name = :category_name WHERE category_ID = :category_ID');
         $this->db->bind(':category_ID', $ID);
         $this->db->bind(':category_name', $category_name);
-        
+
         // Execute the query
         if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
-    }  
-        public function getcategorybyID($ID){
+    }
+    public function getcategorybyID($ID)
+    {
         $this->db->query('SELECT * FROM menucategory WHERE category_ID = :ID');
-        $this->db->bind(':ID',$ID);
+        $this->db->bind(':ID', $ID);
         $row = $this->db->single();
         return $row;
-        
     }
-    public function updatecategorytime($data){
+    public function updatecategorytime($data)
+    {
         $this->db->query('UPDATE menucategory SET start_time = :start_time, end_time = :end_time WHERE category_ID = :category_ID');
         $this->db->bind(':category_ID', $data['category_ID']);
         $this->db->bind(':start_time', $data['start_time']);
@@ -549,9 +567,9 @@ public function updateuserrole($role){
         } else {
             return false;
         }
-    
     }
-    public function hidecategory($data){
+    public function hidecategory($data)
+    {
         $this->db->query('UPDATE menucategory SET hidden_status = 1 WHERE category_ID = :category_ID');
         $this->db->bind(':category_ID', $data['category_ID']);
         if ($this->db->execute()) {
@@ -559,10 +577,9 @@ public function updateuserrole($role){
         } else {
             return false;
         }
-    
-    
-}
-public function showcategory($data){
+    }
+    public function showcategory($data)
+    {
         $this->db->query('UPDATE menucategory SET hidden_status = 0 WHERE category_ID = :category_ID');
         $this->db->bind(':category_ID', $data['category_ID']);
         if ($this->db->execute()) {
@@ -570,206 +587,222 @@ public function showcategory($data){
         } else {
             return false;
         }
-}
-public function emailcheck($email){
-    $this->db->query('SELECT * FROM users WHERE email = :email');
-    $this->db->bind(':email', $email);
-    $row = $this->db->single();
-    if ($this->db->rowCount() > 0) {
-        return true;
-    } else {
-        return false;
     }
-}
-public function getpackages(){
-    $this->db->query('SELECT * FROM package');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function getpackagebyid($packageID){
-    $this->db->query('SELECT * FROM package WHERE packageID = :packageID');
-    $this->db->bind(':packageID', $packageID);
-    $row = $this->db->single();
-    return $row;
-}
-public function gettables(){
-    $this->db->query('SELECT * FROM tables');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function addtable($data){
-    $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
-    $this->db->bind(':capacity', $data['capacity']);
-    $this->db->bind(':packageID', $data['packageID']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+    public function emailcheck($email)
+    {
+        $this->db->query('SELECT * FROM users WHERE email = :email');
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+        if ($this->db->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
-}
-public function editpackage($data){
-   
-    $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, capacity = :capacity, description = :description WHERE packageID = :packageID');
-    $this->db->bind(':packageName', $data['packageName']);
-    $this->db->bind(':tax', $data['tax']);
-    $this->db->bind(':capacity', $data['capacity']);
-    $this->db->bind(':description', $data['description']);
-    $this->db->bind(':packageID', $data['packageID']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+    public function getpackages()
+    {
+        $this->db->query('SELECT * FROM package');
+        $results = $this->db->resultSet();
+        return $results;
     }
-}
+    public function getpackagebyid($packageID)
+    {
+        $this->db->query('SELECT * FROM package WHERE packageID = :packageID');
+        $this->db->bind(':packageID', $packageID);
+        $row = $this->db->single();
+        return $row;
+    }
+    public function gettables()
+    {
+        $this->db->query('SELECT * FROM tables');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function addtable($data)
+    {
+        $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
+        $this->db->bind(':capacity', $data['capacity']);
+        $this->db->bind(':packageID', $data['packageID']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function editpackage($data)
+    {
+        $filename = basename($data['imagePath']);
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/package' . $filename;
 
-public function addmenudiscounts($data){
-    
-    $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
-    $this->db->bind(':type', 'menu');
-    $this->db->bind(':category_menu_id', $data['menu_ID']);
-    $this->db->bind(':discount_percentage', $data['discount']);
-    $this->db->bind(':start_date', $data['menu_start_date']);
-    $this->db->bind(':end_date', $data['menu_end_date']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+        $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, capacity = :capacity, description = :description, image =:image WHERE packageID = :packageID');
+        $this->db->bind(':packageName', $data['packageName']);
+        $this->db->bind(':tax', $data['tax']);
+        $this->db->bind(':capacity', $data['capacity']);
+        $this->db->bind(':description', $data['description']);
+        $this->db->bind(':packageID', $data['packageID']);
+        $this->db->bind(':image', $imagePath);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-}
-public function getdiscountedmenus(){
-    $this->db->query('SELECT discounts.*, menuitem.itemName 
+    public function addmenudiscounts($data)
+    {
+
+        $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
+        $this->db->bind(':type', 'menu');
+        $this->db->bind(':category_menu_id', $data['menu_ID']);
+        $this->db->bind(':discount_percentage', $data['discount']);
+        $this->db->bind(':start_date', $data['menu_start_date']);
+        $this->db->bind(':end_date', $data['menu_end_date']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getdiscountedmenus()
+    {
+        $this->db->query('SELECT discounts.*, menuitem.itemName 
                       FROM discounts
                       JOIN menuitem ON discounts.category_menu_id = menuitem.itemID
                       WHERE discounts.type = "menu"');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function getdiscountedcategories(){
-    $this->db->query('SELECT discounts.*, menucategory.category_name 
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function getdiscountedcategories()
+    {
+        $this->db->query('SELECT discounts.*, menucategory.category_name 
                       FROM discounts
                       JOIN menucategory ON discounts.category_menu_id = menucategory.category_ID
                       WHERE discounts.type = "category"');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function gettotaldiscount(){
-    $this->db->query('SELECT * FROM discounts WHERE type = "total"');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function addcategorydiscounts($data){
-  
-    $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
-    $this->db->bind(':type', 'category');
-    $this->db->bind(':category_menu_id', $data['category_ID']);
-    $this->db->bind(':discount_percentage', $data['discount']);
-    $this->db->bind(':start_date', $data['menu_start_date']);
-    $this->db->bind(':end_date', $data['menu_end_date']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function gettotaldiscount()
+    {
+        $this->db->query('SELECT * FROM discounts WHERE type = "total"');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function addcategorydiscounts($data)
+    {
+
+        $this->db->query('INSERT INTO discounts (type, category_menu_id, discount_percentage,start_date, end_date) VALUES (:type, :category_menu_id, :discount_percentage, :start_date, :end_date)');
+        $this->db->bind(':type', 'category');
+        $this->db->bind(':category_menu_id', $data['category_ID']);
+        $this->db->bind(':discount_percentage', $data['discount']);
+        $this->db->bind(':start_date', $data['menu_start_date']);
+        $this->db->bind(':end_date', $data['menu_end_date']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function addtotaldiscount($data)
+    {
+        $this->db->query('INSERT INTO discounts (type, discount_percentage,start_date, end_date) VALUES (:type, :discount_percentage, :start_date, :end_date)');
+        $this->db->bind(':type', 'total');
+        $this->db->bind(':discount_percentage', $data['discount']);
+        $this->db->bind(':start_date', $data['menu_start_date']);
+        $this->db->bind(':end_date', $data['menu_end_date']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-}
-public function addtotaldiscount($data){
-    $this->db->query('INSERT INTO discounts (type, discount_percentage,start_date, end_date) VALUES (:type, :discount_percentage, :start_date, :end_date)');
-    $this->db->bind(':type', 'total');
-    $this->db->bind(':discount_percentage', $data['discount']);
-    $this->db->bind(':start_date', $data['menu_start_date']);
-    $this->db->bind(':end_date', $data['menu_end_date']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+    public function updatemenudiscounts($data)
+    {
+        #use type menu
+        $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "menu" AND category_menu_id = :category_menu_id');
+        $this->db->bind(':category_menu_id', $data['category_menu_id']);
+        $this->db->bind(':discount_percentage', $data['discount']);
+        $this->db->bind(':start_date', $data['menu_start_date']);
+        $this->db->bind(':end_date', $data['menu_end_date']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
-}
-
-public function updatemenudiscounts($data){
-    #use type menu
-    $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "menu" AND category_menu_id = :category_menu_id');  
-    $this->db->bind(':category_menu_id', $data['category_menu_id']);
-    $this->db->bind(':discount_percentage', $data['discount']);
-    $this->db->bind(':start_date', $data['menu_start_date']);
-    $this->db->bind(':end_date', $data['menu_end_date']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+    public function updatecategorydiscounts($data)
+    {
+        #use type category
+        $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "category" AND category_menu_id = :category_menu_id');
+        $this->db->bind(':category_menu_id', $data['category_menu_id']);
+        $this->db->bind(':discount_percentage', $data['discount']);
+        $this->db->bind(':start_date', $data['menu_start_date']);
+        $this->db->bind(':end_date', $data['menu_end_date']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
-}
-public function updatecategorydiscounts($data){
-    #use type category
-    $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "category" AND category_menu_id = :category_menu_id');  
-    $this->db->bind(':category_menu_id', $data['category_menu_id']);
-    $this->db->bind(':discount_percentage', $data['discount']);
-    $this->db->bind(':start_date', $data['menu_start_date']);
-    $this->db->bind(':end_date', $data['menu_end_date']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
-    }
-    
-
-}
-public function getdiscountedmenubyid($id){
-    #use categeroy_menu_id to get the discount and menuname
-    $this->db->query('SELECT discounts.*, menuitem.itemName 
+    public function getdiscountedmenubyid($id)
+    {
+        #use categeroy_menu_id to get the discount and menuname
+        $this->db->query('SELECT discounts.*, menuitem.itemName 
                       FROM discounts
                       JOIN menuitem ON discounts.category_menu_id = menuitem.itemID
                       WHERE discounts.type = "menu" AND discounts.category_menu_id = :id');
-    $this->db->bind(':id', $id);
-    $row = $this->db->single();
-    return $row;
-
-}
-public function getdiscountedcategorybyid($id){
-    #use categeroy_menu_id to get the discount and menuname
-    $this->db->query('SELECT discounts.*, menucategory.category_name 
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+        return $row;
+    }
+    public function getdiscountedcategorybyid($id)
+    {
+        #use categeroy_menu_id to get the discount and menuname
+        $this->db->query('SELECT discounts.*, menucategory.category_name 
                       FROM discounts
                       JOIN menucategory ON discounts.category_menu_id = menucategory.category_ID
                       WHERE discounts.type = "category" AND discounts.category_menu_id = :id');
-    $this->db->bind(':id', $id);
-    $row = $this->db->single();
-    return $row;
-
-}
-public function deletediscount($id){
-    $this->db->query('DELETE FROM discounts WHERE discountID = :id');
-    $this->db->bind(':id', $id);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+        return $row;
     }
-}
-public function checktotaldiscount(){
-    // function retrieve total type from discounts table
-    $this->db->query('SELECT * FROM discounts WHERE type = "total"');
-    $row = $this->db->single();
-    if ($this->db->rowCount() > 0) {
-        return true;
-    } else {
-        return false;
+    public function deletediscount($id)
+    {
+        $this->db->query('DELETE FROM discounts WHERE discountID = :id');
+        $this->db->bind(':id', $id);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    
-}
-public function gettotaldiscountdetails(){
-    $this->db->query('SELECT * FROM discounts WHERE type = "total"');
-    $row = $this->db->single();
-    return $row;
-}
-public function updatetotaldiscount($data){
-    $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "total"');  
-    $this->db->bind(':discount_percentage', $data['discount']);
-    $this->db->bind(':start_date', $data['menu_start_date']);
-    $this->db->bind(':end_date', $data['menu_end_date']);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
+    public function checktotaldiscount()
+    {
+        // function retrieve total type from discounts table
+        $this->db->query('SELECT * FROM discounts WHERE type = "total"');
+        $row = $this->db->single();
+        if ($this->db->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
-}
+    public function gettotaldiscountdetails()
+    {
+        $this->db->query('SELECT * FROM discounts WHERE type = "total"');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function updatetotaldiscount($data)
+    {
+        $this->db->query('UPDATE discounts SET discount_percentage = :discount_percentage, start_date = :start_date, end_date = :end_date WHERE type = "total"');
+        $this->db->bind(':discount_percentage', $data['discount']);
+        $this->db->bind(':start_date', $data['menu_start_date']);
+        $this->db->bind(':end_date', $data['menu_end_date']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

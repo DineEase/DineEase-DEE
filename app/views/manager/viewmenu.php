@@ -24,6 +24,7 @@
 
     /* Style for the menu details container */
 .menu-details-container {
+    
     margin: 20px auto;
     width: 80%;
 }

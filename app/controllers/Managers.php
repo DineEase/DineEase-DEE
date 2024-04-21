@@ -360,10 +360,7 @@ class Managers extends Controller
                 $this->view('manager/editmenu', $data);
             }
         } else {
-            // Populate form fields with data from the database
-            // Populate form fields with data from the database
-            // Populate form fields with data from the database
-            // Populate form fields with data from the database
+
             $data = [
                 'itemID' => $itemID,
                 'itemName' => $menuItem[0]->itemName,
@@ -729,14 +726,39 @@ class Managers extends Controller
     {
         $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\';
 
-        $targetFile = $targetDirectory . basename($imageFile['name']);
-
+        if (!file_exists($targetDirectory)) {
+            mkdir($targetDirectory, 0777, true);
+        }
+    
+        // Replace spaces with underscores in the file name
+        $imageName = str_replace(' ', '_', $imageFile['name']);
+    
         // Check if the file is an image
         $check = getimagesize($imageFile['tmp_name']);
         if ($check === false) {
             die('Error: Uploaded file is not an image.');
         }
-
+    
+        // Generate a random number
+        $randomNumber = mt_rand(100000, 999999);
+    
+        // Append the random number to the file name
+        $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
+        $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
+        $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+    
+        $targetFile = $targetDirectory . basename($imageName);
+        echo "Target File: " . $targetFile . "<br>";
+    
+        // Check if a file with the same name already exists
+        while (file_exists($targetFile)) {
+            // Generate a new random number
+            $randomNumber = mt_rand(100000, 999999);
+            // Append the new random number to the file name
+            $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+            $targetFile = $targetDirectory . basename($imageName);
+        }
+    
         // Upload the image file
         if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
             return $targetFile; // Return the uploaded image path
@@ -1301,29 +1323,94 @@ class Managers extends Controller
     private function handleImageUploadprofilepicture($imageFile)
     {
         $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\profile\\';
-
-        // Create the target directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
-
+    
         // Replace spaces with underscores in the file name
         $imageName = str_replace(' ', '_', $imageFile['name']);
-        $targetFile = $targetDirectory . basename($imageName);
-
+    
         // Check if the file is an image
         $check = getimagesize($imageFile['tmp_name']);
         if ($check === false) {
             die('Error: Uploaded file is not an image.');
         }
-
+    
+        // Generate a random number
+        $randomNumber = mt_rand(100000, 999999);
+    
+        // Append the random number to the file name
+        $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
+        $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
+        $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+    
+        $targetFile = $targetDirectory . basename($imageName);
+        echo "Target File: " . $targetFile . "<br>";
+    
+        // Check if a file with the same name already exists
+        while (file_exists($targetFile)) {
+            // Generate a new random number
+            $randomNumber = mt_rand(100000, 999999);
+            // Append the new random number to the file name
+            $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+            $targetFile = $targetDirectory . basename($imageName);
+        }
+    
         // Upload the image file
         if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
             return $targetFile; // Return the uploaded image path
         } else {
             die('Error: Failed to move uploaded file.');
         }
+        
     }
+    private function handlimageUploadpackagepicture($imageFile)
+{
+    $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\package\\';
+
+    // Create the target directory if it doesn't exist
+    if (!file_exists($targetDirectory)) {
+        mkdir($targetDirectory, 0777, true);
+    }
+
+    // Replace spaces with underscores in the file name
+    $imageName = str_replace(' ', '_', $imageFile['name']);
+
+    // Check if the file is an image
+    $check = getimagesize($imageFile['tmp_name']);
+    if ($check === false) {
+        die('Error: Uploaded file is not an image.');
+    }
+
+    // Generate a random number
+    $randomNumber = mt_rand(100000, 999999);
+
+    // Append the random number to the file name
+    $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
+    $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
+    $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+
+    $targetFile = $targetDirectory . basename($imageName);
+    echo "Target File: " . $targetFile . "<br>";
+
+    // Check if a file with the same name already exists
+    while (file_exists($targetFile)) {
+        // Generate a new random number
+        $randomNumber = mt_rand(100000, 999999);
+        // Append the new random number to the file name
+        $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+        $targetFile = $targetDirectory . basename($imageName);
+    }
+
+    // Upload the image file
+    if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
+        return $targetFile; // Return the uploaded image path
+    } else {
+        die('Error: Failed to move uploaded file.');
+    }
+}
+
+
 
     public function packages()
     {
@@ -1334,7 +1421,82 @@ class Managers extends Controller
         $this->view('manager/packages', $data);
     }
 
-    public function editpackage($ID)
+    //     public function editpackage($ID)
+    //     {
+    //         $package = $this->managerModel->getpackagebyid($ID);
+    //         if (!$package) {
+    //             // Handle the case where the category does not exist
+    //             // For example, you can redirect to an error page or show an error message
+    //             ob_clean();
+    //             $data['message'] = 'No Such Package Found';
+
+    //             $this->redirectpage($data, true, URLROOT . '/managers/packages', 10, 'Error', 'Package Error');
+    //             //
+    //             exit();
+    //         }
+    //         $data = [
+    //             'package' => $package
+    //         ];
+    //         $this->view('manager/editpackage', $data);
+    //         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //             // ... (existing code)
+    //             if (isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK) {
+    //                 // Handle image upload and get the image path
+    //                 $imagePath = $this->handlimageUploadpackagepicture($_FILES['imagePath']);
+    //                 if ($imagePath === false) {
+    //                     // Handle image upload error
+    //                     // Redirect or show an error message
+    //                     die('Error: Image upload failed.');
+    //                 }
+    //             } else {
+    //                 // Handle no image uploaded or upload error
+    //                 die('Error: No image uploaded or upload error.');
+    //             }
+    //         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    //             $data = [
+    //                 'packageID' => $ID,
+    //                 'packageName' => isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
+    //                 'tax' => isset($_POST['tax']) ? trim($_POST['tax']) : '',
+    //                 'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+    //                 'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
+    //                 'imagePath' => $imagePath,
+    //                 'packagename_err' => '',
+    //                 'vat_err' => '',
+    //                 'capacity_err' => '',
+    //                 'description_err' => '',
+    //             ];
+    //             if (empty($data['packageName'])) {
+    //                 $data['packagename_err'] = 'Please enter package name';
+    //             }
+    //             if (empty($data['tax'])) {
+    //                 $data['vat_err'] = 'Please enter tax';
+    //             }
+    //             if (empty($data['capacity'])) {
+    //                 $data['capacity_err'] = 'Please enter capacity';
+    //             }
+    //             if (empty($data['description'])) {
+    //                 $data['description_err'] = 'Please enter description';
+    //             }
+    //             if (empty($data['packagename_err']) && empty($data['vat_err']) && empty($data['capacity_err']) && empty($data['description_err'])) {
+    //                 // Call the model function to insert user data
+    //                 if ($this->managerModel->editpackage($data)) {
+    //                     // Handle success, e.g., redirect to another page
+    //                     // header('Location: ' . URLROOT . '/menus/submitMenu');
+    //                     //redirect('managers/packages');
+    //                     //exit();
+    //                 } else {
+    //                     $this->view('manager/editpackage', $data);
+    //                     //die('Something went wrong');
+    //                 }
+    //             } else {
+    //                 // Validation failed, show the form with errors
+    //                 $this->view('manager/editpackage', $data);
+    //             }
+    //         }
+    //     }
+    // }
+    public function getpackagedetails($ID)
     {
         $package = $this->managerModel->getpackagebyid($ID);
         if (!$package) {
@@ -1348,22 +1510,56 @@ class Managers extends Controller
             exit();
         }
         $data = [
-            'package' => $package
+            'package' => $package,
+            'packagename_err' => '',
+            'vat_err' => '',
+            'capacity_err' => '',
+            'description_err' => '',
         ];
         $this->view('manager/editpackage', $data);
+    }
+    public function editpackage()
+    {
+        
+        $data = []; // Initialize $data array
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $ID = $_POST['packageID'];
+            $package = $this->managerModel->getpackagebyid($ID);
+            // Check if image was uploaded successfully
+            
+            $imagePath = '';
+            if (isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK) {
+                // Handle image upload and get the image path
+                $imagePath = $this->handlimageUploadpackagepicture($_FILES['imagePath']);
+                //var_dump($imagePath);
+                if ($imagePath === false) {
+                    // Handle image upload error
+                    // Redirect or show an error message
+                    die('Error: Image upload failed.');
+                }
+            }
+            else {
+                // Handle no image uploaded or upload error
+                //die('Error: No image uploaded or upload error.');
+                $imagePath = $package->image;
+            }
+
             $data = [
-                'packageID' => $ID,
+                'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
                 'packageName' => isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
                 'tax' => isset($_POST['tax']) ? trim($_POST['tax']) : '',
                 'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
                 'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
+                'imagePath' => $imagePath,
                 'packagename_err' => '',
                 'vat_err' => '',
                 'capacity_err' => '',
                 'description_err' => '',
             ];
+
+            // Perform validation
             if (empty($data['packageName'])) {
                 $data['packagename_err'] = 'Please enter package name';
             }
@@ -1376,23 +1572,34 @@ class Managers extends Controller
             if (empty($data['description'])) {
                 $data['description_err'] = 'Please enter description';
             }
-            if (empty($data['packagename_err']) && empty($data['vat_err']) && empty($data['capacity_err']) && empty($data['description_err'])) {
-                // Call the model function to insert user data
+
+            // Check if there are any validation errors
+            if (
+                empty($data['packagename_err']) &&
+                empty($data['vat_err']) &&
+                empty($data['capacity_err']) &&
+                empty($data['description_err'])
+            ) {
+                // Call the model function to update package data
                 if ($this->managerModel->editpackage($data)) {
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
-                    //redirect('managers/packages');
-                    //exit();
+                    redirect('managers/packages');
+                    exit();
                 } else {
-                    $this->view('manager/editpackage', $data);
-                    //die('Something went wrong');
+                    // Handle failure to update package
+                    $data['message'] = 'Failed to update package.';
                 }
             } else {
-                // Validation failed, show the form with errors
+                // Validation failed, display the form with validation errors
                 $this->view('manager/editpackage', $data);
             }
         }
+
+        $this->view('manager/editpackage', $data);
     }
+
+
     public function addtable()
     {
         $tables = $this->managerModel->gettables();
@@ -1492,7 +1699,7 @@ class Managers extends Controller
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
                     ob_clean();
-                   
+
                     ob_end_flush();
                     redirect('managers/handlediscounts');
                     exit();
@@ -1524,7 +1731,8 @@ class Managers extends Controller
     }
 
     public function addcategorydiscounts()
-    {  ob_start();
+    {
+        ob_start();
         $categories = $this->managerModel->getmenucategory();
         $menus = $this->managerModel->getMenuitem();
         $discountedcategories = $this->managerModel->getdiscountedcategories();
@@ -1570,7 +1778,7 @@ class Managers extends Controller
                     // Handle success, e.g., redirect to another page
                     //header('Location: ' . URLROOT . '/managers/handlediscounts');
                     ob_clean();
-                    
+
                     ob_end_flush();
                     redirect('managers/handlediscounts');
                     exit();
@@ -1627,7 +1835,7 @@ class Managers extends Controller
                     // Handle success, e.g., redirect to another page
                     //header('Location: ' . URLROOT . '/managers/handlediscounts');
                     ob_clean();
-                    
+
                     ob_end_flush();
                     redirect('managers/handlediscounts');
                     exit();
@@ -1642,7 +1850,7 @@ class Managers extends Controller
         }
     }
     public function getmenudiscountdetails($ID)
-   
+
     {
         ob_start();
         $discountdetails = $this->managerModel->getdiscountedmenubyid($ID);
@@ -1650,17 +1858,17 @@ class Managers extends Controller
         $data = [
             'discountdetails' => $discountdetails
         ];
-        
+
         $this->view('manager/updatemenudiscounts', $data);
-        if(!$discountdetails){
+        if (!$discountdetails) {
             ob_clean();
-        ob_end_flush();
+            ob_end_flush();
             redirect('managers/handlediscounts');
             exit();
         }
 
         //$this->view('manager/testvardump', $data);
-        
+
     }
     public function getcategorydiscountdetails($ID)
     {
@@ -1670,11 +1878,11 @@ class Managers extends Controller
         $data = [
             'discountdetails' => $discountdetails
         ];
-       
+
         $this->view('manager/updatecategorydiscount', $data);
-        if(!$discountdetails){
+        if (!$discountdetails) {
             ob_clean();
-        ob_end_flush();
+            ob_end_flush();
             redirect('managers/handlediscounts');
             exit();
         }
@@ -1721,7 +1929,7 @@ class Managers extends Controller
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
                     ob_clean();
-                    
+
                     ob_end_flush();
                     redirect('managers/viewdiscounteditems');
                     exit();
@@ -1763,8 +1971,6 @@ class Managers extends Controller
 
             ob_clean();
             ob_end_flush();
-            
-            
         }
     }
 
@@ -1808,11 +2014,10 @@ class Managers extends Controller
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
                     ob_clean();
-                   
+
                     ob_end_flush();
                     redirect('managers/viewdiscounteditems');
                     exit();
-                    
                 } else {
                     $this->view('manager/updatcategorydiscounts', $data);
                     die('Something went wrong');
@@ -1863,11 +2068,10 @@ class Managers extends Controller
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
                     ob_clean();
-                   
+
                     ob_end_flush();
                     redirect('managers/viewdiscounteditems');
                     exit();
-                    
                 } else {
                     $this->view('manager/updatcategorydiscounts', $data);
                     die('Something went wrong');
@@ -1886,12 +2090,11 @@ class Managers extends Controller
             'discountdetails' => $discountdetails
         ];
         $this->view('manager/updatetotaldiscount', $data);
-        if(!$discountdetails){
+        if (!$discountdetails) {
             ob_clean();
-        ob_end_flush();
+            ob_end_flush();
             redirect('managers/handlediscounts');
             exit();
         }
     }
-    
 }
