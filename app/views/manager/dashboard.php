@@ -10,93 +10,121 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
     <title><?php echo SITENAME; ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        .card {
+            width: calc(25% - 20px); /* Adjust width to fit 4 cards in a row */
+            min-height: 150px;
+            background-color: #e6f7e9; /* Light green */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px; /* Adjust padding */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            margin: 0;
+            text-align: center;
+            color: #333;
+            font-size: 16px; /* Adjust font size */
+        }
+
+        .card p {
+            margin: 5px 0;
+            text-align: center;
+            font-size: 14px; /* Adjust font size */
+            color: #555;
+        }
+
+        /* Adjustments for smaller screens */
+        @media only screen and (max-width: 768px) {
+            .card {
+                width: calc(50% - 20px); /* Adjust width to fit 2 cards in a row */
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .card {
+                width: calc(100% - 20px); /* Adjust width to fit 1 card in a row */
+            }
+        }
+
+        /* Adjustments for Total Sales card */
+        .total-sales-card {
+            width: calc(35% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Total Orders card */
+        .total-orders-card {
+            width: calc(25% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Total Customers card */
+        .total-customers-card {
+            width: calc(20% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Total Menus card */
+        .total-menus-card {
+            width: calc(20% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Best Selling Menu Item card */
+        .best-selling-card {
+            width: calc(30% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Most Used Package card */
+        .most-used-package-card {
+            width: calc(30% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Top 5 Customers card */
+        .top-5-customers-card {
+            width: calc(45% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Best Reviewed Food card */
+        .best-reviewed-food-card {
+            width: calc(35% - 20px); /* Adjust width to fit the content */
+        }
+
+        /* Adjustments for Least Reviewed Food card */
+        .least-reviewed-food-card {
+            width: calc(35% - 20px); /* Adjust width to fit the content */
+        }
+    </style>
+
 </head>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-
-    form {
-        margin-top: 20px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    textarea {
-        height: 100px;
-    }
-
-    button[type="submit"] {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button[type="submit"]:hover {
-        background-color: #45a049;
-    }
-
-    .discount-details {
-        background-color: #f9f9f9;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .discount-details p {
-        margin: 0;
-        padding: 5px 0;
-    }
-
-    .package-image {
-        width: 300px;
-        /* adjust the width as needed */
-        height: auto;
-        /* maintain aspect ratio */
-        border-radius: 10px;
-        /* add rounded corners */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        /* add a subtle shadow */
-        /* You can add more styles here */
-    }
-</style>
 
 <body>
     <div class="navbar-template">
@@ -133,17 +161,17 @@
                     <ul class="menu_items">
                         <div class="menu_title menu_menu"></div>
                         <li class="item">
-                                <a href="<?php echo URLROOT ?>/managers/dashboard" class="nav_link nav_link_switch" data-content='home'>
-                                    <button class="button-sidebar-menu " id="homeButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                dashboard
-                                            </span>
+                            <a href="<?php echo URLROOT ?>/managers/dashboard" class="nav_link nav_link_switch" data-content='home'>
+                                <button class="button-sidebar-menu active-nav" id="homeButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            dashboard
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard</span>
-                                    </button>
-                                </a>
-                            </li>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Dashboard</span>
+                                </button>
+                            </a>
+                        </li>
                         <li class="item">
                             <a href="<?php echo URLROOT ?>/managers/getUsers" class="nav_link nav_link_switch" data-content='home'>
                                 <button class="button-sidebar-menu " id="homeButton">
@@ -184,7 +212,7 @@
                         </li>
                         <li class="item">
                             <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu active-nav" id="reservationButton">
+                                <button class="button-sidebar-menu" id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
                                             Package
@@ -261,69 +289,58 @@
         </nav>
     </div>
     <div class="container">
-        <div class="discount-details">
-            <h2>Package Details</h2>
-            <img class="package-image" src="<?php echo URLROOT; ?>/uploads/package/<?php echo basename($data['package']->image); ?>" alt="Package Image">
-            <p><strong>Package ID:</strong> <?php echo $data['package']->packageID; ?></p>
-            <p><strong>Package Name:</strong> <?php echo $data['package']->packageName; ?></p>
-            <p><strong>TAX:</strong> <?php echo $data['package']->tax; ?></p>
-            <p><strong>Capacity:</strong><?php echo $data['package']->capacity; ?>%</p>
-            <p><strong>Description:</strong> <?php echo $data['package']->description; ?></p>
-
+    <div class="card total-sales-card">
+            <h2>Total Sales</h2>
+            <p>LKR:<?php echo $data['totalsales']->{'SUM(amount)'}; ?></p>
         </div>
-        <h1>Edit Package</h1>
-        <form action="<?php echo URLROOT; ?>/managers/editpackage/" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="packageID" value="<?php echo $data['package']->packageID; ?>">
-            <div>
-                <label for="packagename">Package Name:</label>
-                <input type="text" id="name" name="packageName" required>
-                <span class="error"><?php echo $data['packagename_err']; ?></span>
-            </div>
-            <div>
-                <label for="tax">VAT or TAX:</label>
-                <input type="number" id="tax" name="tax" min="0" required>
-                <span class="error"><?php echo $data['vat_err']; ?></span>
-            </div>
-            <div>
-                <label for="capacity">Capacity:</label>
-                <input type="number" id="capacity" name="capacity" min="1" required>
-                <span class="error"><?php echo $data['capacity_err']; ?></span>
-            </div>
-            <div>
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
-                <span class="error"><?php echo $data['description_err']; ?></span>
-            </div>
-            <div>
-                <button type="button" id="imageButton" onclick="openFilePicker()">Edit Image</button>
-                <input type="file" name="imagePath" accept="image/*" style="display: none;" id="imageInput" onchange="previewImage(event)">
-                <br>
-                <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 300px; max-height: 300px;">
-            </div>
+        <div class="card total-orders-card">
+            <h2>Total Orders</h2>
+            <p><?php echo $data['totalorders']->{'COUNT(orderItemID)'}; ?></p>
+        </div>
+        <div class="card total-customers-card">
+            <h2>Total Customers</h2>
+            <p><?php echo $data['totalcustomers']->{'COUNT(user_id)'}; ?></p>
+        </div>
+        <div class="card total-menus-card">
+            <h2>Total Menus</h2>
+            <p><?php echo $data['totalmenus']->{'COUNT(itemID)'}; ?></p>
+        </div>
+        <div class="card best-selling-card">
+            <h2>Best Selling Menu Item</h2>
+            <p><?php echo $data['bestsellingmenuitem']->itemName; ?></p>
+            <p>Total Quantity: <?php echo $data['bestsellingmenuitem']->total_quantity; ?></p>
+            <img src="<?php echo $data['bestsellingmenuitem']->imagePath ?>" alt="Menu Image" style="width: 100px; height: 100px;">
+        </div>
+        <div class="card most-used-package-card">
+            <h2>Most Used Package</h2>
+            <p><strong>Package Name:</strong> <?php echo $data['mostusedpackage']->packageName; ?></p>
+            <p><strong>Total Usage:</strong> <?php echo $data['mostusedpackage']->total_usage; ?></p>
+        </div>
+        <div class="card top-5-customers-card">
+            <h2>Top 5 Customers</h2>
+            <ul>
+                <?php foreach ($data['top5customers'] as $customer) : ?>
+                    <li><?php echo $customer->name; ?> - Total Reservations: <?php echo $customer->total_reservations; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="card best-reviewed-food-card">
+            <h2>Best Reviewed Food</h2>
+            <p>Name: <?php echo $data['bestreviewedfood']->itemName; ?></p>
+            <p>Average Rating: <?php echo $data['bestreviewedfood']->average_rating; ?></p>
+        </div>
+        <div class="card least-reviewed-food-card">
+            <h2>Least Reviewed Food</h2>
+            <p>Name: <?php echo $data['leastreviewedfood']->itemName; ?></p>
+            <p>Average Rating: <?php echo $data['leastreviewedfood']->average_rating ?? 'N/A'; ?></p>
+        </div>
 
-            <button type="submit">Save Changes</button>
-        </form>
     </div>
-<script>
-    function openFilePicker() {
-    document.getElementById('imageInput').click();
-}
 
-function previewImage(event) {
-    var imagePreview = document.getElementById('imagePreview');
-    var imageInput = event.target.files[0];
-    var reader = new FileReader();
 
-    reader.onload = function() {
-        imagePreview.src = reader.result;
-        imagePreview.style.display = 'block';
-    }
-
-    if (imageInput) {
-        reader.readAsDataURL(imageInput);
-    }
-}
-</script>
 </body>
 
 </html>
+<?php
+var_dump($data);
+?>
