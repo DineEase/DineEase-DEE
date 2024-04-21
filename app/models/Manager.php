@@ -805,4 +805,112 @@ class Manager
             return false;
         }
     }
+    public function totalsales()
+{
+    $this->db->query('SELECT SUM(amount) FROM payment');
+    $row = $this->db->single();
+    return $row;
+}
+public function totalorders()
+{
+    $this->db->query('SELECT COUNT(orderItemID) FROM orders');
+    $row = $this->db->single();
+    return $row;
+
+}
+public function totalcustomers()
+{
+    
+    $this->db->query('SELECT COUNT(user_id) FROM users WHERE delete_status = 0');
+    $row = $this->db->single();
+    return $row;
+}
+public function totalmenuitems()
+{
+    $this->db->query('SELECT COUNT(itemID) FROM menuitem');
+    $row = $this->db->single();
+    return $row;
+}
+public function bestsellingmenuitem()
+{
+    $this->db->query('SELECT menuitem.itemName,menuitem.imagePath, SUM(orderitem.quantity) AS total_quantity
+                      FROM menuitem
+                      JOIN orderitem ON menuitem.itemID = orderitem.itemID
+                      GROUP BY menuitem.itemID
+                      ORDER BY total_quantity DESC
+                      LIMIT 1');
+    $row = $this->db->single();
+    return $row;
+}
+public function top5bestsellinmenuitems()
+{
+    $this->db->query('SELECT menuitem.itemName, SUM(orderitem.quantity) AS total_quantity
+                      FROM menuitem
+                      JOIN orderitem ON menuitem.itemID = orderitem.itemID
+                      GROUP BY menuitem.itemID
+                      ORDER BY total_quantity DESC
+                      LIMIT 5');
+    $results = $this->db->resultSet();
+    return $results;
+}
+public function mostusedpackage()
+{
+    $this->db->query('SELECT package.packageName, COUNT(reservation.packageID) AS total_usage
+                      FROM package
+                      LEFT JOIN reservation ON package.packageID = reservation.packageID
+                      GROUP BY package.packageID
+                      ORDER BY total_usage DESC
+                      LIMIT 1');
+    $row = $this->db->single();
+    return $row;
+}
+public function gettotalpackageusage(){
+    //use reservation table and package table to get the count of each package usage in reservation
+    $this->db->query('SELECT package.packageID, package.packageName, COUNT(reservation.packageID) AS total_usage
+                      FROM package
+                      LEFT JOIN reservation ON package.packageID = reservation.packageID
+                      GROUP BY package.packageID');
+    $results = $this->db->resultSet();
+    return $results;
+    
+}
+public function top5customers()
+{
+    $this->db->query('SELECT users.name, COUNT(reservation.customerID) AS total_reservations
+                      FROM users
+                      LEFT JOIN reservation ON users.user_id = reservation.customerID
+                      GROUP BY users.user_id
+                      ORDER BY total_reservations DESC
+                      LIMIT 5');
+    $results = $this->db->resultSet();
+    return $results;
+}
+public function bestreviewedfood()
+{
+    $this->db->query('SELECT menuitem.itemName, AVG(reviewfood.stars) AS average_rating
+                      FROM menuitem
+                      LEFT JOIN reviewfood ON menuitem.itemID = reviewfood.reviewfoodID
+                      GROUP BY menuitem.itemID
+                      ORDER BY average_rating DESC
+                      LIMIT 1');
+    $row = $this->db->single();
+    return $row;
+}
+public function leastreviewedfood()
+{
+    $this->db->query('SELECT menuitem.itemName, AVG(reviewfood.stars) AS average_rating
+                      FROM menuitem
+                      LEFT JOIN reviewfood ON menuitem.itemID = reviewfood.reviewfoodID
+                      GROUP BY menuitem.itemID
+                      ORDER BY average_rating ASC
+                      LIMIT 1');
+    $row = $this->db->single();
+    return $row;
+}
+public function totalpendingrefundrequests()
+{
+    $this->db->query('SELECT COUNT(refundrequest.refundRequestID) FROM refundrequest WHERE status = "Pending"');
+    $row = $this->db->single();
+    return $row;
+}
 }

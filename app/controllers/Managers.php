@@ -2097,4 +2097,36 @@ class Managers extends Controller
             exit();
         }
     }
+    public function dashboard(){
+        $totalsales = $this->managerModel->totalsales();
+        $totalorders = $this->managerModel->totalorders();
+        $totalcustomers = $this->managerModel->totalcustomers();
+        $totalmenus = $this->managerModel->totalmenuitems();
+        $bestsellingmenuitem = $this->managerModel->bestsellingmenuitem();
+        $bestsellingtop5menuitems = $this->managerModel->top5bestsellinmenuitems();
+        $mostusedpackage = $this->managerModel->mostusedpackage();
+        $gettotalpackageusage = $this->managerModel->gettotalpackageusage();
+        $top5customers = $this->managerModel->top5customers();
+        $bestreviewedfood = $this->managerModel->bestreviewedfood();
+        $leastreviewedfood = $this->managerModel->leastreviewedfood();
+        $totalpendingrefundrequests = $this->managerModel->totalpendingrefundrequests();
+        $data = [
+            'totalsales' => $totalsales,
+            'totalorders' => $totalorders,
+            'totalcustomers' => $totalcustomers,
+            'totalmenus' => $totalmenus,
+            'bestsellingmenuitem' => $bestsellingmenuitem,
+            'bestsellingtop5menuitems' => $bestsellingtop5menuitems,
+            'mostusedpackage' => $mostusedpackage,
+            'gettotalpackageusage' => $gettotalpackageusage,
+            'top5customers' => $top5customers,
+            'bestreviewedfood' => $bestreviewedfood,
+            'leastreviewedfood' => $leastreviewedfood,
+            'totalpendingrefundrequests' => $totalpendingrefundrequests,
+        ];
+       $this->view('manager/dashboard', $data);
+       //$this->view('manager/testvardump', $data);
+
+    }
+
 }

@@ -142,6 +142,18 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
+                                <a href="<?php echo URLROOT ?>/managers/dashboard" class="nav_link nav_link_switch" data-content='home'>
+                                    <button class="button-sidebar-menu " id="homeButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                dashboard
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Dashboard</span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
                                 <a href="<?php echo URLROOT ?>/managers/getUsers" class="nav_link nav_link_switch" data-content='home'>
                                     <button class="button-sidebar-menu active-nav" id="homeButton">
                                         <span class="navlink_icon">
