@@ -135,7 +135,7 @@
                 <div id="overlay-profile" class="overlay-profile"></div>
 
                 <div class="profile-container">
-
+                        //TODO: Add the form to change user details
                     <div id="change-password-div" class="change-password-div">
                         <form action="/uploadUserImage" class="change-password">
                             <h2>Change User Name & Password</h2>
@@ -155,6 +155,9 @@
                     <div class="buttons">
                         <button class="update" id="update-dp"><i class="fa-solid fa-square-pen"></i> Update</button>
                     </div>
+                    //TODO: Add the form to change user Details
+                    
+                    //TODO  Delete the old images when an new image is uploaded
                     <div id="overlay-profile" class="overlay-profile"></div>
                     <div class="profilecard">
                         <div class="card-body">
