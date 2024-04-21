@@ -31,9 +31,11 @@
         }
 
         .card {
-            width: calc(25% - 20px); /* Adjust width to fit 4 cards in a row */
+            width: calc(25% - 20px);
+            /* Adjust width to fit 4 cards in a row */
             min-height: 150px;
-            background-color: #e6f7e9; /* Light green */
+            background-color: #e6f7e9;
+            /* Light green */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
@@ -43,7 +45,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 10px; /* Adjust padding */
+            padding: 10px;
+            /* Adjust padding */
         }
 
         .card:hover {
@@ -55,72 +58,92 @@
             margin: 0;
             text-align: center;
             color: #333;
-            font-size: 16px; /* Adjust font size */
+            font-size: 16px;
+            /* Adjust font size */
         }
 
         .card p {
             margin: 5px 0;
             text-align: center;
-            font-size: 14px; /* Adjust font size */
+            font-size: 14px;
+            /* Adjust font size */
             color: #555;
         }
 
         /* Adjustments for smaller screens */
         @media only screen and (max-width: 768px) {
             .card {
-                width: calc(50% - 20px); /* Adjust width to fit 2 cards in a row */
+                width: calc(50% - 20px);
+                /* Adjust width to fit 2 cards in a row */
             }
         }
 
         @media only screen and (max-width: 480px) {
             .card {
-                width: calc(100% - 20px); /* Adjust width to fit 1 card in a row */
+                width: calc(100% - 20px);
+                /* Adjust width to fit 1 card in a row */
             }
         }
 
         /* Adjustments for Total Sales card */
         .total-sales-card {
-            width: calc(35% - 20px); /* Adjust width to fit the content */
+            width: calc(35% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Total Orders card */
         .total-orders-card {
-            width: calc(25% - 20px); /* Adjust width to fit the content */
+            width: calc(25% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Total Customers card */
         .total-customers-card {
-            width: calc(20% - 20px); /* Adjust width to fit the content */
+            width: calc(20% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Total Menus card */
         .total-menus-card {
-            width: calc(20% - 20px); /* Adjust width to fit the content */
+            width: calc(20% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Best Selling Menu Item card */
         .best-selling-card {
-            width: calc(30% - 20px); /* Adjust width to fit the content */
+            width: calc(30% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Most Used Package card */
         .most-used-package-card {
-            width: calc(30% - 20px); /* Adjust width to fit the content */
+            width: calc(30% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Top 5 Customers card */
         .top-5-customers-card {
-            width: calc(45% - 20px); /* Adjust width to fit the content */
+            width: calc(45% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Best Reviewed Food card */
         .best-reviewed-food-card {
-            width: calc(35% - 20px); /* Adjust width to fit the content */
+            width: calc(35% - 20px);
+            /* Adjust width to fit the content */
         }
 
         /* Adjustments for Least Reviewed Food card */
         .least-reviewed-food-card {
-            width: calc(35% - 20px); /* Adjust width to fit the content */
+            width: calc(35% - 20px);
+            /* Adjust width to fit the content */
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            /* Adjust max-width as needed */
+            margin: 20px auto;
         }
     </style>
 
@@ -289,7 +312,7 @@
         </nav>
     </div>
     <div class="container">
-    <div class="card total-sales-card">
+        <div class="card total-sales-card">
             <h2>Total Sales</h2>
             <p>LKR:<?php echo $data['totalsales']->{'SUM(amount)'}; ?></p>
         </div>
@@ -336,11 +359,63 @@
         </div>
 
     </div>
+    <div class="chart-container">
+    <h2 style="text-align: center;">Best Selling Top 5 Menu Items</h2>
+        <canvas id="best-selling-chart"></canvas>
+    </div>
+    <div class="chart-container">
+    <h2 style="text-align: center;">Total Package Usage</h2>
+        <canvas id="total-package-chart"></canvas>
+    </div>
+    <script>
+        // Data for the bar chart
+        var menuItems = <?php echo json_encode(array_column($data['bestsellingtop5menuitems'], 'itemName')); ?>;
+        var quantities = <?php echo json_encode(array_column($data['bestsellingtop5menuitems'], 'total_quantity')); ?>;
+
+        // Bar chart configuration
+        var ctx = document.getElementById('best-selling-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: menuItems,
+                datasets: [{
+                    label: 'Quantity Sold',
+                    data: quantities,
+                    backgroundColor: '#4caf50', // Green color
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var packageNames = <?php echo json_encode(array_column($data['gettotalpackageusage'], 'packageName')); ?>;
+        var packageUsages = <?php echo json_encode(array_column($data['gettotalpackageusage'], 'total_usage')); ?>;
+
+        // Pie chart configuration
+        var pieCtx = document.getElementById('total-package-chart').getContext('2d');
+        var pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: packageNames,
+                datasets: [{
+                    label: 'Package Usage',
+                    data: packageUsages,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Colors for the pie slices
+                    borderWidth: 1
+                }]
+            },
+            options: {}
+        });
+    </script>
+    
 
 
 </body>
 
 </html>
-<?php
-var_dump($data);
-?>

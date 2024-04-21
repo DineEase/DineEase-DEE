@@ -2124,7 +2124,9 @@ class Managers extends Controller
             'leastreviewedfood' => $leastreviewedfood,
             'totalpendingrefundrequests' => $totalpendingrefundrequests,
         ];
-        $this->view('manager/dashboard', $data);
+       $this->view('manager/dashboard', $data);
+       //$this->view('manager/testvardump', $data);
+
     }
 
 }
