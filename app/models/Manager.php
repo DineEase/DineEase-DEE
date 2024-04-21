@@ -768,7 +768,7 @@ class Manager
     }
     public function deletediscount($id)
     {
-        $this->db->query('DELETE FROM discounts WHERE discountID = :id');
+        $this->db->query('DELETE FROM discounts WHERE id = :id');
         $this->db->bind(':id', $id);
         if ($this->db->execute()) {
             return true;
