@@ -2128,5 +2128,68 @@ class Managers extends Controller
        //$this->view('manager/testvardump', $data);
 
     }
+// public function reports($data = []){
+//     $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+    
+//     $data = [
+//         'minmaxpaymentdate' => $minmaxpaymentdate,
+//     ];
+//     $this->view('manager/reports', $data);
+// }
+public function reports(){
+    ob_start();
+    $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+    $data = [
+        'minmaxpaymentdate' => $minmaxpaymentdate,
+    ];
+    $this->view('manager/reports', $data);
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $data = [
+            'start_date' => isset($_POST['start_date']) ? trim($_POST['start_date']) : '',
+            'end_date' => isset($_POST['end_date']) ? trim($_POST['end_date']) : '',
+            'start_date_err' => '',
+            'end_date_err' => '',
+            'minmaxpaymentdate' => $minmaxpaymentdate,
+        ];
+        var_dump($data);
+        error_log('Data passed to model: ' . print_r($data, true));
+        //var_dump($data['end_date']);
+        if (empty($data['start_date'])) {
+            $data['start_date_err'] = 'Please enter start date';
+        }
+        if (empty($data['end_date'])) {
+            $data['end_date_err'] = 'Please enter end date';
+        }
+        if ($data['start_date'] > $data['end_date']) {
+            $data['start_date_err'] = 'Start date must be before end date';
+            
+        }
 
+        if (empty($data['start_date_err']) && empty($data['end_date_err'])) {
+            // Call the model function to insert user data
+            $salesreport = $this->managerModel->salesreport($data);
+            error_log('Data retrieved from model: ' . print_r($salesreport, true));
+           //var_dump($salesreport);
+            $data = [
+                'salesreport' => $salesreport,
+                'minmaxpaymentdate' => $minmaxpaymentdate,
+            ];
+            //$this->reports($data);
+            error_log('$Data retrieved from model: ' . print_r($data, true));
+            //ob_clean();
+            //ob_end_flush();
+            $this->view('manager/reports', $data);
+            //ob_clean();
+            //ob_end_flush();
+            exit();
+        } else {
+            // Validation failed, show the form with errors
+            
+            $this->view('manager/reports', $data);
+            //$this->reports($data);
+        }
+    }
+}
 }

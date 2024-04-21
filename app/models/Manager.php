@@ -913,4 +913,34 @@ public function totalpendingrefundrequests()
     $row = $this->db->single();
     return $row;
 }
+public function minmaxpaymentdate(){
+    //function to get first and last payment date from payments table
+    $this->db->query('SELECT MIN(paymentDate) AS first_payment, MAX(paymentDate) AS last_payment FROM payment');
+    $row = $this->db->single();
+    return $row;
+}
+// public function salesreport($data){
+//     //function to get sales report between two dates
+//     $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
+//     $this->db->bind(':start_date', $data['start_date']);
+//     $this->db->bind(':end_date', $data['end_date']);
+//     $results = $this->db->resultSet();
+//     return $results;
+    
+    
+    
+// }
+public function salesreport($data) {
+    
+
+        // Function to get sales report between two dates
+        $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
+        $this->db->bind(':start_date', $data['start_date']);
+        $this->db->bind(':end_date', $data['end_date']);
+        $row = $this->db->single();
+        var_dump($row);
+        return $row;
+    
+}
+
 }
