@@ -31,7 +31,7 @@
                             </span>
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                            <img src="<?php echo URLROOT ?>/img/profilePhotos/dew.jpg" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                         </div>
                     </div>
                 </div>
@@ -44,18 +44,16 @@
                         <hr class='separator'>
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/customers/index" class="nav_link nav_link_switch" data-content='home'>
-                                    <button class="button-sidebar-menu " id="homeButton">
+                            <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
+                                    <button class="button-sidebar-menu" id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard</span>
+                                        <span class="button-sidebar-menu-content">Reservation </span>
                                     </button>
                                 </a>
-                            </li>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
                                     <button class="button-sidebar-menu active-nav" id="reservationButton">
@@ -82,7 +80,7 @@
                                 </a>
                             </li>
 
-                            <li class="item">
+                            <!-- <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/review" class="nav_link" data-content='menu'>
                                     <button class="button-sidebar-menu" id="reservationButton">
                                         <span class="navlink_icon">
@@ -93,18 +91,12 @@
                                         <span class="button-sidebar-menu-content">Reviews </span>
                                     </button>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End -->
-
-
                         </ul>
                         <hr class='separator'>
-
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
-
-
-
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/profile" class="nav_link" data-content='menu'>
                                     <button class="button-sidebar-menu" id="reservationButton">
@@ -274,7 +266,7 @@
                                                             <button class="light-green-btn" id="rs-review" onclick="popAddReviewForTheReservation();" value="">Add Review</button>
                                                         </td>
                                                         <td class="rs-button-cont">
-                                                            <button class="danger-btn" id="rs-cancel" >Cancel Reservation</button>
+                                                            <button class="danger-btn" id="rs-cancel">Cancel Reservation</button>
                                                         </td>
                                                         <td class="rs-button-cont">
                                                             <button class="" id="rs-close-btn">Close</button>
@@ -293,7 +285,7 @@
                                             <h2>Cancel Reservation</h2>
                                             <div class="rs-header-items">
                                                 <div>Order No:&nbsp;<span id="rc-order-id"></span></div>
-                                                <div class="rc-cancel-suite" >Suite :&nbsp;<span id="rc-order-suite"></span></div>
+                                                <div class="rc-cancel-suite">Suite :&nbsp;<span id="rc-order-suite"></span></div>
                                                 <div id="rs-order-date-div">
                                                     Order Date:&nbsp;<span id="rc-order-date"> </span>
                                                 </div>
@@ -304,30 +296,31 @@
                                                 <h3>Refund Availability </h3>
                                                 <hr>
                                                 <div class="review-order-item-container" id="cancel-order-refund-possible">
-                                                <span>You can </span>    
-                                                <p></p>
+                                                    <span>You can </span>
+                                                    <p></p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-not-possible">
-                                                <span>You cant </span>    
-                                                <p></p>
+                                                    <span>You cant </span>
+                                                    <p></p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-requested">
-                                                <span>You did  </span>
-                                                <p></p>
+                                                    <span>You did </span>
+                                                    <p></p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-cancelled-no-refund">
-                                                <span>You did but with what cost?</span>
-                                                <p></p>
+                                                    <span>You did but with what cost?</span>
+                                                    <p></p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-given">
-                                                <span>mf</span>
-                                                <p></p>
+                                                    <span>mf</span>
+                                                    <p></p>
                                                 </div>
                                             </div>
                                             <div class="rs-actions">
                                                 <table class="rs-review-table">
                                                     <tr>
                                                         <td class="rs-button-cont ">
+                                                            <!-- TODO Add confirmation popup for reservation cancellation -->
                                                             <button class="red-btn review" id="rc-submit-cancel">Cancel Reservation</button>
                                                         </td>
                                                         <td class="rs-button-cont add-review">
@@ -736,7 +729,6 @@
                                 </div>
                             </section>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -767,4 +759,5 @@
     <!-- <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script> -->
 
 </body>
+
 </html>

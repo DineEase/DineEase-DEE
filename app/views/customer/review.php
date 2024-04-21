@@ -9,8 +9,230 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-
     <title><?php echo SITENAME; ?></title>
+
+    <style>
+        .menus-chef-menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 80%;
+            margin: auto;
+            gap: 20px;
+            padding-top: 30px;
+        }
+
+        .item-chef-menu {
+            width: 200px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .item-chef-menu:hover {
+            transform: translateY(-10px);
+        }
+
+        .item-chef-menu img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .item-chef-menu .info {
+            padding: 15px;
+        }
+
+        .item-chef-menu .price-chef-menu {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px !important;
+            margin-bottom: 5px !important;
+            color: var(--brandgreen);
+        }
+
+        .Time-chef-menu {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .item-chef-menu .title-chef-menu {
+            font-size: 20px;
+            margin-top: 4px;
+            font-weight: bold;
+            margin-bottom: 5px !important;
+        }
+
+        .item-chef-menu span {
+            display: inline-block;
+            padding: 3px 20px;
+            background-color: var(--brandgreen);
+            color: #fff;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .search-chef-menu {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .search-chef-menu input {
+            height: 40px;
+            width: 300px;
+            border-radius: 20px;
+            padding: 10px;
+            border: none;
+        }
+
+        .menu-card {
+            width: 150px;
+            padding: 15px;
+            border: 2px solid var(--brandgreen);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 0 auto;
+            margin-top: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-card:hover {
+            transform: scale(1.05);
+        }
+
+        .create-menu-link {
+            text-decoration: none;
+            color: var(--brandgreen);
+            font-weight: bold;
+            font-size: 14px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .menu-card:hover .create-menu-link {
+            color: var(--brandgreen-dark);
+        }
+
+        .plus-symbol {
+            margin-right: 6px;
+            font-weight: bold;
+        }
+
+        .buttons-chef-menu {
+            display: flex;
+            justify-content: center;
+            margin-top: 2px;
+            margin-bottom: 4px;
+            justify-content: space-between;
+            padding-left: 4px;
+            padding-right: 4px;
+
+        }
+
+        .button.item-button-chef-menu {
+            margin: 3 3px;
+            text-align: center;
+
+        }
+
+        .button.item-button-chef-menu a {
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button.item-button-chef-menu a:hover {
+            background-color: #45a049;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .customer-menu-view {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-view-head {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: right;
+            margin-right: 80px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .menu-view-header-bar {
+            background-color: #f5f5f5;
+            width: 100%;
+            border-radius: 10px;
+            position: sticky;
+            top: 6%;
+        }
+
+        .menu-view-filters {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .menu-categories {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid var(--brandgreen);
+            border-radius: 10px;
+            padding: 4px;
+            gap: 5px;
+        }
+
+        .category-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background-color: var(--brandgreen);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 180px;
+            height: 3em;
+        }
+
+        .category-button:hover {
+            background-color: var(--brandgreen-dark);
+        }
+
+        .menu-container-div-out {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 15px;
+            height: 50%;
+        }
+
+        .menu-container-div {
+            padding: 20px;
+            gap: 15px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -32,7 +254,7 @@
                             </span>
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                            <img src="<?php echo URLROOT ?>/img/profilePhotos/dew.jpg" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                         </div>
                     </div>
                 </div>
@@ -45,18 +267,16 @@
                         <hr class='separator'>
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/customers/index" class="nav_link nav_link_switch" data-content='home'>
-                                    <button class="button-sidebar-menu " id="homeButton">
+                            <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
+                                    <button class="button-sidebar-menu" id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard</span>
+                                        <span class="button-sidebar-menu-content">Reservation </span>
                                     </button>
                                 </a>
-                            </li>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
                                     <button class="button-sidebar-menu " id="reservationButton">
@@ -138,75 +358,57 @@
         <div class="body-template">
             <div id="content">
                 <div class="review-container">
-                    <div class="testimonials">
-                        <div class="inner">
-                            <h1>Reviews</h1>
-                            <div class="border"></div>
-                            <div class="row">
+                    <div class="tabset">
+                        <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
+                        <label for="tab1">All Reviews</label>
+                        <input type="radio" name="tabset" id="tab2" aria-controls="add">
+                        <label for="tab2">My Reviews</label>
 
-
-                                <div id="add-review-button" class="add-review-button" onclick="toggleReviewForm()">+</div>
-
-                                <!-- Add Review Pop-up Card -->
-                                <div id="add-review-popup" class="add-review-popup">
-                                    <div class="add-review-card">
-                                        <h2>Add a Review</h2>
-                                        <form action="<?php echo URLROOT; ?>/customers/review" method="post">
-                                            <label for="rating">Rating:</label>
-                                            <select id="rating" name="rating" required>
-                                                <option value="1">1 (Poor)</option>
-                                                <option value="2">2 (Fair)</option>
-                                                <option value="3">3 (Average)</option>
-                                                <option value="4">4 (Good)</option>
-                                                <option value="5">5 (Excellent)</option>
-                                            </select>
-
-                                            <label for="comment">Your Comment:</label>
-                                            <textarea id="comment" name="comment" rows="4" required></textarea>
-
-                                            <input type="hidden" name="date" value="<?php echo date('Y-m-d H:i:s'); ?>">
-
-                                            <button type="submit" class="submit-button">Submit Review</button>
-                                        </form>
-                                        <div class="close-button" onclick="toggleReviewForm()">X</div>
+                        <div class="tab-panels review-tp">
+                            <section id="view" class="tab-panel .review-tabs review-tp">
+                                <div class="view-all-reviews-container review-cont">
+                                    <div class="menu-view-filters">
+                                        <div class="menu-categories">
+                                            <button class="category-button active-category" data-category-id="all">All</button>
+                                            <button class="category-button" data-category-id="1">Desserts & Drinks</button>
+                                            <button class="category-button" data-category-id="2">Main Courses</button>
+                                            <button class="category-button" data-category-id="3">Appetizers & Sides</button>
+                                            <button class="category-button" data-category-id="4">Salads & Soups</button>
+                                            <button class="category-button" data-category-id="5">Breakfast & Brunch</button>
+                                            <button class="category-button" data-category-id="6">International Cuisine</button>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="menu-view-head">
 
-                                <?php if (!empty($data['reviews'])) : ?>
-                                    <?php foreach ($data['reviews'] as $review) : ?>
-                                        <div class="col">
-                                            <div class="testimonial">
-                                                <div class="name"><?php echo $_SESSION['user_name']; ?></div>
-                                                <div class="stars">
-                                                    <?php for ($i = 0; $i < $review->rating; $i++) : ?>
-                                                        <i class="fas fa-star"></i>
-                                                    <?php endfor; ?>
-                                                </div>
-                                                <p class="comment-preview">
-                                                    <?php echo substr($review->comment, 0, 100); ?> <!-- Display the first 100 characters -->
-                                                    <?php if (strlen($review->comment) > 100) : ?>
-                                                        <span id="more-<?php echo $review->reviewID; ?>" class="more">...<br><button onclick="toggleComment(<?php echo $review->reviewID; ?>)">View More</button></span>
-                                                        <span id="full-comment-<?php echo $review->reviewID; ?>" class="full-comment" style="display: none;"><?php echo substr($review->comment, 100); ?></span>
-                                                    <?php endif; ?>
-                                                </p>
-                                                <form action="<?php echo URLROOT; ?>/customers/deleteReview/<?php echo $review->reviewID; ?>" method="post">
-                                                    <input type="hidden" name="remove_review_id" value="<?php echo $review->reviewID; ?>">
-                                                    <button type="submit" class="menu-remove-button" onclick="return confirm('Are you sure you want to remove this review?');">Remove Review</button>
-                                                </form>
 
+                                    </div>
+                                    <div class="menu-box">
+                                        <div class="menu-items">
+                                            <div id="menu-container" class="menu-container-div-out">
                                             </div>
                                         </div>
-                                    <?php endforeach; ?>
-                                <?php else : ?>
-                                    <p>No reviews available.</p>
-                                <?php endif; ?>
-                            </div>
+                                    </div>
+                                    <div class="view-pagination-container">
+                                        <div class="view-pagination">
+                                            <button class="view-pagination-button " id="prev-page">Previous</button>
+                                            <span class="view-pagination-text" id="page-info"></span>
+                                            <button class="view-pagination-button" id="next-page">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="add" class="tab-panel .review-tabs review-tp">
+                                <div class="view-my-reviews-container review-cont">
+
+                            
+
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
