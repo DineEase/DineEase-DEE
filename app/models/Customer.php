@@ -264,14 +264,6 @@ class Customer
     }
 
 
-    public function removeReview($reviewID)
-    {
-        $this->db->query('DELETE FROM review WHERE reviewID = :reviewID');
-        $this->db->bind(':reviewID', $reviewID);
-        $this->db->execute();
-    }
-
-
     public function getSuiteReviews()
     {
         $this->db->query('SELECT suite , COUNT(suitRating) as "totalReviews" , ROUND(SUM(suitRating) / COUNT(suitRating)) as "avgReviews"  FROM reservationreview GROUP BY suite');
@@ -286,40 +278,42 @@ class Customer
         return $results;
     }
 
-
-    public function getReviews($user_ID)
+    public function getAllReviews($limit = 10, $offset = 0)
     {
-        $this->db->query('SELECT * FROM review WHERE customerID = :user_ID ORDER BY date DESC');
-        $this->db->bind(':user_ID', $user_ID);
+        $this->db->query(' SELECT * FROM reservationreview ORDER BY reviewID DESC LIMIT :offset, :limit');
+        $this->db->bind(':limit', $limit);
+        $this->db->bind(':offset', $offset);
+        $results = $this->db->resultSet();
+        foreach ($results as $review) {
+            $this->db->query('SELECT name  , imagePath from users WHERE user_id = :user_id');
+            $this->db->bind(':user_id', $review->customerID);
+            $row = $this->db->single();
+            $review->name = $row->name;
+            $review->imagePath = $row->imagePath;
+        }
+        return $results;
+    }
+
+    public function getTotalReviewCount()
+    {
+        $this->db->query('SELECT COUNT(*) as count FROM reservationreview');
+        $row = $this->db->single();
+        return $row->count;
+    }
+
+    public function getSuites()
+    {
+        $this->db->query('SELECT packageID , packageName FROM package');
         $results = $this->db->resultSet();
         return $results;
     }
 
-    // public function getMenus()
-    // {
-    //     $this->db->query('SELECT * FROM menuitem');
-    //     $results = $this->db->resultSet();
-    //     return $results;
-    // }
 
     public function getMenus()
     {
         $this->db->query("SELECT mi.itemID, mi.itemName, mi.imagePath , mi.category_ID, GROUP_CONCAT(mp.itemSize ORDER BY mp.itemSize SEPARATOR ', ') AS Sizes, GROUP_CONCAT(mp.ItemPrice ORDER BY mp.itemSize SEPARATOR ', ') AS Prices FROM menuitem mi JOIN menuprices mp ON mi.itemID = mp.ItemID WHERE mi.delete_status = 0 AND mi.hidden = 0 GROUP BY mi.itemID ORDER BY mi.itemID;");
         $results = $this->db->resultSet();
         return $results;
-    }
-
-    public function addReview($data)
-    {
-        $this->db->query('INSERT INTO review (customerID, rating, comment) VALUES (:customerID, :rating, :comment)');
-        $this->db->bind(':customerID', $data['customerID']);
-        $this->db->bind(':rating', $data['rating']);
-        $this->db->bind(':comment', $data['comment']);
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public function getRemainingSlots($date)
@@ -449,18 +443,7 @@ class Customer
     }
 
 
-    // public function isThereAReview($reservationID)
-    // {
-    //     $this->db->query('SELECT * FROM reservationreview WHERE reservationID = :reservationID');
-    //     $this->db->bind(':reservationID', $reservationID);
-    //     $row = $this->db->single();
-    //     if(!empty($row)){
-    //         return true;
-    //     }else{
-    //         return false;
-    //     }
-    // }
-
+   
     public function submitReservationReview($data)
     {
 
