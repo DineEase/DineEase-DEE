@@ -17,19 +17,13 @@ class Customers extends Controller
         $this->customerModel = $this->model('Customer');
     }
 
-    public function Index()
+    public function Dashboard()
     {
         $reservations = $this->customerModel->getReservation($_SESSION['user_id']);
         $data = [
             'reservations' => $reservations
         ];
-        $this->view('customer/index', $data);
-    }
-    public function Home()
-    {
-        $data = [];
-
-        $this->view('customer/home');
+        $this->view('customer/dashboard', $data);
     }
 
     public function Reservation()
@@ -180,57 +174,30 @@ class Customers extends Controller
 
     public function Review()
     {
-        $reviews = $this->customerModel->getReviews($_SESSION['user_id']);
-        $data = [
-            'reviews' => $reviews,
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        ];
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $data = [
-                'customerID' => $_SESSION['user_id'],
-                'rating' => isset($_POST['rating']) ? trim($_POST['rating']) : '',
-                'comment' => isset($_POST['comment']) ? trim($_POST['comment']) : '',
-                'customerID_err' => '',
-                'rating_err' => '',
-                'comment_err' => '',
-                'remove_review_ID' => isset($_POST['remove_review_ID']) ? trim($_POST['remove_review_ID']) : ''
-            ];
-            if (!empty($data['customerID'])) {
-                if (!empty($data['rating'])) {
-                    if (!empty($data['comment'])) {
-                        if ($this->customerModel->addReview($data)) {
-                            flash('review_message', 'Review Added');
-                            redirect('customers/review');
-                        } else {
-                            die('Something went wrong');
-                        }
-                    } else {
-                    }
-                } else {
-                }
-            } else {
-            }
+        if (isset($_POST['search'])) {
+            $offset = $_POST['offset'];
+            $limit = $_POST['limit'];
+            $reviews = $this->customerModel->getAllReviews($limit, $offset);
+        } else {
+            $limit = 5;
+            $offset = 0;
+            $reviews = $this->customerModel->getAllReviews($limit, $offset);
         }
 
-        $this->view('customer/review', $data);
+        $totalReviews = $this->customerModel->getTotalReviewCount();
+        $suites = $this->customerModel->getSuites();
+        $data = [
+            'reviews' => $reviews,
+            'limit' => $limit,
+            'offset' => $offset,
+            'totalReviews' => $totalReviews,
+            'suites' => $suites
+        ];
+
+        $this->view('customer/review' , $data);
     }
-
-
-    // public function isisThereAReview()
-    // {
-    //     $reservationID = $_GET['reservationid'] ?? null;
-
-    //     if (!$reservationID) {
-    //         http_response_code(400);
-    //         echo json_encode(['error' => 'No date provided']);
-    //         return;
-    //     }
-    //     if ($this->customerModel->isThereAReview($reservationID)) {
-    //         echo json_encode(['reviewExists' => true]);
-    //     } else {
-    //         echo json_encode(['reviewExists' => false]);
-    //     }
-    // }
 
 
 
@@ -496,7 +463,7 @@ class Customers extends Controller
 
     public function uploadUserImage()
     {
-        
+
 
         if (!isset($_SESSION['user_id'])) {
             die("You must be logged in to upload a photo.");
@@ -525,9 +492,9 @@ class Customers extends Controller
 
                     if ($this->customerModel->updateProfilePhoto($userId, $newFileName)) {
                         $_SESSION['profile_picture'] = $newFileName;
+                        $_SESSION['success_message'] = 'Profile picture updated successfully.';
                         redirect('customers/profile');
                     }
-
                 } else {
                     echo "Error uploading the file.";
                 }

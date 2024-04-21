@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   //
-  
+
   var updateButton2 = document.getElementById("change-user-password");
   if (updateButton2) {
     updateButton2.addEventListener("click", function () {
@@ -61,4 +61,32 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("overlay-profile").style.display = "none";
     });
   }
+
+  var subimitdp = document.getElementById("upload-dp-btn");
+  if (subimitdp) {
+    subimitdp.addEventListener("click", function () {});
+  }
 });
+
+
+function toastrSuccess(message) {
+  toastr.options = {
+    closeButton: true,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "3000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut",
+  };
+
+  toastr.success(message);
+}

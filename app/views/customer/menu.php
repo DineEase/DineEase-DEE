@@ -32,7 +32,7 @@
                             </span>
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                            <img src="<?php echo URLROOT ?>/img/profilePhotos/dew.jpg" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                         </div>
                     </div>
                 </div>
@@ -45,18 +45,16 @@
                         <hr class='separator'>
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/customers/index" class="nav_link nav_link_switch" data-content='home'>
-                                    <button class="button-sidebar-menu " id="homeButton">
+                            <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
+                                    <button class="button-sidebar-menu" id="reservationButton">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard</span>
+                                        <span class="button-sidebar-menu-content">Reservation </span>
                                     </button>
                                 </a>
-                            </li>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
                                     <button class="button-sidebar-menu" id="reservationButton">
@@ -83,7 +81,7 @@
                                 </a>
                             </li>
 
-                            <li class="item">
+                            <!-- <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/review" class="nav_link" data-content='menu'>
                                     <button class="button-sidebar-menu" id="reservationButton">
                                         <span class="navlink_icon">
@@ -94,7 +92,7 @@
                                         <span class="button-sidebar-menu-content">Reviews </span>
                                     </button>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End -->
 
 
@@ -200,6 +198,7 @@
             </div>
         </div>
     </div>
+    
 
     <script>
         const URLROOT = "<?php echo URLROOT; ?>";

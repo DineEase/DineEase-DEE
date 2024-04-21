@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/profile.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/toastr.css ">
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -45,18 +46,16 @@
                         <hr class='separator'>
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/customers/index" class="nav_link nav_link_switch" data-content='home'>
-                                    <button class="button-sidebar-menu " id="homeButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                home
-                                            </span>
+                            <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
+                                <button class="button-sidebar-menu" id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            home
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard</span>
-                                    </button>
-                                </a>
-                            </li>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reservation </span>
+                                </button>
+                            </a>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
                                     <button class="button-sidebar-menu" id="reservationButton">
@@ -83,7 +82,7 @@
                                 </a>
                             </li>
 
-                            <li class="item">
+                            <!-- <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/review" class="nav_link" data-content='menu'>
                                     <button class="button-sidebar-menu" id="reservationButton">
                                         <span class="navlink_icon">
@@ -94,7 +93,7 @@
                                         <span class="button-sidebar-menu-content">Reviews </span>
                                     </button>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End -->
                         </ul>
                         <hr class='separator'>
@@ -135,7 +134,7 @@
                 <div id="overlay-profile" class="overlay-profile"></div>
 
                 <div class="profile-container">
-                        //TODO: Add the form to change user details
+                    <!-- //TODO: Add the form to change user details -->
                     <div id="change-password-div" class="change-password-div">
                         <form action="/uploadUserImage" class="change-password">
                             <h2>Change User Name & Password</h2>
@@ -155,9 +154,9 @@
                     <div class="buttons">
                         <button class="update" id="update-dp"><i class="fa-solid fa-square-pen"></i> Update</button>
                     </div>
-                    //TODO: Add the form to change user Details
-                    
-                    //TODO  Delete the old images when an new image is uploaded
+                    <!-- //TODO: Add the form to change user Details -->
+
+                    <!-- //TODO  Delete the old images when an new image is uploaded -->
                     <div id="overlay-profile" class="overlay-profile"></div>
                     <div class="profilecard">
                         <div class="card-body">
@@ -214,10 +213,21 @@
                 </div>
             </div>
         </div>
-        <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
-        <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
-        <script src="<?php echo URLROOT; ?>/js/user-profile.js"></script>
+    </div>
+    <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/user-profile.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/toastr.js"></script>
+    <script>
+        window.onload = function() {
+            <?php if (isset($_SESSION['success_message'])) : ?>
 
+                toastrSuccess("Profile Picture Updated Successfully");
+                <?php unset($_SESSION['success_message']);
+                ?>
+            <?php endif; ?>
+        }
+    </script>
 </body>
 
 </html>

@@ -71,7 +71,7 @@
     left: 12px;
   }
   .toast-top-right {
-    top: 12px;
+    top: 5em;
     right: 12px;
   }
   .toast-bottom-right {
@@ -147,13 +147,13 @@
     background-color: #030303;
   }
   .toast-success {
-    background-color: #51a351;
+    background-color:var(--brandgreen);
   }
   .toast-error {
     background-color: #bd362f;
   }
   .toast-info {
-    background-color: #2f96b4;
+    background-color:var(--brandgreen);
   }
   .toast-warning {
     background-color: #f89406;
