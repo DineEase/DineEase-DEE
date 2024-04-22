@@ -6,8 +6,13 @@ let selectedPackageForReservation = "";
 let slotDetails;
 let slotMaxCapacity = 15;
 var today = new Date();
+var todayInSlotFormat;
 const baseCostPerPerson = 500;
 var minTimeToCancel = 24;
+var dateToCheckPassedSlots;
+
+todayInSlotFormat = formatDateToSlotFormat(today);
+// console.log(todayInSlotFormat);
 
 $(document).ready(function () {
   var current = 1;
@@ -165,20 +170,14 @@ $(document).ready(function () {
       var timeString = (hour < 10 ? "0" + hour : hour) + ":00";
       var slotIsFull = false;
       var timeIsPassed = false;
+
       function checkIsSlotFull() {
         if (slotDetails) {
           for (var slot of slotDetails) {
             var sum =
               Number(slot.slotCapacity) +
               Number(selectedNoOfPeopleForReservation);
-            if (
-              //add condition to check the current time and disable the past time
-              slot.slot === hour &&
-              sum >= slotMaxCapacity
-            ) {
-              // console.log(hour);
-              // console.log(slot.slotCapacity +" "+ selectedNoOfPeopleForReservation +" "+sum+" " + slotMaxCapacity);
-              // console.log("Slot is full");
+            if (slot.slot === hour && sum >= slotMaxCapacity) {
               return true;
             }
           }
@@ -188,13 +187,8 @@ $(document).ready(function () {
       function checkIsTimePassed() {
         console.log("called");
         var currentTime = new Date();
-        // console.log(currentTime);
-        // console.log(selectedDateForReservation);
         var currentHour = currentTime.getHours();
-        // console.log(currentHour);
-        // console.log(hour);
-        // console.log(hour < currentHour);
-        if (selectedDateForReservation === today.getDate()) {
+        if (dateToCheckPassedSlots === today.getDate()) {
           if (hour <= currentHour) {
             return true;
           }
@@ -202,7 +196,10 @@ $(document).ready(function () {
       }
 
       slotIsFull = checkIsSlotFull();
-      timeIsPassed = checkIsTimePassed();
+
+      if (selectedDateForReservation == todayInSlotFormat) {
+        timeIsPassed = checkIsTimePassed();
+      }
 
       var $timeSlot = $("<div>", {
         class:
@@ -243,14 +240,31 @@ $(document).ready(function () {
 
 // date picker
 
+// format date to yyyy-mm-dd
+function formatDateToSlotFormat(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  const formattedMonth = month < 10 ? "0" + month : month;
+  const formattedDay = day < 10 ? "0" + day : day;
+
+  return `${year}-${formattedMonth}-${formattedDay}`;
+}
+
 //fixed: #27 Dater Picker does not take the default date as the selected date without clicking on it again.
 
 $(document).ready(function () {
   var dateOfTheReservation = today.getDate();
-  selectedDateForReservation = dateOfTheReservation;
+  selectedDateForReservation = new Date();
+  selectedDateForReservation = formatDateToSlotFormat(
+    selectedDateForReservation
+  );
+  dateToCheckPassedSlots = dateOfTheReservation;
+
   $.ajax({
     url: "getReservationSlots",
-    data: { date: dateOfTheReservation },
+    data: { date: selectedDateForReservation },
     dataType: "json",
     success: function (response) {
       slotDetails = response;
@@ -263,9 +277,9 @@ $(document).ready(function () {
   $(".date-slot").click(function () {
     $(".date-slot").removeClass("selected");
     $(this).addClass("selected");
-    var selectedDate = $(this).data("date"); // Get the date data from the clicked slot
-    $("#selectedDate").val(selectedDate); // Set the value of the hidden input field
-    $("#summary-date").text(selectedDate); // Update the text of the summary field
+    var selectedDate = $(this).data("date");
+    $("#selectedDate").val(selectedDate);
+    $("#summary-date").text(selectedDate);
     selectedDateForReservation = selectedDate;
     console.log(selectedDateForReservation);
     $.ajax({
@@ -389,10 +403,8 @@ $(document).ready(function () {
 
 //!functions for reservation view page
 
-
-
 // function isAlreadyReviewed(reservationID) {
-  
+
 //   fetch(`isisThereAReview?reservationid=${reservationID}`)
 //     .then(response => response.json())
 //     .then(data => {
@@ -406,7 +418,6 @@ $(document).ready(function () {
 // }
 
 function popViewReservationDetails(element) {
-  
   var reservationID = element.getAttribute("data-reservation-id");
   var item = "";
   var reservationDetails;
@@ -420,10 +431,8 @@ function popViewReservationDetails(element) {
     success: function (response) {
       reservationDetails = response;
       openedReservationDetails = reservationDetails;
-      
 
       if (reservationDetails && reservationDetails.length > 0) {
-
         isAlreadyReviewed = reservationDetails[0].review;
         console.log(isAlreadyReviewed);
 
@@ -681,7 +690,6 @@ function submitReviewForReservation() {
 //! topbar
 
 $(document).ready(function () {
-  
   $(document).on("click", ".topbar-shoping-cart", function () {
     function createTopbarCartItems() {
       var cartRowHTML = "";
@@ -822,7 +830,6 @@ $(document).ready(function () {
       $("#rc-submit-cancel").text("Already Cancelled");
       $("#rc-submit-cancel").css("pointer-events", "none");
       $("#rc-submit-cancel").css("cursor", "not-allowed");
-
 
       if (status == "Refund Requested") {
         $("#cancel-order-refund-given").hide();
