@@ -29,3 +29,4 @@
     <?php endif; ?>
 </body>
 </html>
+<!-- TODO #56 UI of password reset is inconsistent -->
