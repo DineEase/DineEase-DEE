@@ -7,16 +7,12 @@
         </div>
         <div class="title">DineEase</div>
         <div class="navigation">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
+            <ul class="nav-list">
+                <li class="nav-item"><button class="no-style-button " onclick="showSite('home');">Home</button></li>
+                <li class="nav-item"><button class="no-style-button" onclick="showSite('special');">Special</button></li>
+                <li class="nav-item"><button class="no-style-button" onclick="showSite('client');">Reviews</button></li>
+                <li class="nav-item"><button class="no-style-button" onclick="showOuterMenus();">Menus</button></li>
+                <li class="nav-item"><button class="no-style-button" onclick="showAvailability();">Availability</button></li>
             </ul>
         </div>
         <div class="nav-login-buttons">
