@@ -619,25 +619,68 @@ class Manager
         return $results;
     }
     public function addtable($data)
-    {
-        $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
-        $this->db->bind(':capacity', $data['capacity']);
+{
+    // Extracting the first three letters of the package name
+    $tablename_prefix = substr($_POST['packageName'], 0, 3);
+    
+    // Inserting into the database
+    $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
+    
+    // Binding parameters for insertion
+    $this->db->bind(':capacity', $data['capacity']);
+    $this->db->bind(':packageID', $data['packageID']);
+    
+    // Executing the insertion query
+    if ($this->db->execute()) {
+        // Get the last inserted table ID
+        $lastTableID = $this->db->lastInsertId();
+
+        // Calculate the total capacity for the given package ID
+        $this->db->query('SELECT SUM(capacity) AS total_capacity FROM tables WHERE packageID = :packageID');
         $this->db->bind(':packageID', $data['packageID']);
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        $row = $this->db->single();
+        $total_capacity = $row->total_capacity;
+
+        // Update the 'capacity' column in the 'package' table with the total capacity obtained
+        $this->db->query('UPDATE package SET capacity = :total_capacity WHERE packageID = :packageID');
+        $this->db->bind(':total_capacity', $total_capacity);
+        $this->db->bind(':packageID', $data['packageID']);
+        $this->db->execute();
+
+        // Generating a unique table name by appending the auto-generated table ID
+        $tablename = $tablename_prefix . '_' . $lastTableID;
+
+        // Updating the table name with the generated name
+        $this->db->query('UPDATE tables SET table_name = :tablename WHERE tableID = :tableID');
+        $this->db->bind(':tablename', $tablename);
+        $this->db->bind(':tableID', $lastTableID);
+        $this->db->execute();
+
+        // Return true if insertion, capacity update, and table name update are successful
+        return true;
+    } else {
+        // Return false if insertion fails
+        return false;
     }
+}
+public function tabledetailswithpackage(){
+    $this->db->query('SELECT tables.table_name, tables.capacity, package.packageName
+                      FROM tables
+                      JOIN package ON tables.packageID = package.packageID');
+    $results = $this->db->resultSet();
+    return $results;
+}
+
+
     public function editpackage($data)
     {
         $filename = basename($data['imagePath']);
         $imagePath = 'http://localhost/DineEase-DEE/public/uploads/package' . $filename;
 
-        $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, capacity = :capacity, description = :description, image =:image WHERE packageID = :packageID');
+        $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, description = :description, image =:image WHERE packageID = :packageID');
         $this->db->bind(':packageName', $data['packageName']);
         $this->db->bind(':tax', $data['tax']);
-        $this->db->bind(':capacity', $data['capacity']);
+        //$this->db->bind(':capacity', $data['capacity']);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':packageID', $data['packageID']);
         $this->db->bind(':image', $imagePath);
@@ -646,6 +689,18 @@ class Manager
         } else {
             return false;
         }
+    }
+    public function filtertablesbypackage($packageID)
+    {
+        //need to get packagename from package table
+        $this->db->query('SELECT tables.*, package.packageName
+                          FROM tables
+                          JOIN package ON tables.packageID = package.packageID
+                          WHERE tables.packageID = :packageID');
+        $this->db->bind(':packageID', $packageID);
+        $this->db->execute();
+        $results = $this->db->resultSet();
+        return $results;
     }
 
     public function addmenudiscounts($data)

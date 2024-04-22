@@ -1550,12 +1550,12 @@ class Managers extends Controller
                 'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
                 'packageName' => isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
                 'tax' => isset($_POST['tax']) ? trim($_POST['tax']) : '',
-                'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+                //'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
                 'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
                 'imagePath' => $imagePath,
                 'packagename_err' => '',
                 'vat_err' => '',
-                'capacity_err' => '',
+                //'capacity_err' => '',
                 'description_err' => '',
             ];
 
@@ -1566,18 +1566,17 @@ class Managers extends Controller
             if (empty($data['tax'])) {
                 $data['vat_err'] = 'Please enter tax';
             }
-            if (empty($data['capacity'])) {
-                $data['capacity_err'] = 'Please enter capacity';
-            }
+            // if (empty($data['capacity'])) {
+            //     $data['capacity_err'] = 'Please enter capacity';
+            // }
             if (empty($data['description'])) {
                 $data['description_err'] = 'Please enter description';
             }
 
             // Check if there are any validation errors
             if (
-                empty($data['packagename_err']) &&
-                empty($data['vat_err']) &&
-                empty($data['capacity_err']) &&
+                empty($data['packagename_err']) ||
+                empty($data['vat_err']) ||
                 empty($data['description_err'])
             ) {
                 // Call the model function to update package data
@@ -1602,6 +1601,7 @@ class Managers extends Controller
 
     public function addtable()
     {
+        ob_start();
         $tables = $this->managerModel->gettables();
         $packages = $this->managerModel->getpackages();
         $data = [
@@ -1614,6 +1614,7 @@ class Managers extends Controller
             $data = [
                 'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
                 'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+                'packageName' => isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
             ];
             if (empty($data['packageID'])) {
                 $data['packageID_err'] = 'Please select a package';
@@ -1626,7 +1627,10 @@ class Managers extends Controller
                 if ($this->managerModel->addtable($data)) {
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
-                    //redirect('managers/gettables');
+                    ob_clean();
+
+                    ob_end_flush();
+                    redirect('managers/addtable');
                     //exit();
                 } else {
                     $this->view('manager/tables', $data);
@@ -2192,4 +2196,29 @@ public function reports(){
         }
     }
 }
+public function viewtables()
+{
+    // Fetch tables and packages
+    $tables = $this->managerModel->tabledetailswithpackage();
+    $packages = $this->managerModel->getpackages();
+
+    // Check if package ID is provided in the POST data
+    $packageID = isset($_POST['packageID']) ? $_POST['packageID'] : '';
+
+    // If package ID is provided, filter the tables by package
+    if (!empty($packageID)) {
+        $tables = $this->managerModel->filtertablesbypackage($packageID);
+    }
+
+    // Pass data to the view
+    $data = [
+        'tables' => $tables,
+        'packages' => $packages,
+    ];
+
+    // Load the view
+    
+    $this->view('manager/viewtables', $data);
+}
+
 }

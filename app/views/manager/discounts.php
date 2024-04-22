@@ -196,7 +196,7 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="<?php echo URLROOT; ?>/managers/addtable" class="nav_link" data-content='menu'>
+                        <a href="<?php echo URLROOT; ?>/managers/viewtables" class="nav_link" data-content='menu'>
                             <button class="button-sidebar-menu" id="reservationButton">
                                 <span class="navlink_icon">
                                     <span class="material-symbols-outlined ">
