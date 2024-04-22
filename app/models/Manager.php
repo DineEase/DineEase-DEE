@@ -272,19 +272,41 @@ class Manager
             return false;
         }
     }
-    public function deleteMenuitem($itemID)
-    {
+    // public function deleteMenuitem($itemID)
+    // {
+    //     $this->db->query('UPDATE menuitem SET delete_status = 1 WHERE itemID = :itemID');
+    //     $this->db->bind(':itemID', $itemID);
+
+    //     // Execute the query
+    //     if ($this->db->execute()) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+public function deletemenuitem($itemID){
+    //reservation table has orderID and same orderID is in orderitem table as orderNo
+    // try to delete menuitem if there is no order from current date to upcoming dates from menuitem table
+    $this->db->query('SELECT * FROM orderitem WHERE itemID = :itemID AND orderNo IN (SELECT orderID FROM reservation WHERE date >= CURDATE())');
+    $this->db->bind(':itemID', $itemID);
+    $this->db->execute();
+    $results = $this->db->resultSet();
+    if (empty($results)) {
         $this->db->query('UPDATE menuitem SET delete_status = 1 WHERE itemID = :itemID');
         $this->db->bind(':itemID', $itemID);
-
-        // Execute the query
         if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
+    } else {
+        return false;
     }
+    
 
+    
+
+}
     public function getMenuitembyId($id)
     {
         $this->db->query('SELECT m.*, 
@@ -664,12 +686,41 @@ class Manager
     }
 }
 public function tabledetailswithpackage(){
-    $this->db->query('SELECT tables.table_name, tables.capacity, package.packageName
+    $this->db->query('SELECT tables.table_name,tables.tableID, tables.capacity,tables.hidden, package.packageName
                       FROM tables
                       JOIN package ON tables.packageID = package.packageID');
     $results = $this->db->resultSet();
     return $results;
 }
+public function deletetable($tableID){
+    // delete table only if there is no reservation from current date to upcomig dates
+    $this->db->query('SELECT * FROM reservation WHERE tableID = :tableID AND date >= CURDATE()');
+    $this->db->bind(':tableID', $tableID);
+    $this->db->execute();
+    $results = $this->db->resultSet();
+    if (empty($results)) {
+        $this->db->query('DELETE FROM tables WHERE tableID = :tableID');
+        $this->db->bind(':tableID', $tableID);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+public function tablevisibility($tableID , $hidden){
+    $this->db->query('UPDATE tables SET hidden = :hidden WHERE tableID = :tableID');
+    $this->db->bind(':tableID', $tableID);
+    $this->db->bind(':hidden', $hidden);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 
     public function editpackage($data)

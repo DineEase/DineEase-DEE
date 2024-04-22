@@ -397,6 +397,14 @@ class Managers extends Controller
             //
             exit();
         }
+        else {
+            ob_clean();
+            ob_end_flush();
+            echo "<script>alert('There are reservations for this menuitem in the upcoming future. Please try hiding it.');</script>";
+           
+            echo "<script>window.location.href = '".URLROOT."/managers/menu';</script>";
+            exit();
+        }
     }
     public function hideMenuitem($itemID)
     {
@@ -2220,5 +2228,40 @@ public function viewtables()
     
     $this->view('manager/viewtables', $data);
 }
+public function deletetable(){
+    //try to delete table. If cannot show an alert saying there are orders on the table
+    ob_start();
+    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    $ID = isset($_POST['table_id']) ? trim($_POST['table_id']) : '';
+    if ($this->managerModel->deletetable($ID)) {
+        ob_clean();
+        ob_end_flush();
+        redirect('managers/viewtables'); 
+        exit();
+    }
+    else{
+        ob_clean();
+        ob_end_flush();
+        echo "<script>alert('There are reservations for this table in the upcoming future. Please try hiding it.');</script>";
+       
+        echo "<script>window.location.href = '".URLROOT."/managers/viewtables';</script>";
+        exit();
+    }
+    
 
+
+}
+public function tablevisibility(){
+    ob_start();
+    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    $ID = isset($_POST['tableID']) ? trim($_POST['tableID']) : '';
+    $status = isset($_POST['visibility']) ? trim($_POST['visibility']) : '';
+    if ($this->managerModel->tablevisibility($ID,$status)) {
+        //ob_clean();
+        //ob_end_flush();
+        //redirect('managers/viewtables'); 
+        exit();
+    }
+
+}
 }

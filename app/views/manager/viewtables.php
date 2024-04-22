@@ -249,26 +249,48 @@
     </form>
     <a href="<?php echo URLROOT; ?>/managers/addtable" class="add-table-link">Add Table</a>
     <table id="tableData">
-        <thead>
-            <tr>
-                <th>Table Name</th>
-                <th>Capacity</th>
-                <th>Package Name</th>
+    <thead>
+        <tr>
+            <th>Table Name</th>
+            <th>Capacity</th>
+            <th>Package Name</th>
+            <th>Delete</th>
+            <th>Visibility</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($data['tables'] as $table) : ?>
+            <tr id="table_<?php echo $table->tableID; ?>">
+                <td><?php echo $table->table_name; ?></td>
+                <td><?php echo $table->capacity; ?></td>
+                <td><?php echo $table->packageName; ?></td>
+                <td>
+                    <form id="deleteForm_<?php echo $table->tableID; ?>" method="post" action="<?php echo URLROOT; ?>/managers/deletetable">
+                        <input type="hidden" name="table_id" value="<?php echo $table->tableID; ?>">
+                        <a href="#" onclick="deleteTable(<?php echo $table->tableID; ?>);">Delete</a>
+                    </form>
+                </td>
+                <td>
+                    <?php if ($table->hidden == 0) : ?>
+                        Visible
+                        <button onclick="toggleVisibility(<?php echo $table->tableID; ?>, 1);">Hide</button>
+                    <?php else : ?>
+                        Hidden
+                        <button onclick="toggleVisibility(<?php echo $table->tableID; ?>, 0);">Show</button>
+                    <?php endif; ?>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($data['tables'] as $table) : ?>
-                <tr>
-                    <td><?php echo $table->table_name; ?></td>
-                    <td><?php echo $table->capacity; ?></td>
-                    <td><?php echo $table->packageName; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
 </div>
 
     <script>
+        function deleteTable(tableID) {
+        var formID = 'deleteForm_' + tableID;
+        document.getElementById(formID).submit();
+    }
         // JavaScript to filter the table dynamically using AJAX
         document.getElementById('packageFilter').addEventListener('change', function() {
             document.getElementById("filterForm").submit();
@@ -293,6 +315,24 @@
             xhttp.send("packageID=" + packageID);
 
         });
+        function toggleVisibility(tableID, visibility) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var tableRow = document.getElementById('table_' + tableID);
+            if (visibility == 0) {
+                tableRow.querySelector('td:last-child').innerHTML = 'Hidden<button onclick="toggleVisibility(' + tableID + ', 0);">Show</button>';
+            } else {
+                tableRow.querySelector('td:last-child').innerHTML = 'Visible<button onclick="toggleVisibility(' + tableID + ', 1);">Hide</button>';
+            }
+            window.location.reload();
+        }
+    };
+    xhttp.open("POST", "<?php echo URLROOT; ?>/managers/tablevisibility", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("tableID=" + tableID + "&visibility=" + visibility);
+}
+
     </script>
 
 </body>
