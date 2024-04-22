@@ -8,98 +8,71 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        /* box-sizing: border-box; */
+        font-family: "Poppins", sans-serif;
+        background-color: #f5f5f5;
+        transition: all 0.5s ease;
+        overflow-x: hidden;
+    }
+    .container {
+        max-width: 900px;
+        margin-top: 20px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 50px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .add-table-link {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
 
+    .add-table-link:hover {
+        background-color: #0056b3;
+    }
+
+
+        /* Styling for filter form */
+        #filterForm {
+            margin-bottom: 20px;
+        }
+
+        /* Styling for table */
+        #tableData {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #tableData th, #tableData td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #tableData th {
+            background-color: #f2f2f2;
+        }
+
+        #tableData tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
     <title><?php echo SITENAME; ?></title>
 </head>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-
-    form {
-        margin-top: 20px;
-    }
-
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    textarea {
-        height: 100px;
-    }
-
-    button[type="submit"] {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button[type="submit"]:hover {
-        background-color: #45a049;
-    }
-
-    .discount-details {
-        background-color: #f9f9f9;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .discount-details p {
-        margin: 0;
-        padding: 5px 0;
-    }
-
-    .package-image {
-        width: 300px;
-        /* adjust the width as needed */
-        height: auto;
-        /* maintain aspect ratio */
-        border-radius: 10px;
-        /* add rounded corners */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        /* add a subtle shadow */
-        /* You can add more styles here */
-    }
-</style>
-
 <body>
-    <div class="navbar-template">
+<div class="navbar-template">
         <nav class="navbar">
             <div class="topbar">
                 <div class="logo-item">
@@ -117,7 +90,7 @@
                         $profile_picture_url = URLROOT . '/uploads/profile/' . basename($_SESSION['profile_picture']);
                         ?>
                         Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                        <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>">
+                        <a href="<?php echo URLROOT . '/managers/viewprofile/' . $user_id ?>">
                             <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
                         </a>
                     </div>
@@ -184,7 +157,7 @@
                         </li>
                         <li class="item">
                             <a href="<?php echo URLROOT; ?>/managers/packages" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu active-nav" id="reservationButton">
+                                <button class="button-sidebar-menu" id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
                                             Package
@@ -196,7 +169,7 @@
                         </li>
                         <li class="item">
                             <a href="<?php echo URLROOT; ?>/managers/viewtables" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu" id="reservationButton">
+                                <button class="button-sidebar-menu active-nav" id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
                                             Table_Restaurant
@@ -207,17 +180,17 @@
                             </a>
                         </li>
                         <li class="item">
-                            <a href="<?php echo URLROOT; ?>/managers/handlediscounts" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu " id="reservationButton">
-                                    <span class="navlink_icon">
-                                        <span class="material-symbols-outlined ">
-                                            sell
+                                <a href="<?php echo URLROOT; ?>/managers/handlediscounts" class="nav_link" data-content='menu'>
+                                    <button class="button-sidebar-menu " id="reservationButton">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                sell
+                                            </span>
                                         </span>
-                                    </span>
-                                    <span class="button-sidebar-menu-content">Discounts</span>
-                                </button>
-                            </a>
-                        </li>
+                                        <span class="button-sidebar-menu-content">Discounts</span>
+                                    </button>
+                                </a>
+                            </li>
                         <!-- End -->
 
 
@@ -231,8 +204,8 @@
 
                         <li class="item">
 
-                            <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu" id="reservationButton">
+                            <a href="<?php echo URLROOT . '/managers/viewprofile/' . $user_id ?>" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu " id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
                                             account_circle
@@ -261,65 +234,107 @@
         </nav>
     </div>
     <div class="container">
-        <div class="discount-details">
-            <h2>Package Details</h2>
-            <img class="package-image" src="<?php echo URLROOT; ?>/uploads/package/<?php echo basename($data['package']->image); ?>" alt="Package Image">
-            <p><strong>Package ID:</strong> <?php echo $data['package']->packageID; ?></p>
-            <p><strong>Package Name:</strong> <?php echo $data['package']->packageName; ?></p>
-            <p><strong>TAX:</strong> <?php echo $data['package']->tax; ?></p>
-            <p><strong>Capacity:</strong><?php echo $data['package']->capacity; ?>%</p>
-            <p><strong>Description:</strong> <?php echo $data['package']->description; ?></p>
+    <form id="filterForm" method="post" action="<?php echo URLROOT; ?>/managers/viewtables">
+        <label for="packageFilter">Filter by Package:</label>
+        <select id="packageFilter" name="packageID">
+            <option value="">All Packages</option>
+            <?php foreach ($data['packages'] as $package) : ?>
+                <?php
+                // Check if the current package matches the selected package ID
+                $selected = ($package->packageID == $_POST['packageID']) ? 'selected' : '';
+                ?>
+                <option value="<?php echo $package->packageID; ?>" <?php echo $selected; ?>><?php echo $package->packageName; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+    <a href="<?php echo URLROOT; ?>/managers/addtable" class="add-table-link">Add Table</a>
+    <table id="tableData">
+    <thead>
+        <tr>
+            <th>Table Name</th>
+            <th>Capacity</th>
+            <th>Package Name</th>
+            <th>Delete</th>
+            <th>Visibility</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($data['tables'] as $table) : ?>
+            <tr id="table_<?php echo $table->tableID; ?>">
+                <td><?php echo $table->table_name; ?></td>
+                <td><?php echo $table->capacity; ?></td>
+                <td><?php echo $table->packageName; ?></td>
+                <td>
+                    <form id="deleteForm_<?php echo $table->tableID; ?>" method="post" action="<?php echo URLROOT; ?>/managers/deletetable">
+                        <input type="hidden" name="table_id" value="<?php echo $table->tableID; ?>">
+                        <a href="#" onclick="deleteTable(<?php echo $table->tableID; ?>);">Delete</a>
+                    </form>
+                </td>
+                <td>
+                    <?php if ($table->hidden == 0) : ?>
+                        Visible
+                        <button onclick="toggleVisibility(<?php echo $table->tableID; ?>, 1);">Hide</button>
+                    <?php else : ?>
+                        Hidden
+                        <button onclick="toggleVisibility(<?php echo $table->tableID; ?>, 0);">Show</button>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
-        </div>
-        <h1>Edit Package</h1>
-        <form action="<?php echo URLROOT; ?>/managers/editpackage/" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="packageID" value="<?php echo $data['package']->packageID; ?>">
-            <div>
-                <label for="packagename">Package Name:</label>
-                <input type="text" id="name" name="packageName" required>
-                <span class="error"><?php echo $data['packagename_err']; ?></span>
-            </div>
-            <div>
-                <label for="tax">VAT or TAX:</label>
-                <input type="number" id="tax" name="tax" min="0" required>
-                <span class="error"><?php echo $data['vat_err']; ?></span>
-            </div>
-            
-            <div>
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
-                <span class="error"><?php echo $data['description_err']; ?></span>
-            </div>
-            <div>
-                <button type="button" id="imageButton" onclick="openFilePicker()">Edit Image</button>
-                <input type="file" name="imagePath" accept="image/*" style="display: none;" id="imageInput" onchange="previewImage(event)">
-                <br>
-                <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 300px; max-height: 300px;">
-            </div>
+</div>
 
-            <button type="submit">Save Changes</button>
-        </form>
-    </div>
-<script>
-    function openFilePicker() {
-    document.getElementById('imageInput').click();
+    <script>
+        function deleteTable(tableID) {
+        var formID = 'deleteForm_' + tableID;
+        document.getElementById(formID).submit();
+    }
+        // JavaScript to filter the table dynamically using AJAX
+        document.getElementById('packageFilter').addEventListener('change', function() {
+            document.getElementById("filterForm").submit();
+            var packageID = this.value;
+            var selectedPackageID = packageID; // Save the selected package ID
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Clear previous table data
+                    document.getElementById("tableData").innerHTML = "<tr><td colspan='3'>Loading...</td></tr>";
+
+                    // Update table with filtered data
+                    document.getElementById("tableData").innerHTML = this.responseText;
+
+                    // Set the selected option back after updating the table data
+                    document.getElementById("packageFilter").value = selectedPackageID;
+                }
+            };
+            xhttp.open("POST", "<?php echo URLROOT; ?>/managers/viewtables", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("packageID=" + packageID);
+
+        });
+        function toggleVisibility(tableID, visibility) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var tableRow = document.getElementById('table_' + tableID);
+            if (visibility == 0) {
+                tableRow.querySelector('td:last-child').innerHTML = 'Hidden<button onclick="toggleVisibility(' + tableID + ', 0);">Show</button>';
+            } else {
+                tableRow.querySelector('td:last-child').innerHTML = 'Visible<button onclick="toggleVisibility(' + tableID + ', 1);">Hide</button>';
+            }
+            window.location.reload();
+        }
+    };
+    xhttp.open("POST", "<?php echo URLROOT; ?>/managers/tablevisibility", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("tableID=" + tableID + "&visibility=" + visibility);
 }
 
-function previewImage(event) {
-    var imagePreview = document.getElementById('imagePreview');
-    var imageInput = event.target.files[0];
-    var reader = new FileReader();
+    </script>
 
-    reader.onload = function() {
-        imagePreview.src = reader.result;
-        imagePreview.style.display = 'block';
-    }
-
-    if (imageInput) {
-        reader.readAsDataURL(imageInput);
-    }
-}
-</script>
 </body>
 
 </html>

@@ -272,19 +272,41 @@ class Manager
             return false;
         }
     }
-    public function deleteMenuitem($itemID)
-    {
+    // public function deleteMenuitem($itemID)
+    // {
+    //     $this->db->query('UPDATE menuitem SET delete_status = 1 WHERE itemID = :itemID');
+    //     $this->db->bind(':itemID', $itemID);
+
+    //     // Execute the query
+    //     if ($this->db->execute()) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+public function deletemenuitem($itemID){
+    //reservation table has orderID and same orderID is in orderitem table as orderNo
+    // try to delete menuitem if there is no order from current date to upcoming dates from menuitem table
+    $this->db->query('SELECT * FROM orderitem WHERE itemID = :itemID AND orderNo IN (SELECT orderID FROM reservation WHERE date >= CURDATE())');
+    $this->db->bind(':itemID', $itemID);
+    $this->db->execute();
+    $results = $this->db->resultSet();
+    if (empty($results)) {
         $this->db->query('UPDATE menuitem SET delete_status = 1 WHERE itemID = :itemID');
         $this->db->bind(':itemID', $itemID);
-
-        // Execute the query
         if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
+    } else {
+        return false;
     }
+    
 
+    
+
+}
     public function getMenuitembyId($id)
     {
         $this->db->query('SELECT m.*, 
@@ -619,25 +641,97 @@ class Manager
         return $results;
     }
     public function addtable($data)
-    {
-        $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
-        $this->db->bind(':capacity', $data['capacity']);
+{
+    // Extracting the first three letters of the package name
+    $tablename_prefix = substr($_POST['packageName'], 0, 3);
+    
+    // Inserting into the database
+    $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
+    
+    // Binding parameters for insertion
+    $this->db->bind(':capacity', $data['capacity']);
+    $this->db->bind(':packageID', $data['packageID']);
+    
+    // Executing the insertion query
+    if ($this->db->execute()) {
+        // Get the last inserted table ID
+        $lastTableID = $this->db->lastInsertId();
+
+        // Calculate the total capacity for the given package ID
+        $this->db->query('SELECT SUM(capacity) AS total_capacity FROM tables WHERE packageID = :packageID');
         $this->db->bind(':packageID', $data['packageID']);
+        $row = $this->db->single();
+        $total_capacity = $row->total_capacity;
+
+        // Update the 'capacity' column in the 'package' table with the total capacity obtained
+        $this->db->query('UPDATE package SET capacity = :total_capacity WHERE packageID = :packageID');
+        $this->db->bind(':total_capacity', $total_capacity);
+        $this->db->bind(':packageID', $data['packageID']);
+        $this->db->execute();
+
+        // Generating a unique table name by appending the auto-generated table ID
+        $tablename = $tablename_prefix . '_' . $lastTableID;
+
+        // Updating the table name with the generated name
+        $this->db->query('UPDATE tables SET table_name = :tablename WHERE tableID = :tableID');
+        $this->db->bind(':tablename', $tablename);
+        $this->db->bind(':tableID', $lastTableID);
+        $this->db->execute();
+
+        // Return true if insertion, capacity update, and table name update are successful
+        return true;
+    } else {
+        // Return false if insertion fails
+        return false;
+    }
+}
+public function tabledetailswithpackage(){
+    $this->db->query('SELECT tables.table_name,tables.tableID, tables.capacity,tables.hidden, package.packageName
+                      FROM tables
+                      JOIN package ON tables.packageID = package.packageID');
+    $results = $this->db->resultSet();
+    return $results;
+}
+public function deletetable($tableID){
+    // delete table only if there is no reservation from current date to upcomig dates
+    $this->db->query('SELECT * FROM reservation WHERE tableID = :tableID AND date >= CURDATE()');
+    $this->db->bind(':tableID', $tableID);
+    $this->db->execute();
+    $results = $this->db->resultSet();
+    if (empty($results)) {
+        $this->db->query('DELETE FROM tables WHERE tableID = :tableID');
+        $this->db->bind(':tableID', $tableID);
         if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
+    } else {
+        return false;
     }
+}
+public function tablevisibility($tableID , $hidden){
+    $this->db->query('UPDATE tables SET hidden = :hidden WHERE tableID = :tableID');
+    $this->db->bind(':tableID', $tableID);
+    $this->db->bind(':hidden', $hidden);
+    if ($this->db->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
     public function editpackage($data)
     {
         $filename = basename($data['imagePath']);
         $imagePath = 'http://localhost/DineEase-DEE/public/uploads/package' . $filename;
 
-        $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, capacity = :capacity, description = :description, image =:image WHERE packageID = :packageID');
+        $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, description = :description, image =:image WHERE packageID = :packageID');
         $this->db->bind(':packageName', $data['packageName']);
         $this->db->bind(':tax', $data['tax']);
-        $this->db->bind(':capacity', $data['capacity']);
+        //$this->db->bind(':capacity', $data['capacity']);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':packageID', $data['packageID']);
         $this->db->bind(':image', $imagePath);
@@ -646,6 +740,18 @@ class Manager
         } else {
             return false;
         }
+    }
+    public function filtertablesbypackage($packageID)
+    {
+        //need to get packagename from package table
+        $this->db->query('SELECT tables.*, package.packageName
+                          FROM tables
+                          JOIN package ON tables.packageID = package.packageID
+                          WHERE tables.packageID = :packageID');
+        $this->db->bind(':packageID', $packageID);
+        $this->db->execute();
+        $results = $this->db->resultSet();
+        return $results;
     }
 
     public function addmenudiscounts($data)
@@ -768,7 +874,7 @@ class Manager
     }
     public function deletediscount($id)
     {
-        $this->db->query('DELETE FROM discounts WHERE discountID = :id');
+        $this->db->query('DELETE FROM discounts WHERE id = :id');
         $this->db->bind(':id', $id);
         if ($this->db->execute()) {
             return true;
@@ -913,4 +1019,34 @@ public function totalpendingrefundrequests()
     $row = $this->db->single();
     return $row;
 }
+public function minmaxpaymentdate(){
+    //function to get first and last payment date from payments table
+    $this->db->query('SELECT MIN(paymentDate) AS first_payment, MAX(paymentDate) AS last_payment FROM payment');
+    $row = $this->db->single();
+    return $row;
+}
+// public function salesreport($data){
+//     //function to get sales report between two dates
+//     $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
+//     $this->db->bind(':start_date', $data['start_date']);
+//     $this->db->bind(':end_date', $data['end_date']);
+//     $results = $this->db->resultSet();
+//     return $results;
+    
+    
+    
+// }
+public function salesreport($data) {
+    
+
+        // Function to get sales report between two dates
+        $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
+        $this->db->bind(':start_date', $data['start_date']);
+        $this->db->bind(':end_date', $data['end_date']);
+        $row = $this->db->single();
+        var_dump($row);
+        return $row;
+    
+}
+
 }

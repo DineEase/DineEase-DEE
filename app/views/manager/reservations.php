@@ -59,7 +59,7 @@
 <body>
     <h1>Add Capacity and Package for a New Table</h1>
     
-    <form action="<?php echo URLROOT; ?>/managers/addtable" method="post">
+    <form action="<?php echo URLROOT; ?>/managers/viewtables" method="post">
         <label for="packageDropdown">Select Package:</label>
         <select id="packageDropdown" name="packageID">
             <?php

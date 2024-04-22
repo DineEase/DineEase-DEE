@@ -168,7 +168,7 @@
                             </a>
                         </li>
                         <li class="item">
-                            <a href="<?php echo URLROOT; ?>/managers/addtable" class="nav_link" data-content='menu'>
+                            <a href="<?php echo URLROOT; ?>/managers/viewtables" class="nav_link" data-content='menu'>
                                 <button class="button-sidebar-menu active-nav" id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
@@ -239,19 +239,29 @@
         <form action="<?php echo URLROOT; ?>/managers/addtable" method="post">
             <label for="packageDropdown">Select Package:</label>
             <select id="packageDropdown" name="packageID">
+            <option value="">Select Package</option>
                 <?php
                 foreach ($data['packages'] as $package) {
                     echo "<option value=\"{$package->packageID}\">{$package->packageName}</option>";
                 }
                 ?>
             </select>
-
+            <input type="hidden" id="packageName" name="packageName" value="">
             <label for="capacityInput">Enter Capacity (Numbers Only):</label>
             <input type="number" id="capacityInput" name="capacity" pattern="\d+" required>
 
             <input type="submit" value="Add">
         </form>
     </div>
+    <script>
+    // JavaScript to update the hidden input field with the selected package name and extract the first three letters
+    document.getElementById('packageDropdown').addEventListener('change', function() {
+        var selectedOption = this.options[this.selectedIndex];
+        var packageName = selectedOption.text;
+        var firstThreeLetters = packageName.substring(0, 3);
+        document.getElementById('packageName').value = firstThreeLetters;
+    });
+    </script>
 </body>
 
 </html>

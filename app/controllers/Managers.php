@@ -397,6 +397,14 @@ class Managers extends Controller
             //
             exit();
         }
+        else {
+            ob_clean();
+            ob_end_flush();
+            echo "<script>alert('There are reservations for this menuitem in the upcoming future. Please try hiding it.');</script>";
+           
+            echo "<script>window.location.href = '".URLROOT."/managers/menu';</script>";
+            exit();
+        }
     }
     public function hideMenuitem($itemID)
     {
@@ -1550,12 +1558,12 @@ class Managers extends Controller
                 'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
                 'packageName' => isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
                 'tax' => isset($_POST['tax']) ? trim($_POST['tax']) : '',
-                'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+                //'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
                 'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
                 'imagePath' => $imagePath,
                 'packagename_err' => '',
                 'vat_err' => '',
-                'capacity_err' => '',
+                //'capacity_err' => '',
                 'description_err' => '',
             ];
 
@@ -1566,18 +1574,17 @@ class Managers extends Controller
             if (empty($data['tax'])) {
                 $data['vat_err'] = 'Please enter tax';
             }
-            if (empty($data['capacity'])) {
-                $data['capacity_err'] = 'Please enter capacity';
-            }
+            // if (empty($data['capacity'])) {
+            //     $data['capacity_err'] = 'Please enter capacity';
+            // }
             if (empty($data['description'])) {
                 $data['description_err'] = 'Please enter description';
             }
 
             // Check if there are any validation errors
             if (
-                empty($data['packagename_err']) &&
-                empty($data['vat_err']) &&
-                empty($data['capacity_err']) &&
+                empty($data['packagename_err']) ||
+                empty($data['vat_err']) ||
                 empty($data['description_err'])
             ) {
                 // Call the model function to update package data
@@ -1602,6 +1609,7 @@ class Managers extends Controller
 
     public function addtable()
     {
+        ob_start();
         $tables = $this->managerModel->gettables();
         $packages = $this->managerModel->getpackages();
         $data = [
@@ -1614,6 +1622,7 @@ class Managers extends Controller
             $data = [
                 'packageID' => isset($_POST['packageID']) ? trim($_POST['packageID']) : '',
                 'capacity' => isset($_POST['capacity']) ? trim($_POST['capacity']) : '',
+                'packageName' => isset($_POST['packageName']) ? trim($_POST['packageName']) : '',
             ];
             if (empty($data['packageID'])) {
                 $data['packageID_err'] = 'Please select a package';
@@ -1626,7 +1635,10 @@ class Managers extends Controller
                 if ($this->managerModel->addtable($data)) {
                     // Handle success, e.g., redirect to another page
                     // header('Location: ' . URLROOT . '/menus/submitMenu');
-                    //redirect('managers/gettables');
+                    ob_clean();
+
+                    ob_end_flush();
+                    redirect('managers/addtable');
                     //exit();
                 } else {
                     $this->view('manager/tables', $data);
@@ -2128,5 +2140,128 @@ class Managers extends Controller
        //$this->view('manager/testvardump', $data);
 
     }
+// public function reports($data = []){
+//     $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+    
+//     $data = [
+//         'minmaxpaymentdate' => $minmaxpaymentdate,
+//     ];
+//     $this->view('manager/reports', $data);
+// }
+public function reports(){
+    ob_start();
+    $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+    $data = [
+        'minmaxpaymentdate' => $minmaxpaymentdate,
+    ];
+    $this->view('manager/reports', $data);
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $data = [
+            'start_date' => isset($_POST['start_date']) ? trim($_POST['start_date']) : '',
+            'end_date' => isset($_POST['end_date']) ? trim($_POST['end_date']) : '',
+            'start_date_err' => '',
+            'end_date_err' => '',
+            'minmaxpaymentdate' => $minmaxpaymentdate,
+        ];
+        var_dump($data);
+        error_log('Data passed to model: ' . print_r($data, true));
+        //var_dump($data['end_date']);
+        if (empty($data['start_date'])) {
+            $data['start_date_err'] = 'Please enter start date';
+        }
+        if (empty($data['end_date'])) {
+            $data['end_date_err'] = 'Please enter end date';
+        }
+        if ($data['start_date'] > $data['end_date']) {
+            $data['start_date_err'] = 'Start date must be before end date';
+            
+        }
 
+        if (empty($data['start_date_err']) && empty($data['end_date_err'])) {
+            // Call the model function to insert user data
+            $salesreport = $this->managerModel->salesreport($data);
+            error_log('Data retrieved from model: ' . print_r($salesreport, true));
+           //var_dump($salesreport);
+            $data = [
+                'salesreport' => $salesreport,
+                'minmaxpaymentdate' => $minmaxpaymentdate,
+            ];
+            //$this->reports($data);
+            error_log('$Data retrieved from model: ' . print_r($data, true));
+            //ob_clean();
+            //ob_end_flush();
+            $this->view('manager/reports', $data);
+            //ob_clean();
+            //ob_end_flush();
+            exit();
+        } else {
+            // Validation failed, show the form with errors
+            
+            $this->view('manager/reports', $data);
+            //$this->reports($data);
+        }
+    }
+}
+public function viewtables()
+{
+    // Fetch tables and packages
+    $tables = $this->managerModel->tabledetailswithpackage();
+    $packages = $this->managerModel->getpackages();
+
+    // Check if package ID is provided in the POST data
+    $packageID = isset($_POST['packageID']) ? $_POST['packageID'] : '';
+
+    // If package ID is provided, filter the tables by package
+    if (!empty($packageID)) {
+        $tables = $this->managerModel->filtertablesbypackage($packageID);
+    }
+
+    // Pass data to the view
+    $data = [
+        'tables' => $tables,
+        'packages' => $packages,
+    ];
+
+    // Load the view
+    
+    $this->view('manager/viewtables', $data);
+}
+public function deletetable(){
+    //try to delete table. If cannot show an alert saying there are orders on the table
+    ob_start();
+    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    $ID = isset($_POST['table_id']) ? trim($_POST['table_id']) : '';
+    if ($this->managerModel->deletetable($ID)) {
+        ob_clean();
+        ob_end_flush();
+        redirect('managers/viewtables'); 
+        exit();
+    }
+    else{
+        ob_clean();
+        ob_end_flush();
+        echo "<script>alert('There are reservations for this table in the upcoming future. Please try hiding it.');</script>";
+       
+        echo "<script>window.location.href = '".URLROOT."/managers/viewtables';</script>";
+        exit();
+    }
+    
+
+
+}
+public function tablevisibility(){
+    ob_start();
+    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    $ID = isset($_POST['tableID']) ? trim($_POST['tableID']) : '';
+    $status = isset($_POST['visibility']) ? trim($_POST['visibility']) : '';
+    if ($this->managerModel->tablevisibility($ID,$status)) {
+        //ob_clean();
+        //ob_end_flush();
+        //redirect('managers/viewtables'); 
+        exit();
+    }
+
+}
 }

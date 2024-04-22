@@ -202,7 +202,7 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="<?php echo URLROOT; ?>/managers/addtable" class="nav_link" data-content='menu'>
+                        <a href="<?php echo URLROOT; ?>/managers/viewtables" class="nav_link" data-content='menu'>
                             <button class="button-sidebar-menu" id="reservationButton">
                                 <span class="navlink_icon">
                                     <span class="material-symbols-outlined ">
@@ -277,7 +277,7 @@
 
     <!-- Display the discount details -->
     <div class="discount-details">
-        <p><strong>Discount ID:</strong> <?php echo $data['discountdetails']->discountID; ?></p>
+        <p><strong>Discount ID:</strong> <?php echo $data['discountdetails']->id; ?></p>
         <p><strong>Type:</strong> <?php echo $data['discountdetails']->type; ?></p>
         <p><strong>Discount Percentage:</strong> <?php echo $data['discountdetails']->discount_percentage; ?>%</p>
         <p><strong>Start Date:</strong> <?php echo $data['discountdetails']->start_date; ?></p>
@@ -286,7 +286,7 @@
 
     <!-- Form for updating the menu-wise discount -->
     <form class="discount-form" action="<?php echo URLROOT; ?>/managers/updatetotaldiscount" method="POST">
-        <input type="hidden" name="discount_id" value="<?php echo $data['discountdetails']->discountID; ?>">
+        <input type="hidden" name="discount_id" value="<?php echo $data['discountdetails']->id; ?>">
         <label for="menu-discount-value">Enter Discount (%):</label>
         <?php if (!empty($data['discount_err'])) : ?>
             <span class="error"><?php echo $data['discount_err']; ?></span>
@@ -305,7 +305,7 @@
         <button type="submit">Apply Discount</button>
         
         <!-- Delete button -->
-        <button type="button" class="delete-discount" data-discount-id="<?php echo $data['discountdetails']->discountID; ?>">Delete</button>
+        <button type="button" class="delete-discount" data-discount-id="<?php echo $data['discountdetails']->id; ?>">Delete</button>
     </form>
 </div>
 <script>
