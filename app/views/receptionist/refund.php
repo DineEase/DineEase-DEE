@@ -39,7 +39,7 @@
             <nav class="sidebar">
                 <div class="sidebar-container">
                     <div class="menu_content">
-                        
+
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
@@ -90,18 +90,7 @@
                                     </button>
                                 </a>
                             </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                reviews
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li>
+
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu">
@@ -152,71 +141,6 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            <div class="reservation-container">
-                <div class="tabset">
-                    <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
-                    <label for="tab1">View Refund Requests</label>
-
-
-                    <div class="tab-panels">
-                        <section id="view" class="tab-panel">
-                            <div class="content read">
-                                <h2>View Refund Requests</h2>
-
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <td></td>
-                                            <td>InvoiceID</td>
-                                            <td>CustomerID</td>
-                                            <td>Body</td>
-                                            <td>price</td>
-                                            <td>Date</td>
-                                            <td></td>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-
-                                        <?php foreach ($data['request'] as $request) : ?>
-
-                                            <tr>
-                                                <td></td>
-                                                <td><?php echo $request->invoiceID;
-                                                    ?></td>
-                                                <td><?php echo $request->body;
-                                                    ?></td>
-                                                <td><?php echo $request->price;
-                                                    ?></td>
-                                                <td><?php echo $request->date; ?></td>
-
-                                                <td class="actions">
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/showrefund" class="view"><i class="fa-solid fa-eye"></i></fa-solid></a>
-                                                    <a href="<?php echo URLROOT ?>/Receptionists/editrefund/<?php //echo $data['post']->id; 
-                                                                                                            ?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
-
-                                                    <a href="<?php echo URLROOT; ?>/Receptionistss/deleterefund/<?php //echo $data['post']->id; 
-                                                                                                                ?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
-
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-
-
-                                <div class="pagination">
-
-                                    <a href="<?php echo URLROOT ?>Receptionists/addrefund""><i class=" fa-solid fa-plus"></i> Add requests </a>
-                                    <a href="#"><i class="fas fa-angle-double-left fa-sm"></i></a>
-                                    <a href="#"><i class="fas fa-angle-double-right fa-sm"></i></a>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
