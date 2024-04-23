@@ -898,6 +898,3 @@ input:focus-visible + label {
   background-color: var(--brandgreen-dark);
 }
 
-.active {
-  background-color: var(--brandgreen-dark);
-}

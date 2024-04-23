@@ -52,6 +52,7 @@
             border: none;
             border-radius: 5px;
             outline: none;
+            font-size: x-large;
         }
 
         .dashboard-content {
@@ -80,10 +81,6 @@
 
         .receptionist-dashboard-container table tr td:nth-child(1) {
             width: 10% !important;
-        }
-
-        .receptionist-dashboard-container table tr td {
-            /* width: 5%; */
         }
 
 
