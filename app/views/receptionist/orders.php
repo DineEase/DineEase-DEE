@@ -38,7 +38,7 @@
             <nav class="sidebar">
                 <div class="sidebar-container">
                     <div class="menu_content">
-                        
+
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
@@ -89,18 +89,7 @@
                                     </button>
                                 </a>
                             </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                reviews
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li>
+
                             <li class="item">
                                 <a href="<?php echo APPROOT ?>/receptionist/orders.php" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu active-nav">
@@ -151,11 +140,30 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            
+            <button onclick="sendMsg();" name="send">press me</button>
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+
+    <script>
+        function sendMsg() {
+            console.log("sending message");
+            $.ajax({
+                url: "<?php echo URLROOT; ?>/Messages/send",
+                type: "POST",
+                data: {
+                    number: "+94772903494",
+                    messageToSend: "Hello, this is a test message from DineEase"
+                },
+                success: function(data) {
+                    console.log(data);
+                    
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>

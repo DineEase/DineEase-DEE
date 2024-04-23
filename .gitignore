@@ -4,3 +4,6 @@
 .hintrc
 /public/img
 /public/uploads
+/app/config/secrets.php
+/app/.env
+/app/vendor
