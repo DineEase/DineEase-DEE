@@ -12,7 +12,7 @@
     <title><?php echo SITENAME; ?></title>
     <style>
         .container {
-    max-width: 600px;
+    max-width: 700px;
     margin: 50px auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -155,7 +155,7 @@ input[type="range"] {
                             </a>
                         </li>
                         <li class="item">
-                            <a href="<?php echo URLROOT; ?>/managers/buhahaha" class="nav_link" data-content='menu'>
+                            <a href="<?php echo URLROOT; ?>/managers/reports" class="nav_link" data-content='menu'>
                                 <button class="button-sidebar-menu active-nav" id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">

@@ -397,12 +397,13 @@ class Managers extends Controller
             //
             exit();
         }
+        #todo #59 report generation dupicat
         else {
             ob_clean();
             ob_end_flush();
             echo "<script>alert('There are reservations for this menuitem in the upcoming future. Please try hiding it.');</script>";
-           
-            echo "<script>window.location.href = '".URLROOT."/managers/menu';</script>";
+
+            echo "<script>window.location.href = '" . URLROOT . "/managers/menu';</script>";
             exit();
         }
     }
@@ -737,27 +738,27 @@ class Managers extends Controller
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
-    
+
         // Replace spaces with underscores in the file name
         $imageName = str_replace(' ', '_', $imageFile['name']);
-    
+
         // Check if the file is an image
         $check = getimagesize($imageFile['tmp_name']);
         if ($check === false) {
             die('Error: Uploaded file is not an image.');
         }
-    
+
         // Generate a random number
         $randomNumber = mt_rand(100000, 999999);
-    
+
         // Append the random number to the file name
         $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
         $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
         $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
-    
+
         $targetFile = $targetDirectory . basename($imageName);
         echo "Target File: " . $targetFile . "<br>";
-    
+
         // Check if a file with the same name already exists
         while (file_exists($targetFile)) {
             // Generate a new random number
@@ -766,7 +767,7 @@ class Managers extends Controller
             $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
             $targetFile = $targetDirectory . basename($imageName);
         }
-    
+
         // Upload the image file
         if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
             return $targetFile; // Return the uploaded image path
@@ -1334,27 +1335,27 @@ class Managers extends Controller
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
-    
+
         // Replace spaces with underscores in the file name
         $imageName = str_replace(' ', '_', $imageFile['name']);
-    
+
         // Check if the file is an image
         $check = getimagesize($imageFile['tmp_name']);
         if ($check === false) {
             die('Error: Uploaded file is not an image.');
         }
-    
+
         // Generate a random number
         $randomNumber = mt_rand(100000, 999999);
-    
+
         // Append the random number to the file name
         $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
         $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
         $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
-    
+
         $targetFile = $targetDirectory . basename($imageName);
         echo "Target File: " . $targetFile . "<br>";
-    
+
         // Check if a file with the same name already exists
         while (file_exists($targetFile)) {
             // Generate a new random number
@@ -1363,60 +1364,59 @@ class Managers extends Controller
             $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
             $targetFile = $targetDirectory . basename($imageName);
         }
-    
+
         // Upload the image file
         if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
             return $targetFile; // Return the uploaded image path
         } else {
             die('Error: Failed to move uploaded file.');
         }
-        
     }
     private function handlimageUploadpackagepicture($imageFile)
-{
-    $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\package\\';
+    {
+        $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\package\\';
 
-    // Create the target directory if it doesn't exist
-    if (!file_exists($targetDirectory)) {
-        mkdir($targetDirectory, 0777, true);
-    }
+        // Create the target directory if it doesn't exist
+        if (!file_exists($targetDirectory)) {
+            mkdir($targetDirectory, 0777, true);
+        }
 
-    // Replace spaces with underscores in the file name
-    $imageName = str_replace(' ', '_', $imageFile['name']);
+        // Replace spaces with underscores in the file name
+        $imageName = str_replace(' ', '_', $imageFile['name']);
 
-    // Check if the file is an image
-    $check = getimagesize($imageFile['tmp_name']);
-    if ($check === false) {
-        die('Error: Uploaded file is not an image.');
-    }
+        // Check if the file is an image
+        $check = getimagesize($imageFile['tmp_name']);
+        if ($check === false) {
+            die('Error: Uploaded file is not an image.');
+        }
 
-    // Generate a random number
-    $randomNumber = mt_rand(100000, 999999);
-
-    // Append the random number to the file name
-    $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
-    $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
-    $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
-
-    $targetFile = $targetDirectory . basename($imageName);
-    echo "Target File: " . $targetFile . "<br>";
-
-    // Check if a file with the same name already exists
-    while (file_exists($targetFile)) {
-        // Generate a new random number
+        // Generate a random number
         $randomNumber = mt_rand(100000, 999999);
-        // Append the new random number to the file name
-        $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
-        $targetFile = $targetDirectory . basename($imageName);
-    }
 
-    // Upload the image file
-    if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
-        return $targetFile; // Return the uploaded image path
-    } else {
-        die('Error: Failed to move uploaded file.');
+        // Append the random number to the file name
+        $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
+        $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
+        $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+
+        $targetFile = $targetDirectory . basename($imageName);
+        echo "Target File: " . $targetFile . "<br>";
+
+        // Check if a file with the same name already exists
+        while (file_exists($targetFile)) {
+            // Generate a new random number
+            $randomNumber = mt_rand(100000, 999999);
+            // Append the new random number to the file name
+            $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
+            $targetFile = $targetDirectory . basename($imageName);
+        }
+
+        // Upload the image file
+        if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
+            return $targetFile; // Return the uploaded image path
+        } else {
+            die('Error: Failed to move uploaded file.');
+        }
     }
-}
 
 
 
@@ -1528,7 +1528,7 @@ class Managers extends Controller
     }
     public function editpackage()
     {
-        
+
         $data = []; // Initialize $data array
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -1536,7 +1536,7 @@ class Managers extends Controller
             $ID = $_POST['packageID'];
             $package = $this->managerModel->getpackagebyid($ID);
             // Check if image was uploaded successfully
-            
+
             $imagePath = '';
             if (isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK) {
                 // Handle image upload and get the image path
@@ -1547,8 +1547,7 @@ class Managers extends Controller
                     // Redirect or show an error message
                     die('Error: Image upload failed.');
                 }
-            }
-            else {
+            } else {
                 // Handle no image uploaded or upload error
                 //die('Error: No image uploaded or upload error.');
                 $imagePath = $package->image;
@@ -2109,7 +2108,8 @@ class Managers extends Controller
             exit();
         }
     }
-    public function dashboard(){
+    public function dashboard()
+    {
         $totalsales = $this->managerModel->totalsales();
         $totalorders = $this->managerModel->totalorders();
         $totalcustomers = $this->managerModel->totalcustomers();
@@ -2136,132 +2136,314 @@ class Managers extends Controller
             'leastreviewedfood' => $leastreviewedfood,
             'totalpendingrefundrequests' => $totalpendingrefundrequests,
         ];
-       $this->view('manager/dashboard', $data);
-       //$this->view('manager/testvardump', $data);
+        $this->view('manager/dashboard', $data);
+        //$this->view('manager/testvardump', $data);
 
     }
-// public function reports($data = []){
-//     $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
-    
-//     $data = [
-//         'minmaxpaymentdate' => $minmaxpaymentdate,
-//     ];
-//     $this->view('manager/reports', $data);
-// }
-public function reports(){
-    ob_start();
-    $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
-    $data = [
-        'minmaxpaymentdate' => $minmaxpaymentdate,
-    ];
-    $this->view('manager/reports', $data);
-    
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        $data = [
-            'start_date' => isset($_POST['start_date']) ? trim($_POST['start_date']) : '',
-            'end_date' => isset($_POST['end_date']) ? trim($_POST['end_date']) : '',
-            'start_date_err' => '',
-            'end_date_err' => '',
-            'minmaxpaymentdate' => $minmaxpaymentdate,
-        ];
-        var_dump($data);
-        error_log('Data passed to model: ' . print_r($data, true));
-        //var_dump($data['end_date']);
-        if (empty($data['start_date'])) {
-            $data['start_date_err'] = 'Please enter start date';
-        }
-        if (empty($data['end_date'])) {
-            $data['end_date_err'] = 'Please enter end date';
-        }
-        if ($data['start_date'] > $data['end_date']) {
-            $data['start_date_err'] = 'Start date must be before end date';
-            
-        }
+    public function reports()
+    {
+        $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+        $minmaxreservationdate = $this->managerModel->minmaxreservationdate();
 
-        if (empty($data['start_date_err']) && empty($data['end_date_err'])) {
-            // Call the model function to insert user data
-            $salesreport = $this->managerModel->salesreport($data);
-            error_log('Data retrieved from model: ' . print_r($salesreport, true));
-           //var_dump($salesreport);
+        $data = [
+            'minmaxpaymentdate' => $minmaxpaymentdate,
+            'minmaxreservationdate' => $minmaxreservationdate,
+        ];
+        $this->view('manager/reports', $data);
+    }
+    public function fetchSalesReport()
+    {
+
+        $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
-                'salesreport' => $salesreport,
+                'start_date' => isset($_POST['start_date']) ? trim($_POST['start_date']) : '',
+                'end_date' => isset($_POST['end_date']) ? trim($_POST['end_date']) : '',
+                'start_date_err' => '',
+                'end_date_err' => '',
                 'minmaxpaymentdate' => $minmaxpaymentdate,
             ];
-            //$this->reports($data);
-            error_log('$Data retrieved from model: ' . print_r($data, true));
-            //ob_clean();
-            //ob_end_flush();
-            $this->view('manager/reports', $data);
-            //ob_clean();
-            //ob_end_flush();
-            exit();
-        } else {
-            // Validation failed, show the form with errors
-            
-            $this->view('manager/reports', $data);
-            //$this->reports($data);
+            // var_dump($data);
+            error_log('Data passed to model: ' . print_r($data, true));
+            //var_dump($data['end_date']);
+            if (empty($data['start_date'])) {
+                $data['start_date_err'] = 'Please enter start date';
+            }
+            if (empty($data['end_date'])) {
+                $data['end_date_err'] = 'Please enter end date';
+            }
+            if ($data['start_date'] > $data['end_date']  && !empty($data['start_date']) && !empty($data['end_date'])) {
+                $data['diff_date_err'] = 'Start date must be before end date';
+            }
+
+            if (empty($data['start_date_err']) && empty($data['end_date_err']) && empty($data['diff_date_err'])) {
+                // Call the model function to insert user data
+                $salesreport = $this->managerModel->salesreport($data);
+                // $menureport = $this->managerModel->menureport($data);
+                //error_log('Data retrieved from salesreport model: ' . print_r(json_encode($salesreport), true));
+                //var_dump($salesreport);
+                header('Content-Type: application/json');
+                echo json_encode($salesreport);
+                //echo json_encode($menureport);
+                //exit();
+                //ob_clean();
+                //ob_end_flush();
+
+            } else {
+                // Validation failed, show the form with errors
+                //ob_clean();
+                //ob_end_flush();
+                header('Content-Type: application/json');
+                echo json_encode(['errors' => $data]);
+                //exit();
+                //$this->reports($data);
+            }
         }
     }
-}
-public function viewtables()
-{
-    // Fetch tables and packages
-    $tables = $this->managerModel->tabledetailswithpackage();
-    $packages = $this->managerModel->getpackages();
+    public function fetchMenuReport()
+    {
 
-    // Check if package ID is provided in the POST data
-    $packageID = isset($_POST['packageID']) ? $_POST['packageID'] : '';
+        $minmaxreservationdate = $this->managerModel->minmaxreservationdate();
 
-    // If package ID is provided, filter the tables by package
-    if (!empty($packageID)) {
-        $tables = $this->managerModel->filtertablesbypackage($packageID);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'start_date' => isset($_POST['start_date']) ? trim($_POST['start_date']) : '',
+                'end_date' => isset($_POST['end_date']) ? trim($_POST['end_date']) : '',
+                'start_date_err' => '',
+                'end_date_err' => '',
+                'minmaxreservationdate' => $minmaxreservationdate,
+            ];
+            // var_dump($data);
+            //error_log('Data passed to model: ' . print_r($data, true));
+            //var_dump($data['end_date']);
+            if (empty($data['start_date'])) {
+                $data['start_date_err'] = 'Please enter start date';
+            }
+            if (empty($data['end_date'])) {
+                $data['end_date_err'] = 'Please enter end date';
+            }
+            if ($data['start_date'] > $data['end_date']  && !empty($data['start_date']) && !empty($data['end_date'])) {
+                $data['diff_date_err'] = 'Start date must be before end date';
+            }
+
+            if (empty($data['start_date_err']) && empty($data['end_date_err']) && empty($data['diff_date_err'])) {
+                // Call the model function to insert user data
+                $menureport = $this->managerModel->menureport($data);
+                // $menureport = $this->managerModel->menureport($data);
+                //error_log('Data retrieved from menureport model: ' . print_r($menureport, true));
+                //var_dump($salesreport);
+                header('Content-Type: application/json');
+                echo json_encode($menureport);
+                //var_dump(json_encode($menureport));
+                //echo json_encode($menureport);
+                //exit();
+                //ob_clean();
+                //ob_end_flush();
+
+            } else {
+                // Validation failed, show the form with errors
+                //ob_clean();
+                //ob_end_flush();
+                header('Content-Type: application/json');
+                echo json_encode(['errors' => $data]);
+                //exit();
+                //$this->reports($data);
+            }
+        }
+    }
+    public function generatereportpdf()
+    {
+        require_once APPROOT . '/vendor/autoload.php';
+        $startDate = $_GET['startDate'];
+        $endDate = $_GET['endDate'];
+        // Get the JSON data from the request body
+        $request_body = file_get_contents('php://input');
+
+
+        // Decode the JSON data
+        $menuReport = json_decode($request_body, true);
+
+        // Create a new TCPDF instance
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+        // Set document information
+        $creator = $_SESSION['user_name'];
+        $pdf->SetCreator($creator);
+        $pdf->SetAuthor('Manager');
+        $pdf->SetTitle('Menu Report');
+        $pdf->SetSubject('Menu Report');
+        $pdf->SetKeywords('Menu, Report');
+
+        // Add a page
+        $pdf->AddPage();
+
+        // Add the logo image
+        $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the path to your logo image file
+        $pdf->Image($imageFile, $x = 10, $y = 10, $w = 50, $h = '', $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false);
+        // Add the report period to the content of the PDF
+        $pdf->SetFont('times', 'B', 12);
+        $pdf->Cell(0, 10, 'Report Period: ' . $startDate . ' to ' . $endDate, 0, 1);
+
+        // Set font
+        $pdf->SetFont('times', 'BI', 16);
+
+        // Add heading
+        $pdf->Cell(0, 10, 'Menu Report', 0, 1, 'C');
+
+        // Add top selling menus section
+        $pdf->Ln(10);
+        $pdf->SetFont('times', 'B', 14);
+        $pdf->Cell(0, 10, 'Top Selling Menus', 0, 1);
+        $pdf->SetFont('times', '', 12);
+        foreach ($menuReport['topSellingMenus'] as $menu) {
+            $pdf->Cell(0, 10, $menu['itemName'] . ' - Total Quantity Sold: ' . $menu['total_quantity_sold'], 0, 1);
+        }
+
+        // Add top selling categories section
+        $pdf->Ln(10);
+        $pdf->SetFont('times', 'B', 14);
+        $pdf->Cell(0, 10, 'Top Selling Categories', 0, 1);
+        $pdf->SetFont('times', '', 12);
+        foreach ($menuReport['topSellingCategories'] as $category) {
+            $pdf->Cell(0, 10, $category['category_name'] . ' - Total Quantity Sold: ' . $category['total_quantity_sold'], 0, 1);
+        }
+
+        // Add most reservations date section
+        $pdf->Ln(10);
+        $pdf->SetFont('times', 'B', 14);
+        $pdf->Cell(0, 10, 'Most Reservations Date', 0, 1);
+        $pdf->SetFont('times', '', 12);
+        $pdf->Cell(0, 10, 'Date: ' . $menuReport['mostReservationsDate']['date'] . ' - Reservation Count: ' . $menuReport['mostReservationsDate']['reservation_count'], 0, 1);
+
+        // Add most ordered sizes section
+        $pdf->Ln(10);
+        $pdf->SetFont('times', 'B', 14);
+        $pdf->Cell(0, 10, 'Most Ordered Sizes', 0, 1);
+        $pdf->SetFont('times', '', 12);
+        foreach ($menuReport['mostOrderedSizes'] as $size) {
+            $pdf->Cell(0, 10, $size['itemName'] . ' - Size: ' . $size['size'] . ' - Total Quantity Sold: ' . $size['total_quantity_sold'], 0, 1);
+        }
+
+        // Add results section
+        $pdf->Ln(10);
+        $pdf->SetFont('times', 'B', 14);
+        $pdf->Cell(0, 10, 'Total quantity sold and total amount for each menu item', 0, 1);
+        $pdf->SetFont('times', '', 12);
+
+        // Define table columns
+        $header = array('Category', 'Item', 'Date', 'Total Quantity Sold', 'Total Amount');
+
+        // Set maximum column widths
+        $maxColumnWidths = array(40, 40, 30, 40, 40); // Adjust these values as needed
+
+        // Calculate the maximum width needed for the 'Item' column
+        $maxItemWidth = 0;
+        foreach ($menuReport['results'] as $result) {
+            $itemWidth = $pdf->GetStringWidth($result['itemName']); // Get the width of the item name
+            if ($itemWidth > $maxItemWidth) {
+                $maxItemWidth = $itemWidth;
+            }
+        }
+
+        // Adjust the width of the 'Item' column based on the maximum item name width
+        $maxColumnWidths[1] = $maxItemWidth + 10; // Add some extra padding
+
+        // Calculate the total width of the table
+        $totalWidth = array_sum($maxColumnWidths);
+
+        // Adjust column widths if the total width exceeds the page width
+        $pageWidth = $pdf->getPageWidth() - 20; // Subtract some padding for margins
+        if ($totalWidth > $pageWidth) {
+            // Calculate the ratio to scale down the column widths
+            $ratio = $pageWidth / $totalWidth;
+
+            // Apply the ratio to adjust the column widths
+            foreach ($maxColumnWidths as &$width) {
+                $width *= $ratio;
+            }
+        }
+
+        // Draw header row
+        $pdf->SetFillColor(200, 220, 255); // Set table header fill color
+        $pdf->SetTextColor(0); // Set text color
+        $pdf->SetFont('times', 'B');
+        for ($i = 0; $i < count($header); $i++) {
+            $pdf->Cell($maxColumnWidths[$i], 10, $header[$i], 1, 0, 'C', true);
+        }
+        $pdf->Ln();
+        $pdf->SetFont('times', '');
+        foreach ($menuReport['results'] as $result) {
+            $pdf->Cell($maxColumnWidths[0], 10, $result['category_name'], 1);
+            $pdf->Cell($maxColumnWidths[1], 10, $result['itemName'], 1);
+            $pdf->Cell($maxColumnWidths[2], 10, $result['date'], 1, 0, 'C');
+            $pdf->Cell($maxColumnWidths[3], 10, $result['total_quantity_sold'], 1, 0, 'C');
+            $pdf->Cell($maxColumnWidths[4], 10, $result['total_amount'], 1, 0, 'C');
+            $pdf->Ln();
+        }
+
+        // Output PDF to browser
+        $date = date('Y-m-d_H-i-s'); // Get current date and time in the format YYYY-MM-DD_HH-MM-SS
+        $pdf->Output('menu_report_' . $date . '.pdf', 'I');
     }
 
-    // Pass data to the view
-    $data = [
-        'tables' => $tables,
-        'packages' => $packages,
-    ];
+    public function viewtables()
+    {
+        // Fetch tables and packages
+        $tables = $this->managerModel->tabledetailswithpackage();
+        $packages = $this->managerModel->getpackages();
 
-    // Load the view
-    
-    $this->view('manager/viewtables', $data);
-}
-public function deletetable(){
-    //try to delete table. If cannot show an alert saying there are orders on the table
-    ob_start();
-    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    $ID = isset($_POST['table_id']) ? trim($_POST['table_id']) : '';
-    if ($this->managerModel->deletetable($ID)) {
-        ob_clean();
-        ob_end_flush();
-        redirect('managers/viewtables'); 
-        exit();
+        // Check if package ID is provided in the POST data
+        $packageID = isset($_POST['packageID']) ? $_POST['packageID'] : '';
+
+        // If package ID is provided, filter the tables by package
+        if (!empty($packageID)) {
+            $tables = $this->managerModel->filtertablesbypackage($packageID);
+        }
+
+        // Pass data to the view
+        $data = [
+            'tables' => $tables,
+            'packages' => $packages,
+        ];
+
+        // Load the view
+
+        $this->view('manager/viewtables', $data);
     }
-    else{
-        ob_clean();
-        ob_end_flush();
-        echo "<script>alert('There are reservations for this table in the upcoming future. Please try hiding it.');</script>";
-       
-        echo "<script>window.location.href = '".URLROOT."/managers/viewtables';</script>";
-        exit();
+    public function deletetable()
+    {
+        //try to delete table. If cannot show an alert saying there are orders on the table
+        ob_start();
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $ID = isset($_POST['table_id']) ? trim($_POST['table_id']) : '';
+        if ($this->managerModel->deletetable($ID)) {
+            ob_clean();
+            ob_end_flush();
+            redirect('managers/viewtables');
+            exit();
+        } else {
+            ob_clean();
+            ob_end_flush();
+            echo "<script>alert('There are reservations for this table in the upcoming future. Please try hiding it.');</script>";
+
+            echo "<script>window.location.href = '" . URLROOT . "/managers/viewtables';</script>";
+            exit();
+        }
     }
-    
-
-
-}
-public function tablevisibility(){
-    ob_start();
-    $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    $ID = isset($_POST['tableID']) ? trim($_POST['tableID']) : '';
-    $status = isset($_POST['visibility']) ? trim($_POST['visibility']) : '';
-    if ($this->managerModel->tablevisibility($ID,$status)) {
-        //ob_clean();
-        //ob_end_flush();
-        //redirect('managers/viewtables'); 
-        exit();
+    public function tablevisibility()
+    {
+        ob_start();
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $ID = isset($_POST['tableID']) ? trim($_POST['tableID']) : '';
+        $status = isset($_POST['visibility']) ? trim($_POST['visibility']) : '';
+        if ($this->managerModel->tablevisibility($ID, $status)) {
+            //ob_clean();
+            //ob_end_flush();
+            //redirect('managers/viewtables'); 
+            exit();
+        }
     }
-
-}
 }
