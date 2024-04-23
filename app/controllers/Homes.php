@@ -1,17 +1,30 @@
 <?php
 class Homes extends Controller
 {
-    public $customerModel;
+    public $homeModel;
 
     public function __construct()
     {
-    
+        $this->homeModel = $this->model('Home');
+
     }
 
     public function home()
-    {
-        $data = [];
+    {   
+        $menus = $this->homeModel->getMenus();
 
-        $this->view('home/index');
+        if ($food = $this->homeModel->getFoodReviews()) {
+        } else {
+            die('Something went wrong');
+        }
+
+
+        $data = [
+            'menus' => $menus,
+            'foodReview' => $food
+        ];
+
+
+        $this->view('home/index' , $data);
     }
 }
