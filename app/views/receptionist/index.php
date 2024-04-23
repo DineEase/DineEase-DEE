@@ -11,15 +11,92 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
     <style>
-        .receptionist-dashboard-container {
+        .dashboard-head {
             display: flex;
-            height: 100vh;
-            width: 100%;
-            padding: 10px;
+            justify-content: space-between;
+            align-items: center;
+            width: 97.6%;
+            padding: 20px;
+            height: 60px;
         }
 
-        
-        
+        .receptionist-dashboard-container {
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+        }
+
+        .rdh-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            height: 100%;
+        }
+
+        .rdh-date-picekr {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rdh-date-picekr span {
+            cursor: pointer;
+        }
+
+        .rdh-date-picekr input {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            font-size: x-large;
+        }
+
+        .dashboard-content {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 25px;
+        }
+
+        .receptionist-dashboard-container table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            border: var(--brandgreen) solid 4px;
+            border-radius: 10px;
+        }
+
+        .receptionist-dashboard-container table tr {
+            height: 50px;
+        }
+
+        .receptionist-dashboard-container table tr td {
+            border: var(--brandgreen) solid 1px;
+            text-align: center;
+        }
+
+        .receptionist-dashboard-container table tr td:nth-child(1) {
+            width: 10% !important;
+        }
+
+
+        .view-slot-button {
+            background-color: var(--brandgreen);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-slot-button:hover {
+            background-color: var(--brandgreen-dark);
+        }
     </style>
 </head>
 
@@ -164,12 +241,81 @@
         </div>
         <div class="body-template" id="content">
             <div class="receptionist-dashboard-container">
-                asdsadsadasd
+
+                <?php
+                if (isset($data['input']['date'])) {
+                    $selectedDate = $data['input']['date'];
+                } else {
+                    $selectedDate = date('Y-m-d');
+                }
+                ?>
+
+                <?php
+                if (isset($data['suite'])) {
+                    $selectedSuite = $data['suite'];
+                } else {
+                    $selectedSuite = 1;
+                }
+                ?>
+
+                <div class="dashboard-head">
+                    <div class="rdh-item">
+                        <div class="buttonset-container">
+                            <button class="buttonset-button" onclick="changeSuiteFilter(this);" data-package-id="0">All</button>
+                            <?php
+                            foreach ($data['packages'] as $package) {
+                                echo '<button class="buttonset-button" onclick="changeSuiteFilter(this);" data-package-id="' . $package->packageID . '">' . $package->packageName . '</button>';
+                            }
+                            ?>
+                            <form id="suiteAndDateFilterForm" action="Index" method="post">
+                                <input type="number" id="suiteFilter" name="suite" value="<?php echo $selectedSuite ?>" hidden />
+
+                        </div>
+                    </div>
+                    <div class="rdh-item">
+                        <div class="rdh-date-picekr buttonset-container">
+
+                            <span onclick="changeDate(-1)"><i class="fa-solid fa-caret-left"></i></span>
+                            <input type="date" name="date" id="date-picker" value="<?php echo $selectedDate; ?>" />
+                            <span onclick="changeDate(1)"><i class="fa-solid fa-caret-right"></i></span>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="rdh-item"></div>
+                </div>
+                <div class="dashboard-content">
+
+                    <table class="table-fixed">
+                        <?php
+                        // Example PHP logic to demonstrate dynamic content
+                        for ($time = $data['reservationsStartTime']; $time < $data['reservationsEndTime']; $time++) {
+                        ?>
+                            <tr>
+                                <td><?= $time ?></td>
+                                <?php
+                                if ($data['reservations']) {
+                                    foreach ($data['reservations'] as $reservation) {
+                                        $slot = date("G", strtotime($reservation->reservationStartTime));
+
+                                        if ($slot == $time) {
+                                            echo '<td><button class="view-slot-button" data-reservation-id="' . $reservation->reservationID . '" onclick="slotPopup();" name="slot-button">' . $reservation->reservationID . '</button></td>';
+                                        }
+                                    }
+                                }
+                                ?>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+
+                    </table>
+                </div>
             </div>
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
 </body>
 
 </html>

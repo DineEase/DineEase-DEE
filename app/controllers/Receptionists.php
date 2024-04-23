@@ -1,4 +1,7 @@
 <?php
+
+use GuzzleHttp\Psr7\ServerRequest;
+
 class Receptionists extends Controller
 {
     public $receptionistModel;
@@ -17,9 +20,44 @@ class Receptionists extends Controller
     }
     public  function Index()
     {
-        $data = [];
+        $date = date('Y-m-d');
+        $suite = 0;
+        $reservationsStartTime = 8;
+        $reservationsEndTime = 23;
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $this->view('Receptionist/index');
+        if (isset($_POST)) {
+
+            if (isset($_POST['date'])) {
+                $dateInput = $_POST['date'];
+                $dateObject = new DateTime($dateInput);
+                $date = $dateObject->format('Y-m-d');
+            }
+            if (isset($_POST['suite'])) {
+                $suite = $_POST['suite'];
+            }
+        }
+
+        $packages = $this->receptionistModel->getPackages();
+        //TODO #62 Receptionist View shows all reservations for the without filtering those which are cancelled\
+        if($suite==0){
+            $reservations = $this->receptionistModel->getAllReservationsOnDateForAllSuites($date);
+        }
+        else{
+            $reservations = $this->receptionistModel->getAllReservationsOnDate($date, $suite);
+        }
+
+        $data = [
+            'input' => $_POST,
+            'suite' => $suite,
+            'date' => $date,
+            'packages' => $packages,
+            'reservations' => $reservations,
+            'reservationsStartTime' => $reservationsStartTime,
+            'reservationsEndTime' => $reservationsEndTime
+        ];
+
+        $this->view('Receptionist/index', $data);
     }
     public  function Refund()
     {
@@ -58,9 +96,21 @@ class Receptionists extends Controller
 
     public function Menu()
     {
-        $data = [];
+        $menus = $this->receptionistModel->getMenus();
 
-        $this->view('Receptionist/menu');
+        if ($food = $this->receptionistModel->getFoodReviews()) {
+        } else {
+            die('Something went wrong');
+        }
+
+
+        $data = [
+            'menus' => $menus,
+            'foodReview' => $food
+        ];
+
+
+        $this->view('Receptionist/menu', $data);
     }
 
     public function Orders()
