@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/profile.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/toastr.css ">
