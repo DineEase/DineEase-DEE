@@ -1,16 +1,15 @@
-var menuItems = [];
+var menuItems = menus;
 var itemReviewMap = foodReviews.reduce((map, item) => {
   map[item.itemID] = item;
   return map;
 }, {});
-
 
 $(document).ready(function () {
   console.log("Customer Menu JS Loaded");
   console.log(foodReviews);
   let currentCategoryId = "all";
   let currentPage = 1;
-  let itemsPerPage = 16;
+  let itemsPerPage = 14;
 
   function paginateItems(items) {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -35,22 +34,6 @@ $(document).ready(function () {
       $("#menu-container").append(createMenuItemCard(item));
     });
     updatePageInfo(items.length);
-  }
-
-  function fetchMenuItems() {
-    $.ajax({
-      url: "getMenuItemsAPI",
-      type: "GET",
-      dataType: "json",
-      success: function (data) {
-        menuItems = data.filter((item) => item.hidden != 1); 
-        console.log(menuItems);
-        filterItems(); 
-      },
-      error: function (err) {
-        console.log("Error fetching menu items:", err);
-      },
-    });
   }
 
   function filterItems() {
@@ -100,7 +83,10 @@ $(document).ready(function () {
     filterItems();
   });
 
-  fetchMenuItems();
+  filterItems();
+
+  console.log(menuItems);
+  console.log(filteredItems);
 
   function createMenuItemCard(item) {
     let reviewDeets = getDetailsByItemIdFromMap(item.itemID);
@@ -114,11 +100,9 @@ $(document).ready(function () {
         stars += '<i class="fa-regular fa-star"></i>';
       }
     }
-    
 
     let prices = item.Prices.split(",").map((price) => price.trim());
     let sizes = item.Sizes.split(",").map((size) => size.trim());
-
 
     let initialSelectedSize = "Regular";
     let initialPriceIndex = sizes.indexOf(initialSelectedSize);
@@ -190,8 +174,7 @@ $(document).ready(function () {
         stars: itemReviewMap[itemId].stars,
         count: itemReviewMap[itemId].count,
       };
-    }
-    else {
+    } else {
       return {
         stars: 5,
         count: 1,
@@ -199,4 +182,3 @@ $(document).ready(function () {
     }
   }
 });
-

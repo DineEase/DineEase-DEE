@@ -96,9 +96,21 @@ class Receptionists extends Controller
 
     public function Menu()
     {
-        $data = [];
+        $menus = $this->receptionistModel->getMenus();
 
-        $this->view('Receptionist/menu');
+        if ($food = $this->receptionistModel->getFoodReviews()) {
+        } else {
+            die('Something went wrong');
+        }
+
+
+        $data = [
+            'menus' => $menus,
+            'foodReview' => $food
+        ];
+
+
+        $this->view('Receptionist/menu', $data);
     }
 
     public function Orders()
