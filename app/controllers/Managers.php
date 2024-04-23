@@ -397,6 +397,7 @@ class Managers extends Controller
             //
             exit();
         }
+        #todo #59 report generation dupicat
         else {
             ob_clean();
             ob_end_flush();
@@ -2140,21 +2141,17 @@ class Managers extends Controller
        //$this->view('manager/testvardump', $data);
 
     }
-// public function reports($data = []){
-//     $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
-    
-//     $data = [
-//         'minmaxpaymentdate' => $minmaxpaymentdate,
-//     ];
-//     $this->view('manager/reports', $data);
-// }
 public function reports(){
-    ob_start();
     $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+    
     $data = [
         'minmaxpaymentdate' => $minmaxpaymentdate,
     ];
     $this->view('manager/reports', $data);
+}
+public function fetchSalesReport(){
+    
+    $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -2165,7 +2162,7 @@ public function reports(){
             'end_date_err' => '',
             'minmaxpaymentdate' => $minmaxpaymentdate,
         ];
-        var_dump($data);
+       // var_dump($data);
         error_log('Data passed to model: ' . print_r($data, true));
         //var_dump($data['end_date']);
         if (empty($data['start_date'])) {
@@ -2184,22 +2181,19 @@ public function reports(){
             $salesreport = $this->managerModel->salesreport($data);
             error_log('Data retrieved from model: ' . print_r($salesreport, true));
            //var_dump($salesreport);
-            $data = [
-                'salesreport' => $salesreport,
-                'minmaxpaymentdate' => $minmaxpaymentdate,
-            ];
-            //$this->reports($data);
-            error_log('$Data retrieved from model: ' . print_r($data, true));
+           header('Content-Type: application/json');
+           echo json_encode($salesreport);
+           //exit();
             //ob_clean();
             //ob_end_flush();
-            $this->view('manager/reports', $data);
-            //ob_clean();
-            //ob_end_flush();
-            exit();
+            
         } else {
             // Validation failed, show the form with errors
-            
-            $this->view('manager/reports', $data);
+            //ob_clean();
+            //ob_end_flush();
+            header('Content-Type: application/json');
+            echo json_encode(['errors' => $data]);
+           //exit();
             //$this->reports($data);
         }
     }

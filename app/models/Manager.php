@@ -1044,7 +1044,7 @@ public function salesreport($data) {
         $this->db->bind(':start_date', $data['start_date']);
         $this->db->bind(':end_date', $data['end_date']);
         $row = $this->db->single();
-        var_dump($row);
+        //var_dump($row);
         return $row;
     
 }
