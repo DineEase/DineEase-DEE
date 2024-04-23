@@ -1096,7 +1096,42 @@ class Manager
     }
     public function menureport($data)
     {
-        // Top 5 Selling Menus
+        // get the total quantity sold and total amount for each menu item between two dates
+        $this->db->query('SELECT 
+        mc.category_ID,
+        mc.category_name,
+        mi.itemID,
+        mi.itemName,
+        r.date,
+        SUM(oi.quantity) AS total_quantity_sold,
+        SUM(mp.ItemPrice * oi.quantity) AS total_amount
+    
+    FROM 
+        reservation r
+    LEFT JOIN 
+        orders o ON r.reservationID = o.reservationID
+    LEFT JOIN 
+        orderitem oi ON o.orderItemID = oi.orderNO
+    LEFT JOIN 
+        menuitem mi ON oi.ItemID = mi.itemID
+    LEFT JOIN 
+        menucategory mc ON mi.category_ID = mc.category_ID
+    LEFT JOIN 
+        menuprices mp ON oi.ItemID = mp.ItemID AND oi.size = mp.itemSize
+    WHERE 
+        r.date BETWEEN :start_date AND :end_date
+        AND r.status = "paid"  
+    GROUP BY 
+        mc.category_ID, mc.category_name, mi.itemID, mi.itemName, r.date
+    ORDER BY 
+        SUM(oi.quantity) DESC
+    ');
+    
+            $this->db->bind(':start_date', $data['start_date']);
+            $this->db->bind(':end_date', $data['end_date']);
+            $results = $this->db->resultSet(); // Use resultSet() instead of resultset()
+    
+    // Top 5 Selling Menus
         $this->db->query('SELECT mi.itemID, mi.itemName, SUM(oi.quantity) AS total_quantity_sold
                           FROM reservation r
                           LEFT JOIN orders o ON r.reservationID = o.reservationID
@@ -1165,6 +1200,7 @@ class Manager
         return ['topSellingMenus' => $topSellingMenus,
                 'topSellingCategories' => $topSellingCategories,
                 'mostReservationsDate' => $mostReservationsDate,
-                'mostOrderedSizes' => $mostOrderedSizes];
+                'mostOrderedSizes' => $mostOrderedSizes,
+            'results' => $results];
     }
 }    
