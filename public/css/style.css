@@ -12,6 +12,15 @@ body {
   
 }
 
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 /* login navbar styles */
 .container-main-nav * {
   box-sizing: border-box;
