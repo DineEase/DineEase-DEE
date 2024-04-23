@@ -234,14 +234,13 @@
         const URLROOT = "<?php echo URLROOT; ?>";
         var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
         var menus = <?php echo json_encode($data['menus']); ?>;
+        let itemsPerPage = 14;
+
     </script>  
 
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
-    <!-- <script src="<?php echo URLROOT; ?>/js/customer.js"></script> -->
     <script src="<?php echo URLROOT; ?>/js/menu.js"></script>
     <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
-
-      
 
 </body>
 

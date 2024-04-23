@@ -7,7 +7,10 @@
   <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/homepage.css" />
+  <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
   <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -262,17 +265,69 @@
     </footer>
   </div>
   <div id="outer-menu">
-    menu
+    <div class="view-only-menu">
+      <div class="customer-menu-view">
+        <div class="menu-view-header-bar">
+
+          <div class="menu-view-filters">
+            <div class="menu-categories">
+              <button class="category-button active-category" data-category-id="all">All</button>
+              <button class="category-button" data-category-id="1">Desserts & Drinks</button>
+              <button class="category-button" data-category-id="2">Main Courses</button>
+              <button class="category-button" data-category-id="3">Appetizers & Sides</button>
+              <button class="category-button" data-category-id="4">Salads & Soups</button>
+              <button class="category-button" data-category-id="5">Breakfast & Brunch</button>
+              <button class="category-button" data-category-id="6">International Cuisine</button>
+              <button class="category-button" data-category-id="7">Special</button>
+            </div>
+          </div>
+          <div class="menu-view-head">
+            <div class="search-reservation">
+              <form class="search-form" method="GET" action="">
+                <input type="text" name="search" placeholder="Search Menu Item" value="" id="search-input">
+                <button type="submit" id="search-button">Search</button>
+              </form>
+            </div>
+            <div class="menu-filters">
+              <div class="price-filter">
+              </div>
+            </div>
+          </div>
+          <div class="menu-box">
+            <div class="menu-items">
+              <div id="menu-container" class="menu-container-div-out">
+              </div>
+            </div>
+          </div>
+          <div class="view-pagination-container">
+            <div class="view-pagination">
+              <button class="view-pagination-button " id="prev-page">Previous</button>
+              <span class="view-pagination-text" id="page-info"></span>
+              <button class="view-pagination-button" id="next-page">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <div id="outer-availability">
     aviailability
   </div>
+  <script>
+    const URLROOT = "<?php echo URLROOT; ?>";
+    var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
+    var menus = <?php echo json_encode($data['menus']); ?>;
+    let itemsPerPage = 18;
 
+  </script>
   <script src="https://unpkg.com/scrollreveal"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="<?php echo URLROOT; ?>/js/homepage.js"></script>
   <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/menu.js"></script>
+  <script src="<?php echo URLROOT; ?>/js/homepage.js"></script>
+  
   </script>
 </body>
 
