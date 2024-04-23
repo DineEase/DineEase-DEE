@@ -102,7 +102,7 @@
         <nav class="sidebar">
             <div class="sidebar-container">
                 <div class="menu_content">
-                    <hr class='separator'>
+                    
                     <ul class="menu_items">
                         <div class="menu_title menu_menu"></div>
                         <li class="item">
@@ -195,7 +195,7 @@
 
 
                     </ul>
-                    <hr class='separator'>
+                    
 
                     <ul class="menu_items">
                         <div class="menu_title menu_user"></div>
