@@ -2143,9 +2143,11 @@ class Managers extends Controller
     }
 public function reports(){
     $minmaxpaymentdate = $this->managerModel->minmaxpaymentdate();
+    $minmaxreservationdate = $this->managerModel->minmaxreservationdate();
     
     $data = [
         'minmaxpaymentdate' => $minmaxpaymentdate,
+        'minmaxreservationdate' => $minmaxreservationdate,
     ];
     $this->view('manager/reports', $data);
 }
@@ -2171,18 +2173,71 @@ public function fetchSalesReport(){
         if (empty($data['end_date'])) {
             $data['end_date_err'] = 'Please enter end date';
         }
-        if ($data['start_date'] > $data['end_date']) {
-            $data['start_date_err'] = 'Start date must be before end date';
+        if ($data['start_date'] > $data['end_date']  && !empty($data['start_date']) && !empty($data['end_date'])) {
+            $data['diff_date_err'] = 'Start date must be before end date';
             
         }
 
-        if (empty($data['start_date_err']) && empty($data['end_date_err'])) {
+        if (empty($data['start_date_err']) && empty($data['end_date_err']) && empty($data['diff_date_err'])) {
             // Call the model function to insert user data
             $salesreport = $this->managerModel->salesreport($data);
-            error_log('Data retrieved from model: ' . print_r($salesreport, true));
+           // $menureport = $this->managerModel->menureport($data);
+            error_log('Data retrieved from salesreport model: ' . print_r($salesreport, true));
            //var_dump($salesreport);
            header('Content-Type: application/json');
            echo json_encode($salesreport);
+           //echo json_encode($menureport);
+           //exit();
+            //ob_clean();
+            //ob_end_flush();
+            
+        } else {
+            // Validation failed, show the form with errors
+            //ob_clean();
+            //ob_end_flush();
+            header('Content-Type: application/json');
+            echo json_encode(['errors' => $data]);
+           //exit();
+            //$this->reports($data);
+        }
+    }
+}
+public function fetchMenuReport(){
+    
+    $minmaxreservationdate = $this->managerModel->minmaxreservationdate();
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $data = [
+            'start_date' => isset($_POST['start_date']) ? trim($_POST['start_date']) : '',
+            'end_date' => isset($_POST['end_date']) ? trim($_POST['end_date']) : '',
+            'start_date_err' => '',
+            'end_date_err' => '',
+            'minmaxreservationdate' => $minmaxreservationdate,
+        ];
+       // var_dump($data);
+        error_log('Data passed to model: ' . print_r($data, true));
+        //var_dump($data['end_date']);
+        if (empty($data['start_date'])) {
+            $data['start_date_err'] = 'Please enter start date';
+        }
+        if (empty($data['end_date'])) {
+            $data['end_date_err'] = 'Please enter end date';
+        }
+        if ($data['start_date'] > $data['end_date']  && !empty($data['start_date']) && !empty($data['end_date'])) {
+            $data['diff_date_err'] = 'Start date must be before end date';
+            
+        }
+
+        if (empty($data['start_date_err']) && empty($data['end_date_err']) && empty($data['diff_date_err'])) {
+            // Call the model function to insert user data
+            $menureport = $this->managerModel->menureport($data);
+           // $menureport = $this->managerModel->menureport($data);
+            error_log('Data retrieved from menureport model: ' . print_r($menureport, true));
+           //var_dump($salesreport);
+           header('Content-Type: application/json');
+           echo json_encode($menureport);
+           //echo json_encode($menureport);
            //exit();
             //ob_clean();
             //ob_end_flush();

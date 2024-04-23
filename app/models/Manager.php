@@ -284,29 +284,26 @@ class Manager
     //         return false;
     //     }
     // }
-public function deletemenuitem($itemID){
-    //reservation table has orderID and same orderID is in orderitem table as orderNo
-    // try to delete menuitem if there is no order from current date to upcoming dates from menuitem table
-    $this->db->query('SELECT * FROM orderitem WHERE itemID = :itemID AND orderNo IN (SELECT orderID FROM reservation WHERE date >= CURDATE())');
-    $this->db->bind(':itemID', $itemID);
-    $this->db->execute();
-    $results = $this->db->resultSet();
-    if (empty($results)) {
-        $this->db->query('UPDATE menuitem SET delete_status = 1 WHERE itemID = :itemID');
+    public function deletemenuitem($itemID)
+    {
+        //reservation table has orderID and same orderID is in orderitem table as orderNo
+        // try to delete menuitem if there is no order from current date to upcoming dates from menuitem table
+        $this->db->query('SELECT * FROM orderitem WHERE itemID = :itemID AND orderNo IN (SELECT orderID FROM reservation WHERE date >= CURDATE())');
         $this->db->bind(':itemID', $itemID);
-        if ($this->db->execute()) {
-            return true;
+        $this->db->execute();
+        $results = $this->db->resultSet();
+        if (empty($results)) {
+            $this->db->query('UPDATE menuitem SET delete_status = 1 WHERE itemID = :itemID');
+            $this->db->bind(':itemID', $itemID);
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
-    } else {
-        return false;
     }
-    
-
-    
-
-}
     public function getMenuitembyId($id)
     {
         $this->db->query('SELECT m.*, 
@@ -641,85 +638,88 @@ public function deletemenuitem($itemID){
         return $results;
     }
     public function addtable($data)
-{
-    // Extracting the first three letters of the package name
-    $tablename_prefix = substr($_POST['packageName'], 0, 3);
-    
-    // Inserting into the database
-    $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
-    
-    // Binding parameters for insertion
-    $this->db->bind(':capacity', $data['capacity']);
-    $this->db->bind(':packageID', $data['packageID']);
-    
-    // Executing the insertion query
-    if ($this->db->execute()) {
-        // Get the last inserted table ID
-        $lastTableID = $this->db->lastInsertId();
+    {
+        // Extracting the first three letters of the package name
+        $tablename_prefix = substr($_POST['packageName'], 0, 3);
 
-        // Calculate the total capacity for the given package ID
-        $this->db->query('SELECT SUM(capacity) AS total_capacity FROM tables WHERE packageID = :packageID');
+        // Inserting into the database
+        $this->db->query('INSERT INTO tables (capacity, packageID) VALUES (:capacity, :packageID)');
+
+        // Binding parameters for insertion
+        $this->db->bind(':capacity', $data['capacity']);
         $this->db->bind(':packageID', $data['packageID']);
-        $row = $this->db->single();
-        $total_capacity = $row->total_capacity;
 
-        // Update the 'capacity' column in the 'package' table with the total capacity obtained
-        $this->db->query('UPDATE package SET capacity = :total_capacity WHERE packageID = :packageID');
-        $this->db->bind(':total_capacity', $total_capacity);
-        $this->db->bind(':packageID', $data['packageID']);
-        $this->db->execute();
+        // Executing the insertion query
+        if ($this->db->execute()) {
+            // Get the last inserted table ID
+            $lastTableID = $this->db->lastInsertId();
 
-        // Generating a unique table name by appending the auto-generated table ID
-        $tablename = $tablename_prefix . '_' . $lastTableID;
+            // Calculate the total capacity for the given package ID
+            $this->db->query('SELECT SUM(capacity) AS total_capacity FROM tables WHERE packageID = :packageID');
+            $this->db->bind(':packageID', $data['packageID']);
+            $row = $this->db->single();
+            $total_capacity = $row->total_capacity;
 
-        // Updating the table name with the generated name
-        $this->db->query('UPDATE tables SET table_name = :tablename WHERE tableID = :tableID');
-        $this->db->bind(':tablename', $tablename);
-        $this->db->bind(':tableID', $lastTableID);
-        $this->db->execute();
+            // Update the 'capacity' column in the 'package' table with the total capacity obtained
+            $this->db->query('UPDATE package SET capacity = :total_capacity WHERE packageID = :packageID');
+            $this->db->bind(':total_capacity', $total_capacity);
+            $this->db->bind(':packageID', $data['packageID']);
+            $this->db->execute();
 
-        // Return true if insertion, capacity update, and table name update are successful
-        return true;
-    } else {
-        // Return false if insertion fails
-        return false;
+            // Generating a unique table name by appending the auto-generated table ID
+            $tablename = $tablename_prefix . '_' . $lastTableID;
+
+            // Updating the table name with the generated name
+            $this->db->query('UPDATE tables SET table_name = :tablename WHERE tableID = :tableID');
+            $this->db->bind(':tablename', $tablename);
+            $this->db->bind(':tableID', $lastTableID);
+            $this->db->execute();
+
+            // Return true if insertion, capacity update, and table name update are successful
+            return true;
+        } else {
+            // Return false if insertion fails
+            return false;
+        }
     }
-}
-public function tabledetailswithpackage(){
-    $this->db->query('SELECT tables.table_name,tables.tableID, tables.capacity,tables.hidden, package.packageName
+    public function tabledetailswithpackage()
+    {
+        $this->db->query('SELECT tables.table_name,tables.tableID, tables.capacity,tables.hidden, package.packageName
                       FROM tables
                       JOIN package ON tables.packageID = package.packageID');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function deletetable($tableID){
-    // delete table only if there is no reservation from current date to upcomig dates
-    $this->db->query('SELECT * FROM reservation WHERE tableID = :tableID AND date >= CURDATE()');
-    $this->db->bind(':tableID', $tableID);
-    $this->db->execute();
-    $results = $this->db->resultSet();
-    if (empty($results)) {
-        $this->db->query('DELETE FROM tables WHERE tableID = :tableID');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function deletetable($tableID)
+    {
+        // delete table only if there is no reservation from current date to upcomig dates
+        $this->db->query('SELECT * FROM reservation WHERE tableID = :tableID AND date >= CURDATE()');
         $this->db->bind(':tableID', $tableID);
+        $this->db->execute();
+        $results = $this->db->resultSet();
+        if (empty($results)) {
+            $this->db->query('DELETE FROM tables WHERE tableID = :tableID');
+            $this->db->bind(':tableID', $tableID);
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    public function tablevisibility($tableID, $hidden)
+    {
+        $this->db->query('UPDATE tables SET hidden = :hidden WHERE tableID = :tableID');
+        $this->db->bind(':tableID', $tableID);
+        $this->db->bind(':hidden', $hidden);
         if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
-    } else {
-        return false;
     }
-}
-public function tablevisibility($tableID , $hidden){
-    $this->db->query('UPDATE tables SET hidden = :hidden WHERE tableID = :tableID');
-    $this->db->bind(':tableID', $tableID);
-    $this->db->bind(':hidden', $hidden);
-    if ($this->db->execute()) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 
 
@@ -912,141 +912,259 @@ public function tablevisibility($tableID , $hidden){
         }
     }
     public function totalsales()
-{
-    $this->db->query('SELECT SUM(amount) FROM payment');
-    $row = $this->db->single();
-    return $row;
-}
-public function totalorders()
-{
-    $this->db->query('SELECT COUNT(orderItemID) FROM orders');
-    $row = $this->db->single();
-    return $row;
+    {
+        $this->db->query('SELECT SUM(amount) FROM payment');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function totalorders()
+    {
+        $this->db->query('SELECT COUNT(orderItemID) FROM orders');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function totalcustomers()
+    {
 
-}
-public function totalcustomers()
-{
-    
-    $this->db->query('SELECT COUNT(user_id) FROM users WHERE delete_status = 0');
-    $row = $this->db->single();
-    return $row;
-}
-public function totalmenuitems()
-{
-    $this->db->query('SELECT COUNT(itemID) FROM menuitem');
-    $row = $this->db->single();
-    return $row;
-}
-public function bestsellingmenuitem()
-{
-    $this->db->query('SELECT menuitem.itemName,menuitem.imagePath, SUM(orderitem.quantity) AS total_quantity
+        $this->db->query('SELECT COUNT(user_id) FROM users WHERE delete_status = 0');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function totalmenuitems()
+    {
+        $this->db->query('SELECT COUNT(itemID) FROM menuitem');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function bestsellingmenuitem()
+    {
+        $this->db->query('SELECT menuitem.itemName,menuitem.imagePath, SUM(orderitem.quantity) AS total_quantity
                       FROM menuitem
                       JOIN orderitem ON menuitem.itemID = orderitem.itemID
                       GROUP BY menuitem.itemID
                       ORDER BY total_quantity DESC
                       LIMIT 1');
-    $row = $this->db->single();
-    return $row;
-}
-public function top5bestsellinmenuitems()
-{
-    $this->db->query('SELECT menuitem.itemName, SUM(orderitem.quantity) AS total_quantity
+        $row = $this->db->single();
+        return $row;
+    }
+    public function top5bestsellinmenuitems()
+    {
+        $this->db->query('SELECT menuitem.itemName, SUM(orderitem.quantity) AS total_quantity
                       FROM menuitem
                       JOIN orderitem ON menuitem.itemID = orderitem.itemID
                       GROUP BY menuitem.itemID
                       ORDER BY total_quantity DESC
                       LIMIT 5');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function mostusedpackage()
-{
-    $this->db->query('SELECT package.packageName, COUNT(reservation.packageID) AS total_usage
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function mostusedpackage()
+    {
+        $this->db->query('SELECT package.packageName, COUNT(reservation.packageID) AS total_usage
                       FROM package
                       LEFT JOIN reservation ON package.packageID = reservation.packageID
                       GROUP BY package.packageID
                       ORDER BY total_usage DESC
                       LIMIT 1');
-    $row = $this->db->single();
-    return $row;
-}
-public function gettotalpackageusage(){
-    //use reservation table and package table to get the count of each package usage in reservation
-    $this->db->query('SELECT package.packageID, package.packageName, COUNT(reservation.packageID) AS total_usage
+        $row = $this->db->single();
+        return $row;
+    }
+    public function gettotalpackageusage()
+    {
+        //use reservation table and package table to get the count of each package usage in reservation
+        $this->db->query('SELECT package.packageID, package.packageName, COUNT(reservation.packageID) AS total_usage
                       FROM package
                       LEFT JOIN reservation ON package.packageID = reservation.packageID
                       GROUP BY package.packageID');
-    $results = $this->db->resultSet();
-    return $results;
-    
-}
-public function top5customers()
-{
-    $this->db->query('SELECT users.name, COUNT(reservation.customerID) AS total_reservations
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function top5customers()
+    {
+        $this->db->query('SELECT users.name, COUNT(reservation.customerID) AS total_reservations
                       FROM users
                       LEFT JOIN reservation ON users.user_id = reservation.customerID
                       GROUP BY users.user_id
                       ORDER BY total_reservations DESC
                       LIMIT 5');
-    $results = $this->db->resultSet();
-    return $results;
-}
-public function bestreviewedfood()
-{
-    $this->db->query('SELECT menuitem.itemName, AVG(reviewfood.stars) AS average_rating
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function bestreviewedfood()
+    {
+        $this->db->query('SELECT menuitem.itemName, AVG(reviewfood.stars) AS average_rating
                       FROM menuitem
                       LEFT JOIN reviewfood ON menuitem.itemID = reviewfood.reviewfoodID
                       GROUP BY menuitem.itemID
                       ORDER BY average_rating DESC
                       LIMIT 1');
-    $row = $this->db->single();
-    return $row;
-}
-public function leastreviewedfood()
-{
-    $this->db->query('SELECT menuitem.itemName, AVG(reviewfood.stars) AS average_rating
+        $row = $this->db->single();
+        return $row;
+    }
+    public function leastreviewedfood()
+    {
+        $this->db->query('SELECT menuitem.itemName, AVG(reviewfood.stars) AS average_rating
                       FROM menuitem
                       LEFT JOIN reviewfood ON menuitem.itemID = reviewfood.reviewfoodID
                       GROUP BY menuitem.itemID
                       ORDER BY average_rating ASC
                       LIMIT 1');
-    $row = $this->db->single();
-    return $row;
-}
-public function totalpendingrefundrequests()
-{
-    $this->db->query('SELECT COUNT(refundrequest.refundRequestID) FROM refundrequest WHERE status = "Pending"');
-    $row = $this->db->single();
-    return $row;
-}
-public function minmaxpaymentdate(){
-    //function to get first and last payment date from payments table
-    $this->db->query('SELECT MIN(paymentDate) AS first_payment, MAX(paymentDate) AS last_payment FROM payment');
-    $row = $this->db->single();
-    return $row;
-}
-// public function salesreport($data){
-//     //function to get sales report between two dates
-//     $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
-//     $this->db->bind(':start_date', $data['start_date']);
-//     $this->db->bind(':end_date', $data['end_date']);
-//     $results = $this->db->resultSet();
-//     return $results;
-    
-    
-    
-// }
-public function salesreport($data) {
-    
-
-        // Function to get sales report between two dates
+        $row = $this->db->single();
+        return $row;
+    }
+    public function totalpendingrefundrequests()
+    {
+        $this->db->query('SELECT COUNT(refundrequest.refundRequestID) FROM refundrequest WHERE status = "Pending"');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function minmaxpaymentdate()
+    {
+        //function to get first and last payment date from payments table
+        $this->db->query('SELECT MIN(paymentDate) AS first_payment, MAX(paymentDate) AS last_payment FROM payment');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function salesreport($data)
+    {
+        //function to get sales report between two dates
         $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
         $this->db->bind(':start_date', $data['start_date']);
         $this->db->bind(':end_date', $data['end_date']);
         $row = $this->db->single();
-        //var_dump($row);
         return $row;
-    
-}
+    }
 
-}
+    // }
+    // public function salesreport($data) {
+
+
+
+
+    //        $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
+    //         $this->db->bind(':start_date', $data['start_date']);
+    //         $this->db->bind(':end_date', $data['end_date']);
+    //         $results = $this->db->resultSet();
+    //         return $results;
+
+
+
+    // }
+    // public function menureport($data){
+    //     //function to get menu report between two dates
+    //     // There is orderNo in orderitem table and orderID in reservation table
+    //     // try to get the sum of quantity of each menu item between two dates
+
+    //     //$this->db->query('SELECT SUM(orderitem.quantity) FROM orderitem WHERE DATE(orderDate) BETWEEN :start_date AND :end_date');
+    //     $this->db->query('SELECT 
+    //     mc.category_ID,
+    //     mc.category_name,
+    //     SUM(mp.ItemPrice * oi.quantity) AS total_amount
+    // FROM 
+    //     reservation r
+    // LEFT JOIN 
+    //     orders o ON r.reservationID = o.reservationID
+    // LEFT JOIN 
+    //     orderitem oi ON o.orderItemID = oi.orderNO
+    // LEFT JOIN 
+    //     menuitem mi ON oi.ItemID = mi.itemID
+    // LEFT JOIN 
+    //     menucategory mc ON mi.category_ID = mc.category_ID
+    // LEFT JOIN 
+    //     menuprices mp ON oi.ItemID = mp.ItemID AND oi.size = mp.itemSize
+    // WHERE 
+    //     r.date BETWEEN :start_date AND :end_date AND r.status = 'paid'
+
+    // GROUP BY 
+    //     mc.category_ID, mc.category_name;
+
+    // ');
+
+    //     $this->db->bind(':start_date', $data['start_date']);
+    //     $this->db->bind(':end_date', $data['end_date']);
+    //     $row = $this->db->resultset();
+    //     return $row;
+    //     var_dump($row);
+
+    // }
+    public function minmaxreservationdate()
+    {
+        //function to get first and last payment date from payments table
+        $this->db->query('SELECT MIN(date) AS first_reservation, MAX(date) AS last_reservation FROM reservation');
+        $row = $this->db->single();
+        return $row;
+    }
+    public function menureport($data)
+    {
+        // Top 5 Selling Menus
+        $this->db->query('SELECT mi.itemID, mi.itemName, SUM(oi.quantity) AS total_quantity_sold
+                          FROM reservation r
+                          LEFT JOIN orders o ON r.reservationID = o.reservationID
+                          LEFT JOIN orderitem oi ON o.orderItemID = oi.orderNO
+                          LEFT JOIN menuitem mi ON oi.ItemID = mi.itemID
+                          WHERE r.date BETWEEN :start_date AND :end_date
+                          AND r.status = "paid"
+                          GROUP BY mi.itemID, mi.itemName
+                          ORDER BY SUM(oi.quantity) DESC
+                          LIMIT 5');
+        $this->db->bind(':start_date', $data['start_date']);
+        $this->db->bind(':end_date', $data['end_date']);
+        $topSellingMenus = $this->db->resultSet();
+    
+        // Top 5 Selling Categories
+        $this->db->query('SELECT mc.category_ID, mc.category_name, SUM(oi.quantity) AS total_quantity_sold
+                          FROM reservation r
+                          LEFT JOIN orders o ON r.reservationID = o.reservationID
+                          LEFT JOIN orderitem oi ON o.orderItemID = oi.orderNO
+                          LEFT JOIN menuitem mi ON oi.ItemID = mi.itemID
+                          LEFT JOIN menucategory mc ON mi.category_ID = mc.category_ID
+                          WHERE r.date BETWEEN :start_date AND :end_date
+                          AND r.status = "paid"
+                          GROUP BY mc.category_ID, mc.category_name
+                          ORDER BY SUM(oi.quantity) DESC
+                          LIMIT 5');
+        $this->db->bind(':start_date', $data['start_date']);
+        $this->db->bind(':end_date', $data['end_date']);
+        $topSellingCategories = $this->db->resultSet();
+    
+        // Date with Most Reservations
+        $this->db->query('SELECT r.date, COUNT(r.reservationID) AS reservation_count
+                          FROM reservation r
+                          WHERE r.date BETWEEN :start_date AND :end_date
+                          AND r.status = "paid"
+                          GROUP BY r.date
+                          ORDER BY COUNT(r.reservationID) DESC
+                          LIMIT 1');
+        $this->db->bind(':start_date', $data['start_date']);
+        $this->db->bind(':end_date', $data['end_date']);
+        $mostReservationsDate = $this->db->single();
+    
+        // Most Ordered Size from Top 5 Best Selling Menus
+        $mostOrderedSizes = [];
+        foreach ($topSellingMenus as $menu) {
+            $this->db->query('SELECT oi.size, SUM(oi.quantity) AS total_quantity_sold
+                              FROM reservation r
+                              LEFT JOIN orders o ON r.reservationID = o.reservationID
+                              LEFT JOIN orderitem oi ON o.orderItemID = oi.orderNO
+                              WHERE oi.itemID = :item_id
+                              AND r.date BETWEEN :start_date AND :end_date
+                              AND r.status = "paid"
+                              GROUP BY oi.size
+                              ORDER BY SUM(oi.quantity) DESC
+                              LIMIT 1');
+           $this->db->bind(':item_id', $menu->itemID);
+            $this->db->bind(':start_date', $data['start_date']);
+            $this->db->bind(':end_date', $data['end_date']);
+            $size = $this->db->single();
+            if ($size) {
+                $mostOrderedSizes[] = ['itemName' => $menu->itemName, 'size' => $size->size, 'total_quantity_sold' => $size->total_quantity_sold];
+            }
+        }            
+    
+        // Return results
+        return ['topSellingMenus' => $topSellingMenus,
+                'topSellingCategories' => $topSellingCategories,
+                'mostReservationsDate' => $mostReservationsDate,
+                'mostOrderedSizes' => $mostOrderedSizes];
+    }
+}    
