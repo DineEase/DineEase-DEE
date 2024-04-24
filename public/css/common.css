@@ -898,3 +898,11 @@ input:focus-visible + label {
   background-color: var(--brandgreen-dark);
 }
 
+section#orders  {
+  max-height: 85vh;
+  overflow-y: scroll;
+}
+section#items  {
+  max-height: 85vh;
+  overflow-y: scroll;
+}
