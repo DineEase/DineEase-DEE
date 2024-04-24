@@ -8,7 +8,6 @@ require_once 'config/secrets.php';
 require_once 'helpers/url_helper.php';
 require_once 'helpers/session_helper.php';
 require_once 'helpers/ajax_handler.php';
-require_once 'helpers/Notifications.php';
 
 //load libraries
 require_once 'vendor/autoload.php';
