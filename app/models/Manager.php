@@ -40,7 +40,7 @@ class Manager
                      FROM employee
                      JOIN users ON employee.user_id = users.user_id
                      JOIN role ON employee.role_id = role.role_id
-                     WHERE users.user_id = :ID');
+                     WHERE users.user_id = :ID AND employee.delete_status = 0 AND employee.active = 1');
         $this->db->bind(':ID', $ID);
         $results = $this->db->resultSet();
 
@@ -311,7 +311,7 @@ class Manager
                                 mp.itemPrice
                           FROM menuitem m
                           LEFT JOIN menuprices mp ON m.itemID = mp.itemID
-                          WHERE m.itemID = :id');
+                          WHERE m.itemID = :id ');
         $this->db->bind(':id', $id);
         $rows = $this->db->resultSet();
 
@@ -337,7 +337,7 @@ class Manager
                       FROM menuitem
                       LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
                       LEFT JOIN menuprices ON menuitem.itemID = menuprices.itemID
-                      WHERE menuitem.itemID = :id');
+                      WHERE menuitem.itemID = :id AND menuitem.delete_status = 0');
         $this->db->bind(':id', $id);
         $row = $this->db->single();
 
@@ -436,7 +436,7 @@ class Manager
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
-                         WHERE users.name LIKE :name AND employee.delete_status = 0 AND employee.role_id != 1');
+                         WHERE users.name LIKE :name AND employee.delete_status = 0 AND employee.role_id != 1 AND employee.active = 1');
         $this->db->bind(':name', '%' . $name . '%');
         $result = $this->db->resultset(PDO::FETCH_ASSOC);
 
@@ -481,7 +481,7 @@ class Manager
     }
     public function getmenucategory()
     {
-        $this->db->query('SELECT * FROM menucategory ORDER BY category_name ASC');
+        $this->db->query('SELECT * FROM menucategory ORDER BY category_name ASC ');
 
         $results = $this->db->resultset();
         return $results;

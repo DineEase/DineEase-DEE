@@ -183,7 +183,6 @@ class Managers extends Controller
             'description_err' => '',
             'imagePath' => '',
         ];
-
         if (isset($files['imagePath']) && $files['imagePath']['error'] === UPLOAD_ERR_OK) {
             $data['imagePath'] = $this->handleImageUpload($files['imagePath']);
             if ($data['imagePath'] === false) {
@@ -202,7 +201,6 @@ class Managers extends Controller
             //
             exit();
         }
-
         if (empty($data['itemName'])) {
             $data['itemName_err'] = 'Please enter item name';
         } elseif ($this->managerModel->findMenuitemByName($data['itemName'])) {
@@ -223,10 +221,6 @@ class Managers extends Controller
         ) {
             $data['price_err'] = 'Prices must be in ascending order: Small < Regular < Large';
         }
-
-
-
-
         if (empty($data['averageTime'])) {
             $data['averageTime_err'] = 'Please enter average time';
         } elseif (!is_numeric($data['averageTime'])) {
@@ -245,31 +239,21 @@ class Managers extends Controller
 
         $menuCategories = $this->managerModel->getmenucategory();
         if (!$menuItem) {
-            // Handle the case where the category does not exist
-            // For example, you can redirect to an error page or show an error message
             ob_clean();
             $data['message'] = 'No Such Menu Item Found';
-
             $this->redirectpage($data, true, URLROOT . '/managers/menu', 5, 'Error', 'Menu Error');
-            //
             exit();
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK) {
-                // Handle image upload and get the image path
                 $imagePath = $this->handleImageUpload($_FILES['imagePath']);
                 if ($imagePath === false) {
-                    // Handle image upload error
-                    // Redirect or show an error message
                     ob_clean();
                     $data['message'] = 'Error: Image upload failed.';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Error', 'Image Upload Error');
-                    //
                     exit();
                 }
             } else {
-                // If no new image is uploaded, use the existing image path from the database
                 $imagePath = $menuitemtable->imagePath;
             }
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -288,8 +272,6 @@ class Managers extends Controller
                 'averageTime_err' => '',
                 'description_err' => '',
             ];
-
-            // Validate the name only if it has changed
             if ($data['itemName'] !== $menuitemtable->itemName) {
                 if (empty($data['itemName'])) {
                     $data['itemName_err'] = 'Please enter name';
@@ -299,7 +281,6 @@ class Managers extends Controller
                     }
                 }
             }
-
             if (empty($data['priceregular'])) {
                 $data['price_err'] = 'Please enter price';
             } elseif (!is_numeric($data['priceregular'])) {
@@ -314,7 +295,6 @@ class Managers extends Controller
             ) {
                 $data['price_err'] = 'Prices must be in ascending order: Small < Regular < Large';
             }
-
             if (empty($data['averageTime'])) {
                 $data['averageTime_err'] = 'Please enter average time';
             } elseif (!is_numeric($data['averageTime'])) {
@@ -323,7 +303,6 @@ class Managers extends Controller
             if (empty($data['description'])) {
                 $data['description_err'] = 'Please enter description';
             }
-
             if (empty($data['itemName_err']) && empty($data['price_err']) && empty($data['averageTime_err'])) {
                 $menuCategories = $this->managerModel->getmenucategory();
                 $menuData = [
@@ -333,34 +312,27 @@ class Managers extends Controller
                     'priceregular' => $data['priceregular'],
                     'pricelarge' => $data['pricelarge'],
                     'averageTime' => $data['averageTime'],
-                    'imagePath' => $imagePath, // Assign the image path to the menuData array
-                    'category_ID' => $_POST['category'], // Assign the image path to the menuData array
+                    'imagePath' => $imagePath, 
+                    'category_ID' => $_POST['category'],
                     'menucategory' => $menuCategories,
                     'description' => $data['description'],
                 ];
                 if ($this->managerModel->editMenuitem($menuData)) {
-                    // Handle success, e.g., redirect to another page
-                    // header('Location: ' . URLROOT . '/menus/submitMenu');
                     ob_clean();
                     $data['message'] = 'Menu Edited Successfully!';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Successful', 'Menu Edited Successfully');
-                    //
                     exit();
                 } else {
                     $this->view('manager/editmenu', $data);
                     ob_clean();
                     $data['message'] = 'Menu Editing Failed!';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Error', 'Menu Editing Error');
-                    //
                     exit();
                 }
             } else {
                 $this->view('manager/editmenu', $data);
             }
         } else {
-
             $data = [
                 'itemID' => $itemID,
                 'itemName' => $menuItem[0]->itemName,
@@ -377,12 +349,6 @@ class Managers extends Controller
                 'description_err' => '',
                 'menucategory' => $menuCategories
             ];
-
-
-
-
-            // $menuCategories = $this->managerModel->getmenucategory();
-            // $data['menucategory'] = $menuCategories;
             $this->view('manager/editmenu', $data);
         }
     }
@@ -394,15 +360,12 @@ class Managers extends Controller
             $data['message'] = 'Menu Deleted Successfully!';
 
             $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Successful', 'Menu Deleted Successfully');
-            //
             exit();
         }
-        #todo #59 report generation dupicat
         else {
             ob_clean();
             ob_end_flush();
             echo "<script>alert('There are reservations for this menuitem in the upcoming future. Please try hiding it.');</script>";
-
             echo "<script>window.location.href = '" . URLROOT . "/managers/menu';</script>";
             exit();
         }
@@ -422,25 +385,17 @@ class Managers extends Controller
     public function searchmenubyname()
     {
         $categories = $this->managerModel->getmenucategory();
-        // Get the search query from the query parameter
         $searchQuery = isset($_GET['searchQuery']) ? $_GET['searchQuery'] : null;
-
-        // Call the model method with the retrieved search query
         if ($menu = $this->managerModel->searchmenubyname($searchQuery)) {
-
             $data = [
                 'menu' => $menu,
                 'categories' => $categories,
             ];
-
-            // Load the view with the filtered data
             $this->view('manager/menu', $data);
         } else {
             ob_clean();
             $data['message'] = 'No Such Menu Item Found';
-
             $this->redirectpage($data, true, URLROOT . '/managers/menu', 5, 'Error', 'Menu Error');
-            //
             exit();
         }
     }
@@ -452,72 +407,45 @@ class Managers extends Controller
                 'category_name' => isset($_POST['category_name']) ? trim($_POST['category_name']) : '',
                 'category_name_err' => '',
             ];
-
             if (empty($data['category_name'])) {
                 $data['category_name_err'] = 'Please enter a category name';
             }
-
-            // Check if the category already exists
             if (empty($data['category_name_err'])) {
                 $existingCategory = $this->managerModel->findcategorybyname($data['category_name']);
                 if ($existingCategory) {
                     $data['category_name_err'] = 'Category already exists';
                 }
             }
-
             if (empty($data['category_name_err'])) {
-                // Call the model function to insert user data
                 if ($this->managerModel->addmenucategory($data)) {
                     // Handle success
-                    $data['new_category_added'] = true; // Set the flag
+                    $data['new_category_added'] = true;
                 } else {
                     $data['category_name_err'] = 'Something went wrong';
                 }
             }
         }
-
-        // Fetch menu and categories
-        #$menuitem = $this->managerModel->getMenuitem();
         $categories = $this->managerModel->getmenucategory();
-
-        // Merge with existing data
-        #$data['menu'] = $menuitem;
         $data['categories'] = $categories;
-
-        // Show the form with errors or redirect after showing the alert
         $this->view('manager/categories', $data);
     }
-
-
-
-
     public function getmenucategory()
     {
         $menucategory = $this->managerModel->getmenucategory();
-
         $data = [
             'menucategory' => $menucategory
         ];
-
         $this->view('manager/createMenu', $data);
     }
     public function filtermenubycategory()
     {
         $categories = $this->managerModel->getmenucategory();
-
-        // Get the category ID from the query parameter
         $category_ID = isset($_GET['categoryFilter']) ? $_GET['categoryFilter'] : null;
-
-
-        // Call the model method to get filtered menu items
         $menu = $this->managerModel->filtermenubycategory($category_ID);
-
         $data = [
             'menu' => $menu,
             'categories' => $categories,
         ];
-
-        // Load the view with the filtered data
         $this->view('manager/menu', $data);
     }
     public function editmenucategory($category_ID)
@@ -526,16 +454,11 @@ class Managers extends Controller
         $categories = $this->managerModel->getmenucategory();
         $category = $this->managerModel->getcategorybyID($category_ID);
         if (!$category) {
-            // Handle the case where the category does not exist
-            // For example, you can redirect to an error page or show an error message
             ob_clean();
             $data['message'] = 'No Such Menu Category Found';
-
             $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Error', 'Category Error');
-            //
             exit();
         }
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
@@ -545,8 +468,6 @@ class Managers extends Controller
                 'menu' => $menu,
                 'categories' => $categories,
             ];
-
-            // Validate category name
             if (empty($data['category_name'])) {
                 $data['category_edit_name_err'] = 'Please enter a category name';
             } elseif ($this->managerModel->findcategorybyname($data['category_name'])) {
@@ -554,37 +475,25 @@ class Managers extends Controller
             }
 
             if (empty($data['category_edit_name_err'])) {
-                // Call the model function to update the category
                 if ($this->managerModel->editmenucategory($category_ID, $data['category_name'])) {
-                    // Handle success, e.g., redirect to another page
                     ob_clean();
                     $data['message'] = 'Catergory Edited Successfully!';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Successful', 'Category Edited');
-                    //
                     exit();
-                    //var_dump($data['category_name']);
-                    //var_dump($category_ID);
                 } else {
                     ob_clean();
                     $data['message'] = 'Category Edit Unsuccessful!';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Error', 'Category Error');
-                    //
                     exit();
                 }
             } else {
-                // Validation failed, show the form with errors and the original category name
                 $this->view('manager/categories', $data);
             }
         } else {
-            // Initial load of the page, show the form without errors
-
             $data = [
                 'category_ID' => $category_ID,
                 'category_name' => $category->category_name,
                 'category_edit_name_err' => '',
-                //'menu' => $menu,
                 'categories' => $categories,
             ];
             $this->view('manager/categories', $data);
@@ -613,31 +522,21 @@ class Managers extends Controller
                 $data['time_diff_err'] = 'Start time cannot be greater than end time';
             }
             if (empty($data['start_time_err']) && empty($data['end_time_err']) && empty($data['time_diff_err'])) {
-                // Call the model function to insert user data
                 if ($this->managerModel->updatecategorytime($data)) {
-                    // Handle success, e.g., redirect to another page
-                    // header('Location: ' . URLROOT . '/menus/submitMenu');
-                    //redirect('managers/menu');
                     ob_clean();
                     $data['message'] = 'Category Update Successful!';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Successful', 'Category Update Successful');
-                    //
                     exit();
                 } else {
                     ob_clean();
                     $data['message'] = 'Category Update Failed';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Error', 'Category Update Error');
-                    //
                     exit();
                 }
             } else {
-                // Validation failed, show the form with errors
                 $this->view('manager/categories', $data);
             }
         } else {
-            // Initial load of the page, show the form without errors
             $data = [
                 'category_ID' => '',
                 'start_time' => '',
@@ -662,27 +561,19 @@ class Managers extends Controller
                 $data['category_ID_err'] = 'Please select a category';
             }
             if (empty($data['category_ID_err'])) {
-                // Call the model function to insert user data
                 if ($this->managerModel->hidecategory($data)) {
-                    // Handle success, e.g., redirect to another page
-                    // header('Location: ' . URLROOT . '/menus/submitMenu');
                     redirect('managers/updatetimecategories');
-                    //var_dump( $data);
                     exit();
                 } else {
                     ob_clean();
                     $data['message'] = 'Category Hide Failed!';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Error', 'Category Hide Error');
-                    //
                     exit();
                 }
             } else {
-                // Validation failed, show the form with errors
                 $this->view('manager/categories', $data);
             }
         } else {
-            // Initial load of the page, show the form without errors
             $data = [
                 'category_ID' => '',
                 'categories' => $categories,
@@ -702,27 +593,19 @@ class Managers extends Controller
                 $data['category_ID_err'] = 'Please select a category';
             }
             if (empty($data['category_ID_err'])) {
-                // Call the model function to insert user data
                 if ($this->managerModel->showcategory($data)) {
-                    // Handle success, e.g., redirect to another page
-                    // header('Location: ' . URLROOT . '/menus/submitMenu');
                     redirect('managers/updatetimecategories');
-                    //var_dump( $data);
                     exit();
                 } else {
                     ob_clean();
                     $data['message'] = 'Category Show Failed!';
-
                     $this->redirectpage($data, true, URLROOT . '/managers/menu', 10, 'Error', 'Category Show Error');
-                    //
                     exit();
                 }
             } else {
-                // Validation failed, show the form with errors
                 $this->view('manager/categories', $data);
             }
         } else {
-            // Initial load of the page, show the form without errors
             $data = [
                 'category_ID' => '',
                 'categories' => $categories,
@@ -738,51 +621,28 @@ class Managers extends Controller
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
-
-        // Replace spaces with underscores in the file name
         $imageName = str_replace(' ', '_', $imageFile['name']);
-
-        // Check if the file is an image
         $check = getimagesize($imageFile['tmp_name']);
         if ($check === false) {
             die('Error: Uploaded file is not an image.');
         }
-
-        // Generate a random number
         $randomNumber = mt_rand(100000, 999999);
-
-        // Append the random number to the file name
         $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
         $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
         $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
-
         $targetFile = $targetDirectory . basename($imageName);
         echo "Target File: " . $targetFile . "<br>";
-
-        // Check if a file with the same name already exists
         while (file_exists($targetFile)) {
-            // Generate a new random number
             $randomNumber = mt_rand(100000, 999999);
-            // Append the new random number to the file name
             $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
             $targetFile = $targetDirectory . basename($imageName);
         }
-
-        // Upload the image file
         if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
-            return $targetFile; // Return the uploaded image path
+            return $targetFile;
         } else {
             die('Error: Failed to move uploaded file.');
         }
     }
-
-
-
-
-
-
-    // User Handling functions
-
     public function getUsers()
     {
         $users = $this->managerModel->getUsers();
@@ -798,17 +658,12 @@ class Managers extends Controller
     public function addUsers()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // ... (existing code)
             if (isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK) {
-                // Handle image upload and get the image path
                 $imagePath = $this->handleImageUploadprofilepicture($_FILES['imagePath']);
                 if ($imagePath === false) {
-                    // Handle image upload error
-                    // Redirect or show an error message
                     die('Error: Image upload failed.');
                 }
             } else {
-                // Handle no image uploaded or upload error
                 die('Error: No image uploaded or upload error.');
             }
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -828,32 +683,25 @@ class Managers extends Controller
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } else {
-                // Check if email is already taken as a staff member
                 if ($this->managerModel->findEmployeeByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken as a staff member';
                 } else {
-                    // Verify email using Hunter API
                     $hunterApiKey = 'f0b22562feaf8e34e1332f9e148c6f246dc78045';
                     if (!$this->verifyEmailUsingHunter($data['email'], $hunterApiKey)) {
                         $data['email_err'] = 'Email address is not deliverable';
                     }
                 }
             }
-
-
             if (empty($data['mobile_number'])) {
                 $data['mobile_number_err'] = 'Please enter mobile number';
             } else {
-                // check email
                 if ($this->managerModel->findEmployeeByMobile($data['mobile_number'])) {
                     $data['mobile_number_err'] = 'Mobile Number is already registered as a staff member';
                 }
             }
-
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter a password';
             }
-
             if (empty($data['role'])) {
                 $data['role_err'] = 'Please select a role';
             }
@@ -865,25 +713,19 @@ class Managers extends Controller
             if (empty($data['dob'])) {
                 $data['dob_err'] = 'Please enter Date of Birth';
             } else {
-                // Convert DOB to DateTime object
                 $dobDateTime = new DateTime($data['dob']);
-
-                // Calculate age by finding the difference between current date and DOB
                 $currentDateTime = new DateTime();
                 $age = $currentDateTime->diff($dobDateTime)->y;
-
-                // Check if the person is at least 18+4 years old
                 if ($age < 18) {
                     $data['dob_err'] = 'User must be at least 18 years old.';
                 }
             }
             if (empty($data['password_err']) && empty($data['role_err']) && empty($data['email_err']) && empty($data['mobile_number_err']) && empty($data['nic_err']) && empty($data['dob_err'])) {
-                // Call the model function to insert user data
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 $userData = [
                     'name' => $data['name'],
                     'password' => $data['password'],
-                    'role' => $data['role'], // This is the role ID, not the role name
+                    'role' => $data['role'],
                     'address' => $data['address'],
                     'email' => $data['email'],
                     'joined_date' => $data['joined_date'],
@@ -892,34 +734,19 @@ class Managers extends Controller
                     'dob' => $data['dob'],
                     'imagePath' => $imagePath,
                 ];
-
-                // Insert the user and retrieve the user_id
                 $userId = $this->managerModel->addUsers($userData);
-
                 if ($userId) {
-                    // Generate password reset token
                     $token = $this->managerModel->generatePasswordResetToken($data['email']);
-
-                    // Send password reset email
                     $this->sendPasswordResetEmail($data['email'], $token);
-
-                    // Handle success, e.g., redirect to another page
-                    //redirect('managers/Index');
-                    exit();
+                    redirect('managers/getUsers');
                 } else {
-                    // Validation failed, show the form with errors
                     $data['error_message'] = 'Something went wrong. Please try again.';
                     $this->view('manager/adduser', $data);
-
-                    // Log the error (you might want to implement a logging mechanism)
-                    //error_log('Error adding user: Something went wrong.');
                 }
             } else {
-                // Validation failed, show the form with errors
                 $this->view('manager/adduser', $data);
             }
         } else {
-            // Initial load of the page, show the form without errors
             $data = [
                 'name' => '',
                 'password' => '',
@@ -939,17 +766,12 @@ class Managers extends Controller
     public function promotecustomers($ID)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // ... (existing code)
             if (isset($_FILES['imagePath']) && $_FILES['imagePath']['error'] === UPLOAD_ERR_OK) {
-                // Handle image upload and get the image path
                 $imagePath = $this->handleImageUploadprofilepicture($_FILES['imagePath']);
                 if ($imagePath === false) {
-                    // Handle image upload error
-                    // Redirect or show an error message
                     die('Error: Image upload failed.');
                 }
             } else {
-                // Handle no image uploaded or upload error
                 die('Error: No image uploaded or upload error.');
             }
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -970,14 +792,10 @@ class Managers extends Controller
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } else {
-                // Check if email is already taken as a staff member
                 if ($this->managerModel->findEmployeeByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken as a staff member';
                 } else {
-                    // Verify email using Hunter API
                     if (!$this->managerModel->emailcheck($data['email'])) {
-                        //$data['email_err'] = 'Email address is not deliverable';
-
                         $hunterApiKey = 'f0b22562feaf8e34e1332f9e148c6f246dc78045';
                         if (!$this->verifyEmailUsingHunter($data['email'], $hunterApiKey)) {
                             $data['email_err'] = 'Email address is not deliverable';
@@ -985,21 +803,16 @@ class Managers extends Controller
                     }
                 }
             }
-
-
             if (empty($data['mobile_number'])) {
                 $data['mobile_number_err'] = 'Please enter mobile number';
             } else {
-                // check email
                 if ($this->managerModel->findEmployeeByMobile($data['mobile_number'])) {
                     $data['mobile_number_err'] = 'Mobile Number is already registered as a staff member';
                 }
             }
-
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter a password';
             }
-
             if (empty($data['role'])) {
                 $data['role_err'] = 'Please select a role';
             }
@@ -1011,26 +824,20 @@ class Managers extends Controller
             if (empty($data['dob'])) {
                 $data['dob_err'] = 'Please enter Date of Birth';
             } else {
-                // Convert DOB to DateTime object
                 $dobDateTime = new DateTime($data['dob']);
-
-                // Calculate age by finding the difference between current date and DOB
                 $currentDateTime = new DateTime();
                 $age = $currentDateTime->diff($dobDateTime)->y;
-
-                // Check if the person is at least 18+4 years old
                 if ($age < 18) {
                     $data['dob_err'] = 'User must be at least 18 years old.';
                 }
             }
             if (empty($data['password_err']) && empty($data['role_err']) && empty($data['email_err']) && empty($data['mobile_number_err']) && empty($data['nic_err']) && empty($data['dob_err'])) {
-                // Call the model function to insert user data
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
                 $userData = [
                     'user_id' => $ID,
                     'name' => $data['name'],
                     'password' => $data['password'],
-                    'role' => $data['role'], // This is the role ID, not the role name
+                    'role' => $data['role'],
                     'address' => $data['address'],
                     'email' => $data['email'],
                     'joined_date' => $data['joined_date'],
@@ -1039,37 +846,19 @@ class Managers extends Controller
                     'dob' => $data['dob'],
                     'imagePath' => $imagePath,
                 ];
-                //var_dump($userData);
-                // Insert the user and retrieve the user_id
-                // $userId =$ID;
-
                 if ($this->managerModel->promotecustomer($userData)) {
-                    // Generate password reset token
                     $token = $this->managerModel->generatePasswordResetToken($data['email']);
-
-                    // Send password reset email
                     $this->sendPasswordResetEmail($data['email'], $token);
-                    //var_dump($userData);
-                    //var_dump($token);
-                    // Handle success, e.g., redirect to another page
-                    //redirect('managers/Index');
-                    //exit();
+                    redirect('managers/getUsers');
                 } else {
-                    // Validation failed, show the form with errors
                     $data['error_message'] = 'Something went wrong. Please try again.';
                     $this->view('manager/adduser', $data);
-
-                    // Log the error (you might want to implement a logging mechanism)
-                    //error_log('Error adding user: Something went wrong.');
                 }
             } else {
-                // Validation failed, show the form with errors
                 $this->view('manager/adduser', $data);
             }
         } else {
-            // Initial load of the page, show the form without errors
             $data = [
-
                 'name' => '',
                 'password' => '',
                 'role' => '',
@@ -1086,42 +875,25 @@ class Managers extends Controller
         }
     }
 
-
     public function searchUsers()
     {
         $data = [];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Get the search term from the request
             $searchTerm = $_POST['search_term'];
             $searchResult = $this->managerModel->searchUsersByEmailOrPhone($searchTerm);
             $data = ['searchResult' => $searchResult];
             $this->view('manager/customerpromote', $data);
-            //var_dump($searchResult);
-            // Additional logic if needed
         }
-        // Additional logic if needed
         $this->view('manager/customerpromote', $data);
-        // var_dump($data);
     }
-
-    //var_dump($searchResult);
-    // Pass the search result to your view
-
-
-
-
 
     public function viewprofile($ID)
     {
         $user = $this->managerModel->viewprofile($ID);
         if (!$user) {
-            // Handle the case where the category does not exist
-            // For example, you can redirect to an error page or show an error message
             ob_clean();
             $data['message'] = 'No Such User Found';
-
             $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'User Error');
-            //
             exit();
         }
         $data = [
@@ -1132,7 +904,6 @@ class Managers extends Controller
     public function viewmanagerprofile()
     {
         $manager = $this->managerModel->viewManagerProfile();
-
         $data = [
             'manager' => $manager
         ];
@@ -1146,33 +917,24 @@ class Managers extends Controller
     }
     public function filterbyrole()
     {
-        // Get the role from the query parameter
         $role = isset($_GET['role']) ? $_GET['role'] : null;
-
-        // Call the model method with the retrieved role
         $users = $this->managerModel->filterbyrole($role);
         $nonactiveusers = $this->managerModel->getNonactivatedUsers();
         $data = [
             'users' => $users,
             'nonactiveusers' => $nonactiveusers,
         ];
-
-        // Load the view with the filtered data
         $this->view('manager/users', $data);
     }
     public function searchemployeebyname()
     {
-        // Get the search query from the query parameter
         $searchQuery = isset($_GET['searchQuery']) ? $_GET['searchQuery'] : null;
-
-        // Call the model method with the retrieved search query
         $users = $this->managerModel->searchemployeebyname($searchQuery);
         $nonactiveusers = $this->managerModel->getNonactivatedUsers();
         $data = [
             'users' => $users,
             'nonactiveusers' => $nonactiveusers,
         ];
-        // Load the view with the filtered data
         $this->view('manager/users', $data);
     }
 
@@ -1189,10 +951,7 @@ class Managers extends Controller
                 $data['role_err'] = 'Please select a role';
             }
             if (empty($data['role_err'])) {
-                // Call the model function to insert user data
                 if ($this->managerModel->updateuserrole($data)) {
-                    // Handle success, e.g., redirect to another page
-                    // header('Location: ' . URLROOT . '/menus/submitMenu');
                     redirect('managers/viewprofile/' . $ID . '');
                     exit();
                 } else {
@@ -1200,11 +959,9 @@ class Managers extends Controller
                     die('Something went wrong');
                 }
             } else {
-                // Validation failed, show the form with errors
                 $this->view('manager/updateuserrole', $data);
             }
         } else {
-            // Initial load of the page, show the form without errors
             $data = [
                 'role' => '',
                 'role_err' => '',
@@ -1213,117 +970,67 @@ class Managers extends Controller
         }
     }
 
-
-
-
-
     private function sendPasswordResetEmail($email, $token)
     {
-        // Load PHPMailer library
-        // Adjust the paths based on your PHPMailer location
-
-        require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
-
-
-
-        // Create a new PHPMailer instance
+        require_once APPROOT . '/vendor/autoload.php';
         $mail = new PHPMailer\PHPMailer\PHPMailer();
-
-        // Set up SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';  // Your SMTP server
+        $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'pachax001@gmail.com';
         $mail->Password   = 'soqrsqcrcwsmxpyd ';
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
-
-        // Set up sender and recipient
         $mail->setFrom('pachax001@gmail.com', 'pachax001');
         $mail->addAddress($email);
-
-        // Set email content
         $mail->isHTML(true);
         $mail->Subject = 'Employee Password Reset';
         $mail->Body    = 'Link is only valid for 1 hour. Click the following link to reset your password: ' . URLROOT . '/users/resetPasswordEmployee/' . $token;
-
-        // Send the email
         if ($mail->send()) {
-            // Email sent successfully
             ob_clean();
             $data['message'] = 'Email Sent Successfully';
-
             $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Success', 'Mail Delivered');
-            //
             exit();
-            //
-            //echo 'Email sent successfully.';
             return true;
         } else {
-            // Error in sending email
             ob_clean();
             $data['message'] = 'Email could not be sent. Error: ' . $mail->ErrorInfo;
-
             $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'Mail Error');
-            //
             exit();
-            //echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
             return false;
         }
     }
     public function manuallyactivateemployee($user_id)
     {
         $email = $this->managerModel->getEmployeeEmail($user_id);
-        //var_dump($email);
         if ($this->managerModel->manuallyactivateemployee($user_id)) {
             $this->sendManuallyActivatedEmployee($email);
-            //redirect('managers/getUsers');
         }
     }
     private function sendManuallyActivatedEmployee($email)
     {
-        // Load PHPMailer library
-        // Adjust the paths based on your PHPMailer location
 
-        require_once APPROOT . '/vendor/autoload.php'; // Include Composer autoloader
-
-
-
-        // Create a new PHPMailer instance
+        require_once APPROOT . '/vendor/autoload.php';
         $mail = new PHPMailer\PHPMailer\PHPMailer();
-
-        // Set up SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';  // Your SMTP server
+        $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'pachax001@gmail.com';
         $mail->Password   = 'soqrsqcrcwsmxpyd ';
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
-
-        // Set up sender and recipient
         $mail->setFrom('pachax001@gmail.com', 'pachax001');
         $mail->addAddress($email);
-
-        // Set email content
         $mail->isHTML(true);
         $mail->Subject = 'Employee Activation';
         $mail->Body    = 'Manager Has Manually Activated Your Account.Use forgot password to reset your password';
-
-        // Send the email
         if ($mail->send()) {
-            // Email sent successfully
             ob_clean();
             $data['message'] = 'Email Sent Successfully';
-
             $this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Success', 'Mail Delivered');
-            //
             exit();
-
             return true;
         } else {
-            // Error in sending email
-
             echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
             return false;
         }
@@ -1335,39 +1042,25 @@ class Managers extends Controller
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
-
-        // Replace spaces with underscores in the file name
         $imageName = str_replace(' ', '_', $imageFile['name']);
-
-        // Check if the file is an image
         $check = getimagesize($imageFile['tmp_name']);
         if ($check === false) {
             die('Error: Uploaded file is not an image.');
         }
-
-        // Generate a random number
         $randomNumber = mt_rand(100000, 999999);
-
-        // Append the random number to the file name
         $imageNameWithoutExt = pathinfo($imageName, PATHINFO_FILENAME);
         $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
         $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
 
         $targetFile = $targetDirectory . basename($imageName);
         echo "Target File: " . $targetFile . "<br>";
-
-        // Check if a file with the same name already exists
         while (file_exists($targetFile)) {
-            // Generate a new random number
             $randomNumber = mt_rand(100000, 999999);
-            // Append the new random number to the file name
             $imageName = $imageNameWithoutExt . '_' . $randomNumber . '.' . $imageExtension;
             $targetFile = $targetDirectory . basename($imageName);
         }
-
-        // Upload the image file
         if (move_uploaded_file($imageFile['tmp_name'], $targetFile)) {
-            return $targetFile; // Return the uploaded image path
+            return $targetFile;
         } else {
             die('Error: Failed to move uploaded file.');
         }
@@ -1376,21 +1069,14 @@ class Managers extends Controller
     {
         $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\package\\';
 
-        // Create the target directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
-
-        // Replace spaces with underscores in the file name
         $imageName = str_replace(' ', '_', $imageFile['name']);
-
-        // Check if the file is an image
         $check = getimagesize($imageFile['tmp_name']);
         if ($check === false) {
             die('Error: Uploaded file is not an image.');
         }
-
-        // Generate a random number
         $randomNumber = mt_rand(100000, 999999);
 
         // Append the random number to the file name
