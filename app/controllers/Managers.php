@@ -2126,10 +2126,145 @@ class Managers extends Controller
         $ID = isset($_POST['tableID']) ? trim($_POST['tableID']) : '';
         $status = isset($_POST['visibility']) ? trim($_POST['visibility']) : '';
         if ($this->managerModel->tablevisibility($ID, $status)) {
+            //echo "<script>alert('Table visibility updated successfully');</script>";
+
             //ob_clean();
             //ob_end_flush();
             //redirect('managers/viewtables'); 
-            exit();
+            //exit();
+        }
+        else{
+            //echo "<script>alert('Table visibility could not be updated');</script>";
         }
     }
+    public function reservations(){
+        $refundrequestreservations = $this->managerModel->getreservations();
+        $data = [
+        'refundrequestreservations' => $refundrequestreservations,
+        ];
+        $this->view('manager/reservations', $data);
+    }
+    public function acceptrefundrequest($ID){
+        ob_start();
+       // $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        //$ID = isset($_POST['reservation_id']) ? trim($_POST['reservation_id']) : '';
+        if ($this->managerModel->acceptrefund($ID)) {
+            
+            $customerdetails = $this->managerModel->getcustomerdetailsfromreservation($ID);
+            //error_log("Customer Details: " . print_r($customerdetails, true));
+            $this->sendacceptrefundemail($customerdetails);
+            
+            //redirect('managers/reservations');
+            //exit();
+        }
+        else{
+            ob_clean();
+            ob_end_flush();
+            redirect('managers/reservations');
+            exit();
+        }
+
+    }
+    public function denyrefundrequest($ID){
+        ob_start();
+        //$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        //$ID = isset($_POST['reservation_id']) ? trim($_POST['reservation_id']) : '';
+        if ($this->managerModel->denyrefund($ID)) {
+            $customerdetails = $this->managerModel->getcustomerdetailsfromreservation($ID);
+            //error_log("Customer Details: " . print_r($customerdetails, true));
+            $this->senddenyrefundemail($customerdetails);
+            
+        }else{
+            ob_clean();
+            ob_end_flush();
+            redirect('managers/reservations');
+            exit();
+        }
+
+    }
+    private function sendacceptrefundemail($data){
+        error_log("Customer Details: " . print_r($data, true));
+        require_once APPROOT . '/vendor/autoload.php';
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'pachax001@gmail.com';
+        $mail->Password   = 'soqrsqcrcwsmxpyd ';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+        $mail->setFrom('pachax001@gmail.com', 'pachax001');
+        $mail->addAddress($data->email);
+        $mail->isHTML(true);
+        $mail->Subject = 'Refund Request Accepted';
+        $mail->Body = "Dear {$data->name},<br><br>"
+        . "Your refund request has been accepted. Amount of {$data->refund_amount} will be refunded to your account within 3-5 business days.<br><br>"
+        . "Reservation ID: {$data->reservationID}<br>"
+        . "Order ID: {$data->orderID}<br>"
+        . "Reservation Date: {$data->date}<br>"
+        . "Reservation Start Time: {$data->reservationStartTime}<br>"
+        . "Reservation End Time: {$data->reservationEndTime}<br>"
+        . "Number of People: {$data->numOfPeople}<br><br>"
+        . "Thank you for your patience.<br><br>"
+        . "Best Regards,<br>"
+        . "DineEase";
+        if ($mail->send()) {
+            ob_clean();
+            //$data['message'] = 'Email Sent Successfully';
+            //$this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Success', 'Mail Delivered');
+            //exit();
+            //return true;
+            redirect('managers/reservations');
+        } else {
+            ob_clean();
+            //$data['message'] = 'Email could not be sent. Error: ' . $mail->ErrorInfo;
+            //$this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'Mail Error');
+            //sexit();
+            return false;
+        }
+    }
+    private function senddenyrefundemail($data){
+        error_log("Customer Details: " . print_r($data, true));
+        require_once APPROOT . '/vendor/autoload.php';
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'pachax001@gmail.com';
+        $mail->Password   = 'soqrsqcrcwsmxpyd ';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+        $mail->setFrom('pachax001@gmail.com', 'pachax001');
+        $mail->addAddress($data->email);
+        $mail->isHTML(true);
+        $mail->Subject = 'Refund Request Denied';
+        $mail->Body = "Dear {$data->name},<br><br>"
+            . "We regret to inform you that your refund request has been denied.<br><br>"
+            . "Reservation ID: {$data->reservationID}<br>"
+            . "Order ID: {$data->orderID}<br>"
+            . "Reservation Date: {$data->date}<br>"
+            . "Reservation Start Time: {$data->reservationStartTime}<br>"
+            . "Reservation End Time: {$data->reservationEndTime}<br>"
+            . "Number of People: {$data->numOfPeople}<br><br>"
+            . "If you have any further questions or concerns, please feel free to contact us.<br><br>"
+            . "Thank you for your understanding.<br><br>"
+            . "Best Regards,<br>"
+            . "DineEase";
+
+        if ($mail->send()) {
+            ob_clean();
+            //$data['message'] = 'Email Sent Successfully';
+            //$this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Success', 'Mail Delivered');
+            //exit();
+            //return true;
+            redirect('managers/reservations');
+        } else {
+            ob_clean();
+            //$data['message'] = 'Email could not be sent. Error: ' . $mail->ErrorInfo;
+            //$this->redirectpage($data, true, URLROOT . '/managers/getUsers', 10, 'Error', 'Mail Error');
+            //sexit();
+            return false;
+        }
+    }
+    
 }

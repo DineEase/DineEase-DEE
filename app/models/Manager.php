@@ -1203,4 +1203,76 @@ class Manager
                 'mostOrderedSizes' => $mostOrderedSizes,
             'results' => $results];
     }
+    public function getreservations(){
+        $this->db->query('SELECT reservation.*, refundrequest.reason,refundrequest.amount,refundrequest.date AS refund_date,refundrequest.amount AS refund_amount
+        FROM reservation
+        JOIN refundrequest ON reservation.refundRequestID = refundrequest.refundRequestID
+        WHERE reservation.status = "Requested"');
+        $results = $this->db->resultSet();
+        return $results;
+        var_dump($results);
+    }
+    public function getrefunddetails($refundRequestID){
+        // need to get the reason also from refundrequest table
+        //$this->db->query('SELECT * FROM reservation WHERE refundRequestID = :refundRequestID');
+        $this->db->query('SELECT reservation.*, refundrequest.reason,refundrequest.amount,refundrequest.date
+                          FROM reservation
+                          JOIN refundrequest ON reservation.refundRequestID = refundrequest.refundRequestID
+                          WHERE refundrequest.refundRequestID = :refundRequestID');
+        $this->db->bind(':refundRequestID', $refundRequestID);
+        $row = $this->db->single();
+        return $row;
+    }
+    public function acceptrefund($reservationID){
+        $this->db->query('UPDATE refundrequest SET status = "Refunded" WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        if ($this->db->execute()) {
+            $this->db->query('UPDATE reservation SET status = "Refunded" WHERE reservationID = :reservationID');
+            $this->db->bind(':reservationID', $reservationID);
+            if ($this->db->execute()) {
+                $this->db->query('UPDATE payment SET status = "Refunded" WHERE reservationID = :reservationID');
+                $this->db->bind(':reservationID', $reservationID);
+                if ($this->db->execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    public function denyrefund($reservationID){
+        $this->db->query('UPDATE refundrequest SET status = "Denied" WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        if ($this->db->execute()) {
+            $this->db->query('UPDATE reservation SET status = "Denied" WHERE reservationID = :reservationID');
+            $this->db->bind(':reservationID', $reservationID);
+            if ($this->db->execute()) {
+                $this->db->query('UPDATE payment SET status = "Denied" WHERE reservationID = :reservationID');
+                $this->db->bind(':reservationID', $reservationID);
+                if ($this->db->execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    public function getcustomerdetailsfromreservation($reservationID){
+        $this->db->query('SELECT reservation.*,users.name, users.email, users.mobile_no,refundrequest.amount AS refund_amount
+                          FROM users
+                          JOIN reservation ON users.user_id = reservation.customerID
+                          JOIN refundrequest ON reservation.refundRequestID = refundrequest.refundRequestID
+                          WHERE reservation.reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $row = $this->db->single();
+        return $row;
+    }
 }    
