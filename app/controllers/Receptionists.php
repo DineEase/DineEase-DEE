@@ -40,10 +40,9 @@ class Receptionists extends Controller
 
         $packages = $this->receptionistModel->getPackages();
         //TODO #62 Receptionist View shows all reservations for the without filtering those which are cancelled\
-        if($suite==0){
+        if ($suite == 0) {
             $reservations = $this->receptionistModel->getAllReservationsOnDateForAllSuites($date);
-        }
-        else{
+        } else {
             $reservations = $this->receptionistModel->getAllReservationsOnDate($date, $suite);
         }
 
@@ -68,15 +67,53 @@ class Receptionists extends Controller
 
     public  function Reservation()
     {
-        $reservations = $this->receptionistModel->getReservation($_SESSION['user_id']);
-        // $request= $this->receptionistModel->getRequests();
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 7;
+        $offset = ($page - 1) * $limit;
+        $status = isset($_POST['status']) && $_POST['status'] != "Select Status" ? $_POST['status'] : '';
+
+        $startDate = isset($_POST['startDate']) && !empty($_POST['startDate']) ? $_POST['startDate'] : $this->receptionistModel->getMinDate();
+        $endDate = isset($_POST['endDate']) && !empty($_POST['endDate']) ? $_POST['endDate'] : $this->receptionistModel->getMaxDate();
+
+    
+        
+        if ($status != '') {
+            $reservations = $this->receptionistModel->getReservationWithStatus( $limit, $offset, $status);
+            $totalReservations = $this->receptionistModel->getTotalReservationCountWithStatus( $status);
+            $totalPages = ceil($totalReservations / $limit);
+        }
+
+        
+        else {
+            $reservations = $this->receptionistModel->getReservation($limit, $offset);
+            $totalReservations = $this->receptionistModel->getTotalReservationCount();
+            $totalPages = ceil($totalReservations / $limit);
+        }
+
+        
+        if ($reservationStatus = $this->receptionistModel->getReservationStatus()) {
+        } else {
+            die('Something went wrong');
+        }
+
+
+        
 
         $data = [
             'reservations' => $reservations,
-            // 'request' => $request
+            'totalReservations' => $totalReservations,
+            'totalPages' => $totalPages,
+            'status' => $status,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'page' => $page,
+            'limit' => $limit,
+            'reservationStatus' => $reservationStatus
+
         ];
 
-        $this->view('Receptionist/reservation');
+        $this->view('Receptionist/reservation', $data);
     }
 
 
