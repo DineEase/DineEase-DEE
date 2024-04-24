@@ -3,100 +3,198 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>kitchen staff</title>
-    <!-- ======= Styles ====== -->
-    <link rel="stylesheet" href="<?php echo URLROOT ?>/public/css/kitchen-staff.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
+    <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <title><?php echo SITENAME; ?></title>
     <style>
-        .status.preparing{
-  padding: 2px 4px;
-  background: #8de02c;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}
-.status.queue{
-  padding: 2px 4px;
-  background: #e9b10a;
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-}</style>
+        .dashboard-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 97.6%;
+            padding: 20px;
+            height: 60px;
+        }
+
+        .receptionist-dashboard-container {
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+        }
+
+        .rdh-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            height: 100%;
+        }
+
+        .rdh-date-picekr {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rdh-date-picekr span {
+            cursor: pointer;
+        }
+
+        .rdh-date-picekr input {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            font-size: x-large;
+        }
+
+        .dashboard-content {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 25px;
+        }
+
+        .receptionist-dashboard-container table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            border: var(--brandgreen) solid 4px;
+            border-radius: 10px;
+        }
+
+        .receptionist-dashboard-container table tr {
+            height: 50px;
+        }
+
+        .receptionist-dashboard-container table tr td {
+            border: var(--brandgreen) solid 1px;
+            text-align: center;
+        }
+
+        .receptionist-dashboard-container table tr td:nth-child(1) {
+            width: 10% !important;
+        }
+
+
+        .view-slot-button {
+            background-color: var(--brandgreen);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-slot-button:hover {
+            background-color: var(--brandgreen-dark);
+        }
+    </style>
 </head>
 
 <body>
-    <!-- ========================= Main ==================== -->
-    <div class="main">
-        <div class="topbar">
+    <div class="container">
+        <div class="navbar-template">
+            <nav class="navbar">
+                <div class="topbar">
+                    <div class="logo-item">
+                        <i class="bx bx-menu" id="sidebarOpen"></i>
+                        <img src="<?php echo URLROOT ?>/public/img/login/dineease-logo.svg" alt="DineEase Logo">
+                        <div class="topbar-title">
+                            DINE<span>EASE</span>
+                        </div>
+                    </div>
+                    <div class="navbar-content">
+                        <div class="profile-details">
 
-        </div>
-        <!-- ======================= Cards ================== -->
-        <div class="cardBox">
-            <!-- Your card content goes here -->
-        </div>
-
-        <!-- ================ Order Details List ================= -->
-        <div class="details">
-            <div class="recentOrders">
-                <div class="cardHeader">
-                    <h2>Recent Orders</h2>
-
+                            <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
+                            Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
+                        </div>
+                    </div>
                 </div>
+            </nav>
+        </div>
+        <div class="sidebar-template">
+            <nav class="sidebar">
+                <div class="sidebar-container">
+                    <div class="menu_content">
 
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Order ID</td>
-                            <td>Status</td>
-                        </tr>
-                    </thead>
+                        <ul class="menu_items">
+                            <div class="menu_title menu_menu"></div>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/chefs/index" class="nav_link " onclick="changeContent('home')">
+                                    <button class="button-sidebar-menu active-nav">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                home
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Dashboard </span>
+                                    </button>
+                                </a>
+                            </li>
+                  
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/chefs/order" class="nav_link" onclick="changeContent('order')">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                list_alt
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Orders </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <!-- End -->
 
-                    <tbody>
-                        <?php foreach ($data['orders'] as $order) : ?>
-                            <tr>
-                                <td><?php echo $order->orderID; ?></td>
-                                <td>
-                                    <span class="status <?php echo strtolower($order->status); ?>">
-                                        <?php echo ucfirst(strtolower($order->status)); ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                        </ul>
+                        <hr class='separator'>
 
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- ================= complete orders ================ -->
-            <div class="recentCustomers">
-                <div class="cardHeader">
-                    <h2>completed orders</h2>
+                        <ul class="menu_items">
+                            <div class="menu_title menu_user"></div>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/chefs/profile" class="nav_link">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                account_circle
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">My Account </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT; ?>/users/logout" class="nav_link">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                logout
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Logout</span>
+                                    </button>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-
-                <table>
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="<?php echo URLROOT ?>/public/img/kitchenstaff/tick.jpg" alt=""></div>
-                        </td>
-                        <?php foreach ($data['comorders'] as $comorder) : ?>
-                            <td>
-                                <h4>Order:<?php echo $comorder->orderID; ?><br> <span><?php echo $comorder->status; ?></span></h4>
-                            </td>
-                        <?php endforeach; ?>
-                    </tr>
-                </table>
-            </div>
+            </nav>
+        </div>
+        <div class="body-template" id="content">
+            
         </div>
     </div>
-
-    <!-- =========== Scripts =========  -->
-    
-    <!-- ====== ionicons ======= -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
 </body>
 
 </html>
