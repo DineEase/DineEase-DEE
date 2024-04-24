@@ -60,9 +60,13 @@ class Receptionists extends Controller
     }
     public  function Refund()
     {
-        $data = [];
+        $refund = $this->receptionistModel->getRefundrequests();
 
-        $this->view('Receptionist/refund');
+        $data = [
+            'refund' => $refund
+        ];
+
+        $this->view('Receptionist/refund', $data);
     }
 
     public  function Reservation()
