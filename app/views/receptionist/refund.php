@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
-
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -141,6 +141,69 @@
             </nav>
         </div>
         <div class="body-template" id="content">
+        <div class="reservation-container">
+                <div class="tabset">
+                    <input type="radio" name="tabset" id="tab1" aria-controls="view" checked>
+                    <label for="tab1">View Refund Requests</label>
+
+
+                    <div class="tab-panels">
+                        <section id="view" class="tab-panel">
+                            <div class="content read">
+                                <h2>View Refund Requests</h2>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>No</td>
+                                            <td>ReundrequestID</td>
+                                            <td>ReservationID</td>
+                                            <td>Amount</td>
+                                            <td>Date</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                   <?php if($data['refund']):?>
+                                    <?php $i=1; ?>
+                                <?php foreach($data['refund'] as $refund) :?>
+                                    <tbody> 
+                                        <td><?php echo $i;$i++ ?></td>
+                                        <td><?php echo $refund -> refundRequestID;?></td>
+                                        <td><?php echo $refund -> reservationID;?></td>
+                                        <td><?php echo $refund -> amount;?></td>
+                                        <td><?php
+                                            // Original date string
+                                            $refundDate = $refund->date;
+
+                                            // Create a DateTime object from the original date string
+                                            $dateTime = new DateTime($refundDate);
+
+                                            // Format the date to YYYY-MM-DD format
+                                            $formattedDate = $dateTime->format('Y-m-d');
+
+                                            // Output the formatted date
+                                            echo $formattedDate; // Output: 2024-04-20
+                                            ?>
+                                        </td>
+                                        <td>
+                                        <div class ="buttons">
+                                            <button class="button-3" role="button">Accept</button>
+                                            <button class="button-4" role="button">Reject</button>
+                                        </div>
+                                        </td>
+
+                                    </tbody>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                                </table>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>

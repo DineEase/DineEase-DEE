@@ -220,4 +220,9 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
+    public function getRefundrequests(){
+        $this->db->query('SELECT * FROM refundrequest ORDER BY date DESC');
+        $results = $this->db->resultSet();
+        return $results;
+    }
 }
