@@ -19,10 +19,42 @@
             height: 60px;
         }
 
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+            gap: 10px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            gap: 10px;
+        }
+
+        .half {
+            width: 50%;
+        }
+
+        .space-between {
+            justify-content: space-between;
+        }
+
         .receptionist-dashboard-container {
             display: flex;
             flex-direction: column;
             padding: 5px;
+            height: 100ch;
         }
 
         .rdh-item {
@@ -34,67 +66,63 @@
             height: 100%;
         }
 
-        .rdh-date-picekr {
+        .content-row-50 {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .rdh-date-picekr span {
-            cursor: pointer;
-        }
-
-        .rdh-date-picekr input {
-            padding: 5px;
-            border: none;
-            border-radius: 5px;
-            outline: none;
-            font-size: x-large;
+            flex-direction: column;
+            /* justify-content: center; */
+            /* align-items: center; */
+            width: 100%;
+            margin: 2em;
+            /* height: 80vh; */
+            border: 3px solid var(--brandgreen);
+            border-radius: 41px;
         }
 
         .dashboard-content {
             display: flex;
-            flex-direction: column;
-            height: 100vh;
-            padding: 25px;
+            flex-direction: row;
+            gap: 5em;
         }
 
-        .receptionist-dashboard-container table {
-            width: 100%;
-            height: 100%;
-            border-collapse: collapse;
-            border: var(--brandgreen) solid 4px;
-            border-radius: 10px;
-        }
-
-        .receptionist-dashboard-container table tr {
-            height: 50px;
-        }
-
-        .receptionist-dashboard-container table tr td {
-            border: var(--brandgreen) solid 1px;
-            text-align: center;
-        }
-
-        .receptionist-dashboard-container table tr td:nth-child(1) {
-            width: 10% !important;
-        }
-
-
-        .view-slot-button {
+        .content-row-50-head {
+            display: flex;
+            justify-content: flex-start;
+            padding-left: 10%;
+            align-items: center;
+            /* width: 100%; */
+            height: 10%;
             background-color: var(--brandgreen);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            border-radius: 41px 41px 0 0;
+            padding: 10px;
+            gap: 10px;
         }
 
-        .view-slot-button:hover {
-            background-color: var(--brandgreen-dark);
+        .content-row-50-body {
+            display: flex;
+            flex-direction: column;
+            margin: 0 4% 4% 4%;
+            background-color: rgb(223, 222, 222);
+            border-radius: 41px 41px;
+            padding: 2%;
+        }
+
+        .order-card-container {
+            display: flex;
+            flex-direction: column;
+            padding: 3%;
+            height: fit-content;
+            background-color: white;
+            border-radius: 30px;
+            margin-bottom: 2%;
+        }
+
+        .orderNo {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        section {
+            max-height: 100%;
         }
     </style>
 </head>
@@ -141,7 +169,7 @@
                                     </button>
                                 </a>
                             </li>
-                  
+
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/chefs/order" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu active-nav">
@@ -191,9 +219,135 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            
+            <div class="tabset">
+                <input type="radio" name="tabset" id="tab1" aria-controls="orders" checked>
+                <label for="tab1">Orders in Queue</label>
+                <input type="radio" name="tabset" id="tab2" aria-controls="items">
+                <label for="tab2">Items in Queue</label>
+
+                <div class="tab-panels">
+                    <section id="orders" class="tab-panel">
+                        <div class="receptionist-dashboard-container">
+
+                            <div class="dashboard-content">
+                                <div class="content-row-50">
+                                    <div class="content-row-50-head">
+                                        <span class="material-symbols-outlined"> inactive_order </span>
+                                        <h2>Incoming Orders</h2>
+                                        <span class="active-no">
+
+                                            <?php
+                                            $count = 0;
+                                            foreach ($data['reservations'] as $reservation) {
+                                                if ($reservation->preparationStatus == 'Pending') {
+                                                    $count++;
+                                                }
+                                            }
+                                            echo $count;
+                                            ?>
+
+                                        </span>
+                                    </div>
+                                    <div class="content-row-50-body">
+                                        <?php foreach ($data['reservations'] as $reservation) { ?>
+                                            <?php if ($reservation->preparationStatus == 'Pending') { ?>
+
+                                                <div class="order-card-container">
+                                                    <div class="row">
+                                                        <div class="column">
+                                                            <span class="orderNo"><?php echo $reservation->orderID ?></span>
+
+                                                            <span class="tableNo"><?php echo $reservation->tableID ?> </span>
+                                                            <span class="orderTime"> <?php echo ($reservation->reservationStartTime) ?></span>
+                                                        </div>
+                                                        <div class="column half">
+                                                            <?php foreach ($reservation->items as $item) { ?>
+                                                                <div class="row">
+                                                                    <span class="quantity"><?php echo $item->quantity ?></span> X
+                                                                    <span class="item"> <?php echo $item->itemName ?> </span> -
+                                                                    <span class="size"><?php echo $item->size ?></span>
+                                                                </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row space-between">
+                                                        <span class="est-time"> 30 Min</span>
+                                                        <button>Add TO Queue</button>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <div class="content-row-50">
+                                    <div class="content-row-50-head">
+                                        <span class="material-symbols-outlined"> cooking </span>
+                                        <h2>Active Orders</h2>
+                                        <span class="active-no">
+                                            <?php
+                                            $count = 0;
+                                            foreach ($data['reservations'] as $reservation) {
+                                                if ($reservation->preparationStatus == 'Active') {
+                                                    $count++;
+                                                }
+                                            }
+                                            echo $count;
+                                            ?>
+                                        </span>
+
+                                    </div>
+                                    <div class="content-row-50-body">
+                                        <?php foreach ($data['reservations'] as $reservation) { ?>
+                                            <?php if ($reservation->preparationStatus == 'Active') { ?>
+
+                                                <div class="order-card-container">
+                                                    <div class="row">
+                                                        <div class="column">
+                                                            <span class="orderNo"><?php echo $reservation->orderID ?></span>
+
+                                                            <span class="tableNo"><?php echo $reservation->tableID ?> </span>
+                                                            <span class="orderTime"> <?php echo ($reservation->reservationStartTime) ?></span>
+                                                        </div>
+                                                        <div class="column half">
+                                                            <?php foreach ($reservation->items as $item) { ?>
+                                                                <div class="row">
+                                                                    <span class="quantity"><?php echo $item->quantity ?></span> X
+                                                                    <span class="item"> <?php echo $item->itemName ?> </span> -
+                                                                    <span class="size"><?php echo $item->size ?></span>
+                                                                </div>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row space-between">
+                                                        <span class="est-time"> 30 Min</span>
+                                                        <span class="status-of-order"> Preparing </span>
+                                                        <span class="material-symbols-outlined"> done </span>
+
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="items" class="tab-panel">
+                        <?php
+                        echo "<pre>";
+                        print_r($data['reservations']);
+                        echo "</pre>";
+                        ?>
+                </div>
+                </section>
+            </div>
         </div>
     </div>
+    </div>
+    <script>
+
+    </script>
+
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
 </body>
 
