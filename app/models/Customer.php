@@ -7,6 +7,8 @@ class Customer
         $this->db = new Database;
     }
 
+    
+
     public function getReservation($user_id, $limit = 10, $offset = 0)
     {
         $this->db->query('SELECT * FROM reservation WHERE customerID = :user_id ORDER BY date ASC LIMIT :offset, :limit');

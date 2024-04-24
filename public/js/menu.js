@@ -1,15 +1,14 @@
 var menuItems = menus;
+var filteredItems
 var itemReviewMap = foodReviews.reduce((map, item) => {
   map[item.itemID] = item;
   return map;
 }, {});
 
 $(document).ready(function () {
-  console.log("Customer Menu JS Loaded");
-  console.log(foodReviews);
+
   let currentCategoryId = "all";
   let currentPage = 1;
-  let itemsPerPage = 14;
 
   function paginateItems(items) {
     const startIndex = (currentPage - 1) * itemsPerPage;

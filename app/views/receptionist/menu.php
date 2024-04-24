@@ -101,18 +101,7 @@
                                     </button>
                                 </a>
                             </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/receptionists/review" class="nav_link" onclick="changeContent('review')">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                reviews
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li>
+                           
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu">
@@ -234,14 +223,13 @@
         const URLROOT = "<?php echo URLROOT; ?>";
         var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
         var menus = <?php echo json_encode($data['menus']); ?>;
+        let itemsPerPage = 14;
+
     </script>  
 
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
-    <!-- <script src="<?php echo URLROOT; ?>/js/customer.js"></script> -->
     <script src="<?php echo URLROOT; ?>/js/menu.js"></script>
     <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
-
-      
 
 </body>
 
