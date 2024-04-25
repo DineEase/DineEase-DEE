@@ -73,7 +73,7 @@ $(document).ready(function () {
     $(".category-button").removeClass("active-category");
     $(this).addClass("active-category");
     currentCategoryId = $(this).data("category-id");
-    currentPage = 1; // Reset to first page when changing categories
+    currentPage = 1;
     filterItems();
   });
   $("#prev-page").on("click", function () {
