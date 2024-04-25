@@ -1,29 +1,13 @@
 <?php
-class Chef {
+class Chef
+{
     private $db;
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = new Database;
     }
-    public function getOrders() {
-        
-        // $this->db->query('SELECT * FROM orders where status =  "Paid"   ORDER BY orderItemID DESC');
-        // $row1 = $this->db->resultSet();
-        // foreach ($row1 as $row) {
-        //     $this->db->query('SELECT * FROM orderitem WHERE orderNo = :order_id');
-        //     $this->db->bind(':order_id', $row->orderItemID);
-        //     $row->items = $this->db->resultSet();
-        //     $this->db->query('SELECT * FROM reservation WHERE reservationID = :reservation_id');
-        //     $this->db->bind(':reservation_id', $row->reservationID  );
-        //     $row->reservation = $this->db->single();
-        //     $this->db->query('SELECT * FROM users WHERE user_id = :customer_id');
-        //     $this->db->bind(':customer_id', $row->reservation->customerID);
-        //     $row->customer = $this->db->single();
-        //     foreach ($row->items as $item) {
-        //         $this->db->query('SELECT * FROM menuitem WHERE itemID = :menu_id');
-        //         $this->db->bind(':menu_id', $item->itemID);
-        //         $item->menu = $this->db->single();
-        //     }
-        // }
+    public function getOrders()
+    {
 
         $today = date("Y-m-d");
 
@@ -31,15 +15,15 @@ class Chef {
         $this->db->bind(':today', $today);
         $row1 = $this->db->resultSet();
 
-        foreach($row1 as $row){
+        foreach ($row1 as $row) {
             $this->db->query(('SELECT preparationStatus FROM orders WHERE orderItemID = :orderID'));
             $this->db->bind(':orderID', $row->orderID);
-           $row2 = $this->db->single();
+            $row2 = $this->db->single();
             $row->preparationStatus = $row2->preparationStatus;
         }
 
         foreach ($row1 as $row) {
-            $this->db->query('SELECT itemID , size , quantity FROM orderitem WHERE orderNo = :orderID');
+            $this->db->query('SELECT orderItemID ,itemID , size , quantity , itemProcessingStatus FROM orderitem WHERE orderNo = :orderID');
             $this->db->bind(':orderID', $row->orderID);
             $row->items = $this->db->resultSet();
             $this->db->query('SELECT name FROM users WHERE user_id = :customer_id');
@@ -55,8 +39,62 @@ class Chef {
         }
 
         return $row1;
-    }        
-    
+    }
+
+    public function changeOrderStatus($orderID)
+    {
+        $this->db->query('UPDATE orders SET preparationStatus = "Active" WHERE orderItemID = :orderID');
+        $this->db->bind(':orderID', $orderID);
+        $this->db->execute();
+
+        $this->db->query('SELECT * FROM orderitem WHERE orderNo = :orderID');
+        $this->db->bind(':orderID', $orderID);
+        $row2 = $this->db->resultSet();
+
+        foreach ($row2 as $row) {
+            $this->db->query('UPDATE orderitem SET status = "Active" , itemProcessingStatus = "Queued"  WHERE orderItemID = :itemID');
+            $this->db->bind(':itemID', $row->orderItemID);
+            $this->db->execute();
+        }
+        
+    }
+
+    public function changeItemStatus($itemID, $status)
+    {
+        $this->db->query('UPDATE orderitem SET itemProcessingStatus = :status WHERE orderItemID = :itemID');
+        $this->db->bind(':itemID', $itemID);
+        $this->db->bind(':status', $status);
+        $this->db->execute();
+
+        $this->db->query('SELECT * FROM orderitem WHERE orderItemID = :itemID');
+        $this->db->bind(':itemID', $itemID);
+        $row = $this->db->single();
+
+        $this->db->query('SELECT * FROM orderitem WHERE orderNo = :orderNo');
+        $this->db->bind(':orderNo', $row->orderNo);
+        $row2 = $this->db->resultSet();
+
+        $flag = 0;
+        foreach ($row2 as $row) {
+            if ($row->itemProcessingStatus != 'Ready') {
+                $flag = 1;
+            }
+        }
+
+        if ($flag == 0) {
+            $this->db->query('UPDATE orders SET preparationStatus = "Completed" WHERE orderItemID = :orderID');
+            $this->db->bind(':orderID', $row->orderNo);
+            $this->db->execute();
+        }
+
+        $this->db->query('SELECT * FROM orderitem WHERE orderNo = :orderID');
+        $this->db->bind(':orderID', $row->orderNo);
+        $row2 = $this->db->resultSet();
+  
+        foreach ($row2 as $row) {
+            $this->db->query('UPDATE orderitem SET status = "Active" WHERE orderItemID = :itemID');
+            $this->db->bind(':itemID', $row->orderItemID);
+            $this->db->execute();
+        }
+    }
 }
-
-

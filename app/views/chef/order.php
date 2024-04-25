@@ -234,121 +234,67 @@
                                     <div class="content-row-50-head">
                                         <span class="material-symbols-outlined"> inactive_order </span>
                                         <h2>Incoming Orders</h2>
-                                        <span class="active-no">
-
-                                            <?php
-                                            $count = 0;
-                                            foreach ($data['reservations'] as $reservation) {
-                                                if ($reservation->preparationStatus == 'Pending') {
-                                                    $count++;
-                                                }
-                                            }
-                                            echo $count;
-                                            ?>
-
+                                        <span class="active-no" id="order-count-incoming">
                                         </span>
                                     </div>
-                                    <div class="content-row-50-body">
-                                        <?php foreach ($data['reservations'] as $reservation) { ?>
-                                            <?php if ($reservation->preparationStatus == 'Pending') { ?>
-
-                                                <div class="order-card-container">
-                                                    <div class="row">
-                                                        <div class="column">
-                                                            <span class="orderNo"><?php echo $reservation->orderID ?></span>
-
-                                                            <span class="tableNo"><?php echo $reservation->tableID ?> </span>
-                                                            <span class="orderTime"> <?php echo ($reservation->reservationStartTime) ?></span>
-                                                        </div>
-                                                        <div class="column half">
-                                                            <?php foreach ($reservation->items as $item) { ?>
-                                                                <div class="row">
-                                                                    <span class="quantity"><?php echo $item->quantity ?></span> X
-                                                                    <span class="item"> <?php echo $item->itemName ?> </span> -
-                                                                    <span class="size"><?php echo $item->size ?></span>
-                                                                </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row space-between">
-                                                        <span class="est-time"> 30 Min</span>
-                                                        <button>Add TO Queue</button>
-                                                    </div>
-                                                </div>
-                                            <?php } ?>
-                                        <?php } ?>
+                                    <div class="content-row-50-body" id="incoming-orders">
                                     </div>
                                 </div>
                                 <div class="content-row-50">
                                     <div class="content-row-50-head">
                                         <span class="material-symbols-outlined"> cooking </span>
                                         <h2>Active Orders</h2>
-                                        <span class="active-no">
-                                            <?php
-                                            $count = 0;
-                                            foreach ($data['reservations'] as $reservation) {
-                                                if ($reservation->preparationStatus == 'Active') {
-                                                    $count++;
-                                                }
-                                            }
-                                            echo $count;
-                                            ?>
+                                        <span class="active-no" id="order-count-active">
                                         </span>
-
                                     </div>
-                                    <div class="content-row-50-body">
-                                        <?php foreach ($data['reservations'] as $reservation) { ?>
-                                            <?php if ($reservation->preparationStatus == 'Active') { ?>
-
-                                                <div class="order-card-container">
-                                                    <div class="row">
-                                                        <div class="column">
-                                                            <span class="orderNo"><?php echo $reservation->orderID ?></span>
-
-                                                            <span class="tableNo"><?php echo $reservation->tableID ?> </span>
-                                                            <span class="orderTime"> <?php echo ($reservation->reservationStartTime) ?></span>
-                                                        </div>
-                                                        <div class="column half">
-                                                            <?php foreach ($reservation->items as $item) { ?>
-                                                                <div class="row">
-                                                                    <span class="quantity"><?php echo $item->quantity ?></span> X
-                                                                    <span class="item"> <?php echo $item->itemName ?> </span> -
-                                                                    <span class="size"><?php echo $item->size ?></span>
-                                                                </div>
-                                                            <?php } ?>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row space-between">
-                                                        <span class="est-time"> 30 Min</span>
-                                                        <span class="status-of-order"> Preparing </span>
-                                                        <span class="material-symbols-outlined"> done </span>
-
-                                                    </div>
-                                                </div>
-                                            <?php } ?>
-                                        <?php } ?>
+                                    <div class="content-row-50-body" id="active-orders">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                     <section id="items" class="tab-panel">
-                        <?php
-                        echo "<pre>";
-                        print_r($data['reservations']);
-                        echo "</pre>";
-                        ?>
+                        <div class="dashboard-content">
+                            <div class="content-row-50">
+                                <div class="content-row-50-head">
+                                    <span class="material-symbols-outlined"> inactive_order </span>
+                                    <h2>Queued Items</h2>
+                                    <span class="active-no" id="item-count-queued">
+                                    </span>
+                                </div>
+                                <div class="content-row-50-body" id="queued-items">
+                                </div>
+                            </div>
+                            <div class="content-row-50">
+                                <div class="content-row-50-head">
+                                    <span class="material-symbols-outlined"> inactive_order </span>
+                                    <h2>Processing Items</h2>
+                                    <span class="active-no" id="item-count-processing">
+                                    </span>
+                                </div>
+                                <div class="content-row-50-body" id="processing-items">
+                                </div>
+                            </div>
+                            <div class="content-row-50">
+                                <div class="content-row-50-head">
+                                    <span class="material-symbols-outlined"> cooking </span>
+                                    <h2>Compleated Items</h2>
+                                    <span class="active-no" id="item-count-completed">
+                                    </span>
+                                </div>
+                                <div class="content-row-50-body" id="completed-items">
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 </section>
             </div>
         </div>
     </div>
     </div>
-    <script>
-
-    </script>
 
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/chef.js"></script>
 </body>
 
 </html>
