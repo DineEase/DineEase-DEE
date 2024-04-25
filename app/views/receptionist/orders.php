@@ -140,7 +140,7 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            <button onclick="sendMsg();" name="send">press me</button>
+            <!-- <button onclick="sendMsg();" name="send">press me</button> -->
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>

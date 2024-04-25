@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/chefmenu.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
 </head>
 
@@ -38,36 +38,36 @@
             <nav class="sidebar">
                 <div class="sidebar-container">
                     <div class="menu_content">
-                        
+
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
-                            <!-- <li class="item">
-                                <a href="<?php echo URLROOT ?>/chefs/index" class="nav_link">
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/receptionists/index" class="nav_link " onclick="changeContent('home')">
                                     <button class="button-sidebar-menu ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 home
                                             </span>
                                         </span>
-                                        <span class="button-sidebar-menu-content">Home </span>
-                                    </button>
-                                </a>
-                            </li> -->
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/chefs/order" class="nav_link">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                list_alt
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Orders </span>
+                                        <span class="button-sidebar-menu-content">Dashboard </span>
                                     </button>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/chefs/menu" class="nav_link">
-                                    <button class="button-sidebar-menu active-nav">
+                                <a href="<?php echo URLROOT ?>/receptionists/reservation" class="nav_link" onclick="changeContent('reservation')">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                book_online
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Reservation </span>
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/receptionists/menu" class="nav_link" onclick="changeContent('menu')">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 restaurant_menu
@@ -77,7 +77,44 @@
                                     </button>
                                 </a>
                             </li>
+                            <li class="item">
+                                <a href="<?php echo URLROOT ?>/receptionists/refund" class="nav_link" onclick="changeContent('refund')">
+                                    <button class="button-sidebar-menu">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                currency_exchange
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Refund </span>
+                                    </button>
+                                </a>
+                            </li>
 
+                            <li class="item">
+                                <a href="<?php echo APPROOT ?>/receptionist/orders.php" class="nav_link" onclick="changeContent('order')">
+                                    <button class="button-sidebar-menu ">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                list_alt
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">Orders </span>
+                                    </button>
+                                </a>
+                            </li>
+
+                            <li class="item">
+                                <a href="<?php echo APPROOT ?>/receptionist/availability.php" class="nav_link" onclick="changeContent('availability')">
+                                    <button class="button-sidebar-menu active-nav">
+                                        <span class="navlink_icon">
+                                            <span class="material-symbols-outlined ">
+                                                list_alt
+                                            </span>
+                                        </span>
+                                        <span class="button-sidebar-menu-content">availability </span>
+                                    </button>
+                                </a>
+                            </li>
                             <!-- End -->
 
 
@@ -87,7 +124,7 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_user"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/chefs/profile" class="nav_link">
+                                <a href="<?php echo URLROOT ?>/receptionists/profile" class="nav_link">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -115,41 +152,31 @@
                 </div>
             </nav>
         </div>
-        <div class="body-template">
-            <div class="menu-card">
-                <a href="<?php echo URLROOT ?>/chefs/submitMenuitem" class="create-menu-link">
-                    <span class="plus-symbol">+</span> Create a New Menu
-                </a>
-            </div>
-            <div class="editingPlace-chef-menu">
-            </div>
-            <div class="menus-chef-menu" id="parentDiv">
-                <?php
-                foreach ($data['menu'] as $menuitem) {
-                    echo '<div class="item-chef-menu">';
-                    echo '<div class="bottom-chef-menu">';
-                    echo '<div class="image-box-chef-menu">';
-                    echo '<img src="' . URLROOT . '/uploads/' . basename($menuitem->imagePath) . '" alt="Menu Item Image">';
-                    echo '</div>';
-                    echo '<p class="title-chef-menu center-text">' . $menuitem->itemName . '</p>';
-                    echo '<p class="price-chef-menu center-text">LKR' . $menuitem->price . '</p>';
-                    echo '<p class=" Time-chef-menu center-text">' . $menuitem->averageTime . ' Minutes </p>';
-                    echo '<div class="buttons-chef-menu">';
-                    if ($menuitem->hidden == 0) {
-                        echo '<span class="button  item-button-chef-menu"><a href="' . URLROOT . '/chefs/showMenuitem/' . $menuitem->itemID . '">Show</a></span>';
-                    } else {
-                        echo '<span class="button item-button-chef-menu"><a href="' . URLROOT . '/chefs/hideMenuitem/' . $menuitem->itemID . '">Hide</a></span>';
-                    }
-                    echo '<span class="button item-button-chef-menu"><a href="' . URLROOT . '/chefs/editMenuitem/' . $menuitem->itemID . '">Edit</a></span>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                };
-                ?>
-            </div>
+        <div class="body-template" id="content">
+            <!-- <button onclick="sendMsg();" name="send">press me</button> -->
         </div>
-        <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
-        <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    </div>
+    <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+
+    <script>
+        function sendMsg() {
+            console.log("sending message");
+            $.ajax({
+                url: "<?php echo URLROOT; ?>/Messages/send",
+                type: "POST",
+                data: {
+                    number: "+94772903494",
+                    messageToSend: "Hello, this is a test message from DineEase"
+                },
+                success: function(data) {
+                    console.log(data);
+
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>
