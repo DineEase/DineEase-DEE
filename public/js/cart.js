@@ -351,9 +351,11 @@ function paymentGateway(ReservationID) {
           contentType: "application/x-www-form-urlencoded",
           success: function (response) {},
         });
+        console.log("Payment completed. OrderID:" + orderId);
         markPaid();
         createOrder();
         emptyCart();
+       
         location.reload();
       };
 

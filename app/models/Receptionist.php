@@ -7,54 +7,6 @@ class Receptionist
         $this->db = new Database;
     }
 
-    // public function getReservation($user_id)
-    // {
-    //     $this->db->query('SELECT * FROM reservation ORDER BY date DESC');
-    //     $results = $this->db->resultSet();
-    //     return $results;
-    // }
-
-    // public function cancelReservation($reservationID)
-    // {
-    //     $this->db->query("UPDATE reservation SET status = 'Cancelled' WHERE reservationID = :reservationID");
-    //     $this->db->bind(':reservationID', $reservationID);
-    //     $results = $this->db->execute();
-    //     return $results;
-    // }
-
-    // public function addReservation($data)
-    // {
-    //     $this->db->query('INSERT INTO reservation (customerID, tableID, packageID,date, reservationStartTime, reservationEndTime, numOfPeople) VALUES (:customerID, :tableID, :packageID, :date, :reservationStartTime, :reservationEndTime, :numOfPeople)');
-    //     $this->db->bind(':customerID', $data['customerID']);
-    //     $this->db->bind(':tableID', $data['tableID']);
-    //     $this->db->bind(':packageID', $data['packageID']);
-    //     $this->db->bind(':date', $data['date']);
-    //     $this->db->bind(':reservationStartTime', $data['reservationStartTime']);
-    //     $this->db->bind(':reservationEndTime', $data['reservationEndTime']);
-    //     $this->db->bind(':numOfPeople', $data['numOfPeople']);
-    //     //execute
-    //     if ($this->db->execute()) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-    // public function getReviews()
-    // {
-    //     $this->db->query('SELECT * FROM review ORDER BY date DESC');
-    //     $results = $this->db->resultSet();
-    //     return $results;
-    // }
-
-    // public function getRemainingSlots($date)
-    // {
-    //     $this->db->query('SELECT * FROM reservation WHERE date = :date');
-    //     $this->db->bind(':date', $date);
-    //     $results = $this->db->resultSet();
-    //     return $results;
-    // }
-
     public function getPackages()
     {
         $this->db->query('SELECT * FROM package');
@@ -116,7 +68,7 @@ class Receptionist
         return $results;
     }
 
-    public function getReservationWithSearch( $limit = 10, $offset = 0, $search)
+    public function getReservationWithSearch($limit = 10, $offset = 0, $search)
     {
         $this->db->query('SELECT * FROM reservation WHERE  (status LIKE :search OR numOfPeople LIKE :search) ORDER BY date ASC LIMIT :offset, :limit');
         $this->db->bind(':limit', $limit);
@@ -125,7 +77,7 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
-    public function getTotalReservationCountWithSearch( $search)
+    public function getTotalReservationCountWithSearch($search)
     {
         $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE (status LIKE :search OR numOfPeople LIKE :search) order by date ASC');
         $this->db->bind(':search', "%$search%");
@@ -133,7 +85,7 @@ class Receptionist
         return $row->count;
     }
 
-    public function getReservationWithStatus( $limit = 10, $offset = 0, $status)
+    public function getReservationWithStatus($limit = 10, $offset = 0, $status)
     {
         $this->db->query('SELECT * FROM reservation WHERE status = :status ORDER BY date ASC LIMIT :offset, :limit');
         $this->db->bind(':limit', $limit);
@@ -143,15 +95,15 @@ class Receptionist
         return $results;
     }
 
-    public function getTotalReservationCountWithStatus( $status)
+    public function getTotalReservationCountWithStatus($status)
     {
         $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE status = :status ORDER BY date ASC');
         $this->db->bind(':status', $status);
         $row = $this->db->single();
         return $row->count;
     }
-    
-    public function getReservationWithDateRange( $limit = 10, $offset = 0, $startDate, $endDate)
+
+    public function getReservationWithDateRange($limit = 10, $offset = 0, $startDate, $endDate)
     {
         $this->db->query('SELECT * FROM reservation WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC LIMIT :offset, :limit');
         $this->db->bind(':limit', $limit);
@@ -161,7 +113,7 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
-    public function getTotalReservationCountWithDateRange( $startDate, $endDate)
+    public function getTotalReservationCountWithDateRange($startDate, $endDate)
     {
         $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC');
         $this->db->bind(':startDate', $startDate);
@@ -170,8 +122,8 @@ class Receptionist
         return $row->count;
     }
 
-    
-    public function getReservationWithStatusAndDateRange( $limit = 10, $offset = 0, $status, $startDate, $endDate)
+
+    public function getReservationWithStatusAndDateRange($limit = 10, $offset = 0, $status, $startDate, $endDate)
     {
         $this->db->query('SELECT * FROM reservation WHERE  status = :status AND date BETWEEN :startDate AND :endDate ORDER BY date ASC LIMIT :offset, :limit');
         $this->db->bind(':limit', $limit);
@@ -182,7 +134,7 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
-    public function getTotalReservationCountWithStatusAndDateRange( $status, $startDate, $endDate)
+    public function getTotalReservationCountWithStatusAndDateRange($status, $startDate, $endDate)
     {
         $this->db->query('SELECT COUNT(*) as count FROM reservation WHERE status = :status AND date BETWEEN :startDate AND :endDate ORDER BY date ASC');
         $this->db->bind(':status', $status);
@@ -220,9 +172,60 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
-    public function getRefundrequests(){
+    public function getRefundrequests()
+    {
         $this->db->query('SELECT * FROM refundrequest ORDER BY date DESC');
         $results = $this->db->resultSet();
         return $results;
+    }
+
+    public function markCompleted($orderID){
+        $this->db->query('UPDATE reservation SET status = "Completed" WHERE orderID = :orderID');
+        $this->db->bind(':orderID', $orderID);
+        $result =  $this->db->execute();
+        return $result;
+    }
+
+    public function getOrders()
+    {
+
+        $today = date("Y-m-d");
+
+        $this->db->query('SELECT reservationID ,customerID, tableID , reservationStartTime , orderID  , amount FROM reservation where status =  "Paid" and date = :today ORDER BY reservationStartTime ASC');
+        $this->db->bind(':today', $today);
+        $row1 = $this->db->resultSet();
+
+        foreach ($row1 as $row) {
+            $this->db->query('SELECT amount FROM payment WHERE reservationID = :reservationID');
+            $this->db->bind(':reservationID', $row->reservationID);
+            $row2 = $this->db->single();
+            $row->amountPaid = $row2->amount;   
+        }
+
+
+        foreach ($row1 as $row) {
+            $this->db->query(('SELECT preparationStatus FROM orders WHERE orderItemID = :orderID'));
+            $this->db->bind(':orderID', $row->orderID);
+            $row2 = $this->db->single();
+            $row->preparationStatus = $row2->preparationStatus;
+        }
+
+        foreach ($row1 as $row) {
+            $this->db->query('SELECT orderItemID ,itemID , size , quantity , itemProcessingStatus FROM orderitem WHERE orderNo = :orderID');
+            $this->db->bind(':orderID', $row->orderID);
+            $row->items = $this->db->resultSet();
+            $this->db->query('SELECT name FROM users WHERE user_id = :customer_id');
+            $this->db->bind(':customer_id', $row->customerID);
+            $row->customer = $this->db->single();
+            foreach ($row->items as $item) {
+                $this->db->query('SELECT itemName , averageTime FROM menuitem WHERE itemID = :menu_id');
+                $this->db->bind(':menu_id', $item->itemID);
+                $row3 = $this->db->single();
+                $item->itemName = $row3->itemName;
+                $item->averageTime = $row3->averageTime;
+            }
+        }
+
+        return $row1;
     }
 }

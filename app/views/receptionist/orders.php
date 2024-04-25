@@ -140,7 +140,79 @@
             </nav>
         </div>
         <div class="body-template" id="content">
-            <!-- <button onclick="sendMsg();" name="send">press me</button> -->
+
+            <div class="body-template" id="content">
+                <div class="tabset">
+                    <input type="radio" name="tabset" id="tab1" aria-controls="orders" checked>
+                    <label for="tab1">Orders in Queue</label>
+                    <input type="radio" name="tabset" id="tab2" aria-controls="items">
+                    <label for="tab2">Items in Queue</label>
+
+                    <div class="tab-panels">
+                        <section id="orders" class="tab-panel">
+                            <div class="receptionist-dashboard-container">
+
+                                <div class="dashboard-content">
+                                    <div class="content-row-50">
+                                        <div class="content-row-50-head">
+                                            <span class="material-symbols-outlined"> inactive_order </span>
+                                            <h2>Incoming Orders</h2>
+                                            <span class="active-no" id="order-count-incoming">
+                                            </span>
+                                        </div>
+                                        <div class="content-row-50-body" id="incoming-orders">
+                                        </div>
+                                    </div>
+                                    <div class="content-row-50">
+                                        <div class="content-row-50-head">
+                                            <span class="material-symbols-outlined"> cooking </span>
+                                            <h2>Active Orders</h2>
+                                            <span class="active-no" id="order-count-active">
+                                            </span>
+                                        </div>
+                                        <div class="content-row-50-body" id="active-orders">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="items" class="tab-panel">
+                            <div class="dashboard-content">
+                                <div class="content-row-50">
+                                    <div class="content-row-50-head">
+                                        <span class="material-symbols-outlined"> inactive_order </span>
+                                        <h2>Queued Items</h2>
+                                        <span class="active-no" id="item-count-queued">
+                                        </span>
+                                    </div>
+                                    <div class="content-row-50-body" id="queued-items">
+                                    </div>
+                                </div>
+                                <div class="content-row-50">
+                                    <div class="content-row-50-head">
+                                        <span class="material-symbols-outlined"> inactive_order </span>
+                                        <h2>Processing Items</h2>
+                                        <span class="active-no" id="item-count-processing">
+                                        </span>
+                                    </div>
+                                    <div class="content-row-50-body" id="processing-items">
+                                    </div>
+                                </div>
+                                <div class="content-row-50">
+                                    <div class="content-row-50-head">
+                                        <span class="material-symbols-outlined"> cooking </span>
+                                        <h2>Compleated Items</h2>
+                                        <span class="active-no" id="item-count-completed">
+                                        </span>
+                                    </div>
+                                    <div class="content-row-50-body" id="completed-items">
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
@@ -158,7 +230,7 @@
                 },
                 success: function(data) {
                     console.log(data);
-                    
+
                 }
             });
         }

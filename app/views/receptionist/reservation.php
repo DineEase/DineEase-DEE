@@ -12,6 +12,119 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <title><?php echo SITENAME; ?></title>
 </head>
+<style>
+    .flex-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        gap: 10px;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        gap: 10px;
+    }
+
+    .half {
+        width: 50%;
+    }
+
+    .space-between {
+        justify-content: space-between;
+    }
+
+    .receptionist-dashboard-container {
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        height: 100ch;
+    }
+
+    .completed-reservations-container {
+        height: 100vh;
+        margin: 0em 10em 0em;
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        /* align-items: center; */
+    }
+
+    .order-items-conteainer {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        margin: 1em;
+        background-color: white;
+        border-radius: 10px;
+        height: 80vh;
+        padding: 1em;
+        overflow-y: auto;
+    }
+
+    .completed-order-item-card {
+        display: flex;
+        background-color: red;
+        border-radius: 10px;
+        width: 100%;
+        height: 10vh;
+    }
+
+    .completed-reservations-container table {
+        width: 100%;
+    }
+
+    .completed-reservations-container td {
+        padding: 1em;
+        width: 7em;
+    }
+
+    .compleated-order-header {
+        display: flex;
+        flex-direction: row;
+        height: 3em;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+    }
+
+    .completed-order-item-card-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+        height: 3em;
+        background-color: rgb(117, 123, 129);
+    }
+
+    .add-reservation-receptionist {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1em;
+    }
+
+    #ongoingOrders , #completedOrders {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+    }
+</style>
 
 <body>
     <div class="container">
@@ -148,6 +261,10 @@
                         <label for="tab1">View Reservations</label>
                         <input type="radio" name="tabset" id="tab2" aria-controls="add">
                         <label for="tab2">Add Reservation</label>
+                        <input type="radio" name="tabset" id="tab3" aria-controls="ongoing">
+                        <label for="tab3">Ongoing Reservations</label>
+                        <input type="radio" name="tabset" id="tab4" aria-controls="completed">
+                        <label for="tab4">Completed Reservations</label>
 
                         <div class="tab-panels">
                             <section id="view" class="tab-panel">
@@ -396,335 +513,91 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </section>
                             <section id="add" class="tab-panel">
-                                <div class="add-reservation-container">
-                                    <div class="reservation-container-fluid">
-                                        <div class=" text-center ">
-                                            <div class="card">
-                                                <h2 id="heading" class="text-center">Reserve Slot</h2>
-                                                <form id="msform" class="msform-container" action="<?php echo URLROOT; ?>/customers/addReservation" method="post">
-                                                    <div class="prog">
-                                                        <ul id="progressbar">
-                                                            <li class="active" id="package"><strong>Suite</strong></li>
-                                                            <li id="rd"><strong>Reservation Details</strong></li>
-                                                            <li id="availability"><strong>Availability</strong></li>
-                                                            <li id="confirm"><strong>Payment</strong></li>
-                                                        </ul>
-                                                    </div>
-                                                    <fieldset>
-                                                        <div class="form-card">
-                                                            <input type="text" hidden id="customerID" value="<?php echo ($_SESSION['user_id']) ?>"></input>
-                                                            <div class="row fixed-height-row-reservation">
-                                                                <div>
-                                                                    <h3 class="fs-title">Select the Suite:</h3>
-                                                                </div>
-                                                                <div class="suit-cards">
-                                                                    <div class="wrapper">
-                                                                        <div class="card">
-                                                                            <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk1.jpg" alt=""></div>
-                                                                            <div class="details">
-                                                                                <div class="up">
-                                                                                    <span class="material-symbols-outlined">
-                                                                                        stat_2
-                                                                                    </span>
-                                                                                    <div class=" suitTag">BUDGET </div>
-                                                                                </div>
-                                                                                <h1>Budget</h1>
-
-                                                                                <div class="rating">
-
-                                                                                    <?php
-                                                                                    $avgStarsB = $data['suiteReview']['avgStarsForBudet'];
-                                                                                    echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>',  $avgStarsB) . str_repeat('<span class="material-symbols-outlined">star</span>', (5 - $avgStarsB)); ?>
-                                                                                    <span> ( <?php echo $data['suiteReview']['totalReviewsForBudget']; ?>) </span>
-                                                                                </div>
-
-                                                                                <p class="desc">
-                                                                                    -Comfortable and affordable dining experience <br>
-                                                                                    -Cozy seating area <br>
-                                                                                    -Pleasant ambiance <br>
-                                                                                    -Suitable for dining alone or with a group <br>
-                                                                                    -<b>LKR.500.00/seat for reservations</b> </p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
-
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="card">
-                                                                            <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk2.jpg" alt=""></div>
-                                                                            <div class="details">
-                                                                                <div class="up">
-                                                                                    <span class="material-symbols-outlined">
-                                                                                        stat_2
-                                                                                    </span>
-                                                                                    <div class=" suitTag"> GOLD</div>
-                                                                                </div>
-                                                                                <h1>Gold</h1>
-
-                                                                                <div class="rating">
-
-                                                                                    <?php
-                                                                                    $avgStarsG = $data['suiteReview']['totalReviewsForGold'];
-                                                                                    echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', $avgStarsG) . str_repeat('<span class="material-symbols-outlined">star</span>', (5 - $avgStarsG)); ?>
-                                                                                    <span> ( <?php echo $data['suiteReview']['totalReviewsForPlatinum']; ?> ) </span>
-                                                                                </div>
-
-                                                                                <p class="desc">
-
-                                                                                    - Elegant dining experience <br>
-                                                                                    - Spacious seating area <br>
-                                                                                    - Suitable for special occasions or celebrations <br>
-                                                                                    - <b>LKR.500.00/seat for reservations<br>
-                                                                                        - 5% tax on total bill <br></b>
-                                                                                </p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
-
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="card">
-                                                                            <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk3.jpeg" alt=""></div>
-                                                                            <div class="details">
-                                                                                <div class="up">
-                                                                                    <span class="material-symbols-outlined">
-                                                                                        stat_2
-                                                                                    </span>
-                                                                                    <div class=" suitTag"> PLATINUM </div>
-                                                                                </div>
-                                                                                <h1>Platinum</h1>
-
-                                                                                <div class="rating">
-                                                                                    <?php
-                                                                                    $avgStarsP = $data['suiteReview']['avgStarsForPlatinum'];
-                                                                                    echo str_repeat('<span class="material-symbols-outlined" style="color: green;">star</span>', $avgStarsP) . str_repeat('<span class="material-symbols-outlined">star</span>', (5 - $avgStarsP)); ?>
-                                                                                    <span>( <?php echo $data['suiteReview']['totalReviewsForPlatinum']; ?> ) </span>
-                                                                                </div>
-
-                                                                                <p class="desc">
-                                                                                    -Luxurious dining experience <br>
-                                                                                    -Suitable for special occasions or celebrations <br>
-                                                                                    -Full suite booking <br>
-                                                                                    -<b>LKR.6000.00 for full suite booking <br>
-                                                                                        - 10% tax on total bill <br> </b></p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="pkg-selection">
-                                                                    <div class="radio-inputs">
-                                                                        <label class="radio">
-                                                                            <input type="radio" id="packageID" value="1" name="packageID" checked>
-                                                                            <span class="name">Budget</span>
-                                                                        </label>
-                                                                        <label class="radio">
-                                                                            <input type="radio" id="packageID" value="2" name="packageID">
-                                                                            <span class="name">Gold</span>
-                                                                        </label>
-                                                                        <label class="radio">
-                                                                            <input type="radio" id="packageID" value="3" name="packageID">
-                                                                            <span class="name">Platinum</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <input type="button" name="next" class="next action-button" value="Next" />
-                                                    </fieldset>
-                                                    <fieldset>
-                                                        <div class="form-card">
-                                                            <div class="row">
-                                                                <div class="fixed-height-row-reservation">
-                                                                    <h3 class="fs-title">Select Date and No of People:</h3>
-                                                                    <div class="dp-container">
-
-                                                                        <div class="date-slots">
-                                                                            <?php
-                                                                            date_default_timezone_set("Asia/Calcutta");
-                                                                            $currentDate = strtotime(date("Y-m-d"));
-
-                                                                            for ($i = 0; $i < 15; $i++) {
-                                                                                $date = date("Y-m-d", strtotime("+{$i} days", $currentDate));
-                                                                                $selectedClass = $i == 0 ? "selected" : "";
-                                                                                echo "<div class='date-slot {$selectedClass}' id='dateToCheck' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
-                                                                            }
-                                                                            ?>
-                                                                        </div>
-                                                                        <input type="hidden" id="selectedDate" name="date" value="<?= date("Y-m-d") ?>">
-
-
-                                                                        <div class="people-selection">
-                                                                            <label for="numOfPeople" class="slots">Number of People:</label>
-                                                                            <br>
-                                                                            <div class="people-icons">
-                                                                                <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                                                                    <div class="person-icon <?= $i == 1 ? 'selected' : '' ?>" data-value="<?= $i ?>">
-                                                                                        <i class="fa-solid fa-person" style="font-size:50px"></i>
-                                                                                        <p><?= $i ?></p>
-                                                                                    </div>
-                                                                                <?php endfor; ?>
-                                                                            </div>
-                                                                            <input type="hidden" id="numOfPeople" name="numOfPeople" value="1">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <input type="button" name="next" class="next action-button" id="checkSlots" value="Next" />
-                                                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                                                    </fieldset>
-                                                    <fieldset>
-                                                        <div class="form-card">
-                                                            <div class="row fixed-height-row-reservation">
-                                                                <div>
-                                                                    <h3 class="fs-title">Select the Time Slot:</h3>
-                                                                </div>
-
-                                                                <div class="availability-table">
-                                                                    <div class="av-table">
-
-                                                                        <div class="time-slots" id="time-slots">
-                                                                        </div>
-                                                                        <input type="hidden" id="selectedTime" name="reservationStartTime" value="08:00">
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <input type="button" name="next" class="next action-button" value="Next" />
-                                                        <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                                                    </fieldset>
-                                                    <fieldset class="lastpage">
-                                                        <div class="form-card">
-                                                            <div class="row fixed-height-row-reservation lastpage">
-                                                                <div class="reservation-summary">
-                                                                    <h3 class="fs-title">Thank you for your reservation</h3>
-                                                                    <div class="summary-details">
-                                                                        <div class="summery-row left">
-                                                                            <p>Date: <span id="summary-date"></span></p>
-                                                                            <p>No of people: <span id="summary-people"></span></p>
-                                                                            <p>Time: <span id="summary-time"></span></p>
-                                                                        </div>
-                                                                        <div class="summery-row right">
-                                                                            <p>Suite: <span id="summary-package"></span></p>
-                                                                            <p>Table: <span id="summary-table"></span></p>
-                                                                            <p class="sum-amount">Total Amount: <span id="total-amount"></span></p>
-                                                                            <input type="hidden" id="totalAmount" name="amount" value="">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="added-items">
-                                                                        <div class="menu-items" id="menu-items-list">
-                                                                            <table class="tbl-cart" cellpadding="10" cellspacing="1">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th class="cart-image" width="10%"></th>
-                                                                                        <th width="30%">Name</th>
-                                                                                        <th class="" width="10%">Size</th>
-                                                                                        <th class='text-right' width="5%">Unit Price</th>
-                                                                                        <!-- <th width="3%"></th> -->
-                                                                                        <th class='text-right' width="10%" colspan="3">Quantity</th>
-                                                                                        <!-- <th width="3%"></th> -->
-                                                                                        <th class='text-right' width="10%">Sub Total</th>
-                                                                                        <th width="5%"></th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <!--  Cart table to load data on "add to cart" action -->
-                                                                                <tbody id="cartTableBody">
-                                                                                </tbody>
-                                                                                <tfoot>
-                                                                                    <tr>
-                                                                                        <td></td>
-                                                                                        <td></td>
-                                                                                        <td></td>
-                                                                                        <td class="text-right">Total:</td>
-
-                                                                                        <td id="itemCount" class="text-right" colspan="3"></td>
-
-                                                                                        <td id="cartTotalAmount" class="text-right">LKR.0.00</td>
-                                                                                        <td></td>
-                                                                                    </tr>
-                                                                                </tfoot>
-                                                                            </table>
-                                                                        </div>
-                                                                        <button type="button" class="view-menu-to-add" id="view-food-menu-in-cart">+ Add Food Items</button>
-
-                                                                        <div id="menu-div-purchase" class="menu-div-purchase">
-                                                                            <div class="btn close-menu-div-purchase " id="close-menu-div-purchase"> <span class="material-symbols-outlined">
-                                                                                    close
-                                                                                </span></div>
-                                                                            <div class="customer-menu-view">
-                                                                                <div class="menu-view-header-bar">
-                                                                                    <div class="menu-view-filters">
-                                                                                        <div class="menu-categories">
-                                                                                            <div class="category-button active-category" data-category-id="all">All</div>
-                                                                                            <div class="category-button" data-category-id="1"><span class="material-symbols-outlined">
-                                                                                                    fastfood
-                                                                                                </span></div>
-                                                                                            <div class="category-button" data-category-id="2"><span class="material-symbols-outlined">
-                                                                                                    dinner_dining
-                                                                                                </span></div>
-                                                                                            <div class="category-button" data-category-id="3"><span class="material-symbols-outlined">
-                                                                                                    tapas
-                                                                                                </span></div>
-                                                                                            <div class="category-button" data-category-id="4"><span class="material-symbols-outlined">
-                                                                                                    soup_kitchen
-                                                                                                </span></div>
-                                                                                            <div class="category-button" data-category-id="5"><span class="material-symbols-outlined">
-                                                                                                    rice_bowl
-                                                                                                </span></div>
-                                                                                            <div class="category-button" data-category-id="6"><span class="material-symbols-outlined">
-                                                                                                    outdoor_grill
-                                                                                                </span></div>
-                                                                                            <div class="category-button" data-category-id="7"><span class="material-symbols-outlined">
-                                                                                                    hotel_class
-                                                                                                </span></div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="menu-view-head">
-                                                                                        <div class="search-reservation hide">
-                                                                                            <form class="search-form hide" method="GET" action="">
-                                                                                                <input type="text" name="search" placeholder="Search Menu Item" value="" id="search-input">
-                                                                                                <button type="submit" id="search-button">Search</button>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                        <div class="menu-filters">
-                                                                                            <div class="price-filter">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="menu-box">
-                                                                                        <div class="menu-items">
-                                                                                            <div id="menu-container" class="menu-container-div-out">
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="pagination-container">
-                                                                                        <div class="pagination-view-only-menu">
-                                                                                            <!-- TODO: Pagination does not stop at maximum no of pages -->
-                                                                                            <div class="pgbtn" id="prev-page">Previous</div>
-                                                                                            <span id="page-info"></span>
-                                                                                            <div class="pgbtn" id="next-page">Next</div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <input type="hidden" id="tableID" name="tableID" value="1">
-                                                                    </div>
-                                                                    <input class="" type="button" id="proceed-to-pay" type="submit" value="Proceed to Pay"></input>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <input type="button" name="previous" class="previous action-button-previous lastpage" value="Previous" />
-                                                    </fieldset>
-                                                </form>
+                                <div class="completed-reservations-container">
+                                    <div class="order-items-conteainer">
+                                        <div class="compleated-order-header">
+                                            <div class="flex-container">
+                                                <h1>Add Reservation</h1>
                                             </div>
+                                        </div>
+                                        <div class="add-reservation-receptionist">
+
+                                            <div class="row">
+                                                <label for="reservation_time">Reservation Time : </label>
+                                                <input type="datetime-local" id="reservation_time" name="reservation_time">
+                                            </div>
+                                            <div class="row">
+                                                <label for="number_of_guests">Number of People :</label>
+                                                <input type="number" id="number_of_guests" name="number_of_guests">
+                                            </div>
+                                            <button>Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="ongoing" class="tab-panel">
+                                <div class="completed-reservations-container">
+                                    <div class="order-items-conteainer">
+                                        <div class="compleated-order-header">
+                                            <div class="flex-container">
+                                                <h1>Ongoing Orders</h1>
+                                                <div class="row">
+                                                    <input type="text" placeholder="Search" />
+                                                    <button>Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="completed-order-item-card-header">
+                                            <table>
+                                                <tr>
+                                                    <td>Reservation ID</td>
+                                                    <td>Customer Name</td>
+                                                    <td>table</td>
+
+                                                    <td>Full amount</td>
+
+                                                    <td>Amount Payable</td>
+                                                    <td>Status</td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="ongoingOrders">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="completed" class="tab-panel">
+                                <div class="completed-reservations-container">
+                                    <div class="order-items-conteainer">
+                                        <div class="compleated-order-header">
+                                            <div class="flex-container">
+                                                <h1>Compleated Orders</h1>
+                                                <div class="row">
+                                                    <input type="text" placeholder="Search" />
+                                                    <button>Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="completed-order-item-card-header">
+                                            <table>
+                                                <tr>
+                                                    <td>Reservation ID</td>
+                                                    <td>Customer Name</td>
+                                                    <td>table</td>
+
+                                                    <td>Full amount</td>
+
+                                                    <td>Amount Payable</td>
+                                                    <td>Status</td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="completedOrders">
                                         </div>
                                     </div>
                                 </div>
@@ -734,9 +607,8 @@
                 </div>
             </div>
         </div>
-
         <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
-        <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+        <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
 </body>
 
 </html>
