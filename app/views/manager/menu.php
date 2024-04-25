@@ -55,7 +55,7 @@
 
     .search-button {
         padding: 8px;
-        background-color: #3498db;
+        background-color: green;
         color: #fff;
         border: none;
         border-radius: 4px;
@@ -63,7 +63,7 @@
     }
 
     .search-button:hover {
-        background-color: #2980b9;
+        background-color: lightgreen;
     }
 
     #categoryFilterForm,
@@ -90,7 +90,7 @@
 
     .button {
         padding: 10px;
-        background-color: #2ecc71;
+        background-color: green;
         /* Green color for buttons */
         color: #fff;
         text-decoration: none;
@@ -101,7 +101,7 @@
     }
 
     .button:hover {
-        background-color: #27ae60;
+        background-color: lightgreen;
         /* Darker green on hover */
     }
 
@@ -172,17 +172,17 @@
     }
 
     .button:hover {
-        background-color: #27ae60;
+        background-color: lightgreen;
         /* Darker green on hover */
     }
 
     .create-menu-button {
-        background-color: #3498db;
+        background-color: green;
         /* Light blue color for the Create Menu button */
     }
 
     .create-menu-button:hover {
-        background-color: #2980b9;
+        background-color: lightgreen;
         /* Darker blue on hover */
     }
 
@@ -334,6 +334,18 @@
                                         </span>
                                     </span>
                                     <span class="button-sidebar-menu-content">Reports</span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="<?php echo URLROOT; ?>/managers/reservations" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu  " id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            book_online
+                                        </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reservations</span>
                                 </button>
                             </a>
                         </li>

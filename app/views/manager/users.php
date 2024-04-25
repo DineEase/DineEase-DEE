@@ -63,7 +63,7 @@
     .add-user-button,
     .search-button {
         padding: 10px;
-        background-color: #3498db;
+        background-color: green;
         color: #fff;
         text-decoration: none;
         border-radius: 4px;
@@ -74,7 +74,7 @@
 
     .add-user-button:hover,
     .search-button:hover {
-        background-color: #2980b9;
+        background-color: lightgreen;
     }
 
     .search-container {
@@ -94,7 +94,7 @@
 
     .search-button {
         padding: 8px;
-        background-color: #3498db;
+        background-color: green;
         color: #fff;
         border: none;
         border-radius: 4px;
@@ -102,7 +102,7 @@
     }
 
     .search-button:hover {
-        background-color: #2980b9;
+        background-color: lightgreen;
     }
 
     .buttonGroup {
@@ -283,6 +283,30 @@
                                     </button>
                                 </a>
                             </li>
+                            <li class="item">
+                            <a href="<?php echo URLROOT; ?>/managers/reports" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu " id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            lab_profile
+                                        </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reports</span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="<?php echo URLROOT; ?>/managers/reservations" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu  " id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            book_online
+                                        </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reservations</span>
+                                </button>
+                            </a>
+                        </li>
                             <!-- End -->
 
 

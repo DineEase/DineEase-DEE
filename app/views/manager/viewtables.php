@@ -31,7 +31,7 @@
         display: inline-block;
         margin-bottom: 10px;
         padding: 8px 12px;
-        background-color: #007bff;
+        background-color: green;
         color: #fff;
         text-decoration: none;
         border-radius: 5px;
@@ -39,7 +39,7 @@
     }
 
     .add-table-link:hover {
-        background-color: #0056b3;
+        background-color: lightgreen;
     }
 
 
@@ -200,6 +200,18 @@
                                         </span>
                                     </span>
                                     <span class="button-sidebar-menu-content">Reports</span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="item">
+                            <a href="<?php echo URLROOT; ?>/managers/reservations" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu  " id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            book_online
+                                        </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reservations</span>
                                 </button>
                             </a>
                         </li>
