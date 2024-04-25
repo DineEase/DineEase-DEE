@@ -86,7 +86,7 @@
 
     .buttons button {
         color: #ffffff;
-        background-color: #030303;
+        background-color: green;
         outline: none;
         border: none;
         font-size: 1.5rem;
@@ -98,7 +98,7 @@
 
     .imgbuttons button {
         color: #ffffff;
-        background-color: #030303;
+        background-color: green;
         outline: none;
         border: none;
         font-size: 1.5rem;

@@ -63,7 +63,7 @@
     .add-user-button,
     .search-button {
         padding: 10px;
-        background-color: #3498db;
+        background-color: green;
         color: #fff;
         text-decoration: none;
         border-radius: 4px;
@@ -74,7 +74,7 @@
 
     .add-user-button:hover,
     .search-button:hover {
-        background-color: #2980b9;
+        background-color: lightgreen;
     }
 
     .search-container {
@@ -94,7 +94,7 @@
 
     .search-button {
         padding: 8px;
-        background-color: #3498db;
+        background-color: green;
         color: #fff;
         border: none;
         border-radius: 4px;
@@ -102,7 +102,7 @@
     }
 
     .search-button:hover {
-        background-color: #2980b9;
+        background-color: lightgreen;
     }
 
     .buttonGroup {

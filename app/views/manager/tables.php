@@ -61,13 +61,13 @@
     }
 
     input[type="submit"] {
-        background-color: #4caf50;
+        background-color: green;
         color: #fff;
         cursor: pointer;
     }
 
     input[type="submit"]:hover {
-        background-color: #45a049;
+        background-color: lightgreen;
     }
 </style>
 

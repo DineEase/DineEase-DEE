@@ -14,7 +14,7 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        margin: 20px;
+        margin: -46px;
         background-color: #f5f5f5;
     }
 
@@ -27,6 +27,7 @@
     }
 
     .profile-container {
+        margin-top: 107px !important;
         max-width: 400px;
         margin: auto;
         border: 1px solid #ccc;

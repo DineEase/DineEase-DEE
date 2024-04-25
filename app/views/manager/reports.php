@@ -17,6 +17,16 @@
     #results tr:nth-child(even) {
         background-color: #f9f9f9;
     }
+    #generatePDFButton{
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        cursor: pointer;
+        border-radius: 10px;
+        
+    
+    }
 </style>
 
 <div class="container">

@@ -40,7 +40,7 @@
 
         label {
             display: block;
-            margin-top: 10px;
+            margin-top: 65px;
             margin-bottom: 8px;
             font-weight: bold;
         }
@@ -53,7 +53,7 @@
         }
 
         .imagePart button {
-            background-color: #3498db;
+            background-color: green;
             color: #fff;
             padding: 10px 15px;
             border: none;
@@ -62,7 +62,7 @@
         }
 
         .imagePart button:hover {
-            background-color: #2980b9;
+            background-color: lightgreen;
         }
 
         .error {
@@ -98,12 +98,12 @@ button[type="reset"],
 }
 
 button[type="submit"] {
-    background-color: #3498db;
+    background-color: green;
     color: #fff;
 }
 
 button[type="reset"] {
-    background-color: #e74c3c;
+    background-color: green;
     color: #fff;
 }
 

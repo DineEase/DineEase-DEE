@@ -31,7 +31,7 @@
         display: inline-block;
         margin-bottom: 10px;
         padding: 8px 12px;
-        background-color: #007bff;
+        background-color: green;
         color: #fff;
         text-decoration: none;
         border-radius: 5px;
@@ -39,7 +39,7 @@
     }
 
     .add-table-link:hover {
-        background-color: #0056b3;
+        background-color: lightgreen;
     }
 
 
