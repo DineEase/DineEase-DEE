@@ -80,29 +80,23 @@ class Receptionists extends Controller
         $startDate = isset($_POST['startDate']) && !empty($_POST['startDate']) ? $_POST['startDate'] : $this->receptionistModel->getMinDate();
         $endDate = isset($_POST['endDate']) && !empty($_POST['endDate']) ? $_POST['endDate'] : $this->receptionistModel->getMaxDate();
 
-    
-        
-        if ($status != '') {
-            $reservations = $this->receptionistModel->getReservationWithStatus( $limit, $offset, $status);
-            $totalReservations = $this->receptionistModel->getTotalReservationCountWithStatus( $status);
-            $totalPages = ceil($totalReservations / $limit);
-        }
 
-        
-        else {
+
+        if ($status != '') {
+            $reservations = $this->receptionistModel->getReservationWithStatus($limit, $offset, $status);
+            $totalReservations = $this->receptionistModel->getTotalReservationCountWithStatus($status);
+            $totalPages = ceil($totalReservations / $limit);
+        } else {
             $reservations = $this->receptionistModel->getReservation($limit, $offset);
             $totalReservations = $this->receptionistModel->getTotalReservationCount();
             $totalPages = ceil($totalReservations / $limit);
         }
 
-        
+
         if ($reservationStatus = $this->receptionistModel->getReservationStatus()) {
         } else {
             die('Something went wrong');
         }
-
-
-        
 
         $data = [
             'reservations' => $reservations,
@@ -118,6 +112,25 @@ class Receptionists extends Controller
         ];
 
         $this->view('Receptionist/reservation', $data);
+    }
+
+    public function getOrders()
+    {
+        $reservations = $this->receptionistModel->getOrders();
+        header('Content-Type: application/json');
+        echo json_encode($reservations);
+    }
+
+
+    public function markCompleted()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $orderID = $_POST['orderID'];
+        }
+        $result = $this->receptionistModel->markCompleted($orderID);
+        echo json_encode($result);
+
     }
 
 
