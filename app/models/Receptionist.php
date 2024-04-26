@@ -143,7 +143,7 @@ class Receptionist
         $this->db->bind(':date', $today);
         $this->db->bind(':numOfPeople', $order['numberOfGuests']);
         $this->db->bind(':packageID', $order['suitePackage']);
-        $this->db->bind(':status', 'Pending');
+        $this->db->bind(':status', 'Unpaid');
         $this->db->bind(':amount', $total);
         if ($this->db->execute()) {
             $reservationID = $this->db->lastInsertId();
@@ -207,13 +207,11 @@ class Receptionist
         $results = $this->db->single();
         if ($results->reserved == null) {
             $results->reserved = 0;
-        }
-        else
-        {
+        } else {
             $results->reserved = (int)$results->reserved;
         }
 
-        
+
 
         return $results->reserved;
     }
@@ -325,6 +323,50 @@ class Receptionist
         return $row1;
     }
 
+    public function addItemsToOrder($data)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE  orderID = :orderID');
+        $this->db->bind(':orderID', $data['orderID']);
+        $reservation = $this->db->single();
+
+        $this->db->query('SELECT * FROM orders WHERE orderItemID = :orderID');
+        $this->db->bind(':orderID', $data['orderID']);
+        $order = $this->db->single();
+
+        if ($order->preparationStatus == 'Completed') {
+            $this->db->query('UPDATE orders SET preparationStatus = "Active" WHERE orderItemID = :orderID');
+            $this->db->bind(':orderID', $data['orderID']);
+            $this->db->execute();
+        }
+
+        foreach ($data['items'] as $item) {
+            $this->db->query('INSERT INTO orderitem (orderNo , itemID , size , quantity ,status, itemProcessingStatus) VALUES (:orderNo , :itemID , :size , :quantity , :status , :itemProcessingStatus)');
+            $this->db->bind(':orderNo', $data['orderID']);
+            $this->db->bind(':itemID', $item['itemID']);
+            $this->db->bind(':size', $item['itemSize']);
+            $this->db->bind(':quantity', $item['quantity']);
+            $this->db->bind(':status', $order->preparationStatus);
+            if ($order->preparationStatus == 'Active') {
+                $this->db->bind(':itemProcessingStatus', 'Queued');
+            } else {
+                $this->db->bind(':itemProcessingStatus', 'Pending');
+            }
+            if ($this->db->execute()) {
+            } else {
+                return "Failed to add items to order";;
+            }
+        }
+
+        $this->db->query('UPDATE reservation SET amount =:total WHERE orderID = :orderID');
+        $this->db->bind(':total', $data['totalBill']);
+        $this->db->bind(':orderID', $data['orderID']);
+        if ($this->db->execute()) {
+            return "Items added to order successfully";
+        } else {
+            return "Failed to update order total amount";
+        }
+
+    }
     function getSuites()
     {
         $this->db->query('SELECT * FROM package');
