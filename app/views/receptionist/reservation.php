@@ -674,7 +674,7 @@
                                             <button id="addButton">Add</button>
                                         </div>
                                         <div class="added-order-items" id="added-order-items">
-                                            dasds
+
                                         </div>
                                     </div>
                                 </div>
@@ -717,6 +717,8 @@
 
                                             </div>
                                         </div>
+                                        <input type="text" id="reloads"value="0" hidden>
+
                                         <div class="editOngoingS">
                                             <div class="contentEditOnGiongs jcsb">
                                                 <div class="row space-between">
@@ -733,16 +735,13 @@
                                                         Table : <span id="tableID-editEO"></span>
                                                     </div>
                                                     <div class="row">
-                                                        Amount : <span id="amount-editEO"></span>
+                                                        Amount : <span id="totalAmount-editEO"></span>
                                                     </div>
                                                     <div class="row">
-                                                        Amount to Add : <span id="total-for-newly-added"></span>
+                                                        Amount to Add : <span id="total-for-newly-added">Rs.0.00</span>
                                                     </div>
 
                                                 </div>
-
-
-
                                                 <div class="content-EO">
                                                     <div class="row">
                                                         <div class="column">
@@ -768,24 +767,18 @@
                                                                     </tr>
                                                                 </table>
                                                             </div>
-
                                                             <div class="column" id="added-items-to-Order">
-
                                                             </div>
                                                             <div class="row">
-                                                                <button class="light-green-btn" onclick="addNewItems();">Add Items</button>
-
+                                                                <button class="light-green-btn" onclick="addNewItemsToOrder();">Add Items</button>
+                                                                <!-- //TODO Quantity can enter negative values                         -->
 
                                                                 <button id="clearCartButton" onclick="clearCartEO();">Clear Cart</button>
                                                                 <input type="hidden" id="total-for-cart" name="total" value="0">
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-
                                                 <div class="row  jcfe">
 
                                                     <div class="close-button">

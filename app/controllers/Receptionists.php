@@ -225,4 +225,29 @@ class Receptionists extends Controller
         header('Content-Type: application/json');
         echo json_encode($menus);
     }
+
+    
+    public function addItemsToOrder(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $orderID = $_POST['orderID'];
+            $items = $_POST['items'];
+            $totalForFood = $_POST['totalForFood'];
+            $totalBill = $_POST['totalBill'];
+
+            $data = [
+                'orderID' => $orderID,
+                'items' => $items,
+                'totalForFood' => $totalForFood,
+                'totalBill' => $totalBill
+            ];
+        }
+        $result = $this->receptionistModel->addItemsToOrder($data);
+        if ($result == NULL) {
+            echo json_encode(0);
+        } else {
+            echo json_encode($result);
+        }
+    }
+
 }

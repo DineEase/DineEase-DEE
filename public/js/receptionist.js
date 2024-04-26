@@ -327,16 +327,16 @@ function populateAddedItems() {
   console.log($("#total-for-cart").val());
 }
 
-var toAddTotalAmount = 0;
-
 function populateAddNewItems() {
   var toAdd = JSON.parse(localStorage.getItem("toAdd")) || [];
   var total = 0;
   var html = "";
 
   toAdd.forEach((item) => {
+  
     var itemTotal = item.itemPrice * item.quantity;
     total += itemTotal;
+   
 
     html += `
               <div class="added-item
@@ -356,30 +356,37 @@ function populateAddNewItems() {
 
     $("#added-items-to-Order").html(html);
   });
-  toAddTotalAmount = total;
-  $("#total-for-newly-added").val(toAddTotalAmount);
+
+  $("#total-for-newly-added").text("Rs." + total + ".00");
   console.log(totalAmount);
-  console.log($("#amount-editEO").val());
 }
 
 //todo
 function clearCart() {
-  alert("Order clearedss successfully!");
+
   localStorage.removeItem("cart");
   populateAddedItems();
-  $("#added-items-to-reservation").html("");
+  $("#added-items-to-reservation").text("");
   totalAmount = 0;
   $("#total-for-cart").val(totalAmount);
 }
 
 function clearCartEO() {
-  alert("Order cleared successfully!");
+
   localStorage.removeItem("toAdd");
   populateAddNewItems();
   $("#added-items-to-Order").html("");
   toAddTotalAmount = 0;
   $("#total-for-newly-added").val(toAddTotalAmount);
 }
+
+window.addEventListener('storage', function(e) {
+  if (e.key === 'reloadParent') {
+    location.reload();
+    localStorage.removeItem('reloadParent');
+  }
+});
+
 
 function removeItem(element) {
   var itemID = $(element).data("item-id");
@@ -467,6 +474,8 @@ function createOrder() {
   });
 }
 
+// TODO #78 update logic of showing ongoing orders
+
 function editOngoingOrder(element) {
   toggleDisplay(".viewOngoing", ".editOngoingS");
   clearCartEO();
@@ -477,6 +486,7 @@ function editOngoingOrder(element) {
   $("#customerName-editEO").text(order.customer.name);
   $("#tableID-editEO").text(order.tableID);
   $("#status-editEO").text(order.preparationStatus);
+  $("#totalAmount-editEO").text(order.amount);
   populateAddNewItems();
 }
 
@@ -497,9 +507,58 @@ window.addEventListener("storage", function (e) {
   }
 });
 
+
+$("#reloads").change(function () {
+  alert("Changes have been made to the order. Please reload the page to view the changes.");
+  localStorage.setItem("reloadParent", true);
+  location.reload();
+});
+
+
+
+
 function addNewItemsToOrder() {
   var orderID = $("#orderNO-editEO").text();
-  var total = document.getElementById("total-for-newly-added").value;
+  var total = $("#total-for-newly-added").val();
+  var totalForLastOrders = $("#totalAmount-editEO").text();
+
+  var toAdd = JSON.parse(localStorage.getItem("toAdd")) || [];
+
+  total = 0;
+
+  toAdd.forEach((item) => {
+    total += item.itemPrice * item.quantity;
+  });
+  var fullAmount = parseInt(total) + parseInt(totalForLastOrders);
+
+  if (total == 0) {
+    alert("Please add items to the order!");
+    return;
+  }
+
+  var order = {
+    orderID: orderID,
+    items: toAdd,
+    totalForFood: total,
+    totalBill: fullAmount,
+  };
+
+  $.ajax({
+    url: "addItemsToOrder",
+    type: "POST",
+    data: order,
+    success: function (data) {
+      console.log(data);
+      clearCartEO();
+      totalAmount = 0;
+      $("#reloads").trigger("change");
+    },
+    error: function (err) {
+      console.log("Error adding items to order:", err);
+    },
+  });
+
+  toggleDisplay(".viewOngoing", ".editOngoingS");
 }
 
 function setSuite(suiteValue) {
@@ -533,23 +592,6 @@ function getAvailability(suiteValue) {
     },
   });
 }
-
-// //TODO FIX THESE FUNCTIONS
-// function removeItem(element) {
-//   var itemName = $(element).prev().prev().prev().text();
-//   var cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   var updatedCart = cart.filter((item) => item.itemName != itemName);
-//   localStorage.setItem("cart", JSON.stringify(updatedCart));
-//   populateAddedItems();
-// }
-
-// function removeItemEO(element) {
-//   var itemName = $(element).prev().prev().prev().text();
-//   var toAdd = JSON.parse(localStorage.getItem("toAdd")) || [];
-//   var updatedCart = toAdd.filter((item) => item.itemName != itemName);
-//   localStorage.setItem("toAdd", JSON.stringify(updatedCart));
-//   populateAddedItems();
-// }
 
 //!ORDER EDITING FUNCTIONS
 
