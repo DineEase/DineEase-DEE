@@ -171,6 +171,7 @@
     width: 13%;
   }
   .sidebar {
+    
     background-color: var(--white-color);
     width: 14.3%;
     position: fixed;

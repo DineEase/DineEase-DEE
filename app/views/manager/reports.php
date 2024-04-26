@@ -1,6 +1,20 @@
 <?php include('commonnavreport.php'); ?>
 <style>
     /* Style for the results table */
+    body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+    .container {
+    margin-top: 65px !important;
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
     #results {
         width: 100%;
         border-collapse: collapse;
