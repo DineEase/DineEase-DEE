@@ -285,15 +285,20 @@ class Receptionist
 
         $today = date("Y-m-d");
 
-        $this->db->query('SELECT reservationID ,customerID, tableID , reservationStartTime , orderID  , amount FROM reservation where status =  "Paid" and date = :today ORDER BY reservationStartTime ASC');
+        $this->db->query('SELECT reservationID ,customerID, tableID , reservationStartTime , orderID  , amount FROM reservation where (status =  "Paid" OR status =  "Unpaid")  and date = :today ORDER BY reservationStartTime ASC');
         $this->db->bind(':today', $today);
         $row1 = $this->db->resultSet();
 
+        
         foreach ($row1 as $row) {
             $this->db->query('SELECT amount FROM payment WHERE reservationID = :reservationID');
             $this->db->bind(':reservationID', $row->reservationID);
             $row2 = $this->db->single();
-            $row->amountPaid = $row2->amount;
+            if ($row2) {
+                $row->amountPaid = $row2->amount;
+            } else {
+                $row->amountPaid = 0;
+            }
         }
 
 
