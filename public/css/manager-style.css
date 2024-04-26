@@ -226,6 +226,7 @@
   } */
   
   .menu_items {
+    margin-top: 40px;
     padding: 0;
     list-style: none;
   }

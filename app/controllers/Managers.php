@@ -2170,8 +2170,10 @@ $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the pat
     }
     public function reservations(){
         $refundrequestreservations = $this->managerModel->getreservations();
+        //$reservationdetails = $this->managerModel->getReservationsCount();
         $data = [
         'refundrequestreservations' => $refundrequestreservations,
+        //'reservationdetails' => $reservationdetails,
         ];
         $this->view('manager/reservations', $data);
     }
@@ -2297,5 +2299,13 @@ $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the pat
             return false;
         }
     }
+    // public function reservationnotofication(){
+    //     $reservationdetails = $this->managerModel->getReservationsCount();
+    //     $data = [
+    //         'reservationdetails' => $reservationdetails
+    //     ];
+    //     $this->view('manager/reservations', $data);
+    // }   
     
 }
+
