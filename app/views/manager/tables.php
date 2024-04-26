@@ -13,14 +13,11 @@
 </head>
 <style>
     body {
-        margin: 0;
-        padding: 0;
-        /* box-sizing: border-box; */
-        font-family: "Poppins", sans-serif;
-        background-color: #f5f5f5;
-        transition: all 0.5s ease;
-        overflow-x: hidden;
-    }
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
     .container {
         max-width: 800px;
         margin-top: 20px;
@@ -72,7 +69,7 @@
 </style>
 
 <body>
-    <div class="navbar-template">
+<div class="navbar-template">
         <nav class="navbar">
             <div class="topbar">
                 <div class="logo-item">
@@ -90,7 +87,7 @@
                         $profile_picture_url = URLROOT . '/uploads/profile/' . basename($_SESSION['profile_picture']);
                         ?>
                         Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
-                        <a href="<?php echo URLROOT . '/managers/viewprofile/' . $user_id ?>">
+                        <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>">
                             <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
                         </a>
                     </div>
@@ -106,17 +103,17 @@
                     <ul class="menu_items">
                         <div class="menu_title menu_menu"></div>
                         <li class="item">
-                                <a href="<?php echo URLROOT ?>/managers/dashboard" class="nav_link nav_link_switch" data-content='home'>
-                                    <button class="button-sidebar-menu " id="homeButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                dashboard
-                                            </span>
+                            <a href="<?php echo URLROOT ?>/managers/dashboard" class="nav_link nav_link_switch" data-content='home'>
+                                <button class="button-sidebar-menu " id="homeButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            dashboard
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard</span>
-                                    </button>
-                                </a>
-                            </li>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Dashboard</span>
+                                </button>
+                            </a>
+                        </li>
                         <li class="item">
                             <a href="<?php echo URLROOT ?>/managers/getUsers" class="nav_link nav_link_switch" data-content='home'>
                                 <button class="button-sidebar-menu " id="homeButton">
@@ -180,18 +177,18 @@
                             </a>
                         </li>
                         <li class="item">
-                                <a href="<?php echo URLROOT; ?>/managers/handlediscounts" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu " id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                sell
-                                            </span>
+                            <a href="<?php echo URLROOT; ?>/managers/handlediscounts" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu " id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            sell
                                         </span>
-                                        <span class="button-sidebar-menu-content">Discounts</span>
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="item">
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Discounts</span>
+                                </button>
+                            </a>
+                        </li>
+                        <li class="item">
                             <a href="<?php echo URLROOT; ?>/managers/reports" class="nav_link" data-content='menu'>
                                 <button class="button-sidebar-menu " id="reservationButton">
                                     <span class="navlink_icon">
@@ -219,7 +216,7 @@
 
 
                     </ul>
-                    
+                    <hr class='separator'>
 
                     <ul class="menu_items">
                         <div class="menu_title menu_user"></div>
@@ -228,8 +225,8 @@
 
                         <li class="item">
 
-                            <a href="<?php echo URLROOT . '/managers/viewprofile/' . $user_id ?>" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu " id="reservationButton">
+                            <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu" id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
                                             account_circle

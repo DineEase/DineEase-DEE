@@ -31,6 +31,7 @@
     }
 
     .container {
+        margin-top: 61px !important;
         max-width: 800px;
         margin: 20px auto;
         background-color: #fff;
@@ -163,7 +164,7 @@
 
 
 
-    <div class="container">
+    
     <div class="navbar-template">
             <nav class="navbar">
                 <div class="topbar">
@@ -349,6 +350,7 @@
                 </div>
             </nav>
         </div>
+        <div class="container">
         <div class="search-container">
             <form action="<?php echo URLROOT; ?>/managers/searchemployeebyname" method="GET">
                 <input type="text" name="searchQuery" class="search-input" placeholder="Search by name">

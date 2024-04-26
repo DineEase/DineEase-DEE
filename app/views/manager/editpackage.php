@@ -300,18 +300,18 @@
         <input type="hidden" name="packageID" value="<?php echo $data['package']->packageID; ?>">
             <div>
                 <label for="packagename">Package Name:</label>
-                <input type="text" id="name" name="packageName" required>
+                <input type="text" id="name" name="packageName" value="<?php echo $data['package']->packageName; ?>"required>
                 <span class="error"><?php echo $data['packagename_err']; ?></span>
             </div>
             <div>
                 <label for="tax">VAT or TAX:</label>
-                <input type="number" id="tax" name="tax" min="0" required>
+                <input type="number" id="tax" name="tax" min="0" value="<?php echo $data['package']->tax; ?>"required>
                 <span class="error"><?php echo $data['vat_err']; ?></span>
             </div>
             
             <div>
                 <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea>
+                <textarea id="description" name="description"required><?php echo $data['package']->description; ?> </textarea>
                 <span class="error"><?php echo $data['description_err']; ?></span>
             </div>
             <div>

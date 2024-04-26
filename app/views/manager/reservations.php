@@ -88,7 +88,20 @@
             </div>
             <div class="navbar-content">
                 <div class="profile-details">
-                    <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
+                
+
+<?php
+if (!empty($data['refundrequestreservations'])) {
+    //var_dump($data['reservationdetails']);
+    // If there are reservations, show the notification icon
+    echo '<span class="material-symbols-outlined material-symbols-outlined-topbar">notifications_unread (' . count($data['refundrequestreservations']) . ')</span>';
+} else {
+    // If there are no reservations, don't show the notification icon
+    echo '<span class="material-symbols-outlined material-symbols-outlined-topbar">notifications </span>';
+}
+?>
+
+
                     <?php
                     $user_id = $_SESSION['user_id'];
                     $profile_picture_url = URLROOT . '/uploads/profile/' . basename($_SESSION['profile_picture']);
