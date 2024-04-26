@@ -2,44 +2,51 @@
 <style>
     /* Style for the results table */
     body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+
     .container {
-    margin-top: 65px !important;
-    max-width: 700px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        margin-top: 65px !important;
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
     #results {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
     }
-    #results th, #results td {
+
+    #results th,
+    #results td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: left;
     }
+
     #results th {
         background-color: #f2f2f2;
     }
+
     #results tr:nth-child(even) {
         background-color: #f9f9f9;
     }
-    #generatePDFButton{
+
+    #generatePDFButton {
         background-color: #4CAF50;
         color: white;
         padding: 14px 20px;
         margin: 8px 0;
         cursor: pointer;
         border-radius: 10px;
-        
-    
+
+
     }
 </style>
 
@@ -114,9 +121,9 @@
 </div>
 <script>
     document.getElementById('MenuData').style.display = 'none';
-    
-    
-    function fetchMenuReport(startDate, endDate,callback) {
+
+
+    function fetchMenuReport(startDate, endDate, callback) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -124,10 +131,10 @@
                     // Parse JSON response
 
                     var response = JSON.parse(xhr.responseText);
-                    
+
                     var menuReport = response;
 
-                   
+
 
                     // Check if there are errors in the response
                     if (response.errors) {
@@ -135,7 +142,7 @@
                         document.getElementById('MenuData').style.display = 'none';
 
                         displayMenuValidationErrors(response.errors);
-                        
+
                     } else {
                         // No errors, clear any existing error messages
                         document.getElementById('MenuData').style.display = 'block';
@@ -147,7 +154,6 @@
                         updateMostReservationsDate(menuReport.mostReservationsDate);
                         updateMostOrderedSizes(menuReport.mostOrderedSizes);
                         updateResults(menuReport.results);
-                        
                         callback(menuReport);
                     }
                 } else {
@@ -161,34 +167,49 @@
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send('start_date=' + encodeURIComponent(startDate) + '&end_date=' + encodeURIComponent(endDate));
     }
-    function generatePDF(menuReport, startDate, endDate) {
+
+    function generatePDF(menuReport, salesReport, startDate, endDate, salesStartDate, salesEndDate) {
+        document.getElementById('salesData').style.display = 'none';
+        document.getElementById('MenuData').style.display = 'none';
+
         console.log(menuReport);
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                // PDF generated successfully
-                // Optionally, you can handle the response or provide feedback to the user
-                alert('PDF generated successfully.');
-            } else {
-                console.error('Error generating PDF:', xhr.status);
-                // Optionally, provide feedback to the user about the error
-                alert('Error generating PDF. Please try again.');
+        console.log(salesReport);
+        var data = {
+            menuReport: menuReport,
+            salesReport: salesReport
+        };
+        //console.log(data);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // PDF generated successfully
+                    // Optionally, you can handle the response or provide feedback to the user
+                    //alert('PDF generated successfully.');
+                } else {
+                    //console.error('Error generating PDF:', xhr.status);
+                    // Optionally, provide feedback to the user about the error
+                    //alert('Error generating PDF. Please try again.');
+                }
             }
-        }
-    };
-    xhr.open('POST', '<?php echo URLROOT ?>/managers/generatereportpdf?startDate=' + encodeURIComponent(startDate) + '&endDate=' + encodeURIComponent(endDate), true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    //console.log(JSON.stringify(menuReport));
-    xhr.send(JSON.stringify(menuReport));
-}
+        };
+        xhr.open('POST', '<?php echo URLROOT ?>/managers/generatereportpdf?startDate=' + encodeURIComponent(startDate) + '&endDate=' + encodeURIComponent(endDate) + '&salesstartdate=' + encodeURIComponent(salesStartDate) + '&salesenddate=' + encodeURIComponent(salesEndDate), true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        //console.log(JSON.stringify(menuReport));
+        xhr.send(JSON.stringify(data));
+        // document.getElementById('start_date').value = '';
+        // document.getElementById('end_date').value = '';
+        // document.getElementById('menu_start_date').value = '';
+        // document.getElementById('menu_end_date').value = '';
+
+    }
 
 
     function displayMenuValidationErrors(errors) {
         if (errors.start_date_err) {
             document.getElementById('menustartDateErr').innerHTML = errors.start_date_err;
             //document.getElementById('MenuData').innerHTML = '';
-            
+
         } else {
             document.getElementById('menustartDateErr').innerHTML = '';
         }
@@ -214,7 +235,7 @@
             var menuItem = document.createElement('li');
             menuItem.textContent = menu.itemName + ' (ID: ' + menu.itemID + ') - Total Quantity Sold: ' + menu.total_quantity_sold;
             topSellingMenusList.appendChild(menuItem);
-            
+
         });
     }
 
@@ -251,10 +272,10 @@
         var resultsTable = document.getElementById('results');
         //var resultsHeading = document.querySelector('#MenuData h2');
         //resultsTable.innerHTML = '';
-       
 
-// Clear existing table content
-//resultsTable.innerHTML = '';
+
+        // Clear existing table content
+        //resultsTable.innerHTML = '';
         results.forEach(function(result) {
             var row = resultsTable.insertRow();
             row.insertCell().textContent = result.category_name + ' (ID: ' + result.category_ID + ')';
@@ -263,8 +284,8 @@
             row.insertCell().textContent = result.total_quantity_sold;
             row.insertCell().textContent = result.total_amount;
         });
-    
-    
+
+
     }
 
     document.getElementById('menustartDate').addEventListener('change', function() {
@@ -279,17 +300,21 @@
         fetchMenuReport(startDate, endDate);
     });
     document.getElementById('generatePDFButton').addEventListener('click', function() {
-    var startDate = document.getElementById('menustartDate').value;
-    var endDate = document.getElementById('menuendDate').value;
-    fetchMenuReport(startDate, endDate, function(menuReportdata) {
-        generatePDF(menuReportdata, startDate, endDate);
-    });
-});
+        var menuStartDate = document.getElementById('menustartDate').value;
+        var menuEndDate = document.getElementById('menuendDate').value;
+        var salesStartDate = document.getElementById('startDate').value;
+        var salesEndDate = document.getElementById('endDate').value;
 
+        fetchMenuReport(menuStartDate, menuEndDate, function(menuReport) {
+            fetchSalesReport(salesStartDate, salesEndDate, function(salesReport) {
+                generatePDF(menuReport, salesReport, menuStartDate, menuEndDate, salesStartDate, salesEndDate);
+            });
+        });
+    });
 </script>
 <script>
     // Function to fetch sales report data
-    function fetchSalesReport(startDate, endDate) {
+    function fetchSalesReport(startDate, endDate, callback) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -311,6 +336,7 @@
 
                         // Display sales report data
                         document.getElementById('salesData').innerHTML = 'Total sales amount(LKR): ' + response['SUM(amount)'];
+                        callback(response);
                     }
                 } else {
                     console.error('Error fetching sales report:', xhr.status);
@@ -352,6 +378,4 @@
         var startDate = document.getElementById('startDate').value;
         fetchSalesReport(startDate, endDate);
     });
-
-   
 </script>

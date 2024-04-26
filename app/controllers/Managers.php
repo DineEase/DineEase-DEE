@@ -1944,13 +1944,19 @@ class Managers extends Controller
     {
         require_once APPROOT . '/vendor/autoload.php';
         $startDate = $_GET['startDate'];
-        $endDate = $_GET['endDate'];
+$endDate = $_GET['endDate'];
+$salesstartdate = $_GET['salesstartdate'];
+$salesenddate = $_GET['salesenddate'];
+$imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the path to your logo image file
         // Get the JSON data from the request body
         $request_body = file_get_contents('php://input');
+        error_log('Request body: ' . print_r($request_body, true));
 
 
         // Decode the JSON data
         $menuReport = json_decode($request_body, true);
+        //var_dump($menuReport);
+        error_log('Menu Report: ' . print_r($menuReport, true));
 
         // Create a new TCPDF instance
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -1959,23 +1965,48 @@ class Managers extends Controller
         $creator = $_SESSION['user_name'];
         $pdf->SetCreator($creator);
         $pdf->SetAuthor('Manager');
-        $pdf->SetTitle('Menu Report');
-        $pdf->SetSubject('Menu Report');
-        $pdf->SetKeywords('Menu, Report');
+        $pdf->SetTitle('Report');
+        $pdf->SetSubject('Report');
+        $pdf->SetKeywords('Report');
 
         // Add a page
         $pdf->AddPage();
 
         // Add the logo image
-        $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the path to your logo image file
-        $pdf->Image($imageFile, $x = 10, $y = 10, $w = 50, $h = '', $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false);
+        
+        //$pdf->Image($imageFile, $x = 10, $y = 10, $w = 50, $h = '', $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0, $fitbox = false, $hidden = false, $fitonpage = false);
         // Add the report period to the content of the PDF
+        $pageWidth = $pdf->getPageWidth();
+        $pageHeight = $pdf->getPageHeight();
+        
+        // Get the dimensions of the image
+        $imageWidth = 50; // Replace with the actual width of your image
+        $imageHeight = 25; // Replace with the actual height of your image
+        
+        // Calculate the position to center the image
+        $imageX = ($pageWidth - $imageWidth) / 2;
+        $imageY = ($pageHeight - $imageHeight) / 2;
+        
+        // Set the watermark image
+        //$imageOpacity = 0.5;
+        $pdf->Image($imageFile, $imageX, $imageY, $imageWidth, $imageHeight, 'PNG', '', '', false, 300, '', false, false,0);
+        
+        $pdf->Ln();
         $pdf->SetFont('times', 'B', 12);
-        $pdf->Cell(0, 10, 'Report Period: ' . $startDate . ' to ' . $endDate, 0, 1);
+        $pdf->Cell(0, 10, 'Sales Report Period: ' . $salesstartdate . ' to ' . $salesenddate, 0, 1);
+        $pdf->SetFont('times', '', 12);
+        $value = $menuReport['salesReport']['SUM(amount)'];
+        $pdf->Cell(0, 10, 'LKR: ' . $value, 0, 1);
+        
+    
+        // Add a new line for separation
+        $pdf->Ln();
+        $pdf->SetFont('times', 'B', 12);
+        $pdf->Cell(0, 10, 'Menu Report Period: ' . $startDate . ' to ' . $endDate, 0, 1);
 
         // Set font
-        $pdf->SetFont('times', 'BI', 16);
-
+        //$pdf->SetFont('times', '', 12);
+        $pdf->SetFont('times', 'B', 12);
         // Add heading
         $pdf->Cell(0, 10, 'Menu Report', 0, 1, 'C');
 
@@ -1984,7 +2015,7 @@ class Managers extends Controller
         $pdf->SetFont('times', 'B', 14);
         $pdf->Cell(0, 10, 'Top Selling Menus', 0, 1);
         $pdf->SetFont('times', '', 12);
-        foreach ($menuReport['topSellingMenus'] as $menu) {
+        foreach ($menuReport['menuReport']['topSellingMenus'] as $menu) {
             $pdf->Cell(0, 10, $menu['itemName'] . ' - Total Quantity Sold: ' . $menu['total_quantity_sold'], 0, 1);
         }
 
@@ -1993,7 +2024,7 @@ class Managers extends Controller
         $pdf->SetFont('times', 'B', 14);
         $pdf->Cell(0, 10, 'Top Selling Categories', 0, 1);
         $pdf->SetFont('times', '', 12);
-        foreach ($menuReport['topSellingCategories'] as $category) {
+        foreach ($menuReport['menuReport']['topSellingCategories'] as $category) {
             $pdf->Cell(0, 10, $category['category_name'] . ' - Total Quantity Sold: ' . $category['total_quantity_sold'], 0, 1);
         }
 
@@ -2002,14 +2033,14 @@ class Managers extends Controller
         $pdf->SetFont('times', 'B', 14);
         $pdf->Cell(0, 10, 'Most Reservations Date', 0, 1);
         $pdf->SetFont('times', '', 12);
-        $pdf->Cell(0, 10, 'Date: ' . $menuReport['mostReservationsDate']['date'] . ' - Reservation Count: ' . $menuReport['mostReservationsDate']['reservation_count'], 0, 1);
+        $pdf->Cell(0, 10, 'Date: ' . $menuReport['menuReport']['mostReservationsDate']['date'] . ' - Reservation Count: ' . $menuReport['menuReport']['mostReservationsDate']['reservation_count'], 0, 1);
 
         // Add most ordered sizes section
         $pdf->Ln(10);
         $pdf->SetFont('times', 'B', 14);
         $pdf->Cell(0, 10, 'Most Ordered Sizes', 0, 1);
         $pdf->SetFont('times', '', 12);
-        foreach ($menuReport['mostOrderedSizes'] as $size) {
+        foreach ($menuReport['menuReport']['mostOrderedSizes'] as $size) {
             $pdf->Cell(0, 10, $size['itemName'] . ' - Size: ' . $size['size'] . ' - Total Quantity Sold: ' . $size['total_quantity_sold'], 0, 1);
         }
 
@@ -2027,7 +2058,7 @@ class Managers extends Controller
 
         // Calculate the maximum width needed for the 'Item' column
         $maxItemWidth = 0;
-        foreach ($menuReport['results'] as $result) {
+        foreach ($menuReport['menuReport']['results'] as $result) {
             $itemWidth = $pdf->GetStringWidth($result['itemName']); // Get the width of the item name
             if ($itemWidth > $maxItemWidth) {
                 $maxItemWidth = $itemWidth;
@@ -2061,7 +2092,7 @@ class Managers extends Controller
         }
         $pdf->Ln();
         $pdf->SetFont('times', '');
-        foreach ($menuReport['results'] as $result) {
+        foreach ($menuReport['menuReport']['results'] as $result) {
             $pdf->Cell($maxColumnWidths[0], 10, $result['category_name'], 1);
             $pdf->Cell($maxColumnWidths[1], 10, $result['itemName'], 1);
             $pdf->Cell($maxColumnWidths[2], 10, $result['date'], 1, 0, 'C');
@@ -2072,7 +2103,7 @@ class Managers extends Controller
 
         // Output PDF to browser
         $date = date('Y-m-d_H-i-s'); // Get current date and time in the format YYYY-MM-DD_HH-MM-SS
-        $pdf->Output('menu_report_' . $date . '.pdf', 'I');
+        $pdf->Output('report_' . $date . '.pdf', 'D');
     }
 
     public function viewtables()
