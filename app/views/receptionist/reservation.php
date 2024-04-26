@@ -22,6 +22,21 @@
         justify-content: space-between;
     }
 
+    .menu-item {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        height: 34px;
+        border: solid 1px #166c45;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: white;
+        /* height: 37px !important; */
+    }
+
     .row {
         display: flex;
         flex-direction: row;
@@ -118,11 +133,41 @@
         gap: 1em;
     }
 
-    #ongoingOrders , #completedOrders {
+    #ongoingOrders,
+    #completedOrders {
         display: flex;
         flex-direction: column;
         gap: 1em;
 
+    }
+
+    /* Button styling */
+
+
+    .addItem-to-order-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        margin: 1em;
+        height: 66vh;
+        width: 117vh;
+    }
+
+    .addItem-to-order-container-input {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+        align-items: center;
+
+    }
+
+    div#itemsBySearch {
+        height: 56vh;
+        overflow-y: scroll;
+        width: 31em;
+        background-color: var(--brandgreen);
+        border-radius: 10px;
     }
 </style>
 
@@ -515,6 +560,8 @@
                                 </div>
                             </section>
                             <section id="add" class="tab-panel">
+
+
                                 <div class="completed-reservations-container">
                                     <div class="order-items-conteainer">
                                         <div class="compleated-order-header">
@@ -525,19 +572,92 @@
                                         <div class="add-reservation-receptionist">
 
                                             <div class="row">
-                                                <label for="reservation_time">Reservation Time : </label>
-                                                <input type="datetime-local" id="reservation_time" name="reservation_time">
+                                                <label for="suite">Reservation Suite:</label>
+                                                <select name="suite" id="suite" onchange="setSuite(this.value);">
+                                                    <?php foreach ($data['suites'] as $suite) {
+                                                        echo '<option value="' . $suite->packageID . '">' . $suite->packageName . '</option>';
+                                                    } ?>
+                                                </select>
+                                                <div>Availability : <span id="availiable-seats"></span> </div> 
+                                                <input type="hidden" id="reservation_suite" name="reservation_suite" value="1">
                                             </div>
                                             <div class="row">
-                                                <label for="number_of_guests">Number of People :</label>
-                                                <input type="number" id="number_of_guests" name="number_of_guests">
+                                                <label for="number_of_guests">Number of People:</label>
+                                                <input type="number" id="number_of_guests" name="number_of_guests" value="1">
                                             </div>
-                                            <button>Submit</button>
+                                        </div>
+                                        <div class="menuItems-containerRADD" id="menuItems-containerRADD">
+                                            <div class="row">
+                                                <div class="column">
+                                                    <div class="row">
+                                                        <input type="text" id="menuSearchRADD">
+                                                    </div>
+                                                    <div class="column" id="itemsBySearch">
+                                                    </div>
+                                                </div>
+                                                <div class="column">
+
+                                                    <div class="row">
+                                                        <h3>Added Items</h3>
+                                                    </div>
+                                                    <div class="row">
+                                                        <table>
+                                                            <tr>
+                                                                <td>Item</td>
+                                                                <td>Size</td>
+                                                                <td>Quantity</td>
+                                                                <td>Price</td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="column" id="added-items-to-reservation">
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <button id="addReservationButton" onclick="createOrder(); ">Add Reservation</button>
+
+                                                        <button id="clearCartButton" onclick="clearCart();">Clear Cart</button>
+                                                        <input type="hidden" id="total-for-cart" name="total" value="0">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </section>
+                            <section id="ongoing" class="tab-panel">
+                                <div id="addItemsToOrder" class="hidden">
+                                    <div class="addItem-to-order-container">
+                                        <div class="row">
+                                            <h3>Add Order Items</h3>
+                                        </div>
+                                        <hr />
+                                        <div class="addItem-to-order-container-input row">
+
+                                            <!-- Items -->
+                                            <div id="menuDropdown" class="dropdown">
+                                                <input type="text" placeholder="Choose a Menu Item..." id="menuInput">
+                                                <div id="dropdownItems" class="dropdown-content">
+                                                </div>
+                                            </div>
+
+                                            <button id="addButton">Add</button>
+                                        </div>
+                                        <div class="added-order-items" id="added-order-items">
+                                            dasds
                                         </div>
                                     </div>
                                 </div>
-                            </section>
-                            <section id="ongoing" class="tab-panel">
+                                <div id="popup-container" class="common-popup-container" style="display: none">
+                                    <div class="common-popup">
+                                        <button class="common-close-btn">X</button>
+                                        <div id="popup-content"></div>
+                                    </div>
+                                </div>
+
+
                                 <div class="completed-reservations-container">
                                     <div class="order-items-conteainer">
                                         <div class="compleated-order-header">
@@ -607,8 +727,21 @@
                 </div>
             </div>
         </div>
+        <!-- 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var menuInput = document.getElementById('menuInput');
+
+                // Event listener for the input event
+                menuInput.addEventListener('input', function() {
+                    alert('You typed something: ' + menuInput.value);
+                });
+            });
+        </script> -->
+
         <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
         <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
+        <script src="<?php echo URLROOT; ?>/js/main.js"></script>
 </body>
 
 </html>
