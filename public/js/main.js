@@ -1,20 +1,24 @@
+function showDialog(containerId, element) {
+  const content = document.getElementById(containerId).innerHTML;
+  const popupContent = document.getElementById("popup-content");
+  popupContent.innerHTML = content;
 
-function showDialog(containerId , element) {
-    const content = document.getElementById(containerId).innerHTML;
-    const popupContent = document.getElementById('popup-content');
-    popupContent.innerHTML = content;
+  const popupContainer = document.getElementById("popup-container");
+  popupContainer.style.display = "flex";
 
-    const popupContainer = document.getElementById('popup-container');
-    popupContainer.style.display = 'flex'; 
-
-    const closeButton = document.querySelector('.common-close-btn');
-    closeButton.onclick = function() { 
-        popupContainer.style.display = 'none';
-    };
+  const closeButton = document.querySelector(".common-close-btn");
+  closeButton.onclick = function () {
+    popupContainer.style.display = "none";
+  };
 }
 
-document.querySelector('.common-close-btn').addEventListener('click', function() {
-    document.getElementById('popup-container').style.display = 'none';
-});
+document
+  .querySelector(".common-close-btn")
+  .addEventListener("click", function () {
+    document.getElementById("popup-container").style.display = "none";
+  });
 
-
+function toggleDisplay(element1, element2) {
+  $("" + element1 + "").toggle();
+  $("" + element2 + "").toggle();
+}

@@ -169,6 +169,34 @@
         background-color: var(--brandgreen);
         border-radius: 10px;
     }
+
+    div#itemsBySearchEO {
+        height: 56vh;
+        overflow-y: scroll;
+        width: 31em;
+        background-color: var(--brandgreen);
+        border-radius: 10px;
+    }
+
+    .viewOngoing {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        margin: 1em;
+        height: 66vh;
+        width: 117vh;
+    }
+
+    .editOngoingS {
+        display: none;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        margin: 1em;
+        height: 66vh;
+        width: 117vh;
+    }
 </style>
 
 <body>
@@ -578,7 +606,7 @@
                                                         echo '<option value="' . $suite->packageID . '">' . $suite->packageName . '</option>';
                                                     } ?>
                                                 </select>
-                                                <div>Availability : <span id="availiable-seats"></span> </div> 
+                                                <div>Availability : <span id="availiable-seats"></span> </div>
                                                 <input type="hidden" id="reservation_suite" name="reservation_suite" value="1">
                                             </div>
                                             <div class="row">
@@ -669,23 +697,102 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="completed-order-item-card-header">
-                                            <table>
-                                                <tr>
-                                                    <td>Reservation ID</td>
-                                                    <td>Customer Name</td>
-                                                    <td>table</td>
+                                        <div class="viewOngoing">
+                                            <div class="completed-order-item-card-header">
+                                                <table>
+                                                    <tr>
+                                                        <td>Reservation ID</td>
+                                                        <td>Customer Name</td>
+                                                        <td>table</td>
 
-                                                    <td>Full amount</td>
+                                                        <td>Full amount</td>
 
-                                                    <td>Amount Payable</td>
-                                                    <td>Status</td>
-                                                    <td></td>
-                                                </tr>
-                                            </table>
+                                                        <td>Amount Payable</td>
+                                                        <td>Status</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="ongoingOrders">
+
+                                            </div>
                                         </div>
-                                        <div id="ongoingOrders">
+                                        <div class="editOngoingS">
+                                            <div class="contentEditOnGiongs jcsb">
+                                                <div class="row space-between">
+                                                    <div class="row">
+                                                        OrderNO : <span id="orderNO-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Customer Name : <span id="customerName-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Status : <span id="status-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Table : <span id="tableID-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Amount : <span id="amount-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Amount to Add : <span id="total-for-newly-added"></span>
+                                                    </div>
 
+                                                </div>
+
+
+
+                                                <div class="content-EO">
+                                                    <div class="row">
+                                                        <div class="column">
+                                                            <div class="row">
+                                                                <input type="text" id="menuSearchEO">
+                                                            </div>
+                                                            <div class="column" id="itemsBySearchEO">
+                                                            </div>
+                                                        </div>
+                                                        <div class="column">
+
+                                                            <div class="row">
+                                                                <h3>Added Items</h3>
+                                                            </div>
+                                                            <div class="row">
+                                                                <table>
+                                                                    <tr>
+                                                                        <td>Item</td>
+                                                                        <td>Size</td>
+                                                                        <td>Quantity</td>
+                                                                        <td>Price</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+
+                                                            <div class="column" id="added-items-to-Order">
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <button class="light-green-btn" onclick="addNewItems();">Add Items</button>
+
+
+                                                                <button id="clearCartButton" onclick="clearCartEO();">Clear Cart</button>
+                                                                <input type="hidden" id="total-for-cart" name="total" value="0">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="row  jcfe">
+
+                                                    <div class="close-button">
+                                                        <button class="close-btn" onclick="closeEditOngoingOrder();" id="closeeditOngoingS">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

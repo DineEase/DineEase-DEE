@@ -20,6 +20,13 @@ var suiteMaxCapacity = [20, 10, 10];
 var reservations = [];
 
 $(document).ready(function () {
+  $(".quantity-input-menu-items").attr({
+    min: 1,
+    max: 10,
+  });
+});
+
+$(document).ready(function () {
   getAvailability($("#reservation_suite").val());
 
   function getMenus() {
@@ -32,6 +39,7 @@ $(document).ready(function () {
         console.log(menus);
 
         displayItems(menus);
+        displayItemsEO(menus);
 
         $(document).on("input", "#menuSearchRADD", function () {
           console.log("input");
@@ -39,8 +47,16 @@ $(document).ready(function () {
           console.log("input");
           var searchQuery = $(this).val().toLowerCase();
           filterItems(menus, searchQuery);
+        });
 
-          console.log(filtered);
+        //*works fine
+
+        $(document).on("input", "#menuSearchEO", function () {
+          console.log("input");
+          $("#itemsBySearchEO").empty();
+          console.log("inputss");
+          var searchQuery = $(this).val().toLowerCase();
+          filterItemsEO(menus, searchQuery);
         });
       },
       error: function (err) {
@@ -57,6 +73,16 @@ $(document).ready(function () {
       );
     }
     displayItems(filteredItems);
+  }
+  //*works fine
+  function filterItemsEO(array, searchQuery) {
+    let filteredItems = array;
+    if (searchQuery) {
+      filteredItems = filteredItems.filter((item) =>
+        item.itemName.toLowerCase().includes(searchQuery)
+      );
+    }
+    displayItemsEO(filteredItems);
   }
 
   function displayItems(items) {
@@ -82,9 +108,11 @@ $(document).ready(function () {
                 .append(
                   $("<input>", {
                     type: "number",
-                    class: "quantity-input",
+                    class: "quantity-input-menu-items",
                     id: "quantity-input" + item.itemID,
                     placeholder: "Quantity",
+                    value: 1,
+                    min: 1,
                     required: true,
                   })
                 )
@@ -111,8 +139,10 @@ $(document).ready(function () {
               .append(
                 $("<input>", {
                   type: "number",
-                  class: "quantity-input",
+                  class: "quantity-input-menu-items",
                   id: "quantity-input" + item.itemID,
+                  value: 1,
+                  min: 1,
                   placeholder: "Quantity",
                   required: true,
                 })
@@ -134,9 +164,90 @@ $(document).ready(function () {
       });
     }
   }
+  //!Could be fine
+  function displayItemsEO(items) {
+    const dropdown = $("#itemsBySearchEO");
+    dropdown.empty();
+
+    if (items.length > 0) {
+      items.forEach((item) => {
+        let sizesArray = item.Sizes.split(", ");
+        let pricesArray = item.Prices.split(", ");
+
+        if (sizesArray.length > 1) {
+          for (let i = 0; i < sizesArray.length; i++) {
+            let sizePrice = [];
+
+            sizePrice = sizesArray[i] + " - " + pricesArray[i];
+
+            dropdown.append(
+              $("<div>", {
+                class: "menu-item",
+                text: item.itemName + " - " + sizePrice,
+              })
+                .append(
+                  $("<input>", {
+                    type: "number",
+                    class: "quantity-input-menu-items",
+                    id: "quantity-input" + item.itemID,
+                    placeholder: "Quantity",
+                    value: 1,
+                    min: 1,
+                    required: true,
+                  })
+                )
+                .append(
+                  $("<button>", {
+                    class: "add-to-cart-btn",
+                    text: "Add to Order",
+                    id: "add-to-cart-btn" + item.itemID,
+                    "data-item-id": item.itemID,
+                    "data-item-price": pricesArray[i],
+                    "data-item-size": sizesArray[i],
+                    "data-item-name": item.itemName,
+                    onClick: "addToCartEO(this)",
+                  })
+                )
+            );
+          }
+        } else {
+          dropdown.append(
+            $("<div>", {
+              class: "menu-item",
+              text: item.itemName + " - " + sizesArray + " - " + pricesArray,
+            })
+              .append(
+                $("<input>", {
+                  type: "number",
+                  class: "quantity-input-menu-items",
+                  id: "quantity-input" + item.itemID,
+                  placeholder: "Quantity",
+                  min: 1,
+                  value: 1,
+                  required: true,
+                })
+              )
+              .append(
+                $("<button>", {
+                  class: "add-to-cart-btn",
+                  text: "Add to Order",
+                  id: "add-to-cart-btn" + item.itemID,
+                  "data-item-id": item.itemID,
+                  "data-item-price": pricesArray,
+                  "data-item-size": sizesArray,
+                  "data-item-name": item.itemName,
+                  onClick: "addToCartEO(this)",
+                })
+              )
+          );
+        }
+      });
+    }
+  }
   getMenus();
 });
 
+//!changed
 function addToCart(element) {
   var itemID = $(element).data("item-id");
   var itemPrice = $(element).data("item-price");
@@ -157,6 +268,28 @@ function addToCart(element) {
   localStorage.setItem("cart", JSON.stringify(cart));
 
   populateAddedItems();
+}
+
+function addToCartEO(element) {
+  var itemID = $(element).data("item-id");
+  var itemPrice = $(element).data("item-price");
+  var itemSize = $(element).data("item-size");
+  var itemName = $(element).data("item-name");
+  var quantity = $(element).prev().val();
+
+  var item = {
+    itemID: itemID,
+    itemPrice: itemPrice,
+    itemSize: itemSize,
+    itemName: itemName,
+    quantity: quantity,
+  };
+
+  var toAdd = JSON.parse(localStorage.getItem("toAdd")) || [];
+  toAdd.push(item);
+  localStorage.setItem("toAdd", JSON.stringify(toAdd));
+
+  populateAddNewItems();
 }
 
 var totalAmount = 0;
@@ -181,7 +314,7 @@ function populateAddedItems() {
                   -quantity">${item.quantity}</div>
                   <div class="added-item
                   -price">${itemTotal}</div>
-                  <button class="remove-item-btn" onClick="removeItem(this)">Remove</button>
+                  <button class="remove-itemEO-btn" data-item-size="${item.itemSize}" data-item-id="${item.itemID}" data-item-quantity="${item.quantity}" data-item-size="" onClick="removeItem(this);">Remove</button>
               </div>
 
           `;
@@ -194,8 +327,44 @@ function populateAddedItems() {
   console.log($("#total-for-cart").val());
 }
 
+var toAddTotalAmount = 0;
+
+function populateAddNewItems() {
+  var toAdd = JSON.parse(localStorage.getItem("toAdd")) || [];
+  var total = 0;
+  var html = "";
+
+  toAdd.forEach((item) => {
+    var itemTotal = item.itemPrice * item.quantity;
+    total += itemTotal;
+
+    html += `
+              <div class="added-item
+              ">
+                  <div class="added-item
+                  -name">${item.itemName}</div>
+                  <div class="added-item-size">${item.itemSize}</div>
+
+                  <div class="added-item
+                  -quantity">${item.quantity}</div>
+                  <div class="added-item
+                  -price">${itemTotal}</div>
+                  <button class="remove-itemEO-btn" data-item-size="${item.itemSize}" data-item-id="${item.itemID}" data-item-quantity="${item.quantity}" data-item-size="" onClick="removeItemEO(this);">Remove</button>
+              </div>
+
+          `;
+
+    $("#added-items-to-Order").html(html);
+  });
+  toAddTotalAmount = total;
+  $("#total-for-newly-added").val(toAddTotalAmount);
+  console.log(totalAmount);
+  console.log($("#amount-editEO").val());
+}
+
+//todo
 function clearCart() {
-  alert("Order cleared successfully!");
+  alert("Order clearedss successfully!");
   localStorage.removeItem("cart");
   populateAddedItems();
   $("#added-items-to-reservation").html("");
@@ -203,14 +372,68 @@ function clearCart() {
   $("#total-for-cart").val(totalAmount);
 }
 
-$(".remove-item-btn").click(function () {
-  $("#added-items-to-reservation").html("");
-  var itemName = $(this).prev().prev().prev().text();
+function clearCartEO() {
+  alert("Order cleared successfully!");
+  localStorage.removeItem("toAdd");
+  populateAddNewItems();
+  $("#added-items-to-Order").html("");
+  toAddTotalAmount = 0;
+  $("#total-for-newly-added").val(toAddTotalAmount);
+}
+
+function removeItem(element) {
+  var itemID = $(element).data("item-id");
+  var itemSize = $(element).data("item-size");
+  var itemQuantity = parseInt($(element).data("item-quantity"), 10); // Convert to integer
+
   var cart = JSON.parse(localStorage.getItem("cart")) || [];
-  var updatedCart = cart.filter((item) => item.itemName != itemName);
-  localStorage.setItem("cart", JSON.stringify(updatedCart));
+  var foundIndex = cart.findIndex(
+    (item) =>
+      item.itemID === itemID &&
+      item.itemSize === itemSize &&
+      parseInt(item.quantity, 10) === itemQuantity // Ensure comparison as integers
+  );
+
+  if (foundIndex == 0 && cart.length == 1) {
+    clearCart();
+  }
+
+  if (foundIndex !== -1) {
+    cart.splice(foundIndex, 1);
+  } else {
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
   populateAddedItems();
-});
+}
+
+function removeItemEO(element) {
+  var itemID = $(element).data("item-id");
+  var itemSize = $(element).data("item-size");
+  var itemQuantity = parseInt($(element).data("item-quantity"), 10); // Convert to integer
+
+  var toAdd = JSON.parse(localStorage.getItem("toAdd")) || [];
+  var foundIndex = toAdd.findIndex(
+    (item) =>
+      item.itemID === itemID &&
+      item.itemSize === itemSize &&
+      parseInt(item.quantity, 10) === itemQuantity // Ensure comparison as integers
+  );
+
+  if (foundIndex == 0 && toAdd.length == 1) {
+    clearCartEO();
+  }
+
+  if (foundIndex !== -1) {
+    toAdd.splice(foundIndex, 1);
+  } else {
+  }
+
+  localStorage.setItem("toAdd", JSON.stringify(toAdd));
+  populateAddNewItems();
+}
+
+//!DONE
 
 function createOrder() {
   var numberOfGuests = document.getElementById("number_of_guests").value;
@@ -244,17 +467,48 @@ function createOrder() {
   });
 }
 
-window.addEventListener("storage", function (e) {
-  $("#added-items-to-reservation").html("");
+function editOngoingOrder(element) {
+  toggleDisplay(".viewOngoing", ".editOngoingS");
+  clearCartEO();
 
-  populateAddedItems();
+  var orderID = $(element).data("id-reservationid");
+  var order = reservations.find((order) => order.orderID == orderID);
+  $("#orderNO-editEO").text(order.orderID);
+  $("#customerName-editEO").text(order.customer.name);
+  $("#tableID-editEO").text(order.tableID);
+  $("#status-editEO").text(order.preparationStatus);
+  populateAddNewItems();
+}
+
+function closeEditOngoingOrder() {
+  toggleDisplay(".viewOngoing", ".editOngoingS");
+  clearCartEO();
+}
+
+window.addEventListener("storage", function (e) {
+  if (e.key === "cart") {
+    populateAddedItems();
+  }
 });
+
+window.addEventListener("storage", function (e) {
+  if (e.key === "toAdd") {
+    populateAddNewItems();
+  }
+});
+
+function addNewItemsToOrder() {
+  var orderID = $("#orderNO-editEO").text();
+  var total = document.getElementById("total-for-newly-added").value;
+}
 
 function setSuite(suiteValue) {
   $("#reservation_suite").val(suiteValue);
 
   getAvailability(suiteValue);
 }
+
+//&DONE
 
 function getAvailability(suiteValue) {
   $.ajax({
@@ -280,13 +534,24 @@ function getAvailability(suiteValue) {
   });
 }
 
-function removeItem(element) {
-  var itemName = $(element).prev().prev().prev().text();
-  var cart = JSON.parse(localStorage.getItem("cart")) || [];
-  var updatedCart = cart.filter((item) => item.itemName != itemName);
-  localStorage.setItem("cart", JSON.stringify(updatedCart));
-  populateAddedItems();
-}
+// //TODO FIX THESE FUNCTIONS
+// function removeItem(element) {
+//   var itemName = $(element).prev().prev().prev().text();
+//   var cart = JSON.parse(localStorage.getItem("cart")) || [];
+//   var updatedCart = cart.filter((item) => item.itemName != itemName);
+//   localStorage.setItem("cart", JSON.stringify(updatedCart));
+//   populateAddedItems();
+// }
+
+// function removeItemEO(element) {
+//   var itemName = $(element).prev().prev().prev().text();
+//   var toAdd = JSON.parse(localStorage.getItem("toAdd")) || [];
+//   var updatedCart = toAdd.filter((item) => item.itemName != itemName);
+//   localStorage.setItem("toAdd", JSON.stringify(updatedCart));
+//   populateAddedItems();
+// }
+
+//!ORDER EDITING FUNCTIONS
 
 $(document).ready(function () {
   $(document).on("click", ".markCompleted", function () {
@@ -373,10 +638,9 @@ $(document).ready(function () {
                                           ${
                                             order.preparationStatus !=
                                             "Completed"
-                                              ? `<button class="light-green-btn addOrderItems" onClick="showDialog('addItemsToOrder');" data-id-reservationID = "${order.orderID}">Add Items</button>`
+                                              ? `<button class="light-green-btn addOrderItems" onClick="editOngoingOrder(this);" data-id-reservationID = "${order.orderID}">Add Items</button>`
                                               : ""
                                           }
-                                             
                                         </td>
                                     </tr>
                                 </table>
