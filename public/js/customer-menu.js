@@ -6,8 +6,6 @@ var itemReviewMap = foodReviews.reduce((map, item) => {
 
 
 $(document).ready(function () {
-  console.log("Customer Menu JS Loaded");
-  console.log(foodReviews);
   let currentCategoryId = "all";
   let currentPage = 1;
   let itemsPerPage = 16;
