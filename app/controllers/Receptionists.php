@@ -250,4 +250,11 @@ class Receptionists extends Controller
         }
     }
 
+    public function getReservationDetails($reservationID)
+    {
+        $reservationDetails = $this->receptionistModel->getReservationDetailsByID($reservationID);
+        echo json_encode($reservationDetails);
+    }
+
+
 }

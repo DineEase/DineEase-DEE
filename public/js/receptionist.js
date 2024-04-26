@@ -333,10 +333,8 @@ function populateAddNewItems() {
   var html = "";
 
   toAdd.forEach((item) => {
-  
     var itemTotal = item.itemPrice * item.quantity;
     total += itemTotal;
-   
 
     html += `
               <div class="added-item
@@ -363,7 +361,6 @@ function populateAddNewItems() {
 
 //todo
 function clearCart() {
-
   localStorage.removeItem("cart");
   populateAddedItems();
   $("#added-items-to-reservation").text("");
@@ -372,7 +369,6 @@ function clearCart() {
 }
 
 function clearCartEO() {
-
   localStorage.removeItem("toAdd");
   populateAddNewItems();
   $("#added-items-to-Order").html("");
@@ -380,13 +376,12 @@ function clearCartEO() {
   $("#total-for-newly-added").val(toAddTotalAmount);
 }
 
-window.addEventListener('storage', function(e) {
-  if (e.key === 'reloadParent') {
+window.addEventListener("storage", function (e) {
+  if (e.key === "reloadParent") {
     location.reload();
-    localStorage.removeItem('reloadParent');
+    localStorage.removeItem("reloadParent");
   }
 });
-
 
 function removeItem(element) {
   var itemID = $(element).data("item-id");
@@ -507,15 +502,13 @@ window.addEventListener("storage", function (e) {
   }
 });
 
-
 $("#reloads").change(function () {
-  alert("Changes have been made to the order. Please reload the page to view the changes.");
+  alert(
+    "Changes have been made to the order. Please reload the page to view the changes."
+  );
   localStorage.setItem("reloadParent", true);
   location.reload();
 });
-
-
-
 
 function addNewItemsToOrder() {
   var orderID = $("#orderNO-editEO").text();
@@ -655,7 +648,7 @@ $(document).ready(function () {
 
         $("#ongoingOrders").html(createOrders(ongoingOrders));
         $("#completedOrders").html(createOrders(completedOrders));
-// TODO #80 Amount payable shows as a negative value
+        // TODO #80 Amount payable shows as a negative value
         function createOrders(orders) {
           var html = "";
           orders.forEach((order) => {
@@ -667,8 +660,9 @@ $(document).ready(function () {
                                         <td>${order.customer.name}</td>
                                         <td>${order.tableID}</td>
                                         <td>${order.amount}</td>
-                                        <td>${
-                                          Math.abs(order.amountPaid - order.amount)}
+                                        <td>${Math.abs(
+                                          order.amountPaid - order.amount
+                                        )}
                                        </td>
                                         <td>${order.preparationStatus}</td>
                                         <td>
@@ -699,3 +693,91 @@ $(document).ready(function () {
   }
   fetchReservations();
 });
+
+
+//^ Reservation view functions
+
+function popViewReservationDetails(element) {
+  var reservationID = element.getAttribute("data-reservation-id");
+  var item = "";
+  var reservationDetails;
+  var isAlreadyReviewed;
+
+  // isAlreadyReviewed(reservationID);
+
+  $.ajax({
+    url: "getReservationDetails/" + reservationID,
+    dataType: "json",
+    success: function (response) {
+      reservationDetails = response;
+      openedReservationDetails = reservationDetails;
+
+      if (reservationDetails && reservationDetails.length > 0) {
+        isAlreadyReviewed = reservationDetails[0].review;
+        console.log(isAlreadyReviewed);
+
+        if (isAlreadyReviewed > 0) {
+          $("#rs-review").prop("disabled", true);
+          $("#rs-review").css("background-color", "grey");
+          $("#rs-review").css("pointer-events", "none");
+          $("#rs-review").css("cursor", "not-allowed");
+          $("#rs-review").val("Already Reviewed");
+        }
+
+        $("#reservation-details-container").show();
+        $("#rs-order-id").text(reservationDetails[0].orderID || "N/A");
+        $("#rs-subtotal").text(
+          "LKR : " +
+            (reservationDetails[0].amount -
+              reservationDetails[0].numOfPeople * 500) +
+            ".00" || "N/A"
+        );
+        $("#rs-review").val(reservationDetails[0].orderID);
+        $("#rs-order-date").text(reservationDetails[0].date || "N/A");
+        // $("#rs-time").text(reservationDetails[0].reservationStartTime || 'N/A');
+        $("#rs-reservation").text(
+          "LKR : " + reservationDetails[0].numOfPeople * 500 + ".00" || "N/A"
+        );
+        // $("#rs-package").text(reservationDetails[0].packageID || 'N/A');
+        $("#rs-Payable").text(
+          "LKR" + reservationDetails[0].amount + ".00" || "N/A"
+        );
+        // $("#rs-status").text(reservationDetails[0].status || 'N/A');
+        // $("#rs-table").text(reservationDetails[0].tableID || 'N/A');
+        // $("#rs-customer").text(reservationDetails[0].customerID || 'N/A');
+        var itemDiv = $(".rs-items");
+        itemDiv.empty();
+        reservationDetails[1].forEach((element) => {
+          item += `<div class='rs-item-card'>
+          <img src='${element.imagePath.replace(/\\\//g, "/")}' alt='item'>
+          <div class='rs-item-details'>
+            <table>
+              <tr><td><p>Item Name: ${
+                element.itemName
+              }</p></td><td><p class='rs-item-price'>Item Price: Rs. ${
+            element.price
+          }.00</p></td></tr>
+              <tr><td><p>Item Size: ${element.size}</p></td><td><p>Quantity: ${
+            element.quantity
+          }</p></td></tr>
+            </table>
+             <p class='rs-item-completed'>Completed</p>
+
+            </div>
+        </div>`;
+        });
+        itemDiv.append(item);
+      } else {
+        alert("No details available for this reservation.");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching data:", error);
+      alert("Failed to fetch reservation details: " + error);
+    },
+  });
+
+  $(document).on("click", "#rs-close-btn", function () {
+    $("#reservation-details-container").hide();
+  });
+}
