@@ -655,7 +655,7 @@ $(document).ready(function () {
 
         $("#ongoingOrders").html(createOrders(ongoingOrders));
         $("#completedOrders").html(createOrders(completedOrders));
-
+// TODO #80 Amount payable shows as a negative value
         function createOrders(orders) {
           var html = "";
           orders.forEach((order) => {
@@ -668,8 +668,8 @@ $(document).ready(function () {
                                         <td>${order.tableID}</td>
                                         <td>${order.amount}</td>
                                         <td>${
-                                          order.amountPaid - order.amount
-                                        }  </td>
+                                          Math.abs(order.amountPaid - order.amount)}
+                                       </td>
                                         <td>${order.preparationStatus}</td>
                                         <td>
                                         ${
