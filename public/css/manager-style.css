@@ -171,6 +171,7 @@
     width: 13%;
   }
   .sidebar {
+    
     background-color: var(--white-color);
     width: 14.3%;
     position: fixed;
@@ -225,6 +226,7 @@
   } */
   
   .menu_items {
+    margin-top: 40px;
     padding: 0;
     list-style: none;
   }

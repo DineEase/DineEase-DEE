@@ -69,7 +69,7 @@ class Manager
     public function addUsers($data)
     {
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile' . $filename;
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile/' . $filename;
         $this->db->query('INSERT INTO users (name, email, password, mobile_no, dob, profile_picture, active) VALUES (:name, :email, :password, :mobile_number, :dob, :imagePath, 1)');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
@@ -181,7 +181,7 @@ class Manager
 
         // Common bindings for both update and insert
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile' . $filename;
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile/' . $filename;
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
@@ -726,7 +726,7 @@ class Manager
     public function editpackage($data)
     {
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/package' . $filename;
+        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/package/' . $filename;
 
         $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, description = :description, image =:image WHERE packageID = :packageID');
         $this->db->bind(':packageName', $data['packageName']);
@@ -1212,6 +1212,15 @@ class Manager
         return $results;
         var_dump($results);
     }
+    public function getReservationsCount() {
+        $this->db->query('SELECT COUNT(*) as reservationCount
+            FROM reservation
+            JOIN refundrequest ON reservation.refundRequestID = refundrequest.refundRequestID
+            WHERE reservation.status = "Requested"');
+        $result = $this->db->single();
+        return $result;
+    }
+    
     public function getrefunddetails($refundRequestID){
         // need to get the reason also from refundrequest table
         //$this->db->query('SELECT * FROM reservation WHERE refundRequestID = :refundRequestID');
