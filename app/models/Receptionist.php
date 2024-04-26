@@ -122,6 +122,101 @@ class Receptionist
         return $row->count;
     }
 
+    public function createOrderForWalkIn($order)
+    {
+        // implement slot checking logic
+
+        $time = new DateTime($order['slot']);
+        $time->modify('+1 hour');
+        $endTime = $time->format('H:i:s');
+        $today = date("Y-m-d");
+
+        $total = $order['total'];
+
+
+        $this->db->query('INSERT INTO reservation (customerID, tableID, reservationStartTime, reservationEndTime, date, numOfPeople, packageID, status , amount ) VALUES (:customerID, :tableID, :reservationStartTime, :reservationEndTime, :date, :numOfPeople, :packageID, :status , :amount)');
+        $this->db->bind(':customerID', "43");
+        //TODO cerate table logic
+        $this->db->bind(':tableID', 1);
+        $this->db->bind(':reservationStartTime', $order['slot']);
+        $this->db->bind(':reservationEndTime', $endTime);
+        $this->db->bind(':date', $today);
+        $this->db->bind(':numOfPeople', $order['numberOfGuests']);
+        $this->db->bind(':packageID', $order['suitePackage']);
+        $this->db->bind(':status', 'Pending');
+        $this->db->bind(':amount', $total);
+        if ($this->db->execute()) {
+            $reservationID = $this->db->lastInsertId();
+
+            $this->db->query('INSERT INTO slots (reservationID, slot , date , noofpeople) VALUES (:reservationID, :slot ,:date , :noofpeople)');
+            $this->db->bind(':reservationID', $reservationID);
+            $this->db->bind(':slot', $order['sloNo']);
+            $this->db->bind(':date', $today);
+            $this->db->bind(':noofpeople', $order['numberOfGuests']);
+            $this->db->execute();
+
+            $orderID = $reservationID . "_ORD";
+
+            $this->db->query('INSERT INTO orders (orderItemID , reservationID, status, preparationStatus) VALUES ( :orderID ,:reservationID, "Unpaid", "Pending")');
+            $this->db->bind(':orderID', $orderID);
+            $this->db->bind(':reservationID', $reservationID);
+            if (
+                $this->db->execute()
+            ) {
+
+                $this->db->query('UPDATE reservation SET orderID = :orderID WHERE reservationID = :reservationID');
+                $this->db->bind(':orderID', $orderID);
+                $this->db->bind(':reservationID', $reservationID);
+                $this->db->execute();
+
+                $items = $order['items'];
+                foreach ($items as $item) {
+                    $this->db->query('INSERT INTO orderitem (orderNo, itemID, size, quantity , status) VALUES (:orderNo, :itemID, :size, :quantity, :status)');
+                    $this->db->bind(':orderNo', $orderID);
+                    $this->db->bind(':itemID', $item['itemID']);
+                    $this->db->bind(':size', $item['itemSize']);
+                    $this->db->bind(':quantity', $item['quantity']);
+                    $this->db->bind(':status', 'Pending');
+                    $this->db->execute();
+                }
+                return "order created successfully";
+            } else {
+                return "order creation failed";
+            }
+        } else {
+            return "reservation creation failed";
+        }
+    }
+
+    public function getAvailableSlotsNow($suite)
+    {
+        $today = date("Y-m-d");
+        $time = date("H:00:00");
+
+        $data = [
+            'today' => $today,
+            'time' => $time,
+            'suite' => $suite
+
+        ];
+
+        $this->db->query('SELECT SUM(numOfPeople) as "reserved"  FROM reservation WHERE reservationStartTime = :time AND date = :today AND packageID = :suite ');
+        $this->db->bind(':time', $time);
+        $this->db->bind(':today', $today);
+        $this->db->bind(':suite', $suite);
+        $results = $this->db->single();
+        if ($results->reserved == null) {
+            $results->reserved = 0;
+        }
+        else
+        {
+            $results->reserved = (int)$results->reserved;
+        }
+
+        
+
+        return $results->reserved;
+    }
 
     public function getReservationWithStatusAndDateRange($limit = 10, $offset = 0, $status, $startDate, $endDate)
     {
@@ -179,7 +274,8 @@ class Receptionist
         return $results;
     }
 
-    public function markCompleted($orderID){
+    public function markCompleted($orderID)
+    {
         $this->db->query('UPDATE reservation SET status = "Completed" WHERE orderID = :orderID');
         $this->db->bind(':orderID', $orderID);
         $result =  $this->db->execute();
@@ -199,7 +295,7 @@ class Receptionist
             $this->db->query('SELECT amount FROM payment WHERE reservationID = :reservationID');
             $this->db->bind(':reservationID', $row->reservationID);
             $row2 = $this->db->single();
-            $row->amountPaid = $row2->amount;   
+            $row->amountPaid = $row2->amount;
         }
 
 
@@ -227,5 +323,12 @@ class Receptionist
         }
 
         return $row1;
+    }
+
+    function getSuites()
+    {
+        $this->db->query('SELECT * FROM package');
+        $results = $this->db->resultSet();
+        return $results;
     }
 }

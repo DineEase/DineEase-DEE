@@ -3,6 +3,7 @@
 use GuzzleHttp\Psr7\ServerRequest;
 
 class Receptionists extends Controller
+
 {
     public $receptionistModel;
     public function __construct()
@@ -98,6 +99,11 @@ class Receptionists extends Controller
             die('Something went wrong');
         }
 
+        if ($suites = $this->receptionistModel->getSuites()) {
+        } else {
+            die('Something went wrong');
+        }
+
         $data = [
             'reservations' => $reservations,
             'totalReservations' => $totalReservations,
@@ -107,7 +113,8 @@ class Receptionists extends Controller
             'endDate' => $endDate,
             'page' => $page,
             'limit' => $limit,
-            'reservationStatus' => $reservationStatus
+            'reservationStatus' => $reservationStatus,
+            'suites' => $suites
 
         ];
 
@@ -121,6 +128,40 @@ class Receptionists extends Controller
         echo json_encode($reservations);
     }
 
+    public function createOrder()
+    {
+
+        //TODO UPDATE GETTING ONGOING RESERVATION AND COMPLETED RESERVATION LOGIC 
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $order = [
+                'numberOfGuests' => $_POST['numberOfGuests'],
+                'suitePackage' => $_POST['suitePackage'],
+                'items' => $_POST['items'],
+                'slot' =>   sprintf("%02d:00:00", $_POST['slot']),
+                'total' => $_POST['total'],
+                'sloNo' => $_POST['slot'],
+            ];
+
+            $result = $this->receptionistModel->createOrderForWalkIn($order);
+
+            echo json_encode($result);
+        }
+    }
+
+
+    public function getAvailableSlotsNow()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        
+            $suite = $_GET['suiteID'];
+            $result = $this->receptionistModel->getAvailableSlotsNow($suite);
+            echo json_encode($result);
+        }
+    }
+
+
 
     public function markCompleted()
     {
@@ -129,8 +170,12 @@ class Receptionists extends Controller
             $orderID = $_POST['orderID'];
         }
         $result = $this->receptionistModel->markCompleted($orderID);
-        echo json_encode($result);
 
+        if ($result == NULL) {
+            echo json_encode(0);
+        } else {
+            echo json_encode($result);
+        }
     }
 
 
@@ -172,5 +217,12 @@ class Receptionists extends Controller
         $data = [];
 
         $this->view('Receptionist/orders');
+    }
+
+    public function getMenus()
+    {
+        $menus = $this->receptionistModel->getMenus();
+        header('Content-Type: application/json');
+        echo json_encode($menus);
     }
 }
