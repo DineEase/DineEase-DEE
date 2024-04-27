@@ -63,10 +63,10 @@
         }
 
         .receptionist-dashboard-container table {
-            width: 100%;
+            /* width: 100%; */
             height: 100%;
             border-collapse: collapse;
-            border: var(--brandgreen) solid 4px;
+            /* border: var(--brandgreen) solid 4px; */
             border-radius: 10px;
         }
 
@@ -77,10 +77,16 @@
         .receptionist-dashboard-container table tr td {
             border: var(--brandgreen) solid 1px;
             text-align: center;
+            padding: 5px;
         }
 
+        tr td:not(:first-child) {
+            width: 12vh;
+        }
+
+
         .receptionist-dashboard-container table tr td:nth-child(1) {
-            width: 10% !important;
+            width: 12vh !important;
         }
 
 
@@ -96,6 +102,27 @@
 
         .view-slot-button:hover {
             background-color: var(--brandgreen-dark);
+        }
+
+        .dashboard-content {
+            display: flex;
+            flex-direction: column;
+            height: 29vh;
+            padding: 22px;
+        }
+
+        .dashboard-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 97.6%;
+            height: 60px;
+            padding: 20px;
+            padding-bottom: 0;
+        }
+
+        .reservation-full-view-table {
+            border: 4px solid var(--brandgreen);
         }
     </style>
 </head>
@@ -178,7 +205,7 @@
                                     </button>
                                 </a>
                             </li>
-                            
+
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu">
@@ -246,6 +273,11 @@
                     $selectedSuite = 1;
                 }
                 ?>
+                <!-- TODO #82 Reservation grids active status does not show -->
+
+
+
+
 
                 <div class="dashboard-head">
                     <div class="rdh-item">
@@ -274,37 +306,43 @@
                 </div>
                 <div class="dashboard-content">
 
-                    <table class="table-fixed">
-                        <?php
-                        // Example PHP logic to demonstrate dynamic content
-                        for ($time = $data['reservationsStartTime']; $time < $data['reservationsEndTime']; $time++) {
-                        ?>
-                            <tr>
-                                <td><?= $time ?></td>
-                                <?php
-                                if ($data['reservations']) {
-                                    foreach ($data['reservations'] as $reservation) {
-                                        $slot = date("G", strtotime($reservation->reservationStartTime));
+                    <div class="reservation-full-view-table">
+                        <table class="table-fixed">
+                            <?php
+                            // Example PHP logic to demonstrate dynamic content
+                            for ($time = $data['reservationsStartTime']; $time < $data['reservationsEndTime']; $time++) {
+                            ?>
+                                <tr>
+                                    <td><?= $time ?></td>
+                                    <?php
+                                    if ($data['reservations']) {
+                                        foreach ($data['reservations'] as $reservation) {
+                                            $slot = date("G", strtotime($reservation->reservationStartTime));
 
-                                        if ($slot == $time) {
-                                            echo '<td><button class="view-slot-button" data-reservation-id="' . $reservation->reservationID . '" onclick="slotPopup();" name="slot-button">' . $reservation->reservationID . '</button></td>';
+                                            if ($slot == $time) {
+                                                echo '<td><button class="view-slot-button" data-reservation-id="' . $reservation->reservationID . '" onclick="slotPopup(this);" name="slot-button">' . $reservation->reservationID . '</button></td>';
+                                            }
                                         }
                                     }
-                                }
-                                ?>
-                            </tr>
-                        <?php
-                        }
-                        ?>
+                                    ?>
+                                </tr>
+                            <?php
+                            }
+                            ?>
 
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
-    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
+    <script>
+        function slotPopup(element) {
+            let reservationID = element.getAttribute('data-reservation-id');
+        }
+    </script>
 </body>
 
 </html>

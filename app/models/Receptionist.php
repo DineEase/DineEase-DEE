@@ -289,7 +289,7 @@ class Receptionist
         $this->db->bind(':today', $today);
         $row1 = $this->db->resultSet();
 
-        
+
         foreach ($row1 as $row) {
             $this->db->query('SELECT amount FROM payment WHERE reservationID = :reservationID');
             $this->db->bind(':reservationID', $row->reservationID);
@@ -370,12 +370,62 @@ class Receptionist
         } else {
             return "Failed to update order total amount";
         }
-
     }
     function getSuites()
     {
         $this->db->query('SELECT * FROM package');
         $results = $this->db->resultSet();
         return $results;
+    }
+
+    public function getReservationDetailsByID($reservationID)
+    {
+
+        $this->db->query('SELECT * FROM reservation WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $row1 = $this->db->single();
+
+        $this->db->query('SELECT * FROM reservationreview WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        if ($this->db->single()) {
+            $row1->review = 1;
+        } else {
+            $row1->review = 0;
+        }
+
+        $this->db->query('SELECT * FROM orderitem WHERE orderNO = :orderNO');
+        $this->db->bind(':orderNO', $row1->orderID);
+        $row2 = $this->db->resultSet();
+
+        foreach ($row2 as $item) {
+            $this->db->query('SELECT * FROM menuitem WHERE itemID = :itemID');
+            $this->db->bind(':itemID', $item->itemID);
+            $row3 = $this->db->single();
+            $item->itemName = $row3->itemName;
+            $item->imagePath = $row3->imagePath;
+        }
+
+        foreach ($row2 as $item) {
+            $this->db->query('SELECT * FROM menuprices WHERE ItemID = :itemID AND itemSize = :size');
+            $this->db->bind(':itemID', $item->itemID);
+            $this->db->bind(':size', $item->size);
+            $row4 = $this->db->single();
+            if ($row4) {
+                $item->price = $row4->ItemPrice;
+            } else {
+                $this->db->query('SELECT * FROM menuprices WHERE ItemID = :itemID AND itemSize = "Regular"');
+                $this->db->bind(':itemID', $item->itemID);
+                $row5 = $this->db->single();
+                $item->price = $row5->ItemPrice;
+            }
+        }
+
+
+
+
+        $data[0] = $row1;
+        $data[1] = $row2;
+
+        return $data;
     }
 }
