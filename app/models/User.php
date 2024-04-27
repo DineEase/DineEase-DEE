@@ -228,5 +228,28 @@ class User {
             return false; // Activation failed
         }
     }
+
+    public function checkPassword($userId, $oldPassword) {
+        $this->db->query('SELECT password FROM users WHERE user_id = :userId');
+        $this->db->bind(':userId', $userId);
+        $row = $this->db->single();
+        if($row && password_verify($oldPassword, $row->password)) {
+            return true;
+        }
+        return false;
+    }
+
+    // Method to update the user's password
+    public function updatePassword($userId, $newPassword) {
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $this->db->query('UPDATE users SET password = :password WHERE user_id = :userId');
+        $this->db->bind(':password', $hashedPassword);
+        $this->db->bind(':userId', $userId);
+        if($this->db->execute()) {
+            return true;
+        }
+        return false;
+    }
+
     
 }

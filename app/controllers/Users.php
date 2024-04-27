@@ -276,7 +276,7 @@ class Users extends Controller
         $_SESSION['dob'] = $user->dob;
         $_SESSION['mobile_no'] = $user->mobile_no;
 
-        redirect('customers/reservation');
+        redirect('customers/dashboard');
     }
 
     public function createStaffSession($user, $employee)
@@ -294,11 +294,6 @@ class Users extends Controller
         $_SESSION['role'] = $employee->role_id;
         $_SESSION['profile_picture'] = $user->profile_picture;
 
-
-        // echo '<pre>';
-        // print_r($_SESSION);
-        // echo '</pre>';
-
         switch ((string)$_SESSION['role']) {
             case '1':
                 $_SESSION['role'] = 'manager';
@@ -306,15 +301,15 @@ class Users extends Controller
                 break;
             case '2':
                 $_SESSION['role'] = 'inventoryManager';
-                redirect('inventoryManagers/inventory');
+                redirect('inventoryManagers/index');
                 break;
             case '3':
                 $_SESSION['role'] = 'receptionist';
-                redirect('receptionists/reservation');
+                redirect('receptionists/index');
                 break;
             case '4':
                 $_SESSION['role'] = 'chef';
-                redirect('chefs/menu');
+                redirect('chefs/index');
                 break;
         }
     }
@@ -614,5 +609,5 @@ class Users extends Controller
         }
     }
 
-   
+    
 }
