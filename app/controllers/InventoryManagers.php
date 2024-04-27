@@ -1,104 +1,319 @@
 <?php
-    class InventoryManagers extends Controller
+class InventoryManagers extends Controller
+{
+    public $inventoryManagerModel;
+    public function __construct()
     {
-        public $inventoryManagerModel;
-        public function __construct()
-        {
-            if (!isLoggedIn()) {
-                redirect('users/login');
-            } else {
-                if (isset($_SESSION['user_id'])) {
-                    if ($_SESSION['role'] != 'inventoryManager') {
-                        destroyOldSession();
-                    }
+        if (!isLoggedIn()) {
+            redirect('users/login');
+        } else {
+            if (isset($_SESSION['user_id'])) {
+                if ($_SESSION['role'] != 'inventoryManager') {
+                    destroyOldSession();
                 }
             }
-            $this->inventoryManagerModel = $this->model('InventoryManager');
         }
-        public  function Index()
-        {
-            $data = [];
-
-            $this->view('InventoryManager/index');
-        }
-
-        public  function inventory()
-        {
-            $inventoryitem = $this->inventoryManagerModel->getInventoryitem();
-            $data = [
-                'inventory' => $inventoryitem
-            ];
-            $this->view('inventoryManager/inventory', $data);
-            
-        }
-        
-
-        public  function Alert()
-        {
-            $data = [];
-
-            $this->view('InventoryManager/alert');
-        }
-
-        public function grn()
-{
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        $data = [
-            'inventoryname' => isset($_POST['inventoryname']) ? trim($_POST['inventoryname']) : '',
-            'category' => isset($_POST['category']) ? trim($_POST['category']) : '',
-            'quantitylevel' => isset($_POST['quantitylevel']) ? trim($_POST['quantitylevel']) : '',
-            'asondate' => isset($_POST['asondate']) ? trim($_POST['asondate']) : '',
-            'expiredate' => isset($_POST['expiredate']) ? trim($_POST['expiredate']) : '',
-            'batchcode' => isset($_POST['batchcode']) ? trim($_POST['batchcode']) : '',
-            'description' => isset($_POST['description']) ? trim($_POST['description']) : '',
-            'cost' => isset($_POST['cost']) ? trim($_POST['cost']) : '',
-            'quantityadded' => isset($_POST['quantityadded']) ? trim($_POST['quantityadded']) : '',
-            'roqlevel' => isset($_POST['roqlevel']) ? trim($_POST['roqlevel']) : ''
-        ];
-
-        // Validate form fields (similar to the example given for menu item)
-        // You can add validation logic here if needed
-
-        // Assuming $this->inventoryManagerModel->addInventoryItem($data) is the function to insert data into the database
-        if ($this->inventoryManagerModel->addgrn($data)) {
-            // Insertion successful, redirect to the inventory manager page
-            redirect('inventoryManagers/inventory');
-        } else {
-            // Handle database insertion error
-            // Redirect or show an error message
-            die('Inventory item insertion failed');
-        }
-    } else {
-        // Initial load of the page, show the form without errors
-        $data = [
-            'inventoryname' => '',
-            'category' => '',
-            'quantitylevel' => '',
-            'asondate' => '',
-            'expiredate' => '',
-            'batchcode' => '',
-            'description' => '',
-            'cost' => '',
-            'quantityadded' => '',
-            'roqlevel' => ''
-        ];
-        $this->view('InventoryManager/grn', $data);
+        $this->inventoryManagerModel = $this->model('InventoryManager');
     }
+    public function Index()
+    {
+        $data = [];
+
+        $this->view('InventoryManager/index');
+    }
+
+    //adding categories to the db
+    public function addCategory()
+    {
+        // Get the JSON payload from the request body
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        // Validate the input
+        if (empty($data['categoryName']) || empty($data['categoryCode'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Invalid input.']);
+            return;
+        }
+        $creationDate = date('Y-m-d');
+
+        // Call the model to add the category
+        $success = $this->inventoryManagerModel->addCategory(null, $data['categoryName'], $data['categoryCode'], $creationDate);
+
+        // Return a JSON response
+        if ($success) {
+            http_response_code(201);
+            echo json_encode(['success' => true, 'message' => 'Category added successfully.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to add category.']);
+        }
+    }
+
+    public function addInventory()
+    {
+        // Get the JSON payload from the request body
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        // Validate the input
+        if (empty($data['categoryID']) || empty($data['inventoryName']) || empty($data['inventoryCode']) || empty($data['roqLevel']) || empty($data['units'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Invalid input.']);
+            return;
+        }
+        $creationDate = date('Y-m-d');
+        // Call the model to add the inventory
+        $success = $this->inventoryManagerModel->addInventory(
+            $data['categoryID'],
+            $data['inventoryName'],
+            $data['inventoryCode'],
+            $data['roqLevel'],
+            $data['units'],
+            $creationDate
+        );
+
+        // Return a JSON response
+        if ($success) {
+            http_response_code(201);
+            echo json_encode(['success' => true, 'message' => 'Inventory added successfully.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to add inventory.']);
+        }
+    }
+
+    public function fetchCategories()
+    {
+        // Call the model to get categories
+        $categories = $this->inventoryManagerModel->fetchCategories();
+
+        // Return the categories as a JSON response
+        header('Content-Type: application/json');
+        echo json_encode($categories);
+    }
+
+    public function fetchInventoryByCategory($categoryID = null)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' || !empty($categoryID)) {
+            // Sanitize and validate input
+            if (empty($categoryID)) {
+                $categoryID = filter_input(INPUT_POST, 'categoryID', FILTER_VALIDATE_INT);
+            }
+
+            if ($categoryID !== false && $categoryID !== null) {
+                $inventories = $this->inventoryManagerModel->fetchInventoryByCategory($categoryID);
+                // Check if any inventories were found
+                if ($inventories !== false) {
+                    // Return JSON response with inventory data
+                    header('Content-Type: application/json');
+                    echo json_encode($inventories);
+                    return;
+                } else {
+                    // If no inventories were found, return an empty array
+                    echo json_encode([]);
+                    return;
+                }
+            }
+        }
+        // If request is invalid, return a 400 status code with an error message
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid request']);
+    }
+
+
+
+    public function fetchInventoryDetails($inventorynameID)
+    {
+        // Assume $inventoryModel is your model class for managing inventory data
+        $inventoryDetails = $this->inventoryManagerModel->fetchInventoryDetailsByID($inventorynameID);
+
+        // Check if inventory details were found
+        if ($inventoryDetails) {
+            header('Content-Type: application/json');
+            echo json_encode($inventoryDetails);
+        } else {
+            // Return error message or empty response
+            echo json_encode(array("error" => "Inventory details not found"));
+        }
+    }
+
+
+
+    public function Home()
+    {
+        $data = [];
+
+        $this->view('InventoryManager/home');
+    }
+
+    public function inventory()
+    {
+        $item = $this->inventoryManagerModel->getInventoryitem();
+        $data = [
+            'inventorylist' => $item
+        ];
+        $this->view('inventoryManager/inventory', $data);
+
+    }
+
+
+    public function Alert()
+    {
+        $data = [];
+
+        $this->view('InventoryManager/alert');
+    }
+
+    public function fetchBatchCode()
+{
+    // Retrieve the selected category and inventory names from the request
+    $selectedCategory = $_GET['category'] ?? null;
+   $selectedInventoryItem = $_GET['inventorynameID'] ?? null;
+
+    // Call the model function to generate the batch code based on the selected category and inventory
+    $batchCode = $this->inventoryManagerModel->generateBatchCode($selectedCategory, $selectedInventoryItem);
+    error_log("Batch Code: " . $batchCode);
+    // Return the batch code as JSON response
+    header('Content-Type: application/json');
+    echo json_encode(['batchCode' => $batchCode]);
+    exit; // Terminate script execution after sending response
 }
 
+    public function addgrn($data)
+    {
 
-        public function Markout()
-        {
-            $data = [];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $this->view('InventoryManager/markout');
-        }
+            // Validate input
+            $data = [
+                'inventoryName' => isset($_POST['inventoryName']) ? trim($_POST['inventoryName']) : '',
+                'category' => isset($_POST['category']) ? trim($_POST['category']) : '',
+                'batchCode' => isset($_POST['batchCode']) ? trim($_POST['batchCode']) : '',
+                'quantity' => isset($_POST['quantity']) ? trim($_POST['quantity']) : '',
+                'creationDate' => isset($_POST['creationDate']) ? date('Y-m-d', strtotime(trim($_POST['creationDate']))) : '', // Ensure date is formatted correctly
+                'expireDate' => isset($_POST['expireDate']) ? date('Y-m-d', strtotime(trim($_POST['expireDate']))) : '', // Ensure date is formatted correctly
+                'shelfLife' => '',
+                'unitCost' => isset($_POST['unitCost']) ? trim($_POST['unitCost']) : '',
+                'totalCost' => isset($_POST['totalCost']) ? trim($_POST['totalCost']) : '',
+                'roqLevel' => isset($_POST['roqLevel']) ? trim($_POST['roqLevel']) : '',
+                'units' => isset($_POST['units']) ? trim($_POST['units']) : '',
+            ];
+        
+            // Calculate shelf life
+            $creationDate = new DateTime($data['creationDate']);
+            $expireDate = new DateTime($data['expireDate']);
+            $interval = $creationDate->diff($expireDate);
+            $data['shelfLife'] = $interval->days;
+            var_dump($data);
+        
+            // Check for empty fields
+            $requiredFields = ['inventoryName', 'category', 'batchCode', 'quantity', 'creationDate', 'expireDate', 'unitCost', 'totalCost', 'roqLevel', 'units'];
+            foreach ($requiredFields as $field) {
+                if (empty($data[$field])) {
+                    die("Please fill in all required fields. Missing field: $field");
+                }
+            }
 
-        public function Profile()
-        {
-            $data = [];
-
-            $this->view('InventoryManager/profile');
+            // Attempt to add GRN
+            try {
+                if ($this->inventoryManagerModel->addgrn($data)) {
+                    redirect('inventoryManagers/inventory');
+                } else {
+                    die('Failed to add GRN into the database.');
+                }
+            } catch (Exception $e) {
+                die('Error while adding GRN: ' . $e->getMessage());
+            }
+        } else {
+            // Initial load of the page, show the form without errors
+            $data = [
+                'inventoryName' => '',
+                'category' => '',
+                'batchCode' => '',
+                'quantity' => '',
+                'creationDate' => '',
+                'expireDate' => '',
+                'shelfLife' => '',
+                'unitCost' => '',
+                'totalCost' => '',
+                'roqLevel' => '',
+                'units' => ''
+            ];
+            $this->view('InventoryManager/inventory', $data);
         }
     }
+
+
+
+    public function Markout()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $categoryName = $_POST['categoryName'];
+            $inventoryName = $_POST['inventoryName'];
+            $quantity = $_POST['quantity'];
+
+            foreach ($inventoryName as $key => $inventoryName) {
+                $quantity = $quantity[$key];
+                
+                // Mark out the inventory and get the remaining quantity if any
+                $remainingQuantity = $this->inventoryManagerModel->markoutInventory($inventoryName, $categoryName, $quantity);
+                
+                // Check if the entire quantity was transferred
+                if ($remainingQuantity === 0) {
+                    // Update the status of this inventory to "transferred" in the kitchen table
+                    $this->inventoryManagerModel->updateKitchenRequest($inventoryName, 'transferred');
+                } else {
+                    // Update the status of this inventory to "partially transferred" in the kitchen table
+                    $this->inventoryManagerModel->updateKitchenRequest($inventoryName, 'partially_transferred');
+                }
+            }
+            
+            // Redirect to a success page or display a success message
+            // Redirect or display success message
+        } else {
+            // Handle non-POST requests appropriately
+            $this->view('InventoryManager/markOut');
+        }
+    }
+
+    //getcategoriesand inv from the kitchen req
+    public function getInventoriesRequested() {
+        $categoryName = $_GET['categoryName'];
+        $inventories = $this->inventoryManagerModel->getrequestedInventories($categoryName);
+        header('Content-Type: application/json');
+        echo json_encode($inventories);
+        exit;
+    }
+
+    public function displayKitchenRequest()
+    {
+       $kitchenrequest= $this->inventoryManagerModel->getkitchenRequests();
+       $categories = $this->inventoryManagerModel->getrequestedCategories();
+        include 'markOut.php'; 
+    }
+    public function updatekitchenrequestStatus() {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            // Retrieve data from POST request
+            $inventoryName = $_POST['inventoryName'];
+            $status = $_POST['status'];
+    
+            // Call the model method to update kitchen table status
+            $this->inventoryManagerModel->updateKitchenrequest($inventoryName, $status);
+    
+            // Return success response
+            echo json_encode(["success" => true]);
+        } else {
+            // Return error response for invalid request method
+            echo json_encode(["success" => false, "message" => "Invalid request method"]);
+        }
+    }
+    
+
+    public function Profile()
+    {
+        $data = [];
+
+        $this->view('InventoryManager/profile');
+    }
+
+}
