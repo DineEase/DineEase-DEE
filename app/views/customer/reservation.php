@@ -479,7 +479,7 @@
                                                                                     - <b>LKR.500.00/seat for reservations<br>
                                                                                         - 5% tax on total bill <br></b>
                                                                                 </p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
+                                                                                <!-- <div class="btn goToReviews"> Go to Reviews </div> -->
 
                                                                             </div>
                                                                         </div>
@@ -507,7 +507,6 @@
                                                                                     -Full suite booking <br>
                                                                                     -<b>LKR.6000.00 for full suite booking <br>
                                                                                         - 10% tax on total bill <br> </b></p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
                                                                             </div>
                                                                         </div>
 
