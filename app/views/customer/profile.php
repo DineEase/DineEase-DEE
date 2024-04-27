@@ -137,10 +137,10 @@
                 <div class="profile-container">
                     <!-- //TODO: Add the form to change user details -->
                     <div id="change-password-div" class="change-password-div">
-                        <form action="/uploadUserImage" class="change-password">
+                        <form action="<?php echo URLROOT?>/users/" class="change-password">
                             <h2>Change User Name & Password</h2>
                             <label for="old-psw">Old Password</label>
-                            <input type="password" id="old-psw" name="old-psw" pattern="" title="" required>
+                            <input type="password" id="old-psw" name="old-psw"  title="" required>
                             <label for="new-psw">New Password</label>
                             <input type="password" id="new-psw" name="new-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                             <label for="confirm-psw">Confirm New Password</label>

@@ -143,7 +143,7 @@ class Receptionist
         $this->db->bind(':date', $today);
         $this->db->bind(':numOfPeople', $order['numberOfGuests']);
         $this->db->bind(':packageID', $order['suitePackage']);
-        $this->db->bind(':status', 'Pending');
+        $this->db->bind(':status', 'Unpaid');
         $this->db->bind(':amount', $total);
         if ($this->db->execute()) {
             $reservationID = $this->db->lastInsertId();
@@ -207,13 +207,11 @@ class Receptionist
         $results = $this->db->single();
         if ($results->reserved == null) {
             $results->reserved = 0;
-        }
-        else
-        {
+        } else {
             $results->reserved = (int)$results->reserved;
         }
 
-        
+
 
         return $results->reserved;
     }
@@ -287,15 +285,20 @@ class Receptionist
 
         $today = date("Y-m-d");
 
-        $this->db->query('SELECT reservationID ,customerID, tableID , reservationStartTime , orderID  , amount FROM reservation where status =  "Paid" and date = :today ORDER BY reservationStartTime ASC');
+        $this->db->query('SELECT reservationID ,customerID, tableID , reservationStartTime , orderID  , amount FROM reservation where (status =  "Paid" OR status =  "Unpaid")  and date = :today ORDER BY reservationStartTime ASC');
         $this->db->bind(':today', $today);
         $row1 = $this->db->resultSet();
+
 
         foreach ($row1 as $row) {
             $this->db->query('SELECT amount FROM payment WHERE reservationID = :reservationID');
             $this->db->bind(':reservationID', $row->reservationID);
             $row2 = $this->db->single();
-            $row->amountPaid = $row2->amount;
+            if ($row2) {
+                $row->amountPaid = $row2->amount;
+            } else {
+                $row->amountPaid = 0;
+            }
         }
 
 
@@ -325,10 +328,104 @@ class Receptionist
         return $row1;
     }
 
+    public function addItemsToOrder($data)
+    {
+        $this->db->query('SELECT * FROM reservation WHERE  orderID = :orderID');
+        $this->db->bind(':orderID', $data['orderID']);
+        $reservation = $this->db->single();
+
+        $this->db->query('SELECT * FROM orders WHERE orderItemID = :orderID');
+        $this->db->bind(':orderID', $data['orderID']);
+        $order = $this->db->single();
+
+        if ($order->preparationStatus == 'Completed') {
+            $this->db->query('UPDATE orders SET preparationStatus = "Active" WHERE orderItemID = :orderID');
+            $this->db->bind(':orderID', $data['orderID']);
+            $this->db->execute();
+        }
+
+        foreach ($data['items'] as $item) {
+            $this->db->query('INSERT INTO orderitem (orderNo , itemID , size , quantity ,status, itemProcessingStatus) VALUES (:orderNo , :itemID , :size , :quantity , :status , :itemProcessingStatus)');
+            $this->db->bind(':orderNo', $data['orderID']);
+            $this->db->bind(':itemID', $item['itemID']);
+            $this->db->bind(':size', $item['itemSize']);
+            $this->db->bind(':quantity', $item['quantity']);
+            $this->db->bind(':status', $order->preparationStatus);
+            if ($order->preparationStatus == 'Active') {
+                $this->db->bind(':itemProcessingStatus', 'Queued');
+            } else {
+                $this->db->bind(':itemProcessingStatus', 'Pending');
+            }
+            if ($this->db->execute()) {
+            } else {
+                return "Failed to add items to order";;
+            }
+        }
+
+        $this->db->query('UPDATE reservation SET amount =:total WHERE orderID = :orderID');
+        $this->db->bind(':total', $data['totalBill']);
+        $this->db->bind(':orderID', $data['orderID']);
+        if ($this->db->execute()) {
+            return "Items added to order successfully";
+        } else {
+            return "Failed to update order total amount";
+        }
+    }
     function getSuites()
     {
         $this->db->query('SELECT * FROM package');
         $results = $this->db->resultSet();
         return $results;
+    }
+
+    public function getReservationDetailsByID($reservationID)
+    {
+
+        $this->db->query('SELECT * FROM reservation WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $row1 = $this->db->single();
+
+        $this->db->query('SELECT * FROM reservationreview WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        if ($this->db->single()) {
+            $row1->review = 1;
+        } else {
+            $row1->review = 0;
+        }
+
+        $this->db->query('SELECT * FROM orderitem WHERE orderNO = :orderNO');
+        $this->db->bind(':orderNO', $row1->orderID);
+        $row2 = $this->db->resultSet();
+
+        foreach ($row2 as $item) {
+            $this->db->query('SELECT * FROM menuitem WHERE itemID = :itemID');
+            $this->db->bind(':itemID', $item->itemID);
+            $row3 = $this->db->single();
+            $item->itemName = $row3->itemName;
+            $item->imagePath = $row3->imagePath;
+        }
+
+        foreach ($row2 as $item) {
+            $this->db->query('SELECT * FROM menuprices WHERE ItemID = :itemID AND itemSize = :size');
+            $this->db->bind(':itemID', $item->itemID);
+            $this->db->bind(':size', $item->size);
+            $row4 = $this->db->single();
+            if ($row4) {
+                $item->price = $row4->ItemPrice;
+            } else {
+                $this->db->query('SELECT * FROM menuprices WHERE ItemID = :itemID AND itemSize = "Regular"');
+                $this->db->bind(':itemID', $item->itemID);
+                $row5 = $this->db->single();
+                $item->price = $row5->ItemPrice;
+            }
+        }
+
+
+
+
+        $data[0] = $row1;
+        $data[1] = $row2;
+
+        return $data;
     }
 }

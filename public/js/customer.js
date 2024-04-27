@@ -161,6 +161,10 @@ $(document).ready(function () {
     }
     $("#time-slots").empty();
     createTimeSlot();
+    var slots = document.querySelectorAll(".time-slot:not(.faded)"); 
+    if (slots.length > 0) {
+      slots[0].classList.add("selected"); 
+    }
     addClickHandlers();
   });
 
@@ -441,7 +445,7 @@ function popViewReservationDetails(element) {
           $("#rs-review").css("background-color", "grey");
           $("#rs-review").css("pointer-events", "none");
           $("#rs-review").css("cursor", "not-allowed");
-          $("#rs-review").val("Already Reviewed");
+          $("#rs-review").text("Already Reviewed");
         }
 
         $("#reservation-details-container").show();
@@ -499,6 +503,7 @@ function popViewReservationDetails(element) {
 
   $(document).on("click", "#rs-close-btn", function () {
     $("#reservation-details-container").hide();
+    location.reload();
   });
 }
 
@@ -912,6 +917,7 @@ $(document).ready(function () {
           // );
           console.log("Failed to cancel reservation.");
         }
+        location.reload();
       },
       error: function (xhr, status, error) {
         console.error("Error cancelling reservation:", error);

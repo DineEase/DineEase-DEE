@@ -169,6 +169,34 @@
         background-color: var(--brandgreen);
         border-radius: 10px;
     }
+
+    div#itemsBySearchEO {
+        height: 56vh;
+        overflow-y: scroll;
+        width: 31em;
+        background-color: var(--brandgreen);
+        border-radius: 10px;
+    }
+
+    .viewOngoing {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        margin: 1em;
+        height: 66vh;
+        width: 117vh;
+    }
+
+    .editOngoingS {
+        display: none;
+        flex-direction: column;
+        gap: 1em;
+        padding: 1em;
+        margin: 1em;
+        height: 66vh;
+        width: 117vh;
+    }
 </style>
 
 <body>
@@ -310,11 +338,16 @@
                         <label for="tab3">Ongoing Reservations</label>
                         <input type="radio" name="tabset" id="tab4" aria-controls="completed">
                         <label for="tab4">Completed Reservations</label>
+                        <input type="radio" name="tabset" id="tab5" aria-controls="cancelled">
+                        <label for="tab5">Cancelled Reservations</label>
+                        <input type="radio" name="tabset" id="tab6" aria-controls="overdue">
+                        <label for="tab6">Overdue Reservations</label>
 
                         <div class="tab-panels">
                             <section id="view" class="tab-panel">
                                 <div class="content read">
                                     <h2>View Reservations</h2>
+                                    <!--dsad -->
                                     <div class="searchnfilter">
                                         <!-- Search Form -->
                                         <div class="filter-reservation">
@@ -422,135 +455,8 @@
                                             <div class="rs-actions">
                                                 <table>
                                                     <tr>
-                                                        <td class="rs-text-cont" width>
-                                                            Want to Refund?: <br /> <input type="button" id="rs-refund" value="Refund Policy">
-                                                        </td>
-                                                        <td class="rs-button-cont">
-                                                            <button class="light-green-btn" id="rs-review" onclick="popAddReviewForTheReservation();" value="">Add Review</button>
-                                                        </td>
-                                                        <td class="rs-button-cont">
-                                                            <button class="danger-btn" id="rs-cancel">Cancel Reservation</button>
-                                                        </td>
                                                         <td class="rs-button-cont">
                                                             <button class="" id="rs-close-btn">Close</button>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- cancel Reservation page -->
-                                <div id="reservation-cancel-container" class="reservation-details-container">
-                                    <div class="rs-container" hidden>
-                                        <div class="rs-header">
-                                            <h2>Cancel Reservation</h2>
-                                            <div class="rs-header-items">
-                                                <div>Order No:&nbsp;<span id="rc-order-id"></span></div>
-                                                <div class="rc-cancel-suite">Suite :&nbsp;<span id="rc-order-suite"></span></div>
-                                                <div id="rs-order-date-div">
-                                                    Order Date:&nbsp;<span id="rc-order-date"> </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="rs-content">
-                                            <div class="rs-details">
-                                                <h3>Refund Availability </h3>
-                                                <hr>
-                                                <div class="review-order-item-container" id="cancel-order-refund-possible">
-                                                    <span>You can </span>
-                                                    <p></p>
-                                                </div>
-                                                <div class="review-order-item-container" id="cancel-order-refund-not-possible">
-                                                    <span>You cant </span>
-                                                    <p></p>
-                                                </div>
-                                                <div class="review-order-item-container" id="cancel-order-refund-requested">
-                                                    <span>You did </span>
-                                                    <p></p>
-                                                </div>
-                                                <div class="review-order-item-container" id="cancel-order-cancelled-no-refund">
-                                                    <span>You did but with what cost?</span>
-                                                    <p></p>
-                                                </div>
-                                                <div class="review-order-item-container" id="cancel-order-refund-given">
-                                                    <span>mf</span>
-                                                    <p></p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-actions">
-                                                <table class="rs-review-table">
-                                                    <tr>
-                                                        <td class="rs-button-cont ">
-                                                            <!-- TODO Add confirmation popup for reservation cancellation -->
-                                                            <button class="red-btn review" id="rc-submit-cancel">Cancel Reservation</button>
-                                                        </td>
-                                                        <td class="rs-button-cont add-review">
-                                                            <button class="light-green-btn" onclick="closeCancelReservation();" id="rc-close-btn-cancel">Close</button>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- review popup -->
-                                <div id="reservation-review-container" class="reservation-details-container">
-                                    <div class="rs-container" hidden>
-                                        <div class="rs-header">
-                                            <h2>Add Review</h2>
-                                            <div class="rs-header-items">
-                                                <div>Order No:&nbsp;<span id="rr-order-id"></span></div>
-                                                <div>Suite :&nbsp;<span id="rr-order-suite"></span></div>
-                                                <div id="rs-order-date-div">
-                                                    Order Date:&nbsp;<span id="rr-order-date"> </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="rs-content">
-                                            <table>
-                                                <tr class="review-star-sets">
-                                                    <td>Overall Rating</td>
-                                                    <td id="overall-rating-cont">
-                                                        <?php
-                                                        for ($i = 0; $i < 5; $i++) {
-                                                            echo ('<i class="fa-solid fa-star reviewed-star" onclick="setStars(this);" id="overall-rating-cont-star' . $i . '" data-id="overall-rating-cont" value="' . $i . '"></i>');
-                                                        }
-                                                        ?>
-                                                        <input type="hidden" id="overall-rating-cont-input" name="overall-rating" value="5">
-                                                    </td>
-                                                </tr>
-                                                <tr class="review-star-sets">
-                                                    <td>Suite Rating</td>
-                                                    <td id="suit-rating-cont">
-                                                        <?php
-                                                        for ($i = 0; $i < 5; $i++) {
-                                                            echo ('<i class=" fa-solid fa-star reviewed-star " onclick="setStars(this);" id="suit-rating-cont-star' . $i . '" data-id="suit-rating-cont" value="' . $i . '"></i>');
-                                                        }
-                                                        ?>
-                                                        <input type="hidden" id="suit-rating-cont-input" name="suit-rating-cont" value="5">
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <div class="rs-details">
-                                                <h3>Reviw Menu Items</h3>
-                                                <hr>
-                                                <div class="review-order-item-container" id="review-order-item-container">
-
-                                                </div>
-                                            </div>
-                                            <div class="rs-actions">
-                                                <table class="rs-review-table">
-                                                    <tr>
-                                                        <textarea class="reviewComment" id="review-comment" type="text" name="comment" value="" placeholder="Enter your comment here"></textarea>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="rs-button-cont ">
-                                                            <button class="light-green-btn review" onclick="submitReviewForReservation();" id="rs-submit-review">Add Review</button>
-                                                        </td>
-                                                        <td class="rs-button-cont add-review">
-                                                            <button class="" id="rs-close-btn-review">Close</button>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -578,7 +484,7 @@
                                                         echo '<option value="' . $suite->packageID . '">' . $suite->packageName . '</option>';
                                                     } ?>
                                                 </select>
-                                                <div>Availability : <span id="availiable-seats"></span> </div> 
+                                                <div>Availability : <span id="availiable-seats"></span> </div>
                                                 <input type="hidden" id="reservation_suite" name="reservation_suite" value="1">
                                             </div>
                                             <div class="row">
@@ -646,7 +552,7 @@
                                             <button id="addButton">Add</button>
                                         </div>
                                         <div class="added-order-items" id="added-order-items">
-                                            dasds
+
                                         </div>
                                     </div>
                                 </div>
@@ -669,23 +575,95 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="completed-order-item-card-header">
-                                            <table>
-                                                <tr>
-                                                    <td>Reservation ID</td>
-                                                    <td>Customer Name</td>
-                                                    <td>table</td>
+                                        <div class="viewOngoing">
+                                            <div class="completed-order-item-card-header">
+                                                <table>
+                                                    <tr>
+                                                        <td>Reservation ID</td>
+                                                        <td>Customer Name</td>
+                                                        <td>table</td>
 
-                                                    <td>Full amount</td>
+                                                        <td>Full amount</td>
 
-                                                    <td>Amount Payable</td>
-                                                    <td>Status</td>
-                                                    <td></td>
-                                                </tr>
-                                            </table>
+                                                        <td>Amount Payable</td>
+                                                        <td>Status</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="ongoingOrders">
+
+                                            </div>
                                         </div>
-                                        <div id="ongoingOrders">
+                                        <input type="text" id="reloads" value="0" hidden>
 
+                                        <div class="editOngoingS">
+                                            <div class="contentEditOnGiongs jcsb">
+                                                <div class="row space-between">
+                                                    <div class="row">
+                                                        OrderNO : <span id="orderNO-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Customer Name : <span id="customerName-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Status : <span id="status-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Table : <span id="tableID-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Amount : <span id="totalAmount-editEO"></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        Amount to Add : <span id="total-for-newly-added">Rs.0.00</span>
+                                                    </div>
+
+                                                </div>
+                                                <div class="content-EO">
+                                                    <div class="row">
+                                                        <div class="column">
+                                                            <div class="row">
+                                                                <input type="text" id="menuSearchEO">
+                                                            </div>
+                                                            <div class="column" id="itemsBySearchEO">
+                                                            </div>
+                                                        </div>
+                                                        <div class="column">
+
+                                                            <div class="row">
+                                                                <h3>Added Items</h3>
+                                                            </div>
+                                                            <div class="row">
+                                                                <table>
+                                                                    <tr>
+                                                                        <td>Item</td>
+                                                                        <td>Size</td>
+                                                                        <td>Quantity</td>
+                                                                        <td>Price</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="column" id="added-items-to-Order">
+                                                            </div>
+                                                            <div class="row">
+                                                                <button class="light-green-btn" onclick="addNewItemsToOrder();">Add Items</button>
+                                                                <!-- //TODO Quantity can enter negative values                         -->
+
+                                                                <button id="clearCartButton" onclick="clearCartEO();">Clear Cart</button>
+                                                                <input type="hidden" id="total-for-cart" name="total" value="0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row  jcfe">
+
+                                                    <div class="close-button">
+                                                        <button class="close-btn" onclick="closeEditOngoingOrder();" id="closeeditOngoingS">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -718,6 +696,70 @@
                                             </table>
                                         </div>
                                         <div id="completedOrders">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="cancelled" class="tab-panel">
+                                <div class="completed-reservations-container">
+                                    <div class="order-items-conteainer">
+                                        <div class="compleated-order-header">
+                                            <div class="flex-container">
+                                                <h1>Cancelled Orders</h1>
+                                                <div class="row">
+                                                    <input type="text" placeholder="Search" />
+                                                    <button>Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="completed-order-item-card-header">
+                                            <table>
+                                                <tr>
+                                                    <td>Reservation ID</td>
+                                                    <td>Customer Name</td>
+                                                    <td>table</td>
+
+                                                    <td>Full amount</td>
+
+                                                    <td>Amount Payable</td>
+                                                    <td>Status</td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="cancelledOrders">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="overdue" class="tab-panel">
+                                <div class="completed-reservations-container">
+                                    <div class="order-items-conteainer">
+                                        <div class="compleated-order-header">
+                                            <div class="flex-container">
+                                                <h1>Overdue Orders</h1>
+                                                <div class="row">
+                                                    <input type="text" placeholder="Search" />
+                                                    <button>Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="completed-order-item-card-header">
+                                            <table>
+                                                <tr>
+                                                    <td>Reservation ID</td>
+                                                    <td>Customer Name</td>
+                                                    <td>table</td>
+
+                                                    <td>Full amount</td>
+
+                                                    <td>Amount Payable</td>
+                                                    <td>Status</td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="cancelledOrders">
                                         </div>
                                     </div>
                                 </div>

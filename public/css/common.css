@@ -1,4 +1,39 @@
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.jcsb {
+  justify-content: space-between;
+}
+
+.jcsa {
+  justify-content: space-around;
+}
+
+.jcse {
+  justify-content: space-evenly;
+}
+
+.jcsb {
+  justify-content: space-between;
+}
+
+.jcfe {
+  justify-content: flex-end;
+}
+
 
 /* margins */
 .mt-1 {
@@ -965,10 +1000,39 @@ section#items  {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Enhanced shadow when focused */
 }
 
-/* Optional: General styling for the label */
-label {
-  display: block; /* Makes the label take the full width, text-align can be used */
-  margin-bottom: 5px; /* Space between label and input */
-  font-size: 14px; /* Optimal font size for readability */
-  color: #333; /* Dark color for better readability */
+
+/* swal */
+
+
+.swal-modal {
+  border: 2px solid var(--brandgreen);
+}
+
+.swal-button--defeat{
+  background-color: #ff0000;
+}
+
+.swal-button:not([disabled]):hover {
+  background-color: #721c24;
+}
+
+
+button.swal-button.swal-button--catch {
+  background-color: var(--brandgreen);
+}
+button.swal-button.swal-button--catch:hover {
+  background-color: var(--brandgreen-dark);
+}
+
+.swal-button--cancel:hover {
+  background-color: #9e9c9c;
+}
+
+.swal-button--cancel {
+  background-color: #c4c2c2;
+  border: 2px solid var(--brandgreen);
+}
+.swal-button.swal-button--cancel:not([disabled]):hover {
+  background-color: #9e9c9c;
+  ;
 }

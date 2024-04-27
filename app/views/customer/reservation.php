@@ -417,7 +417,7 @@
                                                     <fieldset>
                                                         <div class="form-card">
                                                             <input type="text" hidden id="customerID" value="<?php echo ($_SESSION['user_id']) ?>"></input>
-                                                            <div class="row fixed-height-row-reservation">
+                                                            <div class=" fixed-height-row-reservation">
                                                                 <div>
                                                                     <h3 class="fs-title">Select the Suite:</h3>
                                                                 </div>
@@ -448,11 +448,10 @@
                                                                                     -Pleasant ambiance <br>
                                                                                     -Suitable for dining alone or with a group <br>
                                                                                     -<b>LKR.500.00/seat for reservations</b> </p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
 
                                                                             </div>
                                                                         </div>
-
+                                                        <!-- TODO Remove loyalty tier options -->
                                                                         <div class="card">
                                                                             <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk2.jpg" alt=""></div>
                                                                             <div class="details">
@@ -480,7 +479,7 @@
                                                                                     - <b>LKR.500.00/seat for reservations<br>
                                                                                         - 5% tax on total bill <br></b>
                                                                                 </p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
+                                                                                <!-- <div class="btn goToReviews"> Go to Reviews </div> -->
 
                                                                             </div>
                                                                         </div>
@@ -508,7 +507,6 @@
                                                                                     -Full suite booking <br>
                                                                                     -<b>LKR.6000.00 for full suite booking <br>
                                                                                         - 10% tax on total bill <br> </b></p>
-                                                                                <div class="btn goToReviews"> Go to Reviews </div>
                                                                             </div>
                                                                         </div>
 
@@ -579,7 +577,7 @@
                                                     </fieldset>
                                                     <fieldset>
                                                         <div class="form-card">
-                                                            <div class="row fixed-height-row-reservation">
+                                                            <div class=" fixed-height-row-reservation">
                                                                 <div>
                                                                     <h3 class="fs-title">Select the Time Slot:</h3>
                                                                 </div>
