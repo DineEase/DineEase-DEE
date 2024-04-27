@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <title><?php echo SITENAME; ?></title>
 </head>
+<style>
+
+</style>
 
 <body>
     <div class="container">
@@ -29,9 +32,9 @@
                     </div>
                     <div class="navbar-content">
                         <div class="profile-details">
-                            <span class="material-symbols-outlined topbar-shoping-cart" value="0">
+                            <!-- <span class="material-symbols-outlined topbar-shoping-cart" value="0">
                                 shopping_cart_off
-                            </span>
+                            </span> -->
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
@@ -44,7 +47,7 @@
             <nav class="sidebar">
                 <div class="sidebar-container">
                     <div class="menu_content">
-                        
+
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
@@ -131,20 +134,22 @@
             </nav>
         </div>
         <div class="body-template">
+            <?php flash('password_error'); ?>
+            <?php flash('password_success'); ?>
             <div id="content">
                 <div id="overlay-profile" class="overlay-profile"></div>
 
                 <div class="profile-container">
                     <!-- //TODO: Add the form to change user details -->
                     <div id="change-password-div" class="change-password-div">
-                        <form action="<?php echo URLROOT?>/users/" class="change-password">
+                        <form action="<?php echo URLROOT; ?>/users/changePassword" class="change-password" onsubmit="return validatePasswords()">
                             <h2>Change User Name & Password</h2>
                             <label for="old-psw">Old Password</label>
-                            <input type="password" id="old-psw" name="old-psw"  title="" required>
+                            <input type="password" id="old-psw" name="old-psw" required>
                             <label for="new-psw">New Password</label>
-                            <input type="password" id="new-psw" name="new-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <input type="password" id="new-psw" name="new-psw" required>
                             <label for="confirm-psw">Confirm New Password</label>
-                            <input type="password" id="confirm-psw" name="confirm-psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <input type="password" id="confirm-psw" name="confirm-psw" required>
                             <input type="submit" value="Submit">
                         </form>
                     </div>
@@ -197,7 +202,7 @@
                     <div class="upload-container" id="upload-container">
                         <h2>Upload New Profile Picture:</h2>
                         <hr>
-                        <form action="uploadUserImage" method="post" enctype="multipart/form-data">
+                        <form action="<?php echo URLROOT?>/profiles/uploadUserImage" method="post" enctype="multipart/form-data">
                             <label for="file-upload" class="file-input">
                                 <input type="file" class="uploadb-file-input" id="file-upload" name="photo" accept=".jpg, .jpeg, .png" required>
                                 <span id="file-name" class="uploadb-file-name"></span>
@@ -221,14 +226,45 @@
     <script src="<?php echo URLROOT; ?>/js/toastr.js"></script>
     <script>
         window.onload = function() {
-            <?php if (isset($_SESSION['success_message'])) : ?>
-
+            <?php if (isset($_SESSION['picture_success_message'])) : ?>
                 toastrSuccess("Profile Picture Updated Successfully");
                 <?php unset($_SESSION['success_message']);
                 ?>
             <?php endif; ?>
         }
     </script>
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        // Example usage within PHP for flash messages:
+        <?php if (flash('password_success')) : ?>
+                <
+                script > toastr.success("<?php echo flash('password_success'); ?>");
+    </script>
+<?php endif; ?>
+<?php if (flash('password_error')) : ?>
+    <script>
+        toastr.error("<?php echo flash('password_error'); ?>");
+    </script>
+<?php endif; ?>#
+
 </body>
 
 </html>

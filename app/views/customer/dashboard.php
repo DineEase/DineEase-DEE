@@ -28,9 +28,9 @@
                     </div>
                     <div class="navbar-content">
                         <div class="profile-details">
-                            <span class="material-symbols-outlined topbar-shoping-cart" value="0">
+                            <!-- <span class="material-symbols-outlined topbar-shoping-cart" value="0">
                                 shopping_cart_off
-                            </span>
+                            </span> -->
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
