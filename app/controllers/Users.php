@@ -301,7 +301,7 @@ class Users extends Controller
                 break;
             case '2':
                 $_SESSION['role'] = 'inventoryManager';
-                redirect('inventoryManagers/index');
+                redirect('inventoryManagers/inventory');
                 break;
             case '3':
                 $_SESSION['role'] = 'receptionist';
@@ -608,6 +608,4 @@ class Users extends Controller
             return false;
         }
     }
-
-    
 }

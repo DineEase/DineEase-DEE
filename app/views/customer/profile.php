@@ -142,7 +142,7 @@
                 <div class="profile-container">
                     <!-- //TODO: Add the form to change user details -->
                     <div id="change-password-div" class="change-password-div">
-                        <form action="<?php echo URLROOT; ?>/users/changePassword" class="change-password" onsubmit="return validatePasswords()">
+                        <form action="<?php echo URLROOT; ?>/profiles/changePassword" class="change-password" method="post">
                             <h2>Change User Name & Password</h2>
                             <label for="old-psw">Old Password</label>
                             <input type="password" id="old-psw" name="old-psw" required>
@@ -158,7 +158,8 @@
                         <img class="heroimage" src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="Avatar">
                     </div>
                     <div class="buttons">
-                        <button class="update" id="update-dp"><i class="fa-solid fa-square-pen"></i> Update</button>
+                        <button id="change-user-password" class="change-btn"><i class="fa-solid fa-lock"></i> Change Password</button>
+                        <button class="update" id="update-dp"><i class="fa-solid fa-square-pen"></i> Update Picture</button>
                     </div>
                     <!-- //TODO: Add the form to change user Details -->
 
@@ -166,43 +167,41 @@
                     <div id="overlay-profile" class="overlay-profile"></div>
                     <div class="profilecard">
                         <div class="card-body">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <p class="profdetails">User Name</p>
-                                    </td>
-                                    <td>:</td>
-                                    <td><?php echo $_SESSION['user_name'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="profdetails">Email Address</p>
-                                    </td>
-                                    <td>:</td>
-                                    <td><?php echo $_SESSION['email'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="profdetails">Contact Number</p>
-                                    </td>
-                                    <td>:</td>
-                                    <td><?php echo $_SESSION['mobile_no'] ?></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="profdetails"></p>
-                                    </td>
-                                    <td></td>
-                                    <td><button id="change-user-password" class="change-btn">Change Password</button></td>
-                                    <td><button id="change-user-details" class="change-btn">Change Details</button></td>
-                                </tr>
-                            </table>
+                            <form action="path_to_your_controller_method" method="post">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p class="profdetails">User Name</p>
+                                        </td>
+                                        <td>:</td>
+                                        <td><input type="text" name="user_name" value="<?php echo htmlspecialchars($_SESSION['user_name']); ?>" readonly></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="profdetails">Email Address</p>
+                                        </td>
+                                        <td>:</td>
+                                        <td><input type="email" name="email" value="<?php echo htmlspecialchars($_SESSION['email']); ?>" readonly></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="profdetails">Contact Number</p>
+                                        </td>
+                                        <td>:</td>
+                                        <td><input type="text" name="mobile_no" value="<?php echo htmlspecialchars($_SESSION['mobile_no']); ?>" readonly></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button type="button" id="change-user-details" class="change-btn">Change Details</button></td>
+                                        <td><input type="submit" id="update-user-details" class="change-btn" value="Update Details" style="display:none;"></td>
+                                    </tr>
+                                </table>
+                            </form>
                         </div>
                     </div>
                     <div class="upload-container" id="upload-container">
                         <h2>Upload New Profile Picture:</h2>
                         <hr>
-                        <form action="<?php echo URLROOT?>/profiles/uploadUserImage" method="post" enctype="multipart/form-data">
+                        <form action="<?php echo URLROOT ?>/profiles/uploadUserImage" method="post" enctype="multipart/form-data">
                             <label for="file-upload" class="file-input">
                                 <input type="file" class="uploadb-file-input" id="file-upload" name="photo" accept=".jpg, .jpeg, .png" required>
                                 <span id="file-name" class="uploadb-file-name"></span>
@@ -225,45 +224,47 @@
     <script src="<?php echo URLROOT; ?>/js/user-profile.js"></script>
     <script src="<?php echo URLROOT; ?>/js/toastr.js"></script>
     <script>
-        window.onload = function() {
-            <?php if (isset($_SESSION['picture_success_message'])) : ?>
-                toastrSuccess("Profile Picture Updated Successfully");
-                <?php unset($_SESSION['success_message']);
-                ?>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handling success messages
+            <?php if (isset($_SESSION['ppsuccess_message'])) : ?>
+                toastr.success('<?php echo $_SESSION['ppsuccess_message']; ?>');
+                <?php unset($_SESSION['ppsuccess_message']); ?>
             <?php endif; ?>
-        }
-    </script>
 
-    <script>
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
+            <?php if (isset($_SESSION['pwsuccess_message'])) : ?>
+                toastr.success('<?php echo $_SESSION['pwsuccess_message']; ?>');
+                <?php unset($_SESSION['pwsuccess_message']); ?>
+            <?php endif; ?>
 
-        // Example usage within PHP for flash messages:
-        <?php if (flash('password_success')) : ?>
-                <
-                script > toastr.success("<?php echo flash('password_success'); ?>");
+            // Handling general error notifications
+            <?php if (isset($_SESSION['error_message'])) : ?>
+                toastr.error('<?php echo $_SESSION['error_message']; ?>');
+                <?php unset($_SESSION['error_message']); ?>
+            <?php endif; ?>
+
+            // Handling specific error notifications for password change
+            <?php if (isset($_SESSION['password_error'])) : ?>
+                toastr.error('<?php echo $_SESSION['password_error']; ?>');
+                <?php unset($_SESSION['password_error']); ?>
+            <?php endif; ?>
+
+            // Handling multiple errors stored in an array
+            <?php if (isset($_SESSION['errors']) && is_array($_SESSION['errors'])) : ?>
+                <?php foreach ($_SESSION['errors'] as $error) : ?>
+                    toastr.error('<?php echo $error; ?>');
+                <?php endforeach; ?>
+                <?php unset($_SESSION['errors']); ?>
+            <?php endif; ?>
+        });
+
+        document.getElementById('change-user-details').addEventListener('click', function() {
+            var inputs = document.querySelectorAll('input[type=text], input[type=email]');
+            inputs.forEach(function(input) {
+                input.readOnly = false; // Make inputs editable
+            });
+            document.getElementById('update-user-details').style.display = 'inline'; // Show the update button
+        });
     </script>
-<?php endif; ?>
-<?php if (flash('password_error')) : ?>
-    <script>
-        toastr.error("<?php echo flash('password_error'); ?>");
-    </script>
-<?php endif; ?>#
 
 </body>
 

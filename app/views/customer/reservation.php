@@ -12,6 +12,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 
     <title><?php echo SITENAME; ?></title>
+
+    <style>
+        .tbl-cart th {
+            border-bottom: 2px solid #000;
+            /* Black border at the bottom of each header cell */
+        }
+
+        .tbl-cart tfoot tr:last-child {
+            border-top: 2px solid #000;
+            /* Black border at the top of the last row in the footer */
+        }
+    </style>
+
 </head>
 
 <body>
@@ -47,15 +60,15 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                home
-                                            </span>
+                                <button class="button-sidebar-menu" id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            home
                                         </span>
-                                        <span class="button-sidebar-menu-content">Reservation </span>
-                                    </button>
-                                </a>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reservation </span>
+                                </button>
+                            </a>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
                                     <button class="button-sidebar-menu active-nav" id="reservationButton">
@@ -451,7 +464,7 @@
 
                                                                             </div>
                                                                         </div>
-                                                        <!-- TODO Remove loyalty tier options -->
+                                                                        <!-- TODO Remove loyalty tier options -->
                                                                         <div class="card">
                                                                             <div class="poster"><img src="<?php echo URLROOT; ?>/img/Packages/pk2.jpg" alt=""></div>
                                                                             <div class="details">
@@ -536,7 +549,7 @@
                                                     <fieldset>
                                                         <div class="form-card">
                                                             <div class="row">
-                                                                <div class="fixed-height-row-reservation">
+                                                                <div class="fixed-height-row-reservation full-length" style='width:100%'>
                                                                     <h3 class="fs-title">Select Date and No of People:</h3>
                                                                     <div class="dp-container">
 
