@@ -459,9 +459,11 @@ function createOrder() {
     type: "POST",
     data: order,
     success: function (data) {
+      alert("Order created successfully!");
       console.log(data);
       clearCart();
       totalAmount = 0;
+      location.reload();
     },
     error: function (err) {
       console.log("Error creating order:", err);
@@ -503,9 +505,6 @@ window.addEventListener("storage", function (e) {
 });
 
 $("#reloads").change(function () {
-  alert(
-    "Changes have been made to the order. Please reload the page to view the changes."
-  );
   localStorage.setItem("reloadParent", true);
   location.reload();
 });

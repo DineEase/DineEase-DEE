@@ -338,11 +338,16 @@
                         <label for="tab3">Ongoing Reservations</label>
                         <input type="radio" name="tabset" id="tab4" aria-controls="completed">
                         <label for="tab4">Completed Reservations</label>
+                        <input type="radio" name="tabset" id="tab5" aria-controls="cancelled">
+                        <label for="tab5">Cancelled Reservations</label>
+                        <input type="radio" name="tabset" id="tab6" aria-controls="overdue">
+                        <label for="tab6">Overdue Reservations</label>
 
                         <div class="tab-panels">
                             <section id="view" class="tab-panel">
                                 <div class="content read">
                                     <h2>View Reservations</h2>
+                                    <!--dsad -->
                                     <div class="searchnfilter">
                                         <!-- Search Form -->
                                         <div class="filter-reservation">
@@ -691,6 +696,70 @@
                                             </table>
                                         </div>
                                         <div id="completedOrders">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="cancelled" class="tab-panel">
+                                <div class="completed-reservations-container">
+                                    <div class="order-items-conteainer">
+                                        <div class="compleated-order-header">
+                                            <div class="flex-container">
+                                                <h1>Cancelled Orders</h1>
+                                                <div class="row">
+                                                    <input type="text" placeholder="Search" />
+                                                    <button>Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="completed-order-item-card-header">
+                                            <table>
+                                                <tr>
+                                                    <td>Reservation ID</td>
+                                                    <td>Customer Name</td>
+                                                    <td>table</td>
+
+                                                    <td>Full amount</td>
+
+                                                    <td>Amount Payable</td>
+                                                    <td>Status</td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="cancelledOrders">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="overdue" class="tab-panel">
+                                <div class="completed-reservations-container">
+                                    <div class="order-items-conteainer">
+                                        <div class="compleated-order-header">
+                                            <div class="flex-container">
+                                                <h1>Overdue Orders</h1>
+                                                <div class="row">
+                                                    <input type="text" placeholder="Search" />
+                                                    <button>Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="completed-order-item-card-header">
+                                            <table>
+                                                <tr>
+                                                    <td>Reservation ID</td>
+                                                    <td>Customer Name</td>
+                                                    <td>table</td>
+
+                                                    <td>Full amount</td>
+
+                                                    <td>Amount Payable</td>
+                                                    <td>Status</td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div id="cancelledOrders">
                                         </div>
                                     </div>
                                 </div>
