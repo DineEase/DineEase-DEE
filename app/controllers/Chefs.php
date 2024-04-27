@@ -74,4 +74,25 @@ class Chefs extends Controller
 
         $this->view('chef/profile');
     }
+    public function requestinventory(){
+        $inventoreis = $this->chefModel->getinventories();
+        $data = [
+            'inventories' => $inventoreis,
+        ];
+        $this->view('chef/requestinventory',$data);
+    }
+    public function sendinventoryrequest(){
+        
+        $request_body = file_get_contents('php://input');
+        error_log('Request body: ' . print_r($request_body, true));
+        $data = json_decode($request_body);
+         error_log('Data: ' . print_r($data, true));
+    if($this->chefModel->sendinventoryrequest($data)){
+        return true;
+    }
+    else{
+        echo "error";
+    }
+
+}
 }

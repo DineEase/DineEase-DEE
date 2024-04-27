@@ -97,4 +97,36 @@ class Chef
             $this->db->execute();
         }
     }
+    public function getinventories()
+    {
+        $this->db->query('SELECT * FROM inventories');
+        $row = $this->db->resultSet();
+        return $row;
+    }
+    public function getcategoryid($nameid)
+    {
+        $this->db->query('SELECT categoryID FROM inventories WHERE inventorynameID = :nameid');
+        $this->db->bind(':nameid', $nameid);
+        $row = $this->db->single();
+        return $row;
+    }
+    public function sendinventoryrequest($data)
+    //var_dump($data);
+{
+    foreach ($data->items as $item) {
+        // Get the category ID for the current item
+        $categoryID = $this->getcategoryid($item->itemID);
+
+        // Insert a record for the current item
+        $this->db->query('INSERT INTO kitchenrequest (categoryID, inventoryName, quantity, status,requestdate) VALUES (:categoryID, :inventoryID, :quantity, :status, NOW())');
+        $this->db->bind(':categoryID', $categoryID->categoryID);
+        $this->db->bind(':inventoryID', $item->itemID);
+        $this->db->bind(':quantity', $item->quantity);
+        $this->db->bind(':status', 'Requested');
+        $this->db->execute();
+    }
+    return true;
 }
+
+}
+
