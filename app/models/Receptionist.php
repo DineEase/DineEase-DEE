@@ -43,12 +43,12 @@ class Receptionist
         return $results;
     }
 
-    public function getSlots()
-    {
-        $this->db->query('SELECT * FROM package');
-        $results = $this->db->resultSet();
-        return $results;
-    }
+    // public function getSlots()
+    // {
+    //     $this->db->query('SELECT * FROM package');
+    //     $results = $this->db->resultSet();
+    //     return $results;
+    // }
 
 
     //!menu Functions
@@ -477,5 +477,15 @@ class Receptionist
             return "Failed to cancel order";
         }
         return "Failed to cancel reservation";
+    }
+
+    public function getPackageCapacity()
+    {
+
+        $this->db->query('SELECT packageID, SUM(capacity) AS total_capacity
+        FROM `tables`
+        GROUP BY packageID;');
+        $results = $this->db->resultSet();
+        return $results;
     }
 }

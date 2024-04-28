@@ -153,6 +153,7 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
           slotDetails = response;
+          console.log(slotDetails);
         },
         error: function (xhr, status, error) {
           console.error("Error fetching data:", error);
@@ -161,9 +162,9 @@ $(document).ready(function () {
     }
     $("#time-slots").empty();
     createTimeSlot();
-    var slots = document.querySelectorAll(".time-slot:not(.faded)"); 
+    var slots = document.querySelectorAll(".time-slot:not(.faded)");
     if (slots.length > 0) {
-      slots[0].classList.add("selected"); 
+      slots[0].classList.add("selected");
     }
     addClickHandlers();
   });
@@ -174,6 +175,17 @@ $(document).ready(function () {
       var timeString = (hour < 10 ? "0" + hour : hour) + ":00";
       var slotIsFull = false;
       var timeIsPassed = false;
+
+      var pkg = $('input[name="packageID"]:checked').val();
+      if (pkg == 1) {
+        slotMaxCapacity = packageSizes.Budget;
+      }
+      if (pkg == 2) {
+        slotMaxCapacity = packageSizes.Gold;
+      }
+      if (pkg == 3) {
+        slotMaxCapacity = packageSizes.Platinum;
+      }
 
       function checkIsSlotFull() {
         if (slotDetails) {
@@ -272,6 +284,7 @@ $(document).ready(function () {
     dataType: "json",
     success: function (response) {
       slotDetails = response;
+      console.log(slotDetails);
     },
     error: function (xhr, status, error) {
       console.error("Error fetching data:", error);
@@ -293,6 +306,7 @@ $(document).ready(function () {
       success: function (response) {
         console.log(response);
         slotDetails = response;
+        console.log(slotDetails);
       },
       error: function (xhr, status, error) {
         console.error("Error fetching data:", error);
