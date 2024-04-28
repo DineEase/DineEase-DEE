@@ -93,7 +93,7 @@
 
 
         .view-slot-button {
-            background-color: var(--brandgreen);
+            background-color: gray;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -103,7 +103,7 @@
         }
 
         .view-slot-button:hover {
-            background-color: var(--brandgreen-dark);
+            background-color: darkgray;
         }
 
         .dashboard-content {
@@ -304,7 +304,13 @@
                             </form>
                         </div>
                     </div>
-                    <div class="rdh-item"></div>
+                    <div class="rdh-item">
+                        <div class="buttonset-container">
+                            <button class="view-slot-button" >Scheduled</button>
+                            <button class="view-slot-button active-reservation" >Arrived</button>
+                            <button class="view-slot-button completed-reservation" >Completed</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="dashboard-content">
 
@@ -322,7 +328,13 @@
                                             $slot = date("G", strtotime($reservation->reservationStartTime));
 
                                             if ($slot == $time) {
-                                                echo '<td><button class="view-slot-button" data-reservation-id="' . $reservation->reservationID . '" data-reservation-time="' . $reservation->reservationStartTime . '" data-customer-name="' . $reservation->customerName . '" onclick="slotPopup(this);" name="slot-button">' . $reservation->reservationID . '</button></td>';
+                                                echo '<td><button class="view-slot-button' .
+                                                    ($reservation->hasArrived == 1 && $reservation->status != "Completed" ? " active-reservation" : "") .
+                                                    ($reservation->status == "Completed" ? " completed-reservation" : "") .
+                                                    '" data-reservation-id="' . $reservation->reservationID .
+                                                    '" data-reservation-time="' . $reservation->reservationStartTime .
+                                                    '" data-customer-name="' . htmlspecialchars($reservation->customerName) .
+                                                    '" onclick="slotPopup(this);" name="slot-button">' . $reservation->reservationID . '</button></td>';                                                // echo '<td><button class="view-slot-button ' .echo *$reservation->hasArrived ==1)?"active-reservation":" "; .'  " data-reservation-id="' . $reservation->reservationID . '" data-reservation-time="' . $reservation->reservationStartTime . '" data-customer-name="' . $reservation->customerName . '" onclick="slotPopup(this);" name="slot-button">' . $reservation->reservationID . '</button></td>';
                                             }
                                         }
                                     }
@@ -345,23 +357,23 @@
 
 
     <script>
-        let data = (function() {
-            let _value = ''; 
-            return {
-                get value() {
-                    return _value;
-                },
-                set value(val) {
-                    _value = val;
-                    console.log(`Value changed to: ${_value}`);
-                    doSomethingOnChange();
-                }
-            };
-        })();
+        // let data = (function() {
+        //     let _value = '';
+        //     return {
+        //         get value() {
+        //             return _value;
+        //         },
+        //         set value(val) {
+        //             _value = val;
+        //             console.log(`Value changed to: ${_value}`);
+        //             doSomethingOnChange();
+        //         }
+        //     };
+        // })();
 
-        function doSomethingOnChange() {
-            console.log('The value was changed!');
-        }
+        // function doSomethingOnChange() {
+        //     console.log('The value was changed!');
+        // }
 
         function successMessageNotification(message) {
             toastr.success(message);
@@ -451,11 +463,17 @@
                                     reservationID: reservationID
                                 },
                                 success: function(response) {
-                                    if (response == "success") {
-                                        toastr.success("Reservation " + reservationID + " cancelled successfully");
-                                        location.reload();
+                                    if (response == 1) {
+                                        toastr.success("Reservation " + reservationID + " marked arrived");
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
                                     } else {
-                                        swal("Error", "Failed to mark reservation as arrived", "error");
+                                        console.log(response);
+                                        toastr.error("Failed to mark reservation as arrived");
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
                                     }
                                 }
                             });
@@ -469,11 +487,15 @@
                                 },
                                 success: function(response) {
                                     if (response == 1) {
-                                        
-                                        location.reload();
+                                        toastr.success('Reservation ' + reservationID + ' cancelled successfully');
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
                                     } else {
-                                        console.log(response);
-                                        swal("Error", "Failed to cancel reservation", "error");
+                                        toastr.error("Failed to cancel reservation");
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
                                     }
                                 }
                             });
