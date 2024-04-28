@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/swal.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/toastr.css">
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -274,7 +276,7 @@
                 }
                 ?>
                 <!-- TODO #82 Reservation grids active status does not show -->
-
+                <!-- <?php '<pre></pre>' . var_dump($data) . '</pre>' ?> -->
 
 
 
@@ -320,7 +322,7 @@
                                             $slot = date("G", strtotime($reservation->reservationStartTime));
 
                                             if ($slot == $time) {
-                                                echo '<td><button class="view-slot-button" data-reservation-id="' . $reservation->reservationID . '" onclick="slotPopup(this);" name="slot-button">' . $reservation->reservationID . '</button></td>';
+                                                echo '<td><button class="view-slot-button" data-reservation-id="' . $reservation->reservationID . '" data-reservation-time="' . $reservation->reservationStartTime . '" data-customer-name="' . $reservation->customerName . '" onclick="slotPopup(this);" name="slot-button">' . $reservation->reservationID . '</button></td>';
                                             }
                                         }
                                     }
@@ -338,9 +340,148 @@
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/swal.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/toastr.js"></script>
+
+
     <script>
+        let data = (function() {
+            let _value = ''; 
+            return {
+                get value() {
+                    return _value;
+                },
+                set value(val) {
+                    _value = val;
+                    console.log(`Value changed to: ${_value}`);
+                    doSomethingOnChange();
+                }
+            };
+        })();
+
+        function doSomethingOnChange() {
+            console.log('The value was changed!');
+        }
+
+        function successMessageNotification(message) {
+            toastr.success(message);
+        }
+
+        function errorMessageNotification(message) {
+            toastr.error(message);
+        }
+
         function slotPopup(element) {
             let reservationID = element.getAttribute('data-reservation-id');
+            let customerName = element.getAttribute('data-customer-name');
+            let reservationTime = element.getAttribute('data-reservation-time');
+            let selectedDate = document.getElementById('date-picker').value;
+
+            function isDayPassed(selectedDate) {
+                let today = new Date().toISOString().slice(0, 10);
+                return selectedDate < today;
+            }
+
+            function isTimePassed(selectedDate, reservationTime) {
+                let today = new Date().toISOString().slice(0, 10);
+                let currentTime = new Date();
+                let currentHour = currentTime.getHours();
+
+                if (selectedDate < today) {
+                    return true;
+                } else if (selectedDate === today) {
+                    let reservationHour = parseInt(reservationTime.split(':')[0]);
+                    return reservationHour + 1 <= currentHour;
+                }
+                return false;
+            }
+
+            let datePassed = isDayPassed(selectedDate);
+            let timePassed = isTimePassed(selectedDate, reservationTime);
+
+            if (datePassed || timePassed) {
+                swal({
+                    title: "Reservation Details",
+                    text: "Reservation ID: " + reservationID + "\nCustomer Name: " + customerName,
+                    icon: "info",
+                    buttons: {
+                        close: {
+                            text: "Close",
+                            value: null,
+                            visible: true,
+                            className: "swal-close-btn",
+                        }
+                    }
+                });
+            } else {
+                // handle mark arrived and cancel reservation logic for chef and filtering
+                swal({
+                    title: "Reservation Details",
+                    text: "Reservation ID: " + reservationID + "\nCustomer Name: " + customerName,
+                    icon: "info",
+                    buttons: {
+                        close: {
+                            text: "Close",
+                            value: null,
+                            visible: true,
+                            className: "swal-close-btn",
+                        },
+                        markArrived: {
+                            text: "Mark Arrived",
+                            value: "Mark Arrived",
+                            visible: true,
+                            className: "swal-mark-arrived-btn",
+                            closeModal: true
+                        },
+                        cancelReservation: {
+                            text: "Cancel Reservation",
+                            value: "Cancel Reservation",
+                            visible: true,
+                            className: "swal-cancel-btn  alert-danger ",
+                            closeModal: true
+                        }
+                    }
+                }).then((value) => {
+                    switch (value) {
+                        case "Mark Arrived":
+                            $.ajax({
+                                type: "POST",
+                                url: "markArrived",
+                                data: {
+                                    reservationID: reservationID
+                                },
+                                success: function(response) {
+                                    if (response == "success") {
+                                        toastr.success("Reservation " + reservationID + " cancelled successfully");
+                                        location.reload();
+                                    } else {
+                                        swal("Error", "Failed to mark reservation as arrived", "error");
+                                    }
+                                }
+                            });
+                            break;
+                        case "Cancel Reservation":
+                            $.ajax({
+                                type: "POST",
+                                url: "cancelLateReservation",
+                                data: {
+                                    reservationID: reservationID
+                                },
+                                success: function(response) {
+                                    if (response == 1) {
+                                        
+                                        location.reload();
+                                    } else {
+                                        console.log(response);
+                                        swal("Error", "Failed to cancel reservation", "error");
+                                    }
+                                }
+                            });
+                            break;
+                    }
+                });
+            }
+
         }
     </script>
 </body>

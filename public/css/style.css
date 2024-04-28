@@ -2,14 +2,13 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  
-  background-image: url('../img/login/staff-bkg.webp');
+
+  background-image: url("../img/login/staff-bkg.webp");
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-user-select: none;
-  -ms-user-select: none; 
-  user-select: none; 
-  
+  -ms-user-select: none;
+  user-select: none;
 }
 
 * {
@@ -108,7 +107,6 @@ body {
   color: #333;
   text-decoration: none;
   transition: color 0.3s ease-in-out;
-  
 }
 
 .nav-link:hover {
@@ -180,7 +178,7 @@ button.register:hover {
   margin-right: 5px;
 }
 .navbar-logo img {
-  height: 30px;;
+  height: 30px;
   margin-right: 10px;
 }
 /* end of login navbar styles  */
@@ -207,7 +205,6 @@ button.register:hover {
   justify-content: center;
   align-items: center;
   height: 100%;
-  
 }
 
 /* hero styles end here  */
@@ -278,7 +275,6 @@ button.register:hover {
 
 .login-card button:hover {
   background-color: var(--brand-darkgreen, #5b9279);
-  
 }
 
 .login-switch {
@@ -390,8 +386,7 @@ button.register:hover {
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
-.active-nav{
+.active-nav {
   background-color: #0c5460;
 }
-/* helpers styles end here */
 
