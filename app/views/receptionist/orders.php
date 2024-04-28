@@ -91,7 +91,7 @@
                             </li>
 
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/orders.php" class="nav_link" onclick="changeContent('order')">
+                                <a href="<?php echo APPROOT ?>/receptionist/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">

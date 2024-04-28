@@ -91,7 +91,7 @@
                             </li>
 
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/orders.php" class="nav_link" onclick="changeContent('order')">
+                                <a href="<?php echo APPROOT ?>/receptionist/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -104,7 +104,7 @@
                             </li>
 
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/availability.php" class="nav_link" onclick="changeContent('availability')">
+                                <a href="<?php echo APPROOT ?>/receptionist/availability" class="nav_link" onclick="changeContent('availability')">
                                     <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">

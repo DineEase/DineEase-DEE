@@ -15,7 +15,7 @@
     <title><?php echo SITENAME; ?></title>
 </head>
 <style>
-
+    /* Modern look for input fields */
 </style>
 
 <body>
@@ -167,7 +167,7 @@
                     <div id="overlay-profile" class="overlay-profile"></div>
                     <div class="profilecard">
                         <div class="card-body">
-                            <form action="path_to_your_controller_method" method="post">
+                            <form action="<?php echo URLROOT; ?>/profiles/updateUserDetails" method="post">
                                 <table>
                                     <tr>
                                         <td>
@@ -191,8 +191,10 @@
                                         <td><input type="text" name="mobile_no" value="<?php echo htmlspecialchars($_SESSION['mobile_no']); ?>" readonly></td>
                                     </tr>
                                     <tr>
-                                        <td><button type="button" id="change-user-details" class="change-btn">Change Details</button></td>
-                                        <td><input type="submit" id="update-user-details" class="change-btn" value="Update Details" style="display:none;"></td>
+                                        <button type="button" id="change-user-details" class="change-btn">Change Details</button>
+                                        <button type="button" id="cancel-user-details" class="change-btn" style="display:none;">Cancel</button>
+                                        <input type="submit" id="update-user-details" class="change-btn" value="Update Details" style="display:none;">
+
                                     </tr>
                                 </table>
                             </form>
@@ -220,7 +222,7 @@
         </div>
     </div>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
-    <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
+    <!-- <script src="<?php echo URLROOT; ?>/js/customer.js"></script> -->
     <script src="<?php echo URLROOT; ?>/js/user-profile.js"></script>
     <script src="<?php echo URLROOT; ?>/js/toastr.js"></script>
     <script>
@@ -258,11 +260,36 @@
         });
 
         document.getElementById('change-user-details').addEventListener('click', function() {
-            var inputs = document.querySelectorAll('input[type=text], input[type=email]');
-            inputs.forEach(function(input) {
-                input.readOnly = false; // Make inputs editable
+            var mobileInput = document.querySelector('input[name="mobile_no"]');
+            var emailInput = document.querySelector('input[name="email"]');
+            var userName = document.querySelector('input[name="user_name"]');
+            userName.readOnly = false;
+            emailInput.readOnly = false;
+            mobileInput.readOnly = false;
+
+            mobileInput.addEventListener('input', function(e) {
+                var nonNumericRemoved = this.value.replace(/\D/g, '');
+                if (nonNumericRemoved.length > 10) {
+                    nonNumericRemoved = nonNumericRemoved.substr(0, 10);
+                }
+                this.value = nonNumericRemoved;
             });
-            document.getElementById('update-user-details').style.display = 'inline'; // Show the update button
+
+            document.getElementById('update-user-details').style.display = 'inline';
+            document.getElementById('cancel-user-details').style.display = 'inline';
+            document.getElementById('change-user-details').style.display = 'none';
+        });
+        document.getElementById('cancel-user-details').addEventListener('click', function() {
+            var mobileInput = document.querySelector('input[name="mobile_no"]');
+            var emailInput = document.querySelector('input[name="email"]');
+            var userName = document.querySelector('input[name="user_name"]');
+            userName.readOnly = true;
+            emailInput.readOnly = true;
+            mobileInput.readOnly = true;
+
+            document.getElementById('update-user-details').style.display = 'none';
+            document.getElementById('cancel-user-details').style.display = 'none';
+            document.getElementById('change-user-details').style.display = 'inline';
         });
     </script>
 

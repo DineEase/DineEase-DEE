@@ -181,10 +181,16 @@ class Profiles extends Controller
                 'email' => $_POST['email'],
                 'mobile_no' => $_POST['mobile_no']
             ];
+            $userId = $_SESSION['user_id'];
 
             // Update logic
-            if ($this->profileModel->updateUser($data)) {
+            if ($this->profileModel->updateUser($userId ,$data)) {
                 // Success message
+                $_SESSION['user_name'] = $data['user_name'];
+                $_SESSION['email'] = $data['email'];
+                $_SESSION['mobile_no'] = $data['mobile_no'];
+                
+                
                 $_SESSION['success_message'] = 'Details updated successfully';
                 $this->redirectToUserPage($_SESSION['role']);
 

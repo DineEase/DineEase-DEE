@@ -47,10 +47,9 @@ class Profile
 
     public function updateUser($user_id, $data)
     {
-        $this->db->query('UPDATE users SET name = :name, email = :email, dob = :dob, mobile_no = :mobile_no WHERE user_id = :user_id');
-        $this->db->bind(':name', $data['name']);
+        $this->db->query('UPDATE users SET name = :name, email = :email, mobile_no = :mobile_no WHERE user_id = :user_id');
+        $this->db->bind(':name', $data['user_name']);
         $this->db->bind(':email', $data['email']);
-        $this->db->bind(':dob', $data['dob']);
         $this->db->bind(':mobile_no', $data['mobile_no']);
         $this->db->bind(':user_id', $user_id);
         if ($this->db->execute()) {
@@ -59,6 +58,7 @@ class Profile
             return false;
         }
     }
+    
 
 
 }
