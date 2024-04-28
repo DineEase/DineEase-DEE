@@ -65,6 +65,7 @@ class Profile
                     return false;
                 }
             }
+            return true;
         } else {
             return false;
         }

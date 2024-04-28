@@ -388,7 +388,7 @@
                                                     <td>Rs. <?php echo $reservation->amount ?>.00</td>
                                                     <td><?php echo $reservation->status ?></td>
                                                     <td class="actions">
-                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View & Edit</button>
+                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View</button>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
