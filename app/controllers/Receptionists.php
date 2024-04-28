@@ -104,6 +104,8 @@ class Receptionists extends Controller
             die('Something went wrong');
         }
 
+        $capacity = $this->receptionistModel->getPackageCapacity();
+
         $data = [
             'reservations' => $reservations,
             'totalReservations' => $totalReservations,
@@ -114,7 +116,8 @@ class Receptionists extends Controller
             'page' => $page,
             'limit' => $limit,
             'reservationStatus' => $reservationStatus,
-            'suites' => $suites
+            'suites' => $suites,
+            'capacity' => $capacity
 
         ];
 
@@ -285,6 +288,19 @@ class Receptionists extends Controller
         } else {
             echo json_encode($result);
         }
-      
+    }
+
+    public function getPackageCapacity()
+    {
+
+        $capacity = $this->receptionistModel->getPackageCapacity();
+
+        header('Content-Type: application/json');
+
+        if ($capacity !== null) {
+            echo json_encode(array($capacity));
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Failed to fetch slot capacity'));
+        }
     }
 }

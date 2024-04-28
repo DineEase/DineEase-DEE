@@ -153,6 +153,12 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
           slotDetails = response;
+          var pkg = parseInt($('input[name="packageID"]:checked').val(), 10);
+          let filteredSlotDetails = slotDetails.filter(
+            (item) => item.packageID === pkg
+          );
+
+          slotDetails = filteredSlotDetails;
         },
         error: function (xhr, status, error) {
           console.error("Error fetching data:", error);
@@ -161,9 +167,9 @@ $(document).ready(function () {
     }
     $("#time-slots").empty();
     createTimeSlot();
-    var slots = document.querySelectorAll(".time-slot:not(.faded)"); 
+    var slots = document.querySelectorAll(".time-slot:not(.faded)");
     if (slots.length > 0) {
-      slots[0].classList.add("selected"); 
+      slots[0].classList.add("selected");
     }
     addClickHandlers();
   });
@@ -175,11 +181,22 @@ $(document).ready(function () {
       var slotIsFull = false;
       var timeIsPassed = false;
 
+      var pkg = $('input[name="packageID"]:checked').val();
+      if (pkg == 1) {
+        slotMaxCapacity = packageSizes.Budget;
+      }
+      if (pkg == 2) {
+        slotMaxCapacity = packageSizes.Gold;
+      }
+      if (pkg == 3) {
+        slotMaxCapacity = packageSizes.Platinum;
+      }
+      
       function checkIsSlotFull() {
         if (slotDetails) {
           for (var slot of slotDetails) {
             var sum =
-              Number(slot.slotCapacity) +
+              Number(slot.total_people) +
               Number(selectedNoOfPeopleForReservation);
             if (slot.slot === hour && sum >= slotMaxCapacity) {
               return true;
@@ -272,6 +289,12 @@ $(document).ready(function () {
     dataType: "json",
     success: function (response) {
       slotDetails = response;
+
+      var pkg = parseInt($('input[name="packageID"]:checked').val(), 10);
+      let filteredSlotDetails = slotDetails.filter(
+        (item) => item.packageID === pkg
+      );
+      slotDetails = filteredSlotDetails;
     },
     error: function (xhr, status, error) {
       console.error("Error fetching data:", error);
@@ -291,8 +314,13 @@ $(document).ready(function () {
       data: { date: selectedDate },
       dataType: "json",
       success: function (response) {
-        console.log(response);
         slotDetails = response;
+        var pkg = parseInt($('input[name="packageID"]:checked').val(), 10);
+        let filteredSlotDetails = slotDetails.filter(
+          (item) => item.packageID === pkg
+        );
+
+        slotDetails = filteredSlotDetails;
       },
       error: function (xhr, status, error) {
         console.error("Error fetching data:", error);

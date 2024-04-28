@@ -20,4 +20,14 @@ class Home
         $results = $this->db->resultSet();
         return $results;
     }
+
+    public function getSlots($date)
+    {
+        $this->db->query('SELECT slot , SUM(noofpeople) as slotCapacity FROM slots WHERE date = :date GROUP BY slot ORDER BY slot;');
+        $this->db->bind(':date', $date);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+
 }

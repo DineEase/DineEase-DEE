@@ -12,6 +12,62 @@
   <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/homepage.css" />
   <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
   <title><?php echo SITENAME; ?></title>
+
+  <style>
+    .dp-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start !important;
+      height: 100%;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .date-slot {
+      padding: 8px 15px;
+      width: auto;
+      height: 45px;
+      border: 1px solid var(--brandgreen, #166c45);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      background-color: #fff;
+      color: #333;
+    }
+
+    .date-slots {
+      padding-right: 0px;
+      padding-left: 0px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border: 1px solid var(--brandgreen, #166c45);
+      border-radius: 15px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .fixed-height-row-reservation {
+    display: flex;
+    flex-direction: column;
+    padding-left: 100px;
+    padding-right: 100px;
+    height: 20vh;
+    margin-top: 1em;
+}
+.avts{
+  font-size: xx-large;
+}
+
+  </style>
 </head>
 
 <body>
@@ -313,21 +369,58 @@
   </div>
 
   <div id="outer-availability">
-    aviailability
+    <div class="form-card">
+      <div class="row">
+        <div class="fixed-height-row-reservation full-length" style='width:100%'>
+          <h3 class="fs-title">Select Date:</h3>
+          <div class="dp-container">
+
+            <div class="date-slots">
+              <?php
+              date_default_timezone_set("Asia/Calcutta");
+              $currentDate = strtotime(date("Y-m-d"));
+
+              for ($i = 0; $i < 15; $i++) {
+                $date = date("Y-m-d", strtotime("+{$i} days", $currentDate));
+                $selectedClass = $i == 0 ? "selected" : "";
+                echo "<div class='date-slot {$selectedClass}' id='dateToCheck' data-date='{$date}'>" . date('d M', strtotime($date)) . "</div>";
+              }
+              ?>
+            </div>
+            <input type="hidden" id="selectedDate" name="date" value="<?= date("Y-m-d") ?>">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="fs-title"><span class="avts">Available Time Slots:</span></h3>
+    </div>
+
+    <div class="availability-table">
+      <div class="av-table">
+
+        <div class="time-slots" id="time-slots">
+        </div>
+        <input type="hidden" id="selectedTime" name="reservationStartTime" value="08:00">
+      </div>
+    </div>
+
+  </div>
   </div>
   <script>
     const URLROOT = "<?php echo URLROOT; ?>";
     var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
     var menus = <?php echo json_encode($data['menus']); ?>;
     let itemsPerPage = 18;
-
   </script>
   <script src="https://unpkg.com/scrollreveal"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
   <script src="<?php echo URLROOT; ?>/js/menu.js"></script>
   <script src="<?php echo URLROOT; ?>/js/homepage.js"></script>
-  
+  <!-- <script src="<?php echo URLROOT; ?>/js/customer.js"></script> -->
+            
   </script>
 </body>
 

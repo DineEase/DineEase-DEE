@@ -7,7 +7,7 @@ class Customer
         $this->db = new Database;
     }
 
-    
+
 
     public function getReservation($user_id, $limit = 10, $offset = 0)
     {
@@ -326,6 +326,8 @@ class Customer
         return $results;
     }
 
+
+
     public function getReservationStatus()
     {
         $this->db->query('SELECT * FROM reservationStatus');
@@ -445,7 +447,16 @@ class Customer
     }
 
 
-   
+    public function getSuiteCapacities()
+    {
+        $this->db->query('SELECT packageID, SUM(capacity) AS total_capacity
+        FROM `tables`
+        GROUP BY packageID;');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+
     public function submitReservationReview($data)
     {
 
@@ -474,5 +485,24 @@ class Customer
         }
     }
 
-   
+    public function getSlotRemainingForSuites($date)
+    {
+        $this->db->query('SELECT r.packageID,
+        s.slot,
+        SUM(s.noofpeople) AS total_people
+    FROM 
+        slots s
+    JOIN 
+        reservation r ON s.reservationID = r.reservationID
+    WHERE 
+        r.date = :date 
+    GROUP BY 
+        r.packageID, s.slot
+    ORDER BY 
+        r.packageID, s.slot;');
+        $this->db->bind(':date', $date);
+        $results = $this->db->resultSet();
+        return $results;
+        
+    }
 }

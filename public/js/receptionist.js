@@ -27,6 +27,15 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+
+  console.log(packageSizes);
+  for (var i = 0; i < packageSizes.length; i++) {
+    suiteMaxCapacity[i]= packageSizes[i].total_capacity;
+  }
+});
+
+
+$(document).ready(function () {
   getAvailability($("#reservation_suite").val());
 
   function getMenus() {
@@ -761,7 +770,6 @@ function popViewReservationDetails(element) {
           }</p></td></tr>
             </table>
              <p class='rs-item-completed'>Completed</p>
-
             </div>
         </div>`;
         });
