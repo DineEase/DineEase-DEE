@@ -1,0 +1,25 @@
+
+.swal-close-btn {
+    background-color: gray !important;
+}
+
+.swal-close-btn:hover {
+    background-color: darkgray !important;
+}
+
+
+.swal-mark-arrived-btn {
+    background-color: var(--brandgreen) !important;
+}
+
+.swal-mark-arrived-btn:hover {
+    background-color: var(--brandgreen-dark) !important;
+}
+
+.swal-cancel-btn {
+    background-color: red !important;
+}
+
+.swal-cancel-btn:hover {
+    background-color: darkred !important;
+}

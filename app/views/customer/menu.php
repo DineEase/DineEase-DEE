@@ -13,6 +13,9 @@
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
     <title><?php echo SITENAME; ?></title>
 </head>
+<style>
+    
+</style>
 
 <body>
     <div class="container">
@@ -43,19 +46,19 @@
             <nav class="sidebar">
                 <div class="sidebar-container">
                     <div class="menu_content">
-                        
+
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                home
-                                            </span>
+                                <button class="button-sidebar-menu" id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            home
                                         </span>
-                                        <span class="button-sidebar-menu-content">Reservation </span>
-                                    </button>
-                                </a>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reservation </span>
+                                </button>
+                            </a>
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
                                     <button class="button-sidebar-menu" id="reservationButton">
@@ -82,19 +85,7 @@
                                 </a>
                             </li>
 
-                            <!-- <li class="item">
-                                <a href="<?php echo URLROOT ?>/customers/review" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                reviews
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li> -->
-                            <!-- End -->
+                           
 
 
                         </ul>
@@ -199,7 +190,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <script>
         const URLROOT = "<?php echo URLROOT; ?>";

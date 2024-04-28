@@ -15,18 +15,31 @@ class Receptionist
     }
     public function getAllReservationsOnDate($date, $suite)
     {
-        $this->db->query('SELECT * FROM reservation WHERE `packageID` = :suite AND `date` = :date ORDER BY reservationStartTime ASC');
+        $this->db->query('SELECT * FROM reservation WHERE `packageID` = :suite AND `date` = :date AND  status != "Cancelled" AND  status != "Pending"  ORDER BY reservationStartTime ASC');
         $this->db->bind(':date', $date);
         $this->db->bind(':suite', $suite);
         $results = $this->db->resultSet();
+
+        foreach ($results as $result) {
+            $this->db->query('SELECT name FROM users WHERE user_id = :customerID');
+            $this->db->bind(':customerID', $result->customerID);
+            $result->customerName = $this->db->single()->name;
+        }
         return $results;
     }
 
     public function getAllReservationsOnDateForAllSuites($date)
     {
-        $this->db->query('SELECT * FROM reservation WHERE `date` = :date ORDER BY reservationStartTime ASC');
+        $this->db->query('SELECT * FROM reservation WHERE `date` = :date AND  status != "Cancelled" AND  status != "Pending"  ORDER BY reservationStartTime ASC');
         $this->db->bind(':date', $date);
         $results = $this->db->resultSet();
+        $results = $this->db->resultSet();
+
+        foreach ($results as $result) {
+            $this->db->query('SELECT name FROM users WHERE user_id = :customerID');
+            $this->db->bind(':customerID', $result->customerID);
+            $result->customerName = $this->db->single()->name;
+        }
         return $results;
     }
 
@@ -420,12 +433,49 @@ class Receptionist
             }
         }
 
-
-
-
         $data[0] = $row1;
         $data[1] = $row2;
 
         return $data;
+    }
+
+    public function markArrived($reservationID)
+    {
+        $this->db->query('UPDATE reservation SET hasArrived = 1 WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $result =  $this->db->execute();
+        return $result;
+    }
+
+    public function cancelLateReservation($reservationID)
+    {
+        $this->db->query('UPDATE reservation SET status = "Cancelled" WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        if ($result =  $this->db->execute()) {
+            $this->db->query('SELECT orderID FROM reservation WHERE reservationID = :reservationID');
+            $this->db->bind(':reservationID', $reservationID);
+            $orderID = $this->db->single()->orderID;
+            $this->db->query('UPDATE orders SET status = "Cancelled" WHERE orderItemID = :orderID');
+            $this->db->bind(':orderID', $orderID);
+            if ($this->db->execute()) {
+
+                $this->db->query('SELECT * FROM orderitem WHERE orderNo = :orderID');
+                $this->db->bind(':orderID', $orderID);
+                $items = $this->db->resultSet();
+                foreach ($items as $item) {
+                    $this->db->query('UPDATE orderitem SET status = "Cancelled" WHERE orderNo = :orderID AND itemID = :itemID');
+                    $this->db->bind(':orderID', $orderID);
+                    $this->db->bind(':itemID', $item->itemID);
+                    $this->db->execute();
+                }
+                $this->db->query('DELETE FROM slots WHERE reservationID = :reservationID');
+                $this->db->bind(':reservationID', $reservationID);
+                if ($this->db->execute()) {
+                    return true;
+                }
+            }
+            return "Failed to cancel order";
+        }
+        return "Failed to cancel reservation";
     }
 }

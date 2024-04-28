@@ -154,7 +154,7 @@ class Receptionists extends Controller
     public function getAvailableSlotsNow()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        
+
             $suite = $_GET['suiteID'];
             $result = $this->receptionistModel->getAvailableSlotsNow($suite);
             echo json_encode($result);
@@ -226,8 +226,9 @@ class Receptionists extends Controller
         echo json_encode($menus);
     }
 
-    
-    public function addItemsToOrder(){
+
+    public function addItemsToOrder()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $orderID = $_POST['orderID'];
@@ -256,5 +257,34 @@ class Receptionists extends Controller
         echo json_encode($reservationDetails);
     }
 
+    public function markArrived()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $reservationID = $_POST['reservationID'];
+        }
+        $result = $this->receptionistModel->markArrived($reservationID);
 
+        if ($result == true) {
+            echo json_encode(1);
+        } else {
+            echo json_encode($result);
+        }
+    }
+
+    public function cancelLateReservation()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $reservationID = $_POST['reservationID'];
+        }
+        $result = $this->receptionistModel->cancelLateReservation($reservationID);
+
+        if ($result == true) {
+            echo json_encode(1);
+        } else {
+            echo json_encode($result);
+        }
+      
+    }
 }

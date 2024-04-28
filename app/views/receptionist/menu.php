@@ -78,7 +78,7 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/menu.php " class="nav_link" onclick="changeContent('menu')">
+                                <a href="<?php echo APPROOT ?>/receptionist/menu " class="nav_link" onclick="changeContent('menu')">
                                     <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
