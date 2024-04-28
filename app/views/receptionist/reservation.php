@@ -388,7 +388,7 @@
                                                     <td>Rs. <?php echo $reservation->amount ?>.00</td>
                                                     <td><?php echo $reservation->status ?></td>
                                                     <td class="actions">
-                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View</button>
+                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View & Edit</button>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -680,22 +680,24 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="completed-order-item-card-header">
-                                            <table>
-                                                <tr>
-                                                    <td>Reservation ID</td>
-                                                    <td>Customer Name</td>
-                                                    <td>table</td>
+                                        <div class="viewOngoing">
+                                            <div class="completed-order-item-card-header">
+                                                <table>
+                                                    <tr>
+                                                        <td>Reservation ID</td>
+                                                        <td>Customer Name</td>
+                                                        <td>table</td>
 
-                                                    <td>Full amount</td>
+                                                        <td>Full amount</td>
 
-                                                    <td>Amount Payable</td>
-                                                    <td>Status</td>
-                                                    <td></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div id="completedOrders">
+                                                        <td>Amount Payable</td>
+                                                        <td>Status</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="completedOrders">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -712,22 +714,24 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="completed-order-item-card-header">
-                                            <table>
-                                                <tr>
-                                                    <td>Reservation ID</td>
-                                                    <td>Customer Name</td>
-                                                    <td>table</td>
+                                        <div class="viewOngoing">
+                                            <div class="completed-order-item-card-header">
+                                                <table>
+                                                    <tr>
+                                                        <td>Reservation ID</td>
+                                                        <td>Customer Name</td>
+                                                        <td>table</td>
 
-                                                    <td>Full amount</td>
+                                                        <td>Full amount</td>
 
-                                                    <td>Amount Payable</td>
-                                                    <td>Status</td>
-                                                    <td></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div id="cancelledOrders">
+                                                        <td>Amount Payable</td>
+                                                        <td>Status</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="cancelledOrders">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -744,22 +748,24 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="completed-order-item-card-header">
-                                            <table>
-                                                <tr>
-                                                    <td>Reservation ID</td>
-                                                    <td>Customer Name</td>
-                                                    <td>table</td>
+                                        <div class="viewOngoing">
+                                            <div class="completed-order-item-card-header">
+                                                <table>
+                                                    <tr>
+                                                        <td>Reservation ID</td>
+                                                        <td>Customer Name</td>
+                                                        <td>table</td>
 
-                                                    <td>Full amount</td>
+                                                        <td>Full amount</td>
 
-                                                    <td>Amount Payable</td>
-                                                    <td>Status</td>
-                                                    <td></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div id="cancelledOrders">
+                                                        <td>Amount Payable</td>
+                                                        <td>Status</td>
+                                                        <td></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="cancelledOrders">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
