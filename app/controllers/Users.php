@@ -292,7 +292,9 @@ class Users extends Controller
         $_SESSION['user_mobile_no'] = $user->mobile_no;
         $_SESSION['employee_id'] = $employee->user_id;
         $_SESSION['role'] = $employee->role_id;
-        $_SESSION['profile_picture'] = $user->profile_picture;
+        $_SESSION['profile_picture'] = $user->imagePath;
+        $_SESSION['email'] = $user->email;
+        $_SESSION['mobile_no'] = $user->mobile_no;
 
         switch ((string)$_SESSION['role']) {
             case '1':
