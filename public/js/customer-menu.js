@@ -42,7 +42,6 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         menuItems = data.filter((item) => item.hidden != 1); 
-        console.log(menuItems);
         filterItems(); 
       },
       error: function (err) {

@@ -153,7 +153,12 @@ $(document).ready(function () {
         dataType: "json",
         success: function (response) {
           slotDetails = response;
-          console.log(slotDetails);
+          var pkg = parseInt($('input[name="packageID"]:checked').val(), 10);
+          let filteredSlotDetails = slotDetails.filter(
+            (item) => item.packageID === pkg
+          );
+
+          slotDetails = filteredSlotDetails;
         },
         error: function (xhr, status, error) {
           console.error("Error fetching data:", error);
@@ -186,12 +191,12 @@ $(document).ready(function () {
       if (pkg == 3) {
         slotMaxCapacity = packageSizes.Platinum;
       }
-
+      
       function checkIsSlotFull() {
         if (slotDetails) {
           for (var slot of slotDetails) {
             var sum =
-              Number(slot.slotCapacity) +
+              Number(slot.total_people) +
               Number(selectedNoOfPeopleForReservation);
             if (slot.slot === hour && sum >= slotMaxCapacity) {
               return true;
@@ -284,7 +289,12 @@ $(document).ready(function () {
     dataType: "json",
     success: function (response) {
       slotDetails = response;
-      console.log(slotDetails);
+
+      var pkg = parseInt($('input[name="packageID"]:checked').val(), 10);
+      let filteredSlotDetails = slotDetails.filter(
+        (item) => item.packageID === pkg
+      );
+      slotDetails = filteredSlotDetails;
     },
     error: function (xhr, status, error) {
       console.error("Error fetching data:", error);
@@ -304,9 +314,13 @@ $(document).ready(function () {
       data: { date: selectedDate },
       dataType: "json",
       success: function (response) {
-        console.log(response);
         slotDetails = response;
-        console.log(slotDetails);
+        var pkg = parseInt($('input[name="packageID"]:checked').val(), 10);
+        let filteredSlotDetails = slotDetails.filter(
+          (item) => item.packageID === pkg
+        );
+
+        slotDetails = filteredSlotDetails;
       },
       error: function (xhr, status, error) {
         console.error("Error fetching data:", error);

@@ -133,7 +133,7 @@ class Customers extends Controller
             'avgStarsForPlatinum' => $avgStarsForPlatinum
         ];
 
-        $remainingReservationsBySuite = $this->customerModel->getSlotRemainingForSuites();
+   
 
         $data = [
 
@@ -149,7 +149,7 @@ class Customers extends Controller
             'startDate' => $startDate,
             'endDate' => $endDate,
             'suiteCapacities' => $suiteCapacities,
-            'remainingReservationsBySuite' => $remainingReservationsBySuite
+
 
         ];
         $this->view('customer/reservation', $data);
@@ -424,7 +424,7 @@ class Customers extends Controller
             return;
         }
 
-        $slots = $this->customerModel->getSlots($date);
+        $slots = $this->customerModel->getSlotRemainingForSuites($date);
         header('Content-Type: application/json');
         echo json_encode($slots);
     }
@@ -469,10 +469,10 @@ class Customers extends Controller
         echo $jsonObj;
     }
 
-    public function getSlotRemainingForSuites()
+    public function getSlotRemainingForSuites($date)
     {   
         //DONE: #19 // Add a method to get the remaining reservations for each suite
-        $remainingReservationsBySuite = $this->customerModel->getSlotRemainingForSuites();
+        $remainingReservationsBySuite = $this->customerModel->getSlotRemainingForSuites($date);
         echo json_encode($remainingReservationsBySuite);
     }
 }

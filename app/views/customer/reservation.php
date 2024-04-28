@@ -775,7 +775,7 @@
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+    <!-- <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script> -->
 
 </body>
 
