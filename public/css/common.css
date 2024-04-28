@@ -1,4 +1,3 @@
-
 .row {
   display: flex;
   flex-direction: row;
@@ -33,7 +32,6 @@
 .jcfe {
   justify-content: flex-end;
 }
-
 
 /* margins */
 .mt-1 {
@@ -917,7 +915,7 @@ input:focus-visible + label {
 }
 
 .buttonset-button {
-  padding: 5px 10px;
+  padding: 10px 25px;
   border: none;
   background-color: var(--brandgreen);
   color: #fff;
@@ -933,11 +931,11 @@ input:focus-visible + label {
   background-color: var(--brandgreen-dark);
 }
 
-section#orders  {
+section#orders {
   max-height: 85vh;
   overflow-y: scroll;
 }
-section#items  {
+section#items {
   max-height: 85vh;
   overflow-y: scroll;
 }
@@ -976,7 +974,6 @@ section#items  {
   cursor: pointer;
 }
 
-
 /* Style the input field */
 #menuInput {
   width: 100%; /* Full width to fill the container */
@@ -1000,22 +997,19 @@ section#items  {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Enhanced shadow when focused */
 }
 
-
 /* swal */
-
 
 .swal-modal {
   border: 2px solid var(--brandgreen);
 }
 
-.swal-button--defeat{
+.swal-button--defeat {
   background-color: #ff0000;
 }
 
 .swal-button:not([disabled]):hover {
   background-color: #721c24;
 }
-
 
 button.swal-button.swal-button--catch {
   background-color: var(--brandgreen);
@@ -1034,7 +1028,6 @@ button.swal-button.swal-button--catch:hover {
 }
 .swal-button.swal-button--cancel:not([disabled]):hover {
   background-color: #9e9c9c;
-  ;
 }
 
 .swal-button {
@@ -1055,3 +1048,21 @@ button.swal-button.swal-button--catch:hover {
   transform: scale(1.03);
 }
 
+.active-reservation {
+  background-color: #825626 !important;
+}
+
+.active-reservation:hover {
+  background-color: #6d4b27 !important;
+}
+
+.completed-reservation {
+  background-color: var(--brandgreen) !important;
+}
+.completed-reservation {
+  background-color: var(--brandgreen-dark) !important;
+}
+
+.buttonset-container .view-slot-button {
+ pointer-events: none;
+}
