@@ -19,7 +19,7 @@ class Profile
             return false;
         }
     }
-    
+
     public function verifyPassword($user_id, $old_pswd)
     {
         $this->db->query('SELECT password FROM users WHERE user_id = :user_id');
@@ -45,7 +45,7 @@ class Profile
         }
     }
 
-    public function updateUser($user_id, $data)
+    public function updateUser($user_id, $data, $role)
     {
         $this->db->query('UPDATE users SET name = :name, email = :email, mobile_no = :mobile_no WHERE user_id = :user_id');
         $this->db->bind(':name', $data['user_name']);
@@ -53,12 +53,21 @@ class Profile
         $this->db->bind(':mobile_no', $data['mobile_no']);
         $this->db->bind(':user_id', $user_id);
         if ($this->db->execute()) {
+
+            if ($role != 'Customer') {
+            
+                $this->db->query('UPDATE employee SET address = :address WHERE user_id = :user_id');
+                $this->db->bind(':address', $data['address']);
+                $this->db->bind(':user_id', $user_id);
+                if ($this->db->execute()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
             return true;
         } else {
             return false;
         }
     }
-    
-
-
 }

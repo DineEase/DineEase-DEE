@@ -99,9 +99,9 @@
                                 </a>
                             </li>
 
-                            <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/orders" class="nav_link" onclick="changeContent('order')">
-                                    <button class="button-sidebar-menu ">
+                             <li class="item">
+                                <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
+                                    <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
                                                 list_alt
@@ -206,11 +206,26 @@
                                         <td><input type="text" name="mobile_no" value="<?php echo htmlspecialchars($_SESSION['mobile_no']); ?>" readonly></td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <p class="profdetails">National ID Number</p>
+                                        </td>
+                                        <td>:</td>
+                                        <td><input type="text" name="nic_no" value="<?php echo htmlspecialchars($_SESSION['nic']); ?>" readonly></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="profdetails">Address</p>
+                                        </td>
+                                        <td>:</td>
+                                        <td><input type="text" name="address" value="<?php echo htmlspecialchars($_SESSION['address']); ?>" readonly></td>
+                                    </tr>
+                                    <tr>
                                         <button type="button" id="change-user-details" class="change-btn">Change Details</button>
                                         <button type="button" id="cancel-user-details" class="change-btn" style="display:none;">Cancel</button>
                                         <input type="submit" id="update-user-details" class="change-btn" value="Update Details" style="display:none;">
 
                                     </tr>
+                                    
                                 </table>
                             </form>
                         </div>
@@ -226,12 +241,6 @@
                             <button type="submit" id="upload-dp-btn" class="upload-btn button-disabled">Upload Photo</button>
                         </form>
                     </div>
-
-                    <div class="loyalty-container">
-                        <h2>Loyalty Points</h2>
-                        <p>Your current loyalty points: <span class="loyalty-points">250</span></p>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -278,9 +287,13 @@
             var mobileInput = document.querySelector('input[name="mobile_no"]');
             var emailInput = document.querySelector('input[name="email"]');
             var userName = document.querySelector('input[name="user_name"]');
+            var nic = document.querySelector('input[name="nic_no"]');
+            var address = document.querySelector('input[name="address"]');
             userName.readOnly = false;
             emailInput.readOnly = false;
             mobileInput.readOnly = false;
+            nic.readOnly = true;
+            address.readOnly = false;
 
             mobileInput.addEventListener('input', function(e) {
                 var nonNumericRemoved = this.value.replace(/\D/g, '');
@@ -298,9 +311,13 @@
             var mobileInput = document.querySelector('input[name="mobile_no"]');
             var emailInput = document.querySelector('input[name="email"]');
             var userName = document.querySelector('input[name="user_name"]');
+            var nic = document.querySelector('input[name="nic_no"]');
+            var address = document.querySelector('input[name="address"]');
             userName.readOnly = true;
             emailInput.readOnly = true;
             mobileInput.readOnly = true;
+            nic.readOnly = true;
+            address.readOnly = true;
 
             document.getElementById('update-user-details').style.display = 'none';
             document.getElementById('cancel-user-details').style.display = 'none';

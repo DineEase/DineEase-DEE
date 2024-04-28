@@ -11,7 +11,122 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
 </head>
+<style>
+        .dashboard-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 97.6%;
+            padding: 20px;
+            height: 60px;
+        }
 
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+            gap: 10px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            gap: 10px;
+        }
+
+        .half {
+            width: 50%;
+        }
+
+        .space-between {
+            justify-content: space-between;
+        }
+
+        .receptionist-dashboard-container {
+            display: flex;
+            flex-direction: column;
+            padding: 5px;
+            height: 100ch;
+        }
+
+        .rdh-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            height: 100%;
+        }
+
+        .content-row-50 {
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            /* align-items: center; */
+            width: 100%;
+            margin: 2em;
+            /* height: 80vh; */
+            border: 3px solid var(--brandgreen);
+            border-radius: 41px;
+        }
+
+        .dashboard-content {
+            display: flex;
+            flex-direction: row;
+            gap: 5em;
+        }
+
+        .content-row-50-head {
+            display: flex;
+            justify-content: flex-start;
+            padding-left: 10%;
+            align-items: center;
+            /* width: 100%; */
+            height: 10%;
+            background-color: var(--brandgreen);
+            border-radius: 41px 41px 0 0;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .content-row-50-body {
+            display: flex;
+            flex-direction: column;
+            margin: 0 4% 4% 4%;
+            background-color: rgb(223, 222, 222);
+            border-radius: 41px 41px;
+            padding: 2%;
+        }
+
+        .order-card-container {
+            display: flex;
+            flex-direction: column;
+            padding: 3%;
+            height: fit-content;
+            background-color: white;
+            border-radius: 30px;
+            margin-bottom: 2%;
+        }
+
+        .orderNo {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        section {
+            max-height: 100%;
+        }
+    </style>
 <body>
     <div class="container">
         <div class="navbar-template">
