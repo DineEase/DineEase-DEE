@@ -242,11 +242,12 @@
                                         </thead>
                                         <tbody>
                                             <?php
+                                        error_log("Inventory list: " . print_r($data['inventorylist'], true));
                                             foreach ($data['inventorylist'] as $item) {
                                                 echo '<tr>';
                                                 echo '<td>' . $item->inventoryName . '</td>';
                                                 echo '<td>' . $item->categoryName . '</td>';
-                                                echo '<td>' . $item->batchNo . '</td>';
+                                                echo '<td>' . $item->batchCode . '</td>';
                                                 echo '<td>' . $item->quantity . '</td>';
                                                 echo '<td>' . $item->expireDate . '</td>';
                                                 echo '<td>' . $item->shelfLife . '</td>';
@@ -429,6 +430,130 @@
             document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("unitCost").addEventListener("input", calculateTotalCost);
                 document.getElementById("quantity").addEventListener("input", calculateTotalCost);
+                 // Assign the selected inventory ID to the hidden input
+                            // Event listener for category dropdown change
+                
+                function updateBatchCode(nameid) {
+                    const selectedCategory = document.getElementById("category").value;
+                    console.log("updatebatchcode selectedCategory",nameid);
+                    fetch(`<?php echo URLROOT; ?>/inventoryManagers/fetchBatchCode?category=${selectedCategory}&inventoryNameID=${nameid}`)
+
+                        .then(response => response.json())
+                        
+                        .then(data => {
+                            var batchCode = data.batchCode;
+                            document.getElementById("batchCode").value = batchCode;
+                            
+                        })
+                        .catch(error => console.error("Error fetching batch code:", error));
+                }
+                // Function to fetch inventory details by ID
+                function fetchInventoryDetails(inventorynameID) {
+                    fetch(`<?php echo URLROOT; ?>/inventoryManagers/fetchInventoryDetails/${inventorynameID}`)
+                        .then((response) => response.json())
+                        .then((inventoryDetails) => {
+                            console.log(inventoryDetails);
+                            document.getElementById("roqLevel").value = inventoryDetails.roqLevel;
+                            document.getElementById("units").value = inventoryDetails.units;
+                            console.log()
+                        })
+                        .catch((error) => console.error("Error fetching inventory details:", error));
+                }
+                function fetchCategories() {
+                    fetch("<?php echo URLROOT; ?>/inventoryManagers/fetchCategories")
+                        .then((response) => response.json())
+                        .then((categories) => {
+                            const categorySelect = document.getElementById("category");
+                            categorySelect.innerHTML = '<option value="">Select Category</option>';
+
+                            categories.forEach((category) => {
+                                const option = document.createElement("option");
+                                option.value = category.categoryID;
+                                option.text = category.categoryName;
+                                categorySelect.appendChild(option);
+                            });
+                        })
+                        .catch((error) => console.error("Error fetching categories:", error));
+                }
+                // function fetchInventoryByCategory(categoryID) {
+                //     fetch(`<?php echo URLROOT; ?>/inventoryManagers/fetchInventoryByCategory/${categoryID}`)
+                //         .then((response) => response.json())
+                //         .then((inventories) => {
+                //             document.getElementById("inventoryName").innerHTML = "";
+                //             console.log(inventories);
+
+                //             inventories.forEach((inventory) => {
+
+                //                 const option = document.createElement("option");
+                //                 option.value = inventory.inventorynameID;
+                //                 option.text = inventory.inventoryName;
+                //                 document.getElementById("inventoryName").appendChild(option);
+                //             });
+                //             // Get the selected inventory ID from the first option in the dropdown
+                //             var selectedInventoryID = document.getElementById("inventoryName").options[0].value;
+                //             var selectedInventoryItem = document.getElementById("selectedInventoryItem");
+                //             selectedInventoryItem.value = selectedInventoryID;
+                            
+                //             console.log("selectedInventoryID",selectedInventoryID);
+                //             if (selectedInventoryID) {
+                //                 fetchInventoryDetails(selectedInventoryID);
+                //                 updateBatchCode(selectedInventoryID);
+
+                //             }
+
+                //         })
+                //         .catch((error) => console.error("Error fetching inventories:", error));
+                // }
+    function fetchInventoryByCategory(categoryID) {
+    fetch(`<?php echo URLROOT; ?>/inventoryManagers/fetchInventoryByCategory/${categoryID}`)
+        .then((response) => response.json())
+        .then((inventories) => {
+            var inventorySelect = document.getElementById("inventoryName");
+            inventorySelect.innerHTML = ""; // Clear existing options
+
+            inventories.forEach((inventory) => {
+                const option = document.createElement("option");
+                option.value = inventory.inventorynameID;
+                option.text = inventory.inventoryName;
+                inventorySelect.appendChild(option);
+            });
+
+            // Get the selected inventory ID from the first option in the dropdown
+            var selectedInventoryID = inventorySelect.options[0].value;
+            var selectedInventoryItem = document.getElementById("selectedInventoryItem");
+            selectedInventoryItem.value = selectedInventoryID;
+
+            // Fetch inventory details and update batch code
+            if (selectedInventoryID) {
+                fetchInventoryDetails(selectedInventoryID);
+                updateBatchCode(selectedInventoryID);
+            }
+        })
+        .catch((error) => console.error("Error fetching inventories:", error));
+}
+
+document.getElementById("category").addEventListener("change", function () {
+    var selectedCategoryID = this.value;
+    if (selectedCategoryID) {
+       // clearPopulatingFields();
+        fetchInventoryByCategory(selectedCategoryID);
+    }
+});
+
+                // document.getElementById("category").addEventListener("change", function () {
+                //     var selectedCategoryID = this.value;
+                //     if (selectedCategoryID) {
+                      
+                //         //clearPopulatingFields();
+                //         fetchInventoryByCategory(selectedCategoryID);
+                //         //updateBatchCode(selectedInventoryID);
+                //     }
+                // });
+                // Load categories on page load
+                fetchCategories();
+
+                
+                //updateBatchCode(selectedInventoryID);
 
                 setCurrentDate("creationDate");
 
@@ -456,108 +581,31 @@
                     const day = String(now.getDate()).padStart(2, "0");
                     return `${year}-${month}-${day}`;
                 }
+                
 
-
-                // Load categories on page load
-                fetchCategories();
-
-                // Event listener for category dropdown change
-                document.getElementById("category").addEventListener("change", function () {
-                    const selectedCategoryID = this.value;
-                    if (selectedCategoryID) {
-                      
-                        clearPopulatingFields();
-                        fetchInventoryByCategory(selectedCategoryID);
-                        updateBatchCode();
-                    }
-                });
+                
+                
 
                 // Event listener for inventory dropdown change
                 document.getElementById("inventoryName").addEventListener("change", function () {
-                    const selectedInventoryID = this.value;
+                    var selectedInventoryID = this.value;
                     if (selectedInventoryID) {
                         
-                        clearPopulatingFields();
+                        //clearPopulatingFields();
                         fetchInventoryDetails(selectedInventoryID); // Pass the selectedInventoryID to fetchInventoryDetails
-                        updateBatchCode();
+                        updateBatchCode(selectedInventoryID);
                     }
                 });
 
                 // Load categories 
-                function fetchCategories() {
-                    fetch("<?php echo URLROOT; ?>/inventoryManagers/fetchCategories")
-                        .then((response) => response.json())
-                        .then((categories) => {
-                            const categorySelect = document.getElementById("category");
-                            categorySelect.innerHTML = '<option value="">Select Category</option>';
-
-                            categories.forEach((category) => {
-                                const option = document.createElement("option");
-                                option.value = category.categoryID;
-                                option.text = category.categoryName;
-                                categorySelect.appendChild(option);
-                            });
-                        })
-                        .catch((error) => console.error("Error fetching categories:", error));
-                }
-
-
+                
+                
                 // Load inventories by category
-                function fetchInventoryByCategory(categoryID) {
-                    fetch(`<?php echo URLROOT; ?>/inventoryManagers/fetchInventoryByCategory/${categoryID}`)
-                        .then((response) => response.json())
-                        .then((inventories) => {
-                            document.getElementById("inventoryName").innerHTML = "";
-                            console.log(inventories);
+                
 
-                            inventories.forEach((inventory) => {
+                
 
-                                const option = document.createElement("option");
-                                option.value = inventory.inventorynameID;
-                                option.text = inventory.inventoryName;
-                                document.getElementById("inventoryName").appendChild(option);
-                            });
-                            // Get the selected inventory ID from the first option in the dropdown
-                            const selectedInventoryID = document.getElementById("inventoryName").options[0].value;
-                            const selectedInventoryItem = document.getElementById("selectedInventoryItem");
-                            selectedInventoryItem.value = selectedInventoryID; // Assign the selected inventory ID to the hidden input
-                            if (selectedInventoryID) {
-                                fetchInventoryDetails(selectedInventoryID);
-                            }
-
-                        })
-                        .catch((error) => console.error("Error fetching inventories:", error));
-                }
-
-                function updateBatchCode() {
-                    const selectedCategory = document.getElementById("category").value;
-                    const selectedInventoryItem = document.getElementById("inventoryName").value;
-
-                    // Make an AJAX request to fetch the batch code
-                    fetch(`<?php echo URLROOT; ?>/inventoryManagers/fetchBatchCode?category=${selectedCategory}&inventoryName=${selectedInventoryItem}`)
-
-                        .then(response => response.json())
-                        
-                        .then(data => {
-                            var batchCode = data.batchCode;
-                            document.getElementById("batchCode").value = batchCode;
-                            
-                        })
-                        .catch(error => console.error("Error fetching batch code:", error));
-                }
-
-                // Function to fetch inventory details by ID
-                function fetchInventoryDetails(inventorynameID) {
-                    fetch(`<?php echo URLROOT; ?>/inventoryManagers/fetchInventoryDetails/${inventorynameID}`)
-                        .then((response) => response.json())
-                        .then((inventoryDetails) => {
-                            console.log(inventoryDetails);
-                            document.getElementById("roqLevel").value = inventoryDetails.roqLevel;
-                            document.getElementById("units").value = inventoryDetails.units;
-                            console.log()
-                        })
-                        .catch((error) => console.error("Error fetching inventory details:", error));
-                }
+                
 
                 
 

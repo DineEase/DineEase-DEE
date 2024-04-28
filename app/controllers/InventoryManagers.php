@@ -17,6 +17,7 @@ class InventoryManagers extends Controller
     }
     public function Index()
     {
+        $updateshelllife = $this->inventoryManagerModel->automaticallyupdateshellife();
         $data = [];
 
         $this->view('InventoryManager/index');
@@ -53,6 +54,7 @@ class InventoryManagers extends Controller
     {
         // Get the JSON payload from the request body
         $data = json_decode(file_get_contents('php://input'), true);
+        error_log("Data addinventory controller: " . json_encode($data));
 
         // Validate the input
         if (empty($data['categoryID']) || empty($data['inventoryName']) || empty($data['inventoryCode']) || empty($data['roqLevel']) || empty($data['units'])) {
@@ -151,6 +153,7 @@ class InventoryManagers extends Controller
         $data = [
             'inventorylist' => $item
         ];
+        error_log("Data from inventory controller: " . json_encode($data));
         $this->view('inventoryManager/inventory', $data);
 
     }
@@ -167,7 +170,9 @@ class InventoryManagers extends Controller
 {
     // Retrieve the selected category and inventory names from the request
     $selectedCategory = $_GET['category'] ?? null;
-   $selectedInventoryItem = $_GET['inventorynameID'] ?? null;
+    $selectedInventoryItem = $_GET['inventoryNameID'] ?? null;
+    error_log("Selected Category: " . $selectedCategory);
+    error_log("Selected Inventory Item: " . $selectedInventoryItem);
 
     // Call the model function to generate the batch code based on the selected category and inventory
     $batchCode = $this->inventoryManagerModel->generateBatchCode($selectedCategory, $selectedInventoryItem);
@@ -178,7 +183,7 @@ class InventoryManagers extends Controller
     exit; // Terminate script execution after sending response
 }
 
-    public function addgrn($data)
+    public function addgrn()
     {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -198,7 +203,7 @@ class InventoryManagers extends Controller
                 'roqLevel' => isset($_POST['roqLevel']) ? trim($_POST['roqLevel']) : '',
                 'units' => isset($_POST['units']) ? trim($_POST['units']) : '',
             ];
-        
+            //var_dump('data from addgrn controller: ' . $data);
             // Calculate shelf life
             $creationDate = new DateTime($data['creationDate']);
             $expireDate = new DateTime($data['expireDate']);
@@ -247,39 +252,70 @@ class InventoryManagers extends Controller
 
     public function Markout()
     {
+        $kitchenrequest= $this->inventoryManagerModel->getkitchenRequests();
+        $kitchenrequestnames = $this->inventoryManagerModel->getkitchenRequestsNames();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $categoryName = $_POST['categoryName'];
-            $inventoryName = $_POST['inventoryName'];
-            $quantity = $_POST['quantity'];
+            error_log(print_r($_POST, true));
 
-            foreach ($inventoryName as $key => $inventoryName) {
-                $quantity = $quantity[$key];
-                
-                // Mark out the inventory and get the remaining quantity if any
-                $remainingQuantity = $this->inventoryManagerModel->markoutInventory($inventoryName, $categoryName, $quantity);
-                
-                // Check if the entire quantity was transferred
-                if ($remainingQuantity === 0) {
-                    // Update the status of this inventory to "transferred" in the kitchen table
-                    $this->inventoryManagerModel->updateKitchenRequest($inventoryName, 'transferred');
-                } else {
-                    // Update the status of this inventory to "partially transferred" in the kitchen table
-                    $this->inventoryManagerModel->updateKitchenRequest($inventoryName, 'partially_transferred');
+            $categoryid = $_POST['categoryName'];
+            $quantity = $_POST['quantity'];
+            //$inventoryName = $_POST['inventoryName'];
+            // foreach ($_POST['quantity'] as $inventoryName => $quantity) {
+            //     // $inventoryName is the unique identifier (inventoryName) for each inventory item
+            //     // $quantity is the quantity associated with the inventory item
+            //     echo "Inventory Name: " . $inventoryName . ", Quantity: " . $quantity . "<br>";
+            // }
+            $data = [
+                'categoryid' => $categoryid,
+                //'inventoryName' => $inventoryName,
+                'quantity' => $quantity,
+            ];
+            error_log("Data from markout controller: " . json_encode($data));
+            foreach ($quantity as $inventoryID => $quantityValue) {
+                if (!empty($quantityValue)) {
+                    if($this->inventoryManagerModel->markoutInventory($inventoryID, $quantityValue)){
+                        redirect('inventoryManagers/markOut');
+                    }
                 }
+
             }
+            // foreach ($inventoryName as $key => $inventoryName) {
+            //     $quantity = $quantity[$key];
+                
+            //     // Mark out the inventory and get the remaining quantity if any
+            //     $remainingQuantity = $this->inventoryManagerModel->markoutInventory($inventoryName, $categoryName, $quantity);
+                
+            //     // Check if the entire quantity was transferred
+            //     if ($remainingQuantity === 0) {
+            //         // Update the status of this inventory to "transferred" in the kitchen table
+            //         $this->inventoryManagerModel->updateKitchenRequest($inventoryName, 'transferred');
+            //     } else {
+            //         // Update the status of this inventory to "partially transferred" in the kitchen table
+            //         $this->inventoryManagerModel->updateKitchenRequest($inventoryName, 'partially_transferred');
+            //     }
+            // }
             
             // Redirect to a success page or display a success message
             // Redirect or display success message
         } else {
+            $data =[
+                'kitchenrequest' => $kitchenrequest,
+                'kitchenrequestnames' => $kitchenrequestnames];
             // Handle non-POST requests appropriately
-            $this->view('InventoryManager/markOut');
+            $this->view('InventoryManager/markOut', $data);
         }
+    }
+    public function changerequest($ID){
+        $this->inventoryManagerModel->updateKitchenrequest($ID);
+        redirect('inventoryManagers/markOut');
+
+
     }
 
     //getcategoriesand inv from the kitchen req
     public function getInventoriesRequested() {
         $categoryName = $_GET['categoryName'];
-        $inventories = $this->inventoryManagerModel->getrequestedInventories($categoryName);
+        $inventories = $this->inventoryManagerModel->getrequestedinventoriesnames($categoryName);
         header('Content-Type: application/json');
         echo json_encode($inventories);
         exit;

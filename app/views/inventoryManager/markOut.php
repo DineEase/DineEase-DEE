@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
 
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/inventorymanager-styles.css">
     <title><?php echo SITENAME; ?></title>
@@ -34,8 +32,7 @@
                             </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; |
                                 &nbsp; <?php echo $_SESSION['user_name'] ?></span>
-                            <img src="<?php echo URLROOT ?>/public/img/login/profilepic.png" alt="profile-photo"
-                                class="profile" />
+                            <img src="<?php echo URLROOT ?>/public/img/login/profilepic.png" alt="profile-photo" class="profile" />
                         </div>
                     </div>
                 </div>
@@ -49,8 +46,7 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/index" class="nav_link"
-                                    onclick="changeContent('index')">
+                                <a href="<?php echo URLROOT ?>/inventoryManagers/index" class="nav_link" onclick="changeContent('index')">
                                     <button class="button-sidebar-menu ">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -169,14 +165,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($kitchenrequest as $item): ?>
+                                        <?php foreach ($data['kitchenrequest'] as $item) : ?>
                                             <tr>
-                                                <td><?php echo $item->categoryName; ?></td>
-                                                <td><?php echo $item->inventoryName; ?></td>
+                                                <td><?php echo $item->categoryName->categoryName; ?></td>
+                                                <td><?php echo $item->Inventoryname->inventoryName; ?></td>
                                                 <td><?php echo $item->quantity; ?></td>
                                                 <td class="mtd">
                                                     <button type="button" class="mbutton2" onclick="toggleAction(this)">
-                                                        <?php echo $item->action; ?>
+                                                        <a href='<?php echo URLROOT; ?>/InventoryManagers/changerequest/<?php echo $item->requestID; ?>'>Requested</a>
+
+                                                    </button>
+                                                    <button type="button" class="mbutton2" onclick="toggleAction(this)">
+                                                        <a href='<?php echo URLROOT; ?>/InventoryManagers/changerequest/<?php echo $item->requestID; ?>'>Denied</a>
+
                                                     </button>
                                                 </td>
                                             </tr>
@@ -193,56 +194,25 @@
                             <div class="container3">
                                 <h2 class="mh2">Inventory Issue for the kitchen </h2>
                                 <div class="form-section">
-                                    <form id="markoutForm" action="<?php echo URLROOT; ?>/InventoryManagers/markOut"
-                                        method="POST">
+                                    <form id="markoutForm" action="<?php echo URLROOT; ?>/InventoryManagers/markOut" method="POST">
                                         <label class="mlabel" for="categoryName">Category:</label>
-                                        <select class="mselect" id="categoryName" name="categoryName"
-                                            onchange="fetchInventories()">
+                                        <select class="mselect" id="categoryName" name="categoryName" onchange="getRequestedInventories()">
                                             <option value="">Select Category</option>
-                                            <?php foreach ($categories as $categoryName): ?>
-                                                <option value="<?php echo $categoryName->categoryName; ?>">
-                                                    <?php echo $categoryName->categoryName; ?>
+                                            <?php foreach ($data['kitchenrequestnames'] as $item) : ?>
+                                                <option value="<?php echo $item->categoryID; ?>">
+                                                    <?php echo $item->categoryName->categoryName; ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
+                                        <div id="inventory-container">
+                                            <!-- <label class="mlabel" for="inventoryName">Inventory:</label> -->
+
+                                        </div>
+                                        <button class="addbutton" type="submit">Transfer</button>
+                                    </form>
                                 </div>
 
 
-                                <table class="mtable" id="inventoryTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Inventory Name</th>
-                                            <th>Quantity</th>
-                                            <th></th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="mtd">
-                                                <select id="inventory" name="inventoryName" class="inventory-dropdown"
-                                                    style="margin-bottom: 30px;">
-
-                                                </select>
-                                            </td>
-                                            <td class="mtd">
-                                                <input class="minput" type="number" name="quantity" min="1"
-                                                    placeholder="Quantity" required
-                                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                            </td>
-                                            <td class="mtd">
-                                                <button type="button" class="mdelete-icon" onclick="deleteRow(this)">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <button class="addbutton" type="button" onclick="addRow()">Add
-                                    More</button>
-                                <button class="addbutton"  type="submit" >Transfer</button>
-                                </form>
                             </div>
                         </div>
                     </section>
@@ -252,66 +222,86 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-
             //markout - row add
-            function addRow() {
-                const table = document.querySelector("#inventoryTable tbody");
-                const newRow = document.createElement("tr");
-                newRow.innerHTML = `
-                <td>
-                    <select class="mselect inventory-dropdown" name="inventoryName[]">
-                        <!-- Options dynamically populated -->
-                    </select>
-                </td>
-                <td>
-                    <input class="minput" type="number" name="quantity[]" min="1" placeholder="Quantity" required>
-                </td>
-                <td>
-                    <button type="button" class="mdelete-icon" onclick="deleteRow(this)">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </td>
-            `;
-                table.appendChild(newRow);
-                // Populate the new row's inventory dropdown
-                fetchInventoriesByCategory();
-            }
+
+
             function deleteRow(button) {
                 const row = button.closest("tr");
                 row.remove();
             }
+
             function toggleAction(button) {
-                if (button.innerText === "Transferred") {
-                    button.innerText = "Unavailable";
-                    button.classList.remove("transferred"); // Optionally, you can add classes to style the button differently based on its state
-                    button.classList.add("unavailable");
-                } else {
-                    button.innerText = "Transferred";
-                    button.classList.remove("unavailable");
-                    button.classList.add("transferred");
-                }
+                button.innerText = "Transferred";
+                // if (button.innerText === "Transferred") {
+                //     button.innerText = "Unavailable";
+                //     button.classList.remove("transferred"); // Optionally, you can add classes to style the button differently based on its state
+                //     button.classList.add("unavailable");
+                // } else {
+                //     button.innerText = "Transferred";
+                //     button.classList.remove("unavailable");
+                //     button.classList.add("transferred");
+                // }
             }
-            function getrequestedInventories() {
+
+            function getRequestedInventories() {
                 const selectedCategory = document.getElementById("categoryName").value;
                 if (selectedCategory !== "") {
                     fetch(`<?php echo URLROOT; ?>/inventoryManagers/getInventoriesRequested?categoryName=${selectedCategory}`)
                         .then(response => response.json())
+                        //console.log(response);
                         .then(inventories => {
-                            const selectElement = document.getElementById("inventory");
-                            selectElement.innerHTML = ""; // Clear previous options
+                            console.log('Response from server:', inventories);
+                            const inventoryContainer = document.getElementById("inventory-container");
+                            inventoryContainer.innerHTML = ""; // Clear previous content
                             inventories.forEach(inventory => {
-                                const option = document.createElement("option");
-                                option.text = inventory.inventoryName;
-                                option.value = inventory.inventoryName;
-                                selectElement.appendChild(option);
+                                // Create elements for item and quantity input
+                                const itemLabel = document.createElement("label");
+                                itemLabel.textContent = inventory.Inventoryname.inventoryName + ": ";
+                                const quantityInput = document.createElement("input");
+                                quantityInput.type = "number";
+                                quantityInput.min = "1";
+                                quantityInput.name = `quantity[${inventory.inventoryName}]`; // Use inventory ID as input name
+                                console.log(inventory.inventoryName);
+                                console.log(quantityInput.name);
+                                quantityInput.placeholder = "Quantity";
+                                // Append elements to the container
+                                inventoryContainer.appendChild(itemLabel);
+                                inventoryContainer.appendChild(quantityInput);
+                                inventoryContainer.appendChild(document.createElement("br")); // Add line break
                             });
                         })
                         .catch(error => console.error("Error fetching inventories:", error));
                 } else {
-                    // Clear the inventory dropdown if no category is selected
-                    document.getElementById("inventory").innerHTML = "";
+                    // Clear the inventory container if no category is selected
+                    document.getElementById("inventory-container").innerHTML = "";
                 }
             }
+
+
+            //     function addRow() {
+            //         getrequestedInventories();
+            //     const tableBody = document.querySelector("#inventoryTable tbody");
+            //     const newRow = document.createElement("tr");
+            //     newRow.innerHTML = `
+            //         <td>
+            //             <select class="mselect inventory-dropdown" name="inventoryName[]" style="margin-bottom: 30px;">
+            //                 <!-- Options dynamically populated -->
+            //             </select>
+            //         </td>
+            //         <td>
+            //             <input class="minput" type="number" name="quantity[]" min="1" placeholder="Quantity" required>
+            //         </td>
+            //         <td>
+            //             <button type="button" class="mdelete-icon" onclick="deleteRow(this)">
+            //                 <i class="fa fa-trash"></i>
+            //             </button>
+            //         </td>
+            //     `;
+            //     tableBody.appendChild(newRow);
+
+            //     // Fetch requested inventories when a new row is added
+
+            // }
 
             function updatekitchenrequestStatus(inventoryName, status) {
                 $.ajax({
@@ -322,19 +312,18 @@
                         inventoryName: inventoryName,
                         status: status
                     },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
                             console.log('Kitchen Request status updated successfully.');
                         } else {
                             console.error('Failed to update kitchen request status:', response.message);
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('AJAX request failed:', error);
                     }
                 });
             }
-
         </script>
 </body>
 
