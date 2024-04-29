@@ -116,10 +116,10 @@ class Users extends Controller
                     $data['email_err'] = 'Email is already taken';
                 }
             }
-            $hunterApiKey = 'f0b22562feaf8e34e1332f9e148c6f246dc78045';
-            if (!$this->verifyEmailUsingHunter($data['email'], $hunterApiKey)) {
-                $data['email_err'] = 'Email address is not deliverable';
-            }
+            // $hunterApiKey = 'f0b22562feaf8e34e1332f9e148c6f246dc78045';
+            // if (!$this->verifyEmailUsingHunter($data['email'], $hunterApiKey)) {
+            //     $data['email_err'] = 'Email address is not deliverable';
+            // }
             //validate dob
             if (empty($data['dob'])) {
                 $data['dob_err'] = 'Please enter dob';

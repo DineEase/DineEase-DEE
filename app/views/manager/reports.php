@@ -119,7 +119,9 @@
         </table>
     </div>
 </div>
+
 <script>
+     
     document.getElementById('MenuData').style.display = 'none';
 
 
@@ -167,42 +169,187 @@
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send('start_date=' + encodeURIComponent(startDate) + '&end_date=' + encodeURIComponent(endDate));
     }
-
     function generatePDF(menuReport, salesReport, startDate, endDate, salesStartDate, salesEndDate) {
-        document.getElementById('salesData').style.display = 'none';
-        document.getElementById('MenuData').style.display = 'none';
+    // Hide the menu and sales data divs
+    document.getElementById('salesData').style.display = 'none';
+document.getElementById('MenuData').style.display = 'none';
+    
+    // Create a new jsPDF instance
+    window.jsPDF = window.jspdf.jsPDF;
+    // Verify menuReport and salesReport data
+// Verify menuReport and salesReport data
+console.log(JSON.stringify(menuReport));
+console.log(JSON.stringify(salesReport));
 
-        console.log(menuReport);
-        console.log(salesReport);
-        var data = {
-            menuReport: menuReport,
-            salesReport: salesReport
-        };
-        //console.log(data);
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // PDF generated successfully
-                    // Optionally, you can handle the response or provide feedback to the user
-                    //alert('PDF generated successfully.');
-                } else {
-                    //console.error('Error generating PDF:', xhr.status);
-                    // Optionally, provide feedback to the user about the error
-                    //alert('Error generating PDF. Please try again.');
-                }
-            }
-        };
-        xhr.open('POST', '<?php echo URLROOT ?>/managers/generatereportpdf?startDate=' + encodeURIComponent(startDate) + '&endDate=' + encodeURIComponent(endDate) + '&salesstartdate=' + encodeURIComponent(salesStartDate) + '&salesenddate=' + encodeURIComponent(salesEndDate), true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        //console.log(JSON.stringify(menuReport));
-        xhr.send(JSON.stringify(data));
-        // document.getElementById('start_date').value = '';
-        // document.getElementById('end_date').value = '';
-        // document.getElementById('menu_start_date').value = '';
-        // document.getElementById('menu_end_date').value = '';
+// Initialize jsPDF
+var doc = new jsPDF();
 
+// Set initial y position for content
+var yPos = 10;
+
+// Add Sales Report title
+doc.setFontSize(14);
+doc.text(20, yPos, 'Sales Report for ' + salesStartDate + ' to ' + salesEndDate);
+yPos += 20;
+doc.text(20, yPos, 'Total Sales Amount LKR: ' + salesReport['SUM(amount)']);
+yPos += 10;
+
+// Add Menu Report title
+doc.setFontSize(14);
+doc.text(20, yPos, 'Menu Report for ' + startDate + ' to ' + endDate);
+yPos += 20;
+
+// Add top selling menus table
+doc.setFontSize(12);
+doc.text(20, yPos, 'Top Selling Menus');
+yPos += 10;
+var columns1 = [
+    { title: 'Item', dataKey: 'itemName' },
+    { title: 'Total Quantity Sold', dataKey: 'total_quantity_sold' }
+];
+var rows1 = menuReport.topSellingMenus.map(function(result) {
+    return {
+        'itemName': result.itemName,
+        'total_quantity_sold': result.total_quantity_sold
+    };
+});
+doc.autoTable(columns1, rows1, {
+    startY: yPos + 10,
+    margin: { top: 10 },
+    styles: { overflow: 'linebreak' },
+    columnStyles: { category_name: { cellWidth: 60 } }
+});
+yPos += rows1.length * 10 + 20;
+
+// Add top selling categories table
+doc.setFontSize(12);
+doc.text(20, yPos, 'Top Selling Categories');
+yPos += 10;
+var columns2 = [
+    { title: 'Category', dataKey: 'category_name' },
+    { title: 'Total Quantity Sold', dataKey: 'total_quantity_sold' }
+];
+var rows2 = menuReport.topSellingCategories.map(function(result) {
+    return {
+        'category_name': result.category_name,
+        'total_quantity_sold': result.total_quantity_sold
+    };
+});
+doc.autoTable(columns2, rows2, {
+    startY: yPos + 10,
+    margin: { top: 10 },
+    styles: { overflow: 'linebreak' },
+    columnStyles: { category_name: { cellWidth: 60 } }
+});
+yPos += rows2.length * 10 + 20;
+
+// Add most reservations date
+doc.setFontSize(12);
+doc.text(20, yPos, 'Most Reservations Date');
+yPos += 10;
+doc.text(20, yPos, 'Date: ' + menuReport.mostReservationsDate.date + ' - Reservation Count: ' + menuReport.mostReservationsDate.reservation_count);
+yPos += 40;
+
+// Add most ordered sizes
+doc.setFontSize(12);
+doc.text(20, yPos, 'Most Ordered Sizes');
+yPos += 10;
+var columns4 = [
+    { title: 'Item', dataKey: 'itemName' },
+    { title: 'Size', dataKey: 'size' },
+    { title: 'Total Quantity Sold', dataKey: 'total_quantity_sold' }
+];
+var rows4 = menuReport.mostOrderedSizes.map(function(result) {
+    return {
+        'itemName': result.itemName,
+        'size': result.size,
+        'total_quantity_sold': result.total_quantity_sold
+    };
+});
+doc.autoTable(columns4, rows4, {
+    startY: yPos + 10,
+    margin: { top: 10 },
+    styles: { overflow: 'linebreak' },
+    columnStyles: { category_name: { cellWidth: 60 } }
+});
+yPos += rows4.length * 10 + 30;
+
+// Add total quantity sold and total amount for each menu item
+doc.setFontSize(12);
+doc.text(10, yPos, 'Total quantity sold and total amount for each menu item');
+yPos += 10;
+
+// Create table for results
+var columns3 = [
+    { title: 'Category', dataKey: 'category_name' },
+    { title: 'Item', dataKey: 'itemName' },
+    { title: 'Total Quantity Sold', dataKey: 'total_quantity_sold' }
+];
+
+var rows3 = menuReport.results.map(function(result) {
+    return {
+        'category_name': result.category_name,
+        'itemName': result.itemName,
+        'total_quantity_sold': result.total_quantity_sold
+    };
+});
+
+// Add table to PDF
+doc.autoTable(columns3, rows3, {
+    startY: yPos + 10,
+    margin: { top: 10 },
+    styles: { overflow: 'linebreak' },
+    columnStyles: { category_name: { cellWidth: 60 } }
+});
+
+// Save the PDF
+doc.save('report.pdf');
     }
+
+
+
+
+    // function generatePDF(menuReport, salesReport, startDate, endDate, salesStartDate, salesEndDate) {
+    //     document.getElementById('salesData').style.display = 'none';
+    //     document.getElementById('MenuData').style.display = 'none';
+
+    //     console.log(menuReport);
+    //     console.log(salesReport);
+    //     console.log("Pdf generation")
+    //     var data = {
+    //         menuReport: menuReport,
+    //         salesReport: salesReport
+    //     };
+    //     //console.log(data);
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.onreadystatechange = function() {
+    //         if (xhr.readyState === XMLHttpRequest.DONE) {
+    //             if (xhr.status === 200) {
+    //                 // PDF generated successfully
+    //                 // Optionally, you can handle the response or provide feedback to the user
+    //             //var downloadURL = '<?php //echo URLROOT ?>/managers/generatereportpdf?startDate=' + encodeURIComponent(startDate) + '&endDate=' + encodeURIComponent(endDate) + '&salesstartdate=' + encodeURIComponent(salesStartDate) + '&salesenddate=' + encodeURIComponent(salesEndDate);
+    //             //window.location.href = downloadURL;
+    //                 //alert('PDF generated successfully.');
+    //             } else {
+    //                 //console.error('Error generating PDF:', xhr.status);
+    //                 // Optionally, provide feedback to the user about the error
+    //                 //alert('Error generating PDF. Please try again.');
+    //             }
+    //         }
+    //     };
+    //     xhr.open('POST', '<?php //echo URLROOT ?>/managers/generatereportpdf?startDate=' + encodeURIComponent(startDate) + '&endDate=' + encodeURIComponent(endDate) + '&salesstartdate=' + encodeURIComponent(salesStartDate) + '&salesenddate=' + encodeURIComponent(salesEndDate), true);
+    //     xhr.setRequestHeader('Content-Type', 'application/json');
+    //     //console.log(JSON.stringify(menuReport));
+    //     console.log('Sending PDF generation request...');
+    //     xhr.send(JSON.stringify(data));
+    //     //var downloadURL = '<?php //echo URLROOT ?>/managers/generatereportpdf?startDate=' + encodeURIComponent(startDate) + '&endDate=' + encodeURIComponent(endDate) + '&salesstartdate=' + encodeURIComponent(salesStartDate) + '&salesenddate=' + encodeURIComponent(salesEndDate);
+    //     //         window.location.href = downloadURL;
+    //     // document.getElementById('start_date').value = '';
+    //     // document.getElementById('end_date').value = '';
+    //     // document.getElementById('menu_start_date').value = '';
+    //     // document.getElementById('menu_end_date').value = '';
+
+    // }
 
 
     function displayMenuValidationErrors(errors) {

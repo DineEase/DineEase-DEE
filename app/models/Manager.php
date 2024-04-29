@@ -9,7 +9,7 @@ class Manager
     }
     public function getUsers()
     {
-        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.imagePath, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
@@ -21,7 +21,7 @@ class Manager
     }
     public function getNonactivatedUsers()
     {
-        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.imagePath, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
@@ -36,7 +36,7 @@ class Manager
 
     public function viewprofile($ID)
     {
-        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, employee.nic, role.role_name, role.role_id
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.imagePath, employee.address, employee.nic, role.role_name, role.role_id
                      FROM employee
                      JOIN users ON employee.user_id = users.user_id
                      JOIN role ON employee.role_id = role.role_id
@@ -49,7 +49,7 @@ class Manager
     }
     public function viewManagerProfile()
     {
-        $this->db->query('SELECT users.user_id, users.name, users.email, users.dob, users.mobile_no, users.profile_picture, employee.address, employee.nic, role.role_name, role.role_id
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.dob, users.mobile_no, users.imagePath, employee.address, employee.nic, role.role_name, role.role_id
                      FROM employee
                      JOIN users ON employee.user_id = users.user_id
                      JOIN role ON employee.role_id = role.role_id
@@ -69,14 +69,14 @@ class Manager
     public function addUsers($data)
     {
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile/' . $filename;
-        $this->db->query('INSERT INTO users (name, email, password, mobile_no, dob, profile_picture, active) VALUES (:name, :email, :password, :mobile_number, :dob, :imagePath, 1)');
+        //$imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile/' . $filename;
+        $this->db->query('INSERT INTO users (name, email, password, mobile_no, dob, active,imagePath) VALUES (:name, :email, :password, :mobile_number, :dob, 1, :imagePath)');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
         $this->db->bind(':mobile_number', $data['mobile_number']);
         $this->db->bind(':dob', $data['dob']);
-        $this->db->bind(':imagePath', $imagePath);
+        $this->db->bind(':imagePath', $filename);
 
         if ($this->db->execute()) {
             // Get the last inserted user ID
@@ -100,6 +100,24 @@ class Manager
                       FROM menuitem
                       LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
                       WHERE menuitem.delete_status = 0');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function gethiddenMenuitems()
+    {
+        $this->db->query('SELECT menuitem.*, menucategory.category_name 
+                      FROM menuitem
+                      LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
+                      WHERE menuitem.delete_status = 0 AND menuitem.hidden = 1');
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    public function getshownMenuitems()
+    {
+        $this->db->query('SELECT menuitem.*, menucategory.category_name 
+                      FROM menuitem
+                      LEFT JOIN menucategory ON menuitem.category_ID = menucategory.category_ID
+                      WHERE menuitem.delete_status = 0 AND menuitem.hidden = 0');
         $results = $this->db->resultSet();
         return $results;
     }
@@ -133,7 +151,7 @@ class Manager
     public function submitMenuitem($data)
     {
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
+        $imagePath = 'http://localhost/DineEase-DEE/public/img/menu/' . $filename;
         $this->db->query('INSERT INTO menuitem (itemName, price, averageTime, hidden, imagePath, category_ID, description) VALUES (:itemName, :price, :averageTime, :hidden, :imagePath, :categoryID, :description)');
         $this->db->bind(':itemName', $data['itemName']);
         $this->db->bind(':price', $data['priceregular']);
@@ -172,7 +190,7 @@ class Manager
         // Check if the user ID is provided for the update
         if (isset($data['user_id'])) {
             // Perform an update
-            $this->db->query('UPDATE users SET name = :name, email = :email, password = :password, mobile_no = :mobile_number, dob = :dob, profile_picture = :imagePath WHERE user_id = :user_id');
+            $this->db->query('UPDATE users SET name = :name, email = :email, password = :password, mobile_no = :mobile_number, dob = :dob, imagePath = :imagePath WHERE user_id = :user_id');
             $this->db->bind(':user_id', $data['user_id']);
         } else {
             // If it's an insert, bind a placeholder for user_id
@@ -181,13 +199,13 @@ class Manager
 
         // Common bindings for both update and insert
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile/' . $filename;
+        //$imagePath = 'http://localhost/DineEase-DEE/public/uploads/profile/' . $filename;
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
         $this->db->bind(':mobile_number', $data['mobile_number']);
         $this->db->bind(':dob', $data['dob']);
-        $this->db->bind(':imagePath', $imagePath);
+        $this->db->bind(':imagePath', $filename);
 
         // Execute the query
         // Execute the query
@@ -241,7 +259,7 @@ class Manager
     public function editMenuitem($data)
     {
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/' . $filename;
+        $imagePath = 'http://localhost/DineEase-DEE/public/img/menu/' . $filename;
 
         $this->db->query('UPDATE menuitem SET itemName = :itemName, price = :price, averageTime = :averageTime, imagePath = :imagePath, category_ID = :categoryID, description = :description WHERE itemID = :itemID');
         $this->db->bind(':itemID', $data['itemID']);
@@ -420,7 +438,7 @@ class Manager
     }
     public function filterbyrole($role)
     {
-        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.imagePath, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
@@ -432,7 +450,7 @@ class Manager
     }
     public function searchemployeebyname($name)
     {
-        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.profile_picture, employee.address, role.role_name
+        $this->db->query('SELECT users.user_id, users.name, users.email, users.mobile_no, users.imagePath, employee.address, role.role_name
                          FROM employee
                          JOIN users ON employee.user_id = users.user_id
                          JOIN role ON employee.role_id = role.role_id
@@ -726,7 +744,7 @@ class Manager
     public function editpackage($data)
     {
         $filename = basename($data['imagePath']);
-        $imagePath = 'http://localhost/DineEase-DEE/public/uploads/package/' . $filename;
+        $imagePath = 'http://localhost/DineEase-DEE/public/img/Packages/' . $filename;
 
         $this->db->query('UPDATE package SET packageName = :packageName, tax = :tax, description = :description, image =:image WHERE packageID = :packageID');
         $this->db->bind(':packageName', $data['packageName']);
@@ -913,7 +931,7 @@ class Manager
     }
     public function totalsales()
     {
-        $this->db->query('SELECT SUM(amount) FROM payment');
+        $this->db->query('SELECT SUM(amount) FROM reservation WHERE status = "Completed"');
         $row = $this->db->single();
         return $row;
     }
@@ -1021,14 +1039,14 @@ class Manager
     public function minmaxpaymentdate()
     {
         //function to get first and last payment date from payments table
-        $this->db->query('SELECT MIN(paymentDate) AS first_payment, MAX(paymentDate) AS last_payment FROM payment');
+        $this->db->query('SELECT MIN(date) AS first_payment, MAX(date) AS last_payment FROM reservation');
         $row = $this->db->single();
         return $row;
     }
     public function salesreport($data)
     {
         //function to get sales report between two dates
-        $this->db->query('SELECT SUM(amount) FROM payment WHERE DATE(paymentDate) BETWEEN :start_date AND :end_date');
+        $this->db->query('SELECT SUM(amount) FROM reservation WHERE DATE(date) BETWEEN :start_date AND :end_date');
         $this->db->bind(':start_date', $data['start_date']);
         $this->db->bind(':end_date', $data['end_date']);
         $row = $this->db->single();
@@ -1212,6 +1230,7 @@ class Manager
         return $results;
         var_dump($results);
     }
+    //meka hadana eka
     public function getReservationsCount() {
         $this->db->query('SELECT COUNT(*) as reservationCount
             FROM reservation
