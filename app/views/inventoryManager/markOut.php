@@ -169,7 +169,7 @@
                                             <tr>
                                                 <td><?php echo $item->categoryName->categoryName; ?></td>
                                                 <td><?php echo $item->Inventoryname->inventoryName; ?></td>
-                                                <td><?php echo $item->quantity; ?></td>
+                                                <td><?php echo $item->quantity . ' ' . $item->units->units; ?></td>
                                                 <td class="mtd">
                                                     <button type="button" class="mbutton2" onclick="toggleAction(this)">
                                                         <a href='<?php echo URLROOT; ?>/InventoryManagers/changerequest/<?php echo $item->requestID; ?>'>Requested</a>
@@ -247,30 +247,43 @@
                 const selectedCategory = document.getElementById("categoryName").value;
                 if (selectedCategory !== "") {
                     fetch(`<?php echo URLROOT; ?>/inventoryManagers/getInventoriesRequested?categoryName=${selectedCategory}`)
-                        .then(response => response.json())
-                        //console.log(response);
-                        .then(inventories => {
-                            console.log('Response from server:', inventories);
-                            const inventoryContainer = document.getElementById("inventory-container");
-                            inventoryContainer.innerHTML = ""; // Clear previous content
-                            inventories.forEach(inventory => {
-                                // Create elements for item and quantity input
-                                const itemLabel = document.createElement("label");
-                                itemLabel.textContent = inventory.Inventoryname.inventoryName + ": ";
-                                const quantityInput = document.createElement("input");
-                                quantityInput.type = "number";
-                                quantityInput.min = "1";
-                                quantityInput.name = `quantity[${inventory.inventoryName}]`; // Use inventory ID as input name
-                                console.log(inventory.inventoryName);
-                                console.log(quantityInput.name);
-                                quantityInput.placeholder = "Quantity";
-                                // Append elements to the container
-                                inventoryContainer.appendChild(itemLabel);
-                                inventoryContainer.appendChild(quantityInput);
-                                inventoryContainer.appendChild(document.createElement("br")); // Add line break
-                            });
-                        })
-                        .catch(error => console.error("Error fetching inventories:", error));
+    .then(response => response.json())
+    .then(data => {
+        // Accessing the inventories and quantities arrays
+        const inventories = data.inventories;
+        const quantities = data.quantities;
+        const totquantity = data.totquantity;
+
+        // Logging the response for verification
+        console.log('Response from server:', data);
+
+        // Accessing the inventory container element
+        const inventoryContainer = document.getElementById("inventory-container");
+        inventoryContainer.innerHTML = ""; // Clear previous content
+
+        // Loop through inventories array
+        inventories.forEach((inventory, index) => {
+            // Create label element for each inventory item
+            const itemLabel = document.createElement("label");
+            itemLabel.textContent = inventory.Inventoryname.inventoryName + ": Requested Quantity - " + quantities[index].totalQuantity+quantities[index].units.units+" | Available Total Quantity - "+totquantity[index].totquantity+quantities[index].units.units;
+
+            // Create input element for user to enter quantity
+            const quantityInput = document.createElement("input");
+            quantityInput.type = "number";
+            quantityInput.min = "1";
+            quantityInput.name = `quantity[${inventory.inventoryName}]`; // Use inventory ID as input name
+            quantityInput.placeholder = "Enter quantity";
+
+            // Append both label and input to the container
+            inventoryContainer.appendChild(itemLabel);
+            inventoryContainer.appendChild(document.createElement("br")); // Add line break
+            inventoryContainer.appendChild(quantityInput);
+            inventoryContainer.appendChild(document.createElement("br")); // Add line break
+        });
+    })
+    .catch(error => console.error("Error fetching inventories:", error));
+
+
                 } else {
                     // Clear the inventory container if no category is selected
                     document.getElementById("inventory-container").innerHTML = "";
