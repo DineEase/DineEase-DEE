@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/toastr.css">
     <!-- <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css"> -->
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -95,19 +96,7 @@
                                 </a>
                             </li>
 
-                            <!-- <li class="item">
-                                <a href="<?php echo URLROOT ?>/customers/review" class="nav_link" data-content='menu'>
-                                    <button class="button-sidebar-menu" id="reservationButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                reviews
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Reviews </span>
-                                    </button>
-                                </a>
-                            </li> -->
-                            <!-- End -->
+
                         </ul>
                         <hr class='separator'>
                         <ul class="menu_items">
@@ -154,6 +143,9 @@
                             <section id="view" class="tab-panel">
                                 <div class="content read">
                                     <h2>View Reservations</h2>
+                                    <!-- <?php echo '<pre>'
+                                                . print_r($data, true) . '</pre>'; ?> -->
+
                                     <div class="searchnfilter">
                                         <!-- Search Form -->
                                         <div class="search-reservation">
@@ -164,20 +156,20 @@
                                         </div>
                                         <div class="filter-reservation">
                                             <form id="reservationFilters" action="<?php echo URLROOT; ?>/customers/reservation" method="POST">
-                                                <select name="status">
-                                                    <option value="">Select Status</option>
+                                                <select name="status" onchange="submitForm()">
+                                                    <option value="<?php $data['status'] ?>">Select Status</option>
                                                     <?php foreach ($data['reservationStatus'] as $status) : ?>
                                                         <option value="<?php echo $status->status ?>" <?php if (strtoupper($data['status']) == $status->status) {
                                                                                                             echo "selected";
                                                                                                         } ?>><?php echo $status->status ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
-                                                <input type="date" name="startDate" value="<?php if (isset($data['startDate'])) {
-                                                                                                echo $data['startDate'];
-                                                                                            } ?>">
-                                                <input type="date" name="endDate" value="<?php if (isset($data['endDate'])) {
-                                                                                                echo $data['endDate'];
-                                                                                            } ?>">
+                                                <input onchange="submitForm()" type="date" name="startDate" value="<?php if (isset($data['startDate'])) {
+                                                                                                                        echo $data['startDate'];
+                                                                                                                    } ?>">
+                                                <input onchange="submitForm()" type="date" name="endDate" value="<?php if (isset($data['endDate'])) {
+                                                                                                                        echo $data['endDate'];
+                                                                                                                    } ?>">
                                                 <button type="submit">Filter</button>
                                             </form>
                                         </div>
@@ -765,17 +757,47 @@
             </div>
         </div>
     </div>
+    <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
+
+
     <script>
         const URLROOT = "<?php echo URLROOT; ?>";
         var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
         var packageSizes = <?php echo json_encode($data['suiteCapacities']); ?>;
-        
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        function submitForm() {
+            document.getElementById("reservationFilters").submit();
+            toastr.info("Filter Applied");
+        }
+
+
+        <?php if ($data['filtered']) : ?>
+            toastr.success('Your filter has been applied successfully!');
+        <?php endif; ?>
     </script>
-    <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-    <!-- <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script> -->
+    <script src="<?php echo URLROOT; ?>/js/toastr.js"></script>
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 
 </body>
 

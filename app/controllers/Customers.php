@@ -133,6 +133,11 @@ class Customers extends Controller
             'avgStarsForPlatinum' => $avgStarsForPlatinum
         ];
 
+        $filtered = false;
+
+        if (isset($_POST['search']) || isset($_POST['status']) || isset($_POST['startDate']) || isset($_POST['endDate'])) {
+            $filtered = true;
+        }
    
 
         $data = [
@@ -149,6 +154,7 @@ class Customers extends Controller
             'startDate' => $startDate,
             'endDate' => $endDate,
             'suiteCapacities' => $suiteCapacities,
+            'filtered' => $filtered
 
 
         ];

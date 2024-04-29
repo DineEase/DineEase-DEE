@@ -89,16 +89,7 @@ function addToCart(itemID) {
 
   sessionStorage.setItem("food-cart", JSON.stringify(cartArray));
   showCart();
-  alert(
-    "Item added to cart: " +
-      newItem.itemName +
-      " x " +
-      newItem.quantity +
-      " " +
-      newItem.size +
-      " Price: " +
-      newItem.price
-  );
+  toastr.success("Item added to cart successfully");
 
   var itemPrice = newItem.price * newItem.quantity;
   grandTotal += itemPrice;
@@ -111,28 +102,31 @@ function addToCart(itemID) {
 //TODO #43 Slot reservation amount must be deducted from the total amount
 
 function subtractQuantityFromCart(element) {
-  alert("Subtracting");
+ 
   var value = $(element).data("slot-label");
-  alert(value);
+
   var quantity = $("#cart-item-quantity-input" + value).val();
-  alert(quantity);
+
   var newValue = parseInt(quantity) - 1;
   if (newValue < 1) newValue = 1;
   $("#cart-item-quantity-input" + value).val(newValue);
 
   updateSessionStorage(value, newValue);
+  toastr.success("Item quantity updated successfully");
 }
 function addQuantityToCart(element) {
-  alert("Subtracting");
+
   var value = $(element).data("slot-label");
-  alert(value);
+
   var quantity = $("#cart-item-quantity-input" + value).val();
-  alert(quantity);
+
   var newValue = parseInt(quantity) + 1;
   if (newValue > 10) newValue = 10;
   $("#cart-item-quantity-input" + value).val(newValue);
 
   updateSessionStorage(value, newValue);
+  toastr.success("Item quantity updated successfully");
+
 }
 
 function emptyCart() {
@@ -142,6 +136,7 @@ function emptyCart() {
   $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
   updateSessionStorage();
   createTopbarCartItems();
+  toastr.success("Cart emptied successfully");
 }
 
 function updateSessionStorage(itemID, newQuantity) {
@@ -177,6 +172,7 @@ function removeFromCart(index) {
   $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
   showCart();
   updateTotalAmount();
+  toastr.success("Item removed from cart successfully");
 }
 
 // Show the cart

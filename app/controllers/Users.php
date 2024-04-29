@@ -276,7 +276,7 @@ class Users extends Controller
         $_SESSION['dob'] = $user->dob;
         $_SESSION['mobile_no'] = $user->mobile_no;
 
-        redirect('customers/dashboard');
+        redirect('customers/reservation');
     }
 
     public function createStaffSession($user, $employee)
