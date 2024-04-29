@@ -24,7 +24,7 @@ class Receptionists extends Controller
         $date = date('Y-m-d');
         $suite = 0;
         $reservationsStartTime = 8;
-        $reservationsEndTime = 23;
+        $reservationsEndTime = 24;
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         if (isset($_POST)) {
@@ -301,6 +301,20 @@ class Receptionists extends Controller
             echo json_encode(array($capacity));
         } else {
             echo json_encode(array('success' => false, 'message' => 'Failed to fetch slot capacity'));
+        }
+    }
+
+    public function getReservationMarkedArrivedStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $reservationID = $_POST['reservationID'];
+        }
+        $result = $this->receptionistModel->getReservationMarkedArrivedStatus($reservationID);
+        if ($result->hasArrived == 1) {
+            echo json_encode(1);
+        } else {
+            echo json_encode($result);
         }
     }
 }

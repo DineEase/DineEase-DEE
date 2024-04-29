@@ -148,7 +148,7 @@ class Receptionist
 
 
         $this->db->query('INSERT INTO reservation (customerID, tableID, reservationStartTime, reservationEndTime, date, numOfPeople, packageID, status , amount ) VALUES (:customerID, :tableID, :reservationStartTime, :reservationEndTime, :date, :numOfPeople, :packageID, :status , :amount)');
-        $this->db->bind(':customerID', "43");
+        $this->db->bind(':customerID', "52");
         //TODO cerate table logic
         $this->db->bind(':tableID', 1);
         $this->db->bind(':reservationStartTime', $order['slot']);
@@ -488,4 +488,13 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
+
+    public function getReservationMarkedArrivedStatus($reservationID)
+    {
+        $this->db->query('SELECT hasArrived FROM reservation WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $result = $this->db->single();
+        return $result;
+    }
+
 }

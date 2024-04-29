@@ -22,8 +22,55 @@
         justify-content: space-between;
     }
 
+    .item-details {
+        width: 18em;
+    }
+
+    .item-actions {
+        display: flex;
+        gap: 1em;
+    }
+
+    input[id^="quantity-input"] {
+        width: 3em;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
+
+    button[id^="add-to-cart-btn"] {
+        padding-top: auto;
+        width: 8em;
+        color: white;
+        background-color: var(--brandgreen-dark);
+        border-radius: 6px;
+        padding: 10px 5px;
+        font-size: x-small;
+
+    }
+
+    input#menuSearchEO {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+        font-family: inherit;
+        width: 100%;
+    }
+
+    button#clearCartButton {
+        padding: 1em;
+        border-radius: 10px;
+    }
+
+    button#closeeditOngoingS {
+        padding: 1em;
+        border-radius: 10px;
+        bottom: 2em;
+        position: relative;
+        left: 11em;
+    }
+
     .menu-item {
-        padding: 15px;
+        padding: 17px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -35,6 +82,8 @@
         padding-right: 10px;
         background-color: white;
         /* height: 37px !important; */
+        width: 28em;
+        margin: auto;
     }
 
     .row {
@@ -67,7 +116,7 @@
     }
 
     .completed-reservations-container {
-        height: 100vh;
+        height: 85vh;
         margin: 0em 10em 0em;
         display: flex;
         justify-content: center;
@@ -106,13 +155,46 @@
         width: 7em;
     }
 
-    .compleated-order-header {
+    .menu-item:hover {
+        background-color: var(--brandgreen);
+        color: white;
+    }
+
+    .light-green-btn {
+        background-color: var(--brandgreen);
+        color: white;
+        padding: 1em;
+        border-radius: 10px;
+    }
+
+    .light-green-btn:hover {
+        background-color: var(--brandgreen-dark);
+    }
+
+    .completed-order-item-card-header {
         display: flex;
         flex-direction: row;
-        height: 3em;
         justify-content: space-between;
         align-items: center;
         gap: 1em;
+        height: 3em;
+        background-color: var(--brandgreen);
+        border-radius: 10px;
+        color: white;
+        border: 2px solid var(--brandgreen-dark);
+    }
+
+    .completed-order-item-card {
+        display: flex;
+        background-color: #f2f2f2;
+        border-radius: 10px;
+        width: 100%;
+        height: 10vh;
+        box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    }
+
+    .completed-order-item-card:hover {
+        transform: scale(1.01);
     }
 
     .completed-order-item-card-header {
@@ -163,20 +245,20 @@
     }
 
     div#itemsBySearch {
-        height: 56vh;
+        height: 58vh;
         overflow-y: scroll;
         width: 31em;
-        background-color: var(--brandgreen);
+        background-color: #bababa70;
         border-radius: 10px;
     }
 
     div#itemsBySearchEO {
-        height: 56vh;
+        height: 53vh;
         overflow-y: scroll;
         width: 31em;
-        background-color: var(--brandgreen);
+        background-color: #bababa70;
         border-radius: 10px;
-    }
+    }   
 
     .viewOngoing {
         display: flex;
@@ -196,6 +278,62 @@
         margin: 1em;
         height: 66vh;
         width: 117vh;
+    }
+
+    select#suite {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+        font-family: inherit;
+    }
+
+    .add-reservation-receptionist {
+        display: flex;
+        flex-direction: row !important;
+        justify-content: space-around;
+        align-items: center;
+        gap: 1em;
+        align-content: stretch;
+
+    }
+
+    .add-reservation-receptionist .row {
+        display: flex;
+        align-items: center;
+    }
+
+    input#number_of_guests {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+        font-family: inherit;
+    }
+
+    .added-item {
+        display: flex;
+        width: 34em;
+        padding: 0em;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        align-items: center;
+        background-color: azure;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    input#menuSearchRADD {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0.25rem;
+        font-family: inherit;
+        width: 100%;
+    }
+
+    #addReservationButton {
+        padding: 1em;
+        color: white;
+        background-color: var(--brandgreen);
+        border-radius: 7px;
     }
 </style>
 
@@ -241,7 +379,7 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="<?php echo APPROOT ?>/receptionist/reservation" class="nav_link" onclick="changeContent('reservation')">
+                                <a href="<?php echo URLROOT ?>/receptionists/reservation" class="nav_link" onclick="changeContent('reservation')">
                                     <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
                                             <span class="material-symbols-outlined ">
@@ -352,7 +490,7 @@
                                         <!-- Search Form -->
                                         <div class="filter-reservation">
                                             <form id="reservationFilters" action="<?php echo URLROOT; ?>/receptionists/reservation" method="POST">
-                                                <select name="status">
+                                                <select onchange="submitFilters();" name="status">
                                                     <option value="">Select Status</option>
                                                     <?php foreach ($data['reservationStatus'] as $status) : ?>
                                                         <option value="<?php echo $status->status ?>" <?php if (strtoupper($data['status']) == $status->status) {
@@ -388,7 +526,7 @@
                                                     <td>Rs. <?php echo $reservation->amount ?>.00</td>
                                                     <td><?php echo $reservation->status ?></td>
                                                     <td class="actions">
-                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View & Edit</button>
+                                                        <button class="edit-reservation-button" onclick="popViewReservationDetails(this);" data-reservation-id="<?php echo $reservation->reservationID; ?>">View Details</button>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -647,9 +785,9 @@
                                                             </div>
                                                             <div class="column" id="added-items-to-Order">
                                                             </div>
-                                                            <div class="row">
+                                                            <div class="row-cart">
                                                                 <button class="light-green-btn" onclick="addNewItemsToOrder();">Add Items</button>
-                                                                <!-- //TODO Quantity can enter negative values                         -->
+
 
                                                                 <button id="clearCartButton" onclick="clearCartEO();">Clear Cart</button>
                                                                 <input type="hidden" id="total-for-cart" name="total" value="0">
@@ -786,6 +924,13 @@
                 });
             });
         </script> -->
+
+        <script>
+            function submitFilters() {
+                document.getElementById('reservationFilters').submit();
+            }
+        </script>
+
         <script>
             var packageSizes = <?php echo json_encode($data['capacity']); ?>;
         </script>
