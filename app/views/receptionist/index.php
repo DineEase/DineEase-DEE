@@ -518,9 +518,9 @@
                                                     }, 2000);
                                                 } else {
                                                     toastr.error("Failed to cancel reservation");
-                                                    setTimeout(function() {
-                                                        location.reload();
-                                                    }, 2000);
+                                                    // setTimeout(function() {
+                                                    //     location.reload();
+                                                    // }, 2000);
                                                 }
                                             }
                                         });

@@ -297,6 +297,12 @@
 
     }
 
+    div#cancelledOrders {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+}
+
     .add-reservation-receptionist .row {
         display: flex;
         align-items: center;
@@ -902,7 +908,7 @@
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <div id="cancelledOrders">
+                                            <div id="overdueOrders">
                                             </div>
                                         </div>
                                     </div>

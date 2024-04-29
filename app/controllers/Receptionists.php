@@ -286,7 +286,7 @@ class Receptionists extends Controller
         if ($result == true) {
             echo json_encode(1);
         } else {
-            echo json_encode($result);
+            echo json_encode(0);
         }
     }
 

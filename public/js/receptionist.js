@@ -655,15 +655,23 @@ $(document).ready(function () {
       success: function (data) {
         reservations = data;
 
-        var incomingOrders = reservations.filter(
-          (reservation) => reservation.preparationStatus == "Pending"
-        );
-        var activeOrders = reservations.filter(
-          (reservation) => reservation.preparationStatus == "Active"
+        var notCancelledOrders = reservations.filter(
+          (reservation) => reservation.status != "Cancelled"
         );
 
-        var completedOrders = reservations.filter(
-          (reservation) => reservation.preparationStatus == "Completed"
+        var incomingOrders = notCancelledOrders.filter(
+          (notCancelledOrder) => notCancelledOrder.preparationStatus == "Pending"
+        );
+        var activeOrders = notCancelledOrders.filter(
+          (notCancelledOrder) => notCancelledOrder.preparationStatus == "Active"
+        );
+
+        var completedOrders = notCancelledOrders.filter(
+          (notCancelledOrder) => notCancelledOrder.preparationStatus == "Completed"
+        );
+
+        var cancelledOrders = reservations.filter(
+          (reservation) => reservation.status == "Cancelled"
         );
 
         var queuedItems = activeOrders.map((reservation) =>
@@ -682,8 +690,12 @@ $(document).ready(function () {
           )
         );
 
-        var ongoingOrders = incomingOrders.concat(activeOrders);
 
+        var ongoingOrders = incomingOrders.concat(activeOrders);
+        
+
+        $("#cancelledOrders").html(createOrders(cancelledOrders));
+        
         $("#ongoingOrders").html(createOrders(ongoingOrders));
         $("#completedOrders").html(createOrders(completedOrders));
         // TODO #80 Amount payable shows as a negative value
@@ -711,7 +723,7 @@ $(document).ready(function () {
                                         }
                                           ${
                                             order.preparationStatus !=
-                                            "Completed"
+                                            "Completed" && order.preparationStatus != "Cancelled"
                                               ? `<button class="light-green-btn addOrderItems" onClick="editOngoingOrder(this);" data-id-reservationID = "${order.orderID}">Add Items</button>`
                                               : ""
                                           }

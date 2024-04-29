@@ -298,7 +298,7 @@ class Receptionist
 
         $today = date("Y-m-d");
 
-        $this->db->query('SELECT reservationID ,customerID, tableID , reservationStartTime , orderID  , amount FROM reservation where (status =  "Paid" OR status =  "Unpaid")  and date = :today ORDER BY reservationStartTime ASC');
+        $this->db->query('SELECT reservationID ,customerID, tableID, status , reservationStartTime , orderID  , amount  FROM reservation where  date = :today ORDER BY reservationStartTime ASC');
         $this->db->bind(':today', $today);
         $row1 = $this->db->resultSet();
 
