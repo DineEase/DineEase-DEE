@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer-styles.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/common.css">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/toastr.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/swal.css">
     <!-- <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css"> -->
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,14 +16,30 @@
     <title><?php echo SITENAME; ?></title>
 
     <style>
+        .category-button span {
+            display: inline;
+
+        }
+
+        .category-button.active-category span {
+            display: inline;
+
+        }
+
+        .category-button.active-category::after {
+            content: attr(data-name);
+
+            padding-left: 10px;
+        }
+
         .tbl-cart th {
             border-bottom: 2px solid #000;
-            /* Black border at the bottom of each header cell */
+
         }
 
         .tbl-cart tfoot tr:last-child {
             border-top: 2px solid #000;
-            /* Black border at the top of the last row in the footer */
+
         }
     </style>
 
@@ -257,7 +274,7 @@
                                                     </tr>
 
                                                     <tr class="rs-total">
-                                                        <td class="rs-os-head-total">Total Amoun : </td>
+                                                        <td class="rs-os-head-total">Total Amount : </td>
                                                         <td id="rs-Payable">0</td>
                                                     </tr>
 
@@ -300,27 +317,27 @@
                                         </div>
                                         <div class="rs-content">
                                             <div class="rs-details">
-                                                <h3>Refund Availability </h3>
+                                                <h3>Refund Availability</h3>
                                                 <hr>
                                                 <div class="review-order-item-container" id="cancel-order-refund-possible">
-                                                    <span>You can </span>
-                                                    <p></p>
+                                                    <span>Refund Eligible:</span>
+                                                    <p>If you cancel more than 24 hours before your reservation, you are eligible for a refund of 80%.</p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-not-possible">
-                                                    <span>You cant </span>
-                                                    <p></p>
+                                                    <span>Refund Not Eligible:</span>
+                                                    <p>Cancellations made within 24 hours of the reservation time are not eligible for a refund.</p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-requested">
-                                                    <span>You did </span>
-                                                    <p></p>
+                                                    <span>Refund Requested:</span>
+                                                    <p>Your cancellation request has been processed and a refund is currently being issued.</p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-cancelled-no-refund">
-                                                    <span>You did but with what cost?</span>
-                                                    <p></p>
+                                                    <span>Cancellation without Refund:</span>
+                                                    <p>Your reservation was cancelled, but no refund will be issued due to late cancellation.</p>
                                                 </div>
                                                 <div class="review-order-item-container" id="cancel-order-refund-given">
-                                                    <span>mf</span>
-                                                    <p></p>
+                                                    <span>Refund Issued:</span>
+                                                    <p>A refund has been successfully issued for your cancellation.</p>
                                                 </div>
                                             </div>
                                             <div class="rs-actions">
@@ -551,7 +568,7 @@
 
                                                                         <div class="date-slots">
                                                                             <?php
-                                                                            date_default_timezone_set("Asia/Calcutta");
+                                                                            // date_default_timezone_set("Asia/Calcutta");
                                                                             $currentDate = strtotime(date("Y-m-d"));
 
                                                                             for ($i = 0; $i < 15; $i++) {
@@ -668,22 +685,22 @@
                                                                                     <div class="menu-view-filters">
                                                                                         <div class="menu-categories">
                                                                                             <div class="category-button active-category" data-category-id="all">All</div>
-                                                                                            <div class="category-button" data-category-id="1"><span class="material-symbols-outlined">
+                                                                                            <div class="category-button" data-name="deserts & Drinks" data-category-id="1"><span class="material-symbols-outlined">
                                                                                                     fastfood
                                                                                                 </span></div>
-                                                                                            <div class="category-button" data-category-id="2"><span class="material-symbols-outlined">
+                                                                                            <div class="category-button" data-name="Main Courses" data-category-id="2"><span class="material-symbols-outlined">
                                                                                                     dinner_dining
                                                                                                 </span></div>
-                                                                                            <div class="category-button" data-category-id="3"><span class="material-symbols-outlined">
+                                                                                            <div class="category-button" data-name="Appetizers" data-category-id="3"><span class="material-symbols-outlined">
                                                                                                     tapas
                                                                                                 </span></div>
-                                                                                            <div class="category-button" data-category-id="4"><span class="material-symbols-outlined">
+                                                                                            <div class="category-button" data-name="salads & Soup" data-category-id="4"><span class="material-symbols-outlined">
                                                                                                     soup_kitchen
                                                                                                 </span></div>
-                                                                                            <div class="category-button" data-category-id="5"><span class="material-symbols-outlined">
+                                                                                            <div class="category-button" data-name="Breakfast & Brunch" data-category-id="5"><span class="material-symbols-outlined">
                                                                                                     rice_bowl
                                                                                                 </span></div>
-                                                                                            <div class="category-button" data-category-id="6"><span class="material-symbols-outlined">
+                                                                                            <div class="category-button" data-name="International" data-category-id="6"><span class="material-symbols-outlined">
                                                                                                     outdoor_grill
                                                                                                 </span></div>
                                                                                             <div class="category-button" data-category-id="7"><span class="material-symbols-outlined">
@@ -713,7 +730,6 @@
                                                                                     </div>
                                                                                     <div class="pagination-container">
                                                                                         <div class="pagination-view-only-menu">
-                                                                                            <!-- TODO: Pagination does not stop at maximum no of pages -->
                                                                                             <div class="pgbtn" id="prev-page">Previous</div>
                                                                                             <span id="page-info"></span>
                                                                                             <div class="pgbtn" id="next-page">Next</div>
@@ -761,6 +777,29 @@
 
 
     <script>
+
+        // TODO #20 : Add a confirmation popup for reservation cancellation
+
+        $(document).ready(function() {
+            if(sessionStorage.SessionMessage){
+                toastr.success(sessionStorage.SessionMessage);
+                sessionStorage.clear(); 
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.category-button');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+
+                    buttons.forEach(b => b.classList.remove('active-category'));
+
+                    this.classList.add('active-category');
+                });
+            });
+        });
+
         const URLROOT = "<?php echo URLROOT; ?>";
         var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
         var packageSizes = <?php echo json_encode($data['suiteCapacities']); ?>;
@@ -796,6 +835,7 @@
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
+    <script src="<?php echo URLROOT; ?>/js/swal.js"></script>
     <script src="<?php echo URLROOT; ?>/js/toastr.js"></script>
     <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 

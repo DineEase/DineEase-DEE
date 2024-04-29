@@ -191,7 +191,7 @@ $(document).ready(function () {
       if (pkg == 3) {
         slotMaxCapacity = packageSizes.Platinum;
       }
-      
+
       function checkIsSlotFull() {
         if (slotDetails) {
           for (var slot of slotDetails) {
@@ -455,8 +455,6 @@ function popViewReservationDetails(element) {
   var reservationDetails;
   var isAlreadyReviewed;
 
-  // isAlreadyReviewed(reservationID);
-
   $.ajax({
     url: "getReservationDetails/" + reservationID,
     dataType: "json",
@@ -467,6 +465,35 @@ function popViewReservationDetails(element) {
       if (reservationDetails && reservationDetails.length > 0) {
         isAlreadyReviewed = reservationDetails[0].review;
         console.log(isAlreadyReviewed);
+        var status = reservationDetails[0].status;
+
+        console.log(status);
+
+        if (status != "Completed") {
+          $("#rs-review").prop("disabled", true);
+          $("#rs-review").css("opacity", "0.5");
+          $("#rs-review").css("pointer-events", "none");
+          $("#rs-review").css("cursor", "not-allowed");
+        }
+
+        if (status == "Cancelled") {
+          $("#rs-review").prop("disabled", true);
+          $("#rs-review").css("background-color", "grey");
+          $("#rs-review").css("pointer-events", "none");
+          $("#rs-review").css("cursor", "not-allowed");
+        }
+
+        if (status == "Pending") {
+          $("#rs-review").prop("disabled", true);
+          $("#rs-review").css("opacity", "0.5");
+          $("#rs-review").css("pointer-events", "none");
+          $("#rs-review").css("cursor", "not-allowed");
+
+          $("#rs-cancel").prop("disabled", false);
+          $("#rs-cancel").css("opacity", "0.5");
+          $("#rs-cancel").css("pointer-events", "none");
+          $("#rs-cancel").css("cursor", "pointer");
+        }
 
         if (isAlreadyReviewed > 0) {
           $("#rs-review").prop("disabled", true);
@@ -709,7 +736,7 @@ function submitReviewForReservation() {
     method: "POST",
     data: reviewDataCollected,
     success: function (response) {
-      alert("Review submitted successfully");
+      toastr.success("Review submitted successfully.");
       $("#reservation-review-container").hide();
       console.log(response);
     },
@@ -849,6 +876,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "#rc-submit-cancel", function () {
+    toastr.danger("Reservation has been cancelled successfully.");
     cancelReservation(possibilityToRefund);
   });
 

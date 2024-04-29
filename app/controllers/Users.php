@@ -329,7 +329,7 @@ class Users extends Controller
         unset($_SESSION['employee_role']);
         unset($_SESSION['profile_picture']);
         session_destroy();
-        redirect('users/login');
+        redirect('users/staff');
     }
 
     public function forgotPassword()

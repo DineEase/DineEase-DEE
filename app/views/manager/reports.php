@@ -185,7 +185,7 @@
                 if (xhr.status === 200) {
                     // PDF generated successfully
                     // Optionally, you can handle the response or provide feedback to the user
-                    //alert('PDF generated successfully.');
+                    alert('PDF generated successfully.');
                 } else {
                     //console.error('Error generating PDF:', xhr.status);
                     // Optionally, provide feedback to the user about the error
