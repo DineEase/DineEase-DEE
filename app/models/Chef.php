@@ -110,7 +110,7 @@ class Chef
         $row = $this->db->single();
         return $row;
     }
-    public function sendinventoryrequest($data)
+public function sendinventoryrequest($data)
     //var_dump($data);
 {
     foreach ($data->items as $item) {
