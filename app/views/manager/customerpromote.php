@@ -143,7 +143,7 @@ button[type="reset"] {
                             ?>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <a href="<?php echo URLROOT . '/managers/viewmanagerprofile'?>">
-                                <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
+                                <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                             </a>
                         </div>
                     </div>

@@ -616,7 +616,7 @@ class Managers extends Controller
 
     private function handleImageUpload($imageFile)
     {
-        $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\';
+        $targetDirectory = 'img/menu/';
 
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
@@ -685,11 +685,6 @@ class Managers extends Controller
             } else {
                 if ($this->managerModel->findEmployeeByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken as a staff member';
-                } else {
-                    $hunterApiKey = 'f0b22562feaf8e34e1332f9e148c6f246dc78045';
-                    if (!$this->verifyEmailUsingHunter($data['email'], $hunterApiKey)) {
-                        $data['email_err'] = 'Email address is not deliverable';
-                    }
                 }
             }
             if (empty($data['mobile_number'])) {
@@ -794,14 +789,7 @@ class Managers extends Controller
             } else {
                 if ($this->managerModel->findEmployeeByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken as a staff member';
-                } else {
-                    if (!$this->managerModel->emailcheck($data['email'])) {
-                        $hunterApiKey = 'f0b22562feaf8e34e1332f9e148c6f246dc78045';
-                        if (!$this->verifyEmailUsingHunter($data['email'], $hunterApiKey)) {
-                            $data['email_err'] = 'Email address is not deliverable';
-                        }
-                    }
-                }
+                } 
             }
             if (empty($data['mobile_number'])) {
                 $data['mobile_number_err'] = 'Please enter mobile number';
@@ -1038,7 +1026,7 @@ class Managers extends Controller
 
     private function handleImageUploadprofilepicture($imageFile)
     {
-        $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\profile\\';
+        $targetDirectory = 'img/profilePhotos/';
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
         }
@@ -1067,7 +1055,7 @@ class Managers extends Controller
     }
     private function handlimageUploadpackagepicture($imageFile)
     {
-        $targetDirectory = 'C:\\wamp64\\www\\DineEase-DEE\\public\\uploads\\package\\';
+        $targetDirectory = 'img/Packages/';
 
         if (!file_exists($targetDirectory)) {
             mkdir($targetDirectory, 0777, true);
@@ -1104,6 +1092,26 @@ class Managers extends Controller
         }
     }
 
+public function hiddenmenus()
+    {
+        $hiddenmenus = $this->managerModel->gethiddenMenuitems();
+        $categories = $this->managerModel->getmenucategory();
+        $data = [
+            'menu' => $hiddenmenus,
+            'categories' => $categories,
+        ];
+        $this->view('manager/menu', $data);
+    }
+    public function shownmenus()
+    {
+        $hiddenmenus = $this->managerModel->getshownMenuitems();
+        $categories = $this->managerModel->getmenucategory();
+        $data = [
+            'menu' => $hiddenmenus,
+            'categories' => $categories,
+        ];
+        $this->view('manager/menu', $data);
+    }
 
 
     public function packages()
@@ -1822,7 +1830,7 @@ class Managers extends Controller
             'leastreviewedfood' => $leastreviewedfood,
             'totalpendingrefundrequests' => $totalpendingrefundrequests,
         ];
-        $this->view('manager/dashboard', $data);
+        $this->view('manager/dashboard1', $data);
         //$this->view('manager/testvardump', $data);
 
     }
@@ -1942,7 +1950,11 @@ class Managers extends Controller
     }
     public function generatereportpdf()
     {
+        //ob_clean();
+        ob_start();
         require_once APPROOT . '/vendor/autoload.php';
+        //header('Content-Type: application/pdf');
+    //('Content-Disposition: attachment; filename="report.pdf"');
         $startDate = $_GET['startDate'];
 $endDate = $_GET['endDate'];
 $salesstartdate = $_GET['salesstartdate'];
@@ -1950,13 +1962,14 @@ $salesenddate = $_GET['salesenddate'];
 $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the path to your logo image file
         // Get the JSON data from the request body
         $request_body = file_get_contents('php://input');
-        error_log('Request body: ' . print_r($request_body, true));
+        //error_log('Request body: ' . print_r($request_body, true));
 
 
         // Decode the JSON data
         $menuReport = json_decode($request_body, true);
+        
         //var_dump($menuReport);
-        error_log('Menu Report: ' . print_r($menuReport, true));
+        //error_log('Menu Report: ' . print_r($menuReport, true));
 
         // Create a new TCPDF instance
         $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -2102,8 +2115,36 @@ $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the pat
         }
 
         // Output PDF to browser
-        $date = date('Y-m-d_H-i-s'); // Get current date and time in the format YYYY-MM-DD_HH-MM-SS
-        $pdf->Output('report_' . $date . '.pdf', 'D');
+    $date = date('Y-m-d_H-i-s'); // Get current date and time in the format YYYY-MM-DD_HH-MM-SS
+    $pdfFileName = 'report_' . $date . '.pdf';
+    $pdfFilePath = 'F:/Backup/' . $pdfFileName;
+    //ob_clean();
+    //$pdf->Output($pdfFileName, 'I'); // Replace '/path/to/save/pdf/' with the actual path to save the PDF
+    $pdf->Output($pdfFilePath, 'F');
+    
+    ob_end_clean();
+    header("Content-type: application/pdf");
+    header("Content-Disposition: attachment; filename=$pdfFileName");
+// Log or display the file path for debugging
+    error_log('PDF File Path: ' . $pdfFilePath);
+       
+    $outputBufferContents = ob_get_contents();
+// Log or display the contents for debugging
+   error_log('Output Buffer Contents: ' . $outputBufferContents);
+// Output the PDF file
+   readfile($pdfFilePath);
+   exit();
+    //header('Content-Type: application/pdf');
+    //header('Content-Disposition: attachment; filename="' . $pdfFileName . '"');
+    //readfile($pdfFilePath);
+
+    
+    //ob_end_flush();
+        //ob_clean();
+        //ob_end_flush();
+        //$url = 'http://localhost/DineEase-DEE/managers/generatereportpdf?startDate=2024-04-16&endDate=2024-05-04&salesstartdate=2024-04-16&salesenddate=2024-05-04';
+        //redirect('managers/generatereportpdf?startDate=' . $startDate . '&endDate=' . $endDate . '&salesstartdate=' . $salesstartdate . '&salesenddate=' . $salesenddate);
+        //http://localhost/DineEase-DEE/managers/generatereportpdf?startDate=2024-04-16&endDate=2024-05-04&salesstartdate=2024-04-16&salesenddate=2024-05-04
     }
 
     public function viewtables()

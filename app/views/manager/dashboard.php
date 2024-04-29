@@ -166,11 +166,11 @@
                         <span class="material-symbols-outlined material-symbols-outlined-topbar ">notifications </span>
                         <?php
                         $user_id = $_SESSION['user_id'];
-                        $profile_picture_url = URLROOT . '/uploads/profile/' . basename($_SESSION['profile_picture']);
+                        $profile_picture_url = URLROOT . '/img/profilePhotos/' . basename($_SESSION['profile_picture']);
                         ?>
                         Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                         <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>">
-                            <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                         </a>
                     </div>
                 </div>
@@ -364,14 +364,14 @@
             <p><strong>Package Name:</strong> <?php echo $data['mostusedpackage']->packageName; ?></p>
             <p><strong>Total Usage:</strong> <?php echo $data['mostusedpackage']->total_usage; ?></p>
         </div>
-        <div class="card top-5-customers-card">
+        <!-- <div class="card top-5-customers-card">
             <h2>Top 5 Customers</h2>
             <ul>
-                <?php foreach ($data['top5customers'] as $customer) : ?>
-                    <li><?php echo $customer->name; ?> - Total Reservations: <?php echo $customer->total_reservations; ?></li>
-                <?php endforeach; ?>
+                <?php //foreach ($data['top5customers'] as $customer) : ?>
+                    <li><?php //echo $customer->name; ?> - Total Reservations: <?php //echo $customer->total_reservations; ?></li>
+                <?php //endforeach; ?>
             </ul>
-        </div>
+        </div> -->
         <div class="card best-reviewed-food-card">
             <h2>Best Reviewed Food</h2>
             <p>Name: <?php echo $data['bestreviewedfood']->itemName; ?></p>
