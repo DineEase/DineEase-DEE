@@ -786,10 +786,14 @@
                 });
             });
         </script> -->
+        <script>
+            var packageSizes = <?php echo json_encode($data['capacity']); ?>;
+        </script>
 
         <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
         <script src="<?php echo URLROOT; ?>/js/receptionist.js"></script>
         <script src="<?php echo URLROOT; ?>/js/main.js"></script>
+
 </body>
 
 </html>

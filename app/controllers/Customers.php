@@ -116,8 +116,13 @@ class Customers extends Controller
                 $avgStarsForPlatinum = $suiteName->avgReviews;
             }
         }
-
-
+        //TODO check reservation logics when one tries to add a reservation outside the available slots
+        $getSuiteCapacities =  $this->customerModel->getSuiteCapacities();
+        $suiteCapacities = [
+            'Budget' => $getSuiteCapacities[0]->total_capacity,
+            'Gold' => $getSuiteCapacities[1]->total_capacity,
+            'Platinum' => $getSuiteCapacities[2]->total_capacity
+        ];
 
         $suiteData = [
             'totalReviewsForBudget' => $totalReviewsForBudget,
@@ -127,6 +132,8 @@ class Customers extends Controller
             'totalReviewsForPlatinum' => $totalReviewsForPlatinum,
             'avgStarsForPlatinum' => $avgStarsForPlatinum
         ];
+
+   
 
         $data = [
 
@@ -140,7 +147,9 @@ class Customers extends Controller
             'limit' => $limit,
             'reservationStatus' => $reservationStatus,
             'startDate' => $startDate,
-            'endDate' => $endDate
+            'endDate' => $endDate,
+            'suiteCapacities' => $suiteCapacities,
+
 
         ];
         $this->view('customer/reservation', $data);
@@ -196,7 +205,7 @@ class Customers extends Controller
             'suites' => $suites
         ];
 
-        $this->view('customer/review' , $data);
+        $this->view('customer/review', $data);
     }
 
 
@@ -415,7 +424,7 @@ class Customers extends Controller
             return;
         }
 
-        $slots = $this->customerModel->getSlots($date);
+        $slots = $this->customerModel->getSlotRemainingForSuites($date);
         header('Content-Type: application/json');
         echo json_encode($slots);
     }
@@ -460,6 +469,10 @@ class Customers extends Controller
         echo $jsonObj;
     }
 
-
-    
+    public function getSlotRemainingForSuites($date)
+    {   
+        //DONE: #19 // Add a method to get the remaining reservations for each suite
+        $remainingReservationsBySuite = $this->customerModel->getSlotRemainingForSuites($date);
+        echo json_encode($remainingReservationsBySuite);
+    }
 }

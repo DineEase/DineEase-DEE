@@ -461,6 +461,8 @@
                                                                                     -Pleasant ambiance <br>
                                                                                     -Suitable for dining alone or with a group <br>
                                                                                     -<b>LKR.500.00/seat for reservations</b> </p>
+                                                                                -Capacity : <?php echo $data['suiteCapacities']['Budget']; ?>
+
 
                                                                             </div>
                                                                         </div>
@@ -490,8 +492,9 @@
                                                                                     - Spacious seating area <br>
                                                                                     - Suitable for special occasions or celebrations <br>
                                                                                     - <b>LKR.500.00/seat for reservations<br>
-                                                                                        - 5% tax on total bill <br></b>
+                                                                                        - 5% tax on total bill </b>
                                                                                 </p>
+                                                                                -Capacity : <?php echo $data['suiteCapacities']['Gold']; ?>
                                                                                 <!-- <div class="btn goToReviews"> Go to Reviews </div> -->
 
                                                                             </div>
@@ -519,7 +522,8 @@
                                                                                     -Suitable for special occasions or celebrations <br>
                                                                                     -Full suite booking <br>
                                                                                     -<b>LKR.6000.00 for full suite booking <br>
-                                                                                        - 10% tax on total bill <br> </b></p>
+                                                                                        - 10% tax on total bill </b></p>
+                                                                                -Capacity : <?php echo $data['suiteCapacities']['Platinum']; ?>
                                                                             </div>
                                                                         </div>
 
@@ -764,12 +768,14 @@
     <script>
         const URLROOT = "<?php echo URLROOT; ?>";
         var foodReviews = <?php echo json_encode($data['foodReview']); ?>;
+        var packageSizes = <?php echo json_encode($data['suiteCapacities']); ?>;
+        
     </script>
     <script src="<?php echo URLROOT; ?>/js/jquery-3.7.1.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer.js"></script>
     <script src="<?php echo URLROOT; ?>/js/cart.js"></script>
     <script src="<?php echo URLROOT; ?>/js/customer-menu.js"></script>
-    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+    <!-- <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script> -->
 
 </body>
 
