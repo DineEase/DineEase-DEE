@@ -254,6 +254,8 @@ class InventoryManagers extends Controller
     {
         $kitchenrequest= $this->inventoryManagerModel->getkitchenRequests();
         $kitchenrequestnames = $this->inventoryManagerModel->getkitchenRequestsNames();
+        
+        //$kitchenrequestunits = $this->inventoryManagerModel->getInventoryunitsByID2();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             error_log(print_r($_POST, true));
 
@@ -315,9 +317,18 @@ class InventoryManagers extends Controller
     //getcategoriesand inv from the kitchen req
     public function getInventoriesRequested() {
         $categoryName = $_GET['categoryName'];
+        error_log("Category Name: " . $categoryName);
         $inventories = $this->inventoryManagerModel->getrequestedinventoriesnames($categoryName);
+        $test = $this->inventoryManagerModel->getrequestedinventoriesquantities($categoryName);
+        $test1 = $this->inventoryManagerModel->getrequestedinventoriesquantities($categoryName);
+        error_log("test: " . json_encode($test));
         header('Content-Type: application/json');
-        echo json_encode($inventories);
+        $response = array(
+            'inventories' => $inventories,
+            'quantities' => $test,
+            'totquantity' => $test1
+        );
+        echo json_encode($response);
         exit;
     }
 
