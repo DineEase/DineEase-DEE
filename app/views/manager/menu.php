@@ -199,6 +199,17 @@
         /* Adjust the left margin as needed */
         display: block;
     }
+    .menu-btn {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background-color: #f0f0f0;
+    }
+    .menu-btn.active {
+        background-color: #ccc;
+    }
+    
 </style>
 
 
@@ -225,7 +236,7 @@
                             ?>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <a href="<?php echo URLROOT . '/managers/viewmanagerprofile'?>">
-                                <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
+                                <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                             </a>
                         </div>
                     </div>
@@ -411,7 +422,11 @@
                 </select>
             </form>
         </div>
-
+        <div>
+        <button class="menu-btn" id="hiddenMenuBtn">Hidden Menus</button>
+  <button class="menu-btn" id="shownMenuBtn">Shown Menus</button>
+        </div>
+  
 
 
 
@@ -431,7 +446,7 @@
                 echo '<div class="item-chef-menu">';
                 echo '<div class="image-box-chef-menu">';
                 echo '<a href="' . URLROOT . '/managers/viewmenuitem/' . $menuitem->itemID . '">';
-                echo '<img src="' . URLROOT . '/uploads/' . basename($menuitem->imagePath) . '" alt="Menu Item Image">';
+                echo '<img src="' . URLROOT . '/img/menu/' . basename($menuitem->imagePath) . '" alt="Menu Item Image">';
                 echo '</a>';
                 echo '</div>';
                 echo '<div class="bottom-chef-menu">';
@@ -473,6 +488,7 @@
             if (categoryID === "") {
                 // Redirect to the same page without the categoryFilter parameter
                 window.location.href = "<?php echo URLROOT; ?>/managers/menu";
+               
             } else {
                 // Encode the category ID before adding it to the URL
                 var encodedCategoryID = encodeURIComponent(categoryID);
@@ -501,6 +517,32 @@
                 window.location.href = "<?php echo URLROOT; ?>/managers/menu";
             <?php endif; ?>
         });
+    </script>
+     <script>
+    const hiddenMenuBtn = document.getElementById('hiddenMenuBtn');
+    const shownMenuBtn = document.getElementById('shownMenuBtn');
+    function setActiveButton() {
+        const currentURL = window.location.href;
+        if (currentURL.includes("hiddenmenus")) {
+            hiddenMenuBtn.classList.add('active');
+            shownMenuBtn.classList.remove('active');
+        } else if (currentURL.includes("shownmenus")) {
+            shownMenuBtn.classList.add('active');
+            hiddenMenuBtn.classList.remove('active');
+        }
+    }
+setActiveButton();
+    hiddenMenuBtn.addEventListener('click', () => {
+      // Trigger controller with 'hidden' parameter
+      window.location.href = "<?php echo URLROOT; ?>/managers/hiddenmenus";
+      
+    });
+
+    shownMenuBtn.addEventListener('click', () => {
+      // Trigger controller with 'shown' parameter
+      window.location.href = "<?php echo URLROOT; ?>/managers/shownmenus";
+      
+    });
     </script>
 
 </body>

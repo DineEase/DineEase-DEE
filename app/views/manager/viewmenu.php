@@ -109,7 +109,7 @@
                         ?>
                         Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                         <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>">
-                            <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                         </a>
                     </div>
                 </div>
@@ -278,7 +278,7 @@
     <div class="menu-details-container">
     <div class="menu-details">
         <div class="menu-details-image">
-            <img src="<?php echo URLROOT . '/uploads/' . basename($data['imagePath']); ?>" alt="Menu Item Image" />
+            <img src="<?php echo URLROOT . '/img/menu/' . basename($data['imagePath']); ?>" alt="Menu Item Image" />
         </div>
         <div class="menu-details-info">
             <div class="menu-details-row">

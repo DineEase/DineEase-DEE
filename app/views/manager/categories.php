@@ -156,7 +156,7 @@
                             ?>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>">
-                                <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
+                                <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                             </a>
                         </div>
                     </div>
@@ -390,15 +390,15 @@
                     }
                 </script>
 
-                <h1>Update Category Time</h1>
+                <!-- <h1>Update Category Time</h1>
 
-                <!-- Display the form -->
-                <form method="post" action="<?php echo URLROOT; ?>/managers/updatetimecategories" onsubmit="return validateForm()">
+
+                <form method="post" action="<?php //echo URLROOT; ?>/managers/updatetimecategories" onsubmit="return validateForm()">
                     <label for="category">Select Category:</label>
                     <select name="category_ID" id="category" required>
-                        <?php foreach ($data['categories'] as $category) : ?>
-                            <option value="<?php echo $category->category_ID; ?>"><?php echo $category->category_name; ?></option>
-                        <?php endforeach; ?>
+                        <?php //foreach ($data['categories'] as $category) : ?>
+                            <option value="<?php //echo $category->category_ID; ?>"><?php //echo $category->category_name; ?></option>
+                        <?php //endforeach; ?>
                     </select>
 
                     <br>
@@ -416,42 +416,42 @@
                     <input type="submit" value="Update Time">
                 </form>
 
-                <?php if (!empty($data['start_time_error'])) : ?>
-                    <p class="error-message"><?php echo $data['start_time_error']; ?></p>
-                <?php endif; ?>
+                <?php //if (!empty($data['start_time_error'])) : ?>
+                    <p class="error-message"><?php //echo $data['start_time_error']; ?></p>
+                <?php //endif; ?>
 
-                <?php if (!empty($data['end_time_error'])) : ?>
-                    <p class="error-message"><?php echo $data['end_time_error']; ?></p>
-                <?php endif; ?>
+                <?php //if (!empty($data['end_time_error'])) : ?>
+                    <p class="error-message"><?php //echo $data['end_time_error']; ?></p>
+                <?php //endif; ?>
 
-                <?php if (!empty($data['time_diff_err'])) : ?>
-                    <p class="error-message"><?php echo $data['time_diff_err']; ?></p>
-                <?php endif; ?>
+                <?php //if (!empty($data['time_diff_err'])) : ?>
+                    <p class="error-message"><?php //echo $data['time_diff_err']; ?></p>
+                <?php //endif; ?>
 
                 <h1>Manually Hide Category</h1>
-                <form method="post" action="<?php echo URLROOT; ?>/managers/hidecategory">
+                <form method="post" action="<?php //echo URLROOT; ?>/managers/hidecategory">
                     <label for="category">Select Category:</label>
                     <select name="category_ID" id="category" required>
-                        <?php foreach ($data['categories'] as $category) : ?>
-                            <?php if ($category->hidden_status == 0) : ?>
-                                <option value="<?php echo $category->category_ID; ?>"><?php echo $category->category_name; ?></option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                        <?php //foreach ($data['categories'] as $category) : ?>
+                            <?php //if ($category->hidden_status == 0) : ?>
+                                <option value="<?php //echo $category->category_ID; ?>"><?php //echo $category->category_name; ?></option>
+                            <?php //endif; ?>
+                        <?php //endforeach; ?>
                     </select>
                     <input type="submit" value="Hide Category">
                 </form>
                 <h1>Manually Show Category</h1>
-                <form method="post" action="<?php echo URLROOT; ?>/managers/showcategory">
+                <form method="post" action="<?php //echo URLROOT; ?>/managers/showcategory">
                     <label for="category">Select Category:</label>
                     <select name="category_ID" id="category" required>
-                        <?php foreach ($data['categories'] as $category) : ?>
-                            <?php if ($category->hidden_status == 1) : ?>
-                                <option value="<?php echo $category->category_ID; ?>"><?php echo $category->category_name; ?></option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                        <?php //foreach ($data['categories'] as $category) : ?>
+                            <?php //if ($category->hidden_status == 1) : ?>
+                                <option value="<?php //echo $category->category_ID; ?>"><?php //echo $category->category_name; ?></option>
+                            <?php //endif; ?>
+                        <?php //endforeach; ?>
                     </select>
                     <input type="submit" value="Show Category">
-                </form>
+                </form> -->
             </div>
     </body>
 

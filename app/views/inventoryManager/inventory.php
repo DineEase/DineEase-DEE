@@ -242,13 +242,13 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                        error_log("Inventory list: " . print_r($data['inventorylist'], true));
+                                        //error_log("Inventory list: " . print_r($data['inventorylist'], true));
                                             foreach ($data['inventorylist'] as $item) {
                                                 echo '<tr>';
                                                 echo '<td>' . $item->inventoryName . '</td>';
                                                 echo '<td>' . $item->categoryName . '</td>';
                                                 echo '<td>' . $item->batchCode . '</td>';
-                                                echo '<td>' . $item->quantity . '</td>';
+                                                echo '<td>' . $item->quantity . ' ' . $item->units . '</td>';
                                                 echo '<td>' . $item->expireDate . '</td>';
                                                 echo '<td>' . $item->shelfLife . '</td>';
                                                 echo '<td>' . $item->unitCost . '</td>';

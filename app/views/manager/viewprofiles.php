@@ -127,7 +127,7 @@
                         ?>
                         Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                         <a href="<?php echo URLROOT . '/managers/viewmanagerprofile' ?>">
-                            <img src="<?php echo $profile_picture_url; ?>" alt="profile-photo" class="profile" />
+                            <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
                         </a>
                     </div>
                 </div>
@@ -293,11 +293,12 @@
             </div>
         </nav>
     </div>
+    
     <div class="profile-container1">
         <?php if ($data['users']) : ?>
             <?php $user = $data['users']; ?>
-
-            <img class="profile-image" src="<?php echo URLROOT; ?>/uploads/profile/<?php echo basename($user->profile_picture); ?>" alt="Profile Image">
+            
+            <img class="profile-image" src="<?php echo URLROOT; ?>/img/profilePhotos/<?php echo $user->imagePath; ?>" alt="Profile Image">
 
             <div class="profile-field">
                 <label for="name">Name:</label>

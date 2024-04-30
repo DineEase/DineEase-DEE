@@ -4,132 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/manager-style.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/manager-style1.css">
     <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/img/login/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+     <!-- Material Icons -->
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    
+
 
     <title><?php echo SITENAME; ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+
 </head>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        /* box-sizing: border-box; */
-        font-family: "Poppins", sans-serif;
-        background-color: #f5f5f5;
-        transition: all 0.5s ease;
-        overflow-x: hidden;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h3 {
-        font-size: 3rem;
-        margin: 2rem 0;
-    }
-
-    .editmenu {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    }
-
-
-    .imagePart img {
-        margin-top: 40px;
-        width: 350px;
-        height: 400px;
-        border-radius: 1rem;
-        object-fit: cover;
-        border: 5px solid #2c3e50;
-    }
-
-    .imagePart span {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.5rem 1.5rem;
-        border-radius: 0.5rem;
-        background-color: #000000;
-        color: #ffffff;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
-
-    .NamePart input,
-    .NamePart select {
-        width: 100%;
-        padding: 1rem;
-        font-size: 1.2rem;
-        border: none;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-    }
-
-    .invalid-feedback {
-        color: #ff0000;
-        /* Red color for error messages */
-        font-size: 1rem;
-        margin-top: 5px;
-        display: block;
-    }
-
-    .buttons button {
-        color: #ffffff;
-        background-color: green;
-        outline: none;
-        border: none;
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-        margin-right: 0.7rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
-
-    .imgbuttons button {
-        color: #ffffff;
-        background-color: green;
-        outline: none;
-        border: none;
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-        margin-top: 1rem;
-        margin-right: 0.7rem;
-        margin-left: 5rem;
-        margin-bottom: 1rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
-
-    .menubuttons {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .buttons,
-    .menubuttons {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-</style>
-
 
 <body>
-
     <div class="navbar-template">
         <nav class="navbar">
             <div class="topbar">
@@ -164,17 +54,17 @@
                     <ul class="menu_items">
                         <div class="menu_title menu_menu"></div>
                         <li class="item">
-                                <a href="<?php echo URLROOT ?>/managers/dashboard" class="nav_link nav_link_switch" data-content='home'>
-                                    <button class="button-sidebar-menu " id="homeButton">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                dashboard
-                                            </span>
+                            <a href="<?php echo URLROOT ?>/managers/dashboard" class="nav_link nav_link_switch" data-content='home'>
+                                <button class="button-sidebar-menu active-nav" id="homeButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            dashboard
                                         </span>
-                                        <span class="button-sidebar-menu-content">Dashboard</span>
-                                    </button>
-                                </a>
-                            </li>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Dashboard</span>
+                                </button>
+                            </a>
+                        </li>
                         <li class="item">
                             <a href="<?php echo URLROOT ?>/managers/getUsers" class="nav_link nav_link_switch" data-content='home'>
                                 <button class="button-sidebar-menu " id="homeButton">
@@ -189,7 +79,7 @@
                         </li>
                         <li class="item">
                             <a href="<?php echo URLROOT ?>/managers/menu" class="nav_link" data-content='reservation'>
-                                <button class="button-sidebar-menu active-nav" id="reservationButton">
+                                <button class="button-sidebar-menu " id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
                                             restaurant_menu
@@ -261,18 +151,6 @@
                                 </button>
                             </a>
                         </li>
-                        <li class="item">
-                            <a href="<?php echo URLROOT; ?>/managers/reservations" class="nav_link" data-content='menu'>
-                                <button class="button-sidebar-menu  " id="reservationButton">
-                                    <span class="navlink_icon">
-                                        <span class="material-symbols-outlined ">
-                                            book_online
-                                        </span>
-                                    </span>
-                                    <span class="button-sidebar-menu-content">Reservations</span>
-                                </button>
-                            </a>
-                        </li>
                         <!-- End -->
 
 
@@ -315,92 +193,178 @@
             </div>
         </nav>
     </div>
+    <div class="grid-container">
+      <!-- Main -->
+      <main class="main-container">
+        <div class="main-cards">
 
-    <div class="editmenu">
-        <div class="others">
-            <div class="imagePart">
-                <img src="" />
-                <div class="imgbuttons">
-                    <form action="<?php echo URLROOT; ?>/managers/submitMenuitem" method="post" id="menuForm" enctype="multipart/form-data">
-                        <button type="button" id="imageButton">Add Image</button>
-                        <input type="file" name="imagePath" accept="image/*" style="display: none;" id="imageInput" onchange="previewImage(event)">
-
-                </div>
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">TOTAL SALES</p>
+              <span class="material-icons-outlined text-blue"><i class="fa-solid fa-coins"></i></span>
             </div>
-            <div class="NamePart">
-                <label for="category">Select Category:</label>
-                <select id="category" name="category" required>
-                    <?php foreach ($data['menucategory'] as $category) : ?>
-                        <option value="<?php echo $category->category_ID; ?>"><?php echo $category->category_name; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <span>Name:</span>
-                <input type="text" name="itemName" class="<?php echo (!empty($data['itemName_err'])) ? 'is-invalid' : '' ?>" placeholder="name" required>
-                <span class="invalid-feedback"> <?php echo $data['itemName_err'] ?> </span>
-                <span>Price(Small):</span>
-                <input type="number" name="pricesmall" placeholder="price" />
-                <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                <span>Price(Regular)(Required):</span>
-                <input type="number" name="priceregular" class="<?php echo (!empty($data['price_err'])) ? 'is-invalid' : '' ?>" placeholder="price" required />
-                <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                <span>Price(Large):</span>
-                <input type="number" name="pricelarge" placeholder="price" />
-                <span class="invalid-feedback"> <?php echo $data['price_err'] ?> </span>
-                <span>Average Prepare Time MINS:</span>
-                <input type="text" name="averageTime" class="<?php echo (!empty($data['averageTime_err'])) ? 'is-invalid' : '' ?>" placeholder="time" required />
-                <span class="invalid-feedback"> <?php echo $data['averageTime_err'] ?> </span>
-                <span>Description:</span>
-                <textarea name="description" placeholder="Description" class="<?php echo (!empty($data['description_err'])) ? 'is-invalid' : '' ?>" required value="<?php echo htmlspecialchars($data['description']); ?>" ></textarea>
-                <span class="invalid-feedback"> <?php echo $data['description_err'] ?> </span>
+            <span class="text-primary font-weight-bold">LKR:<?php echo $data['totalsales']->{'SUM(amount)'}; ?></span>
+          </div>
 
-                <div class="buttons">
-                    <button type="submit">Save Changes</button>
-                    <button type="reset">Reset</button>
-                    <button type="button" id="cancelButton">Cancel</button>
-                </div>
-                </form>
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">TOTAL ORDERS</p>
+              <span class="material-icons-outlined text-orange"><i class="fa-solid fa-arrow-up-wide-short"></i></span>
             </div>
+            <span class="text-primary font-weight-bold"><?php echo $data['totalorders']->{'COUNT(orderItemID)'}; ?></span>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">TOTAL CUSTOMERS</p>
+              <span class="material-icons-outlined text-green"><i class="fa-solid fa-users"></i></span>
+            </div>
+            <span class="text-primary font-weight-bold"><?php echo $data['totalcustomers']->{'COUNT(user_id)'}; ?></span>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">TOTAL MENUS</p>
+              <span class="material-icons-outlined text-red"><i class="fa-solid fa-bars"></i></span>
+            </div>
+            <span class="text-primary font-weight-bold"><?php echo $data['totalmenus']->{'COUNT(itemID)'}; ?></span>
+          </div>
+
+
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">BEST SELLING MENU ITEM </p>
+              <span class="material-icons-outlined text-color1"><i class="fa-solid fa-bowl-food"></i></span>
+            </div>
+            <span class="text-primary font-weight-bold"><?php echo $data['bestsellingmenuitem']->itemName; ?></span>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">MOST USED PACKAGE</p>
+              <span class="material-icons-outlined text-color2"> <i class="fa-solid fa-cubes"></i></span>
+            </div>
+            <span class="text-primary font-weight-bold"><?php echo $data['mostusedpackage']->packageName; ?></span>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">BEST REVIEWD FOOD</p>
+              <span class="material-icons-outlined text-color3"><i class="fa-regular fa-circle-up"></i></span>
+            </div>
+            <span class="text-primary font-weight-bold"><?php echo $data['bestreviewedfood']->itemName; ?></span>
+          </div>
+
+          <div class="card">
+            <div class="card-inner">
+              <p class="text-primary">LEAST REVIEW FOOD</p>
+              <span class="material-icons-outlined text-color4"><i class="fa-regular fa-circle-down"></i></span>
+            </div>
+            <span class="text-primary font-weight-bold"><?php echo $data['leastreviewedfood']->itemName; ?></span>
+          </div>
+
+          
+
         </div>
+
+        <div class="charts">
+
+          <div class="charts-card">
+            <p class="chart-title">Top 5 Products</p>
+            <canvas id="bar-chart"></canvas>
+          </div>
+
+          <div class="charts-card">
+            <p class="chart-title">Most Used Package</p>
+            <canvas id="piechart"></canvas>
+          </div>
+
+
+          </div>
+
+        </div>
+      </main>
+      <!-- End Main -->
+
     </div>
 
-    <script>
-        // Declare the previewImage function in the global scope
-        function previewImage(event) {
-            var input = event.target;
-            var preview = document.querySelector('.imagePart img');
-            var reader = new FileReader();
+    <!-- Scripts -->
+    <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
+    <!-- Custom JS -->
+    <script src="<?php echo URLROOT; ?>/js/manager.js"></script>
 
-            reader.onload = function() {
-                preview.src = reader.result;
-            };
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-            reader.readAsDataURL(input.files[0]);
-        }
+    <!-- <script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
 
+    // Draw the chart and set the chart values
+    function drawChart() {
+     var data = google.visualization.arrayToDataTable([
+  ['Task', 'Reservation Count'],
+  ['finished', 8],
+  ['Deposited', 6],
+  ['Waiting Payment', 4],
+  ['Pending', 3],
+  ['Canceled', 3]
 
+]);
 
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Reservation Status', 'width':550, 'height':400};
 
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+</script> -->
+<script>
+        // Data for the bar chart
+        var menuItems = <?php echo json_encode(array_column($data['bestsellingtop5menuitems'], 'itemName')); ?>;
+        var quantities = <?php echo json_encode(array_column($data['bestsellingtop5menuitems'], 'total_quantity')); ?>;
 
+        // Bar chart configuration
+        var ctx = document.getElementById('bar-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: menuItems,
+                datasets: [{
+                    label: 'Quantity Sold',
+                    data: quantities,
+                    backgroundColor: '#4caf50', // Green color
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
+        var packageNames = <?php echo json_encode(array_column($data['gettotalpackageusage'], 'packageName')); ?>;
+        var packageUsages = <?php echo json_encode(array_column($data['gettotalpackageusage'], 'total_usage')); ?>;
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Image upload button click event
-            document.getElementById('imageButton').addEventListener('click', function() {
-                document.getElementById('imageInput').click();
-            });
-
-            // Get the cancel button element by its ID
-            var cancelButton = document.getElementById('cancelButton');
-
-            // Add click event listener to the cancel button
-            cancelButton.addEventListener('click', function(event) {
-                // Redirect to the index page when the button is clicked
-                window.location.href = '<?php echo URLROOT; ?>/managers/menu/';
-            });
-
-            // Set up the onchange event for file input
-            document.getElementById('imageInput').addEventListener('change', previewImage);
+        // Pie chart configuration
+        var pieCtx = document.getElementById('piechart').getContext('2d');
+        var pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: packageNames,
+                datasets: [{
+                    label: 'Package Usage',
+                    data: packageUsages,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Colors for the pie slices
+                    borderWidth: 1
+                }]
+            },
+            options: {}
         });
     </script>
 

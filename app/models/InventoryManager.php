@@ -165,8 +165,10 @@ public function getkitchenRequests(){
         $inventeoryid=$result->inventoryName;
         $InventoryName = $this->getInventoryNameByID2($inventeoryid);
         $categoryname = $this->getCategoryNameByID2($categoryid);
+        $units = $this->getInventoryunitsByID2($inventeoryid);
         $result->categoryName = $categoryname;
-        $result->Inventoryname = $InventoryName;  // Add categoryName property to result object
+        $result->Inventoryname = $InventoryName;
+        $result->units = $units;  
     }
 
     // Return the results with category names
@@ -207,6 +209,13 @@ public function getInventoryNameByID2($inventorynameID) {
     $result = $this->db->single() ;// Assuming single() method fetches a single row
     return $result;
 }
+public function getInventoryunitsByID2($inventorynameID) {
+    $query = "SELECT units FROM inventories WHERE inventorynameID = :inventorynameID";
+    $this->db->query($query);
+    $this->db->bind(':inventorynameID', $inventorynameID);
+    $result = $this->db->single() ;// Assuming single() method fetches a single row
+    return $result;
+}
 public function getcategoryidbyinventroynameid($inventorynameID) {
     $query = "SELECT categoryID FROM inventories WHERE inventorynameID = :inventorynameID";
     $this->db->query($query);
@@ -234,19 +243,31 @@ public function getrequestedInventories($categoryID) {
         $inventeoryid=$result->inventoryName;
         $InventoryName = $this->getInventoryNameByID2($inventeoryid);
         $categoryname = $this->getCategoryNameByID2($categoryid);
+        //$units = $this->getInventoryunitsByname2($InventoryName);
         $result->categoryName = $categoryname;
-        $result->Inventoryname = $InventoryName;  // Add categoryName property to result object
+        $result->Inventoryname = $InventoryName;
+        //$result->units = $units;
+          // Add categoryName property to result object
     }
 
     // Return the results with category names
-   // error_log('Results: ' . print_r($results, true));
+   error_log('Results: ' . print_r($results, true));
     return $results;
 }
+public function getInventoryunitsByname2($inventoryname) {
+    $query = "SELECT units FROM inventories WHERE inventoryName = :inventoryName";
+    $this->db->query($query);
+    $this->db->bind(':inventoryName', $inventoryname);
+    $result = $this->db->single() ;// Assuming single() method fetches a single row
+    return $result;
+}
+
 public function getrequestedinventoriesnames($categoryID) {
     $query = "SELECT DISTINCT inventoryName FROM kitchenrequest WHERE categoryID = :categoryID AND status = 'Requested' ";
     $this->db->query($query);
     $this->db->bind(':categoryID', $categoryID);
     $results = $this->db->resultSet();
+    error_log('Results first getrequestedinventoriesnames: ' . print_r($results, true));
     foreach ($results as &$result) {
         //$categoryid = $result->categoryID;
         $inventeoryid=$result->inventoryName;
@@ -258,7 +279,64 @@ public function getrequestedinventoriesnames($categoryID) {
     //error_log('Results: ' . print_r($results, true));
     return $results;
 }
-
+public function getrequestedinventoriesquantities($categoryID) {
+    $query = "SELECT  inventoryName,SUM(quantity) AS totalQuantity FROM kitchenrequest WHERE categoryID = :categoryID AND status = 'Requested' GROUP BY inventoryName";
+    $this->db->query($query);
+    $this->db->bind(':categoryID', $categoryID);
+    $results = $this->db->resultSet();
+    error_log('Results first getrequestedinventoriesquantities: ' . print_r($results, true));
+    foreach ($results as &$result) {
+        //$categoryid = $result->categoryID;
+        $inventeoryid=$result->inventoryName;
+        $units = $this->getInventoryunitsByID2($inventeoryid);
+        $InventoryName = $this->getInventoryNameByID2($inventeoryid);
+        $quantity = $this->getQuantityFromInventoryList($InventoryName->inventoryName);
+        $this->sumquantityinventroylist();
+        $result->units = $units;
+        //$categoryname = $this->getCategoryNameByID2($categoryid);
+        //$result->categoryName = $categoryname;
+        $result->Inventoryname = $InventoryName;  // Add categoryName property to result object
+        $result->totquantity = $quantity;
+    }
+    error_log('Results getrequestedinventoriesquantities: ' . print_r($results, true));
+    return $results;
+}
+private function getQuantityFromInventoryList($inventoryName) {
+    $query = "SELECT SUM(quantity) AS totalQuantity 
+              FROM inventorylist 
+              WHERE inventoryName = :inventoryName AND shelfLife > 0";
+    $this->db->query($query);
+    $this->db->bind(':inventoryName', $inventoryName);
+    $row = $this->db->single();
+    
+    return $row->totalQuantity;
+}
+// public function getrequesteditemscurrenttotalamount($categoryID) {
+//     $query = "SELECT  inventoryName,SUM(quantity) AS totalQuantity FROM kitchenrequest WHERE categoryID = :categoryID AND status = 'Requested' GROUP BY inventoryName";
+//     $this->db->query($query);
+//     $this->db->bind(':categoryID', $categoryID);
+//     $results = $this->db->resultSet();
+//     error_log('Results first getrequestedinventoriesquantities: ' . print_r($results, true));
+//     foreach ($results as &$result) {
+//         //$categoryid = $result->categoryID;
+//         $inventeoryid=$result->inventoryName;
+//         $units = $this->getInventoryunitsByID2($inventeoryid);
+//         $InventoryName = $this->getInventoryNameByID2($inventeoryid);
+//         $result->units = $units;
+//         //$categoryname = $this->getCategoryNameByID2($categoryid);
+//         //$result->categoryName = $categoryname;
+//         $result->Inventoryname = $InventoryName;  // Add categoryName property to result object
+//     }
+//     error_log('Results getrequestedinventoriesquantities: ' . print_r($results, true));
+//     return $results;
+// }
+public function sumquantityinventroylist(){
+    $query = "SELECT inventoryName, SUM(quantity) AS totalQuantity FROM inventorylist WHERE shelfLife > 0 GROUP BY inventoryName ";
+    $this->db->query($query);
+    $results = $this->db->resultSet();
+    error_log('Results first sumquantityinventroylist: ' . print_r($results, true));
+    return $results;
+}
 public function getInventoryNameByID($inventoryID) {
     $query = "SELECT inventoryName FROM inventorylist WHERE inventoryID = :inventoryID";
     $this->db->query($query);
