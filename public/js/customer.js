@@ -876,8 +876,25 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "#rc-submit-cancel", function () {
-    toastr.danger("Reservation has been cancelled successfully.");
-    cancelReservation(possibilityToRefund);
+    swal({
+      title: "Are you sure?",
+      text: "Once Cancelled, you will not be able to recover this reservation!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("You have cancelled the reservation", {
+          icon: "success",
+        });
+        cancelReservation(possibilityToRefund);
+      } else {
+        
+      }
+    });
+    
+    
   });
 
   function loadCancellationDetails(status, possibilityToRefund) {

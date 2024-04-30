@@ -654,20 +654,22 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         reservations = data;
-
+        var currentTime = new Date();
         var notCancelledOrders = reservations.filter(
           (reservation) => reservation.status != "Cancelled"
         );
 
         var incomingOrders = notCancelledOrders.filter(
-          (notCancelledOrder) => notCancelledOrder.preparationStatus == "Pending"
+          (notCancelledOrder) =>
+            notCancelledOrder.preparationStatus == "Pending"
         );
         var activeOrders = notCancelledOrders.filter(
           (notCancelledOrder) => notCancelledOrder.preparationStatus == "Active"
         );
 
         var completedOrders = notCancelledOrders.filter(
-          (notCancelledOrder) => notCancelledOrder.preparationStatus == "Completed"
+          (notCancelledOrder) =>
+            notCancelledOrder.preparationStatus == "Completed"
         );
 
         var cancelledOrders = reservations.filter(
@@ -689,16 +691,28 @@ $(document).ready(function () {
             (item) => item.itemProcessingStatus == "Ready"
           )
         );
+        var recentlyOverdueOrders = notCancelledOrders.filter((reservation) => {
+          let reservationTime = new Date(reservation.reservationStartTime);
+          let timeDifference = currentTime - reservationTime;
+          let oneMinute = 60 * 1000; 
+          return timeDifference > oneMinute && reservation.hasArrived === 0;
+        });
 
+        var arrivedOrders = notCancelledOrders.filter(
+          (reservation) => reservation.hasArrived === 1
+        );
 
         var ongoingOrders = incomingOrders.concat(activeOrders);
-        
+
+        $("#overdueOrders").html(createOrders(recentlyOverdueOrders));
 
         $("#cancelledOrders").html(createOrders(cancelledOrders));
-        
+
+        $("#overdueOrders").html(createOrders(recentlyOverdueOrders));
+
         $("#ongoingOrders").html(createOrders(ongoingOrders));
         $("#completedOrders").html(createOrders(completedOrders));
-        // TODO #80 Amount payable shows as a negative value
+
         function createOrders(orders) {
           var html = "";
           orders.forEach((order) => {
@@ -723,7 +737,8 @@ $(document).ready(function () {
                                         }
                                           ${
                                             order.preparationStatus !=
-                                            "Completed" && order.preparationStatus != "Cancelled"
+                                              "Completed" &&
+                                            order.status != "Cancelled"
                                               ? `<button class="light-green-btn addOrderItems" onClick="editOngoingOrder(this);" data-id-reservationID = "${order.orderID}">Add Items</button>`
                                               : ""
                                           }

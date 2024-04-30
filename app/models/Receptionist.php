@@ -298,7 +298,7 @@ class Receptionist
 
         $today = date("Y-m-d");
 
-        $this->db->query('SELECT reservationID ,customerID, tableID, status , reservationStartTime , orderID  , amount  FROM reservation where  date = :today ORDER BY reservationStartTime ASC');
+        $this->db->query('SELECT  hasArrived , reservationID ,customerID, tableID, status , reservationStartTime , orderID  , amount  FROM reservation where  date = :today ORDER BY reservationStartTime ASC');
         $this->db->bind(':today', $today);
         $row1 = $this->db->resultSet();
 
@@ -323,7 +323,7 @@ class Receptionist
         }
 
         foreach ($row1 as $row) {
-            $this->db->query('SELECT orderItemID ,itemID , size , quantity , itemProcessingStatus FROM orderitem WHERE orderNo = :orderID');
+            $this->db->query('SELECT orderItemID ,itemID , size , quantity , itemProcessingStatus  FROM orderitem WHERE orderNo = :orderID');
             $this->db->bind(':orderID', $row->orderID);
             $row->items = $this->db->resultSet();
             $this->db->query('SELECT name FROM users WHERE user_id = :customer_id');
