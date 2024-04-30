@@ -158,19 +158,6 @@
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
                             <li class="item">
-                                <a href="<?php echo URLROOT ?>/chefs/index" class="nav_link " onclick="changeContent('home')">
-                                    <button class="button-sidebar-menu ">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                home
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Dashboard </span>
-                                    </button>
-                                </a>
-                            </li>
-
-                            <li class="item">
                                 <a href="<?php echo URLROOT ?>/chefs/order" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu active-nav">
                                         <span class="navlink_icon">
@@ -278,7 +265,7 @@
                             <div class="content-row-50">
                                 <div class="content-row-50-head">
                                     <span class="material-symbols-outlined"> cooking </span>
-                                    <h2>Compleated Items</h2>
+                                    <h2>Completed Items</h2>
                                     <span class="active-no" id="item-count-completed">
                                     </span>
                                 </div>

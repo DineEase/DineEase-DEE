@@ -289,7 +289,12 @@ class Receptionist
     {
         $this->db->query('UPDATE reservation SET status = "Completed" WHERE orderID = :orderID');
         $this->db->bind(':orderID', $orderID);
+        $result1 =  $this->db->execute();
+
+        $this->db->query('UPDATE orders SET preparationStatus = "done" WHERE orderItemID = :orderID');
+        $this->db->bind(':orderID', $orderID);
         $result =  $this->db->execute();
+
         return $result;
     }
 

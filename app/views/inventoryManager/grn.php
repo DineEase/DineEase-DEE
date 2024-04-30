@@ -67,18 +67,7 @@
                                     </button>
                                 </a>
                             </li>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/inventoryManagers/alert" class="nav_link">
-                                    <button class="button-sidebar-menu">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                notifications_active
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Alerts </span>
-                                    </button>
-                                </a>
-                            </li>
+                            
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/inventoryManagers/grn" class="nav_link">
                                     <button class="button-sidebar-menu">

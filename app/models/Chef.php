@@ -85,6 +85,7 @@ class Chef
             $this->db->query('UPDATE orders SET preparationStatus = "Completed" WHERE orderItemID = :orderID');
             $this->db->bind(':orderID', $row->orderNo);
             $this->db->execute();
+            
         }
 
         $this->db->query('SELECT * FROM orderitem WHERE orderNo = :orderID');

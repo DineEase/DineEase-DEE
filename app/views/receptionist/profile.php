@@ -21,7 +21,7 @@
 <body>
     <div class="container">
         <div class="navbar-template">
-            <nav class="navbar">
+        <nav class="navbar">
                 <div class="topbar">
                     <div class="logo-item">
                         <i class="bx bx-menu" id="sidebarOpen"></i>
@@ -99,7 +99,7 @@
                                 </a>
                             </li>
 
-                             <li class="item">
+                             <!-- <li class="item">
                                 <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
@@ -110,7 +110,7 @@
                                         <span class="button-sidebar-menu-content">Orders </span>
                                     </button>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End -->
 
 

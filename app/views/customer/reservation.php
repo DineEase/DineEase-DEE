@@ -77,7 +77,7 @@
                         <!--  -->
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
-                            <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
+                            <!-- <a href="<?php echo URLROOT ?>/customers/dashboard" class="nav_link" data-content='dashboard'>
                                 <button class="button-sidebar-menu" id="reservationButton">
                                     <span class="navlink_icon">
                                         <span class="material-symbols-outlined ">
@@ -86,7 +86,7 @@
                                     </span>
                                     <span class="button-sidebar-menu-content">Reservation </span>
                                 </button>
-                            </a>
+                            </a> -->
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/customers/reservation" class="nav_link" data-content='reservation'>
                                     <button class="button-sidebar-menu active-nav" id="reservationButton">

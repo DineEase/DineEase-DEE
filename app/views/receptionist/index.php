@@ -135,7 +135,7 @@
 <body>
     <div class="container">
         <div class="navbar-template">
-            <nav class="navbar">
+           <nav class="navbar">
                 <div class="topbar">
                     <div class="logo-item">
                         <i class="bx bx-menu" id="sidebarOpen"></i>
@@ -146,7 +146,9 @@
                     </div>
                     <div class="navbar-content">
                         <div class="profile-details">
-
+                            <!-- <span class="material-symbols-outlined topbar-shoping-cart" value="0">
+                                shopping_cart_off
+                            </span> -->
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
@@ -211,7 +213,7 @@
                                 </a>
                             </li>
 
-                            <li class="item">
+                            <!-- <li class="item">
                                 <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
@@ -222,7 +224,7 @@
                                         <span class="button-sidebar-menu-content">Orders </span>
                                     </button>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End -->
 
 
