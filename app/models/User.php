@@ -38,7 +38,7 @@ class User {
     //register user
     public function register($data){
     
-        $this->db->query('INSERT INTO users (name, email, dob, mobile_no, password, active) VALUES (:name, :email, :dob, :mobile_no, :password, 0)');
+        $this->db->query('INSERT INTO users (name, email, dob, mobile_no, password, active) VALUES (:name, :email, :dob, :mobile_no, :password, 1)');
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':dob', $data['dob']);

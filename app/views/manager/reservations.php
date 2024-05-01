@@ -276,6 +276,8 @@ if (!empty($data['refundrequestreservations'])) {
 </div>
 
 <body>
+
+
 <div class="container">
     <h1>Refund Requested Reservations</h1>
     <div class="refund-details">
@@ -287,14 +289,7 @@ if (!empty($data['refundrequestreservations'])) {
                     <div class="reservation-item">
                         <div class="reservation-info">
                             <div><strong>Reservation ID:</strong> <?php echo $reservation->reservationID; ?></div>
-                            <div><strong>Order ID:</strong> <?php echo $reservation->orderID; ?></div>
-                            <div><strong>Reservation Date:</strong> <?php echo $reservation->date; ?></div>
-                            <div><strong>Reservation Start Time:</strong> <?php echo $reservation->reservationStartTime; ?></div>
-                            <div><strong>Reservation End Time:</strong> <?php echo $reservation->reservationEndTime; ?></div>
-                            <div><strong>Number of People:</strong> <?php echo $reservation->numOfPeople; ?></div>
-                            <div><strong>Requested Date:</strong> <?php echo $reservation->refund_date; ?></div>
-                            <div><strong>Total Amount:</strong> <?php echo $reservation->amount; ?></div>
-                            <div><strong>Refund Amount:</strong> <?php echo $reservation->refund_amount; ?></div>
+                            <div><strong>Refund Amount(LKR):</strong> <?php echo $reservation->amount; ?></div>
                             <div><strong>Reason:</strong> <?php echo $reservation->reason; ?></div>
                             <div><strong>Refund Status:</strong> <?php echo $reservation->status; ?></div>
                         </div>

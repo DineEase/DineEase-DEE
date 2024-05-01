@@ -6,6 +6,26 @@ var addedReservationID;
 var grandTotal = 0;
 var topCartTotal = 0;
 
+$("#rs-refund").click(function () {
+  swal({
+    title: "Refund and Return Policies",
+    text:
+      "Thank you for choosing DineEase! We are committed to ensuring your satisfaction. Please review our policies below:\n\n" +
+      "Refund Policy:\n" +
+      "1. Food Errors: If you receive incorrect items, contact us immediately. We will correct the order, and adjustments will be made for any price difference.\n" +
+      "2. Order Incomplete: Report any missing items immediately. You may cancel before preparation for a refund; however, orders cannot be canceled once preparation has begun.\n" +
+      "3. Food Dissatisfaction: If you are unsatisfied with the quality, please notify us for a possible refund or store credit, at the manager’s discretion.\n\n" +
+      "Return Policy:\n" +
+      "1. General: Returns of non-food items are accepted under certain conditions. Items must be returned within 30 days of purchase, unused and in original packaging, for a refund or exchange.\n" +
+      "2. Refunds: Refunds for non-food items are processed within 24 hours of the return, with 80% of the payment refunded due to restaurant charges and taxes.\n\n" +
+      "Immediate Assistance: For urgent issues, particularly those related to system outages, please contact the restaurant directly via the phone number listed on our platform.\n\n" +
+      "Changes and Contact: Policies may change without prior notice. For questions, please contact us at [contact email/phone].\n\n" +
+      "We value your patronage and look forward to serving you again!",
+    icon: "info",
+    button: "Close",
+  });
+});
+
 // !show hide menus
 // Show the pop-up window when the link is clicked
 popupLink.addEventListener("click", function (event) {
@@ -89,16 +109,7 @@ function addToCart(itemID) {
 
   sessionStorage.setItem("food-cart", JSON.stringify(cartArray));
   showCart();
-  alert(
-    "Item added to cart: " +
-      newItem.itemName +
-      " x " +
-      newItem.quantity +
-      " " +
-      newItem.size +
-      " Price: " +
-      newItem.price
-  );
+  toastr.success("Item added to cart successfully");
 
   var itemPrice = newItem.price * newItem.quantity;
   grandTotal += itemPrice;
@@ -111,28 +122,28 @@ function addToCart(itemID) {
 //TODO #43 Slot reservation amount must be deducted from the total amount
 
 function subtractQuantityFromCart(element) {
-  alert("Subtracting");
   var value = $(element).data("slot-label");
-  alert(value);
+
   var quantity = $("#cart-item-quantity-input" + value).val();
-  alert(quantity);
+
   var newValue = parseInt(quantity) - 1;
   if (newValue < 1) newValue = 1;
   $("#cart-item-quantity-input" + value).val(newValue);
 
   updateSessionStorage(value, newValue);
+  toastr.success("Item quantity updated successfully");
 }
 function addQuantityToCart(element) {
-  alert("Subtracting");
   var value = $(element).data("slot-label");
-  alert(value);
+
   var quantity = $("#cart-item-quantity-input" + value).val();
-  alert(quantity);
+
   var newValue = parseInt(quantity) + 1;
   if (newValue > 10) newValue = 10;
   $("#cart-item-quantity-input" + value).val(newValue);
 
   updateSessionStorage(value, newValue);
+  toastr.success("Item quantity updated successfully");
 }
 
 function emptyCart() {
@@ -142,6 +153,7 @@ function emptyCart() {
   $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
   updateSessionStorage();
   createTopbarCartItems();
+  toastr.success("Cart emptied successfully");
 }
 
 function updateSessionStorage(itemID, newQuantity) {
@@ -177,6 +189,7 @@ function removeFromCart(index) {
   $("#cartTotalAmount").text("LKR" + grandTotal + ".00");
   showCart();
   updateTotalAmount();
+  toastr.success("Item removed from cart successfully");
 }
 
 // Show the cart
@@ -276,6 +289,7 @@ $("#proceed-to-pay").click(function () {
     data: data,
     success: function (response) {
       addedReservationID = response;
+      sessionStorage.SessionMessage = "There was a problem adding the reservation. Please try again later."
       paymentGateway(response);
     },
   });
@@ -355,7 +369,7 @@ function paymentGateway(ReservationID) {
         markPaid();
         createOrder();
         emptyCart();
-       
+        sessionStorage.SessionMessage = "Reservation added successfully";
         location.reload();
       };
 
@@ -363,6 +377,7 @@ function paymentGateway(ReservationID) {
       payhere.onDismissed = function onDismissed() {
         console.log("Payment dismissed");
         //TODO: Show an error page
+
       };
 
       // Error occurred

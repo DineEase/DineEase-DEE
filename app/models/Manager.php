@@ -1222,20 +1222,16 @@ class Manager
             'results' => $results];
     }
     public function getreservations(){
-        $this->db->query('SELECT reservation.*, refundrequest.reason,refundrequest.amount,refundrequest.date AS refund_date,refundrequest.amount AS refund_amount
-        FROM reservation
-        JOIN refundrequest ON reservation.refundRequestID = refundrequest.refundRequestID
-        WHERE reservation.status = "Requested"');
-        $results = $this->db->resultSet();
+       $this->db->query('SELECT * FROM refundrequest WHERE status = "Pending"');
+         $results = $this->db->resultSet();
         return $results;
-        var_dump($results);
     }
     //meka hadana eka
     public function getReservationsCount() {
         $this->db->query('SELECT COUNT(*) as reservationCount
             FROM reservation
             JOIN refundrequest ON reservation.refundRequestID = refundrequest.refundRequestID
-            WHERE reservation.status = "Requested"');
+            WHERE reservation.status = "Refund Requested"');
         $result = $this->db->single();
         return $result;
     }

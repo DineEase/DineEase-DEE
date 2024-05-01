@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/receptionist-styles.css">
     <title><?php echo SITENAME; ?></title>
     <style>
+        
         .dashboard-head {
             display: flex;
             justify-content: space-between;
@@ -125,6 +126,8 @@
 
         .reservation-full-view-table {
             border: 4px solid var(--brandgreen);
+
+
         }
     </style>
 </head>
@@ -132,7 +135,7 @@
 <body>
     <div class="container">
         <div class="navbar-template">
-            <nav class="navbar">
+           <nav class="navbar">
                 <div class="topbar">
                     <div class="logo-item">
                         <i class="bx bx-menu" id="sidebarOpen"></i>
@@ -143,7 +146,9 @@
                     </div>
                     <div class="navbar-content">
                         <div class="profile-details">
-
+                            <!-- <span class="material-symbols-outlined topbar-shoping-cart" value="0">
+                                shopping_cart_off
+                            </span> -->
                             <span class="material-symbols-outlined material-symbols-outlined-topbar  topbar-notifications">notifications </span>
                             Hello, &nbsp; <?php echo ucfirst($_SESSION['role']) ?> <span class="user-name"> &nbsp; | &nbsp; <?php echo  $_SESSION['user_name'] ?></span>
                             <img src="<?php echo URLROOT ?>/img/profilePhotos/<?php echo $_SESSION['profile_picture'] ?>" alt="profile-photo" class="profile" />
@@ -208,7 +213,7 @@
                                 </a>
                             </li>
 
-                            <li class="item">
+                            <!-- <li class="item">
                                 <a href="<?php echo URLROOT ?>/receptionists/orders" class="nav_link" onclick="changeContent('order')">
                                     <button class="button-sidebar-menu">
                                         <span class="navlink_icon">
@@ -219,7 +224,7 @@
                                         <span class="button-sidebar-menu-content">Orders </span>
                                     </button>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- End -->
 
 
@@ -306,9 +311,9 @@
                     </div>
                     <div class="rdh-item">
                         <div class="buttonset-container">
-                            <button class="view-slot-button" >Scheduled</button>
-                            <button class="view-slot-button active-reservation" >Arrived</button>
-                            <button class="view-slot-button completed-reservation" >Completed</button>
+                            <button class="view-slot-button">Scheduled</button>
+                            <button class="view-slot-button active-reservation">Arrived</button>
+                            <button class="view-slot-button completed-reservation">Completed</button>
                         </div>
                     </div>
                 </div>
@@ -411,99 +416,124 @@
             let datePassed = isDayPassed(selectedDate);
             let timePassed = isTimePassed(selectedDate, reservationTime);
 
-            if (datePassed || timePassed) {
-                swal({
-                    title: "Reservation Details",
-                    text: "Reservation ID: " + reservationID + "\nCustomer Name: " + customerName,
-                    icon: "info",
-                    buttons: {
-                        close: {
-                            text: "Close",
-                            value: null,
-                            visible: true,
-                            className: "swal-close-btn",
-                        }
-                    }
-                });
-            } else {
-                // handle mark arrived and cancel reservation logic for chef and filtering
-                swal({
-                    title: "Reservation Details",
-                    text: "Reservation ID: " + reservationID + "\nCustomer Name: " + customerName,
-                    icon: "info",
-                    buttons: {
-                        close: {
-                            text: "Close",
-                            value: null,
-                            visible: true,
-                            className: "swal-close-btn",
-                        },
-                        markArrived: {
-                            text: "Mark Arrived",
-                            value: "Mark Arrived",
-                            visible: true,
-                            className: "swal-mark-arrived-btn",
-                            closeModal: true
-                        },
-                        cancelReservation: {
-                            text: "Cancel Reservation",
-                            value: "Cancel Reservation",
-                            visible: true,
-                            className: "swal-cancel-btn  alert-danger ",
-                            closeModal: true
-                        }
-                    }
-                }).then((value) => {
-                    switch (value) {
-                        case "Mark Arrived":
-                            $.ajax({
-                                type: "POST",
-                                url: "markArrived",
-                                data: {
-                                    reservationID: reservationID
-                                },
-                                success: function(response) {
-                                    if (response == 1) {
-                                        toastr.success("Reservation " + reservationID + " marked arrived");
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 2000);
-                                    } else {
-                                        console.log(response);
-                                        toastr.error("Failed to mark reservation as arrived");
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 2000);
+            $.ajax({
+                type: "POST",
+                url: "getReservationMarkedArrivedStatus",
+                data: {
+                    reservationID: reservationID
+                },
+                success: function(response) {
+                    if (response == 1) {
+                        swal({
+                            title: "Reservation Details",
+                            text: "Reservation ID: " + reservationID + "\nCustomer Name: " + customerName,
+                            icon: "info",
+                            buttons: {
+                                close: {
+                                    text: "Close",
+                                    value: null,
+                                    visible: true,
+                                    className: "swal-close-btn",
+                                }
+                            }
+                        });
+                    } else {
+                        if (datePassed || timePassed) {
+                            swal({
+                                title: "Reservation Details",
+                                text: "Reservation ID: " + reservationID + "\nCustomer Name: " + customerName,
+                                icon: "info",
+                                buttons: {
+                                    close: {
+                                        text: "Close",
+                                        value: null,
+                                        visible: true,
+                                        className: "swal-close-btn",
                                     }
                                 }
                             });
-                            break;
-                        case "Cancel Reservation":
-                            $.ajax({
-                                type: "POST",
-                                url: "cancelLateReservation",
-                                data: {
-                                    reservationID: reservationID
-                                },
-                                success: function(response) {
-                                    if (response == 1) {
-                                        toastr.success('Reservation ' + reservationID + ' cancelled successfully');
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 2000);
-                                    } else {
-                                        toastr.error("Failed to cancel reservation");
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 2000);
+                        } else {
+                            // handle mark arrived and cancel reservation logic for chef and filtering
+                            swal({
+                                title: "Reservation Details",
+                                text: "Reservation ID: " + reservationID + "\nCustomer Name: " + customerName,
+                                icon: "info",
+                                buttons: {
+                                    close: {
+                                        text: "Close",
+                                        value: null,
+                                        visible: true,
+                                        className: "swal-close-btn",
+                                    },
+                                    markArrived: {
+                                        text: "Mark Arrived",
+                                        value: "Mark Arrived",
+                                        visible: true,
+                                        className: "swal-mark-arrived-btn",
+                                        closeModal: true
+                                    },
+                                    cancelReservation: {
+                                        text: "Cancel Reservation",
+                                        value: "Cancel Reservation",
+                                        visible: true,
+                                        className: "swal-cancel-btn  alert-danger ",
+                                        closeModal: true
                                     }
                                 }
+                            }).then((value) => {
+                                switch (value) {
+                                    case "Mark Arrived":
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "markArrived",
+                                            data: {
+                                                reservationID: reservationID
+                                            },
+                                            success: function(response) {
+                                                if (response == 1) {
+                                                    toastr.success("Reservation " + reservationID + " marked arrived");
+                                                    setTimeout(function() {
+                                                        location.reload();
+                                                    }, 2000);
+                                                } else {
+                                                    console.log(response);
+                                                    toastr.error("Failed to mark reservation as arrived");
+                                                    setTimeout(function() {
+                                                        location.reload();
+                                                    }, 2000);
+                                                }
+                                            }
+                                        });
+                                        break;
+                                    case "Cancel Reservation":
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "cancelLateReservation",
+                                            data: {
+                                                reservationID: reservationID
+                                            },
+                                            success: function(response) {
+                                                if (response == 1) {
+                                                    toastr.success('Reservation ' + reservationID + ' cancelled successfully');
+                                                    setTimeout(function() {
+                                                        location.reload();
+                                                    }, 2000);
+                                                } else {
+                                                    toastr.error("Failed to cancel reservation");
+                                                    // setTimeout(function() {
+                                                    //     location.reload();
+                                                    // }, 2000);
+                                                }
+                                            }
+                                        });
+                                        break;
+                                }
                             });
-                            break;
+                        }
                     }
-                });
-            }
 
+                }
+            });
         }
     </script>
 </body>

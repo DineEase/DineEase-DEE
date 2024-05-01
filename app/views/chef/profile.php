@@ -50,18 +50,7 @@
 
                         <ul class="menu_items">
                             <div class="menu_title menu_menu"></div>
-                            <li class="item">
-                                <a href="<?php echo URLROOT ?>/chefs/index" class="nav_link " onclick="changeContent('home')">
-                                    <button class="button-sidebar-menu ">
-                                        <span class="navlink_icon">
-                                            <span class="material-symbols-outlined ">
-                                                home
-                                            </span>
-                                        </span>
-                                        <span class="button-sidebar-menu-content">Dashboard </span>
-                                    </button>
-                                </a>
-                            </li>
+                          
 
                             <li class="item">
                                 <a href="<?php echo URLROOT ?>/chefs/order" class="nav_link" onclick="changeContent('order')">

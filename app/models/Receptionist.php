@@ -148,7 +148,7 @@ class Receptionist
 
 
         $this->db->query('INSERT INTO reservation (customerID, tableID, reservationStartTime, reservationEndTime, date, numOfPeople, packageID, status , amount ) VALUES (:customerID, :tableID, :reservationStartTime, :reservationEndTime, :date, :numOfPeople, :packageID, :status , :amount)');
-        $this->db->bind(':customerID', "43");
+        $this->db->bind(':customerID', "52");
         //TODO cerate table logic
         $this->db->bind(':tableID', 1);
         $this->db->bind(':reservationStartTime', $order['slot']);
@@ -289,7 +289,12 @@ class Receptionist
     {
         $this->db->query('UPDATE reservation SET status = "Completed" WHERE orderID = :orderID');
         $this->db->bind(':orderID', $orderID);
+        $result1 =  $this->db->execute();
+
+        $this->db->query('UPDATE orders SET preparationStatus = "done" WHERE orderItemID = :orderID');
+        $this->db->bind(':orderID', $orderID);
         $result =  $this->db->execute();
+
         return $result;
     }
 
@@ -298,7 +303,7 @@ class Receptionist
 
         $today = date("Y-m-d");
 
-        $this->db->query('SELECT reservationID ,customerID, tableID , reservationStartTime , orderID  , amount FROM reservation where (status =  "Paid" OR status =  "Unpaid")  and date = :today ORDER BY reservationStartTime ASC');
+        $this->db->query('SELECT  hasArrived , reservationID ,customerID, tableID, status , reservationStartTime , orderID  , amount  FROM reservation where  date = :today ORDER BY reservationStartTime ASC');
         $this->db->bind(':today', $today);
         $row1 = $this->db->resultSet();
 
@@ -323,7 +328,7 @@ class Receptionist
         }
 
         foreach ($row1 as $row) {
-            $this->db->query('SELECT orderItemID ,itemID , size , quantity , itemProcessingStatus FROM orderitem WHERE orderNo = :orderID');
+            $this->db->query('SELECT orderItemID ,itemID , size , quantity , itemProcessingStatus  FROM orderitem WHERE orderNo = :orderID');
             $this->db->bind(':orderID', $row->orderID);
             $row->items = $this->db->resultSet();
             $this->db->query('SELECT name FROM users WHERE user_id = :customer_id');
@@ -488,4 +493,13 @@ class Receptionist
         $results = $this->db->resultSet();
         return $results;
     }
+
+    public function getReservationMarkedArrivedStatus($reservationID)
+    {
+        $this->db->query('SELECT hasArrived FROM reservation WHERE reservationID = :reservationID');
+        $this->db->bind(':reservationID', $reservationID);
+        $result = $this->db->single();
+        return $result;
+    }
+
 }

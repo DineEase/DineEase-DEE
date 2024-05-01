@@ -27,13 +27,10 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-
-  console.log(packageSizes);
   for (var i = 0; i < packageSizes.length; i++) {
-    suiteMaxCapacity[i]= packageSizes[i].total_capacity;
+    suiteMaxCapacity[i] = packageSizes[i].total_capacity;
   }
 });
-
 
 $(document).ready(function () {
   getAvailability($("#reservation_suite").val());
@@ -108,65 +105,84 @@ $(document).ready(function () {
             let sizePrice = [];
 
             sizePrice = sizesArray[i] + " - " + pricesArray[i];
-
             dropdown.append(
-              $("<div>", {
-                class: "menu-item",
-                text: item.itemName + " - " + sizePrice,
-              })
+              $("<div>", { class: "menu-item" })
                 .append(
-                  $("<input>", {
-                    type: "number",
-                    class: "quantity-input-menu-items",
-                    id: "quantity-input" + item.itemID,
-                    placeholder: "Quantity",
-                    value: 1,
-                    min: 1,
-                    required: true,
-                  })
+                  $("<div>", { class: "item-details" }).text(
+                    item.itemName + " - " + sizePrice
+                  )
                 )
                 .append(
-                  $("<button>", {
-                    class: "add-to-cart-btn",
-                    text: "Add to Cart",
-                    id: "add-to-cart-btn" + item.itemID,
-                    "data-item-id": item.itemID,
-                    "data-item-price": pricesArray[i],
-                    "data-item-size": sizesArray[i],
-                    "data-item-name": item.itemName,
-                    onClick: "addToCart(this)",
-                  })
+                  $("<div>", { class: "item-actions" })
+                    .append(
+                      $("<input>", {
+                        type: "number",
+                        class: "quantity-input-menu-items",
+                        id: "quantity-input" + item.itemID,
+                        placeholder: "Quantity",
+                        value: 1,
+                        min: 1,
+                        max:20,
+                        required: true,
+                      })
+                    )
+                    .append(
+                      $("<button>", {
+                        class: "add-to-cart-btn",
+                        text: "Add to Cart",
+                        id: "add-to-cart-btn" + item.itemID,
+                        "data-item-id": item.itemID,
+                        "data-item-price": pricesArray[i],
+                        "data-item-size": sizesArray[i],
+                        "data-item-name": item.itemName,
+                        onClick: "addToCart(this)",
+                      })
+                    )
                 )
             );
           }
         } else {
           dropdown.append(
-            $("<div>", {
-              class: "menu-item",
-              text: item.itemName + " - " + sizesArray + " - " + pricesArray,
-            })
+            $("<div>", { class: "menu-item" })
               .append(
-                $("<input>", {
-                  type: "number",
-                  class: "quantity-input-menu-items",
-                  id: "quantity-input" + item.itemID,
-                  value: 1,
-                  min: 1,
-                  placeholder: "Quantity",
-                  required: true,
-                })
+                $("<div>", { class: "item-details" }) // Div for the text details
+                  .text(
+                    item.itemName +
+                      " - " +
+                      sizesArray.join(", ") +
+                      " - " +
+                      pricesArray.join(", ")
+                  ) // Assumes sizesArray and pricesArray are arrays
               )
               .append(
-                $("<button>", {
-                  class: "add-to-cart-btn",
-                  text: "Add to Cart",
-                  id: "add-to-cart-btn" + item.itemID,
-                  "data-item-id": item.itemID,
-                  "data-item-price": pricesArray,
-                  "data-item-size": sizesArray,
-                  "data-item-name": item.itemName,
-                  onClick: "addToCart(this)",
-                })
+                $("<div>", { class: "item-actions" }) // Div for the input and button
+                  .append(
+                    $("<input>", {
+                      // Quantity input
+                      type: "number",
+                      class: "quantity-input-menu-items",
+                      id: "quantity-input" + item.itemID,
+                      value: 1,
+                      min: 1,
+                      max:20,
+                      placeholder: "Quantity",
+                      required: true,
+                      oninput: "validateQuantity(this);",
+                    })
+                  )
+                  .append(
+                    $("<button>", {
+                      // Add to cart button
+                      class: "add-to-cart-btn",
+                      text: "Add to Cart",
+                      id: "add-to-cart-btn" + item.itemID,
+                      "data-item-id": item.itemID,
+                      "data-item-price": pricesArray,
+                      "data-item-size": sizesArray,
+                      "data-item-name": item.itemName,
+                      onClick: "addToCart(this)",
+                    })
+                  )
               )
           );
         }
@@ -202,7 +218,9 @@ $(document).ready(function () {
                     placeholder: "Quantity",
                     value: 1,
                     min: 1,
+                    max:20,
                     required: true,
+                    oninput: "validateQuantity(this);",
                   })
                 )
                 .append(
@@ -232,6 +250,7 @@ $(document).ready(function () {
                   id: "quantity-input" + item.itemID,
                   placeholder: "Quantity",
                   min: 1,
+                  max:20,
                   value: 1,
                   required: true,
                 })
@@ -451,6 +470,19 @@ function createOrder() {
   var suitePackage = document.getElementById("reservation_suite").value;
   var total = document.getElementById("total-for-cart").value;
 
+  if (!numberOfGuests || numberOfGuests <= 0) {
+    toastr.error("Please enter a valid number of guests.");
+    return;
+  }
+  if (!suitePackage) {
+    toastr.error("Please select a suite package.");
+    return;
+  }
+  if (!total || total <= 0) {
+    toastr.error("The total cannot be zero or negative.");
+    return;
+  }
+
   today = new Date();
   slot = today.getHours();
 
@@ -472,6 +504,8 @@ function createOrder() {
       console.log(data);
       clearCart();
       totalAmount = 0;
+      toastr.success("Order created successfully!");
+
       location.reload();
     },
     error: function (err) {
@@ -624,16 +658,26 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         reservations = data;
-
-        var incomingOrders = reservations.filter(
-          (reservation) => reservation.preparationStatus == "Pending"
-        );
-        var activeOrders = reservations.filter(
-          (reservation) => reservation.preparationStatus == "Active"
+        var currentTime = new Date();
+        var notCancelledOrders = reservations.filter(
+          (reservation) => reservation.status != "Cancelled"
         );
 
-        var completedOrders = reservations.filter(
-          (reservation) => reservation.preparationStatus == "Completed"
+        var incomingOrders = notCancelledOrders.filter(
+          (notCancelledOrder) =>
+            notCancelledOrder.preparationStatus == "Pending"
+        );
+        var activeOrders = notCancelledOrders.filter(
+          (notCancelledOrder) => notCancelledOrder.preparationStatus == "Active"
+        );
+
+        var completedOrders = notCancelledOrders.filter(
+          (notCancelledOrder) =>
+            notCancelledOrder.preparationStatus == "Completed"
+        );
+
+        var cancelledOrders = reservations.filter(
+          (reservation) => reservation.status == "Cancelled"
         );
 
         var queuedItems = activeOrders.map((reservation) =>
@@ -651,12 +695,28 @@ $(document).ready(function () {
             (item) => item.itemProcessingStatus == "Ready"
           )
         );
+        var recentlyOverdueOrders = notCancelledOrders.filter((reservation) => {
+          let reservationTime = new Date(reservation.reservationStartTime);
+          let timeDifference = currentTime - reservationTime;
+          let oneMinute = 60 * 1000; 
+          return timeDifference > oneMinute && reservation.hasArrived === 0;
+        });
+
+        var arrivedOrders = notCancelledOrders.filter(
+          (reservation) => reservation.hasArrived === 1
+        );
 
         var ongoingOrders = incomingOrders.concat(activeOrders);
 
+        $("#overdueOrders").html(createOrders(recentlyOverdueOrders));
+
+        $("#cancelledOrders").html(createOrders(cancelledOrders));
+
+        $("#overdueOrders").html(createOrders(recentlyOverdueOrders));
+
         $("#ongoingOrders").html(createOrders(ongoingOrders));
         $("#completedOrders").html(createOrders(completedOrders));
-        // TODO #80 Amount payable shows as a negative value
+
         function createOrders(orders) {
           var html = "";
           orders.forEach((order) => {
@@ -681,7 +741,8 @@ $(document).ready(function () {
                                         }
                                           ${
                                             order.preparationStatus !=
-                                            "Completed"
+                                              "Completed" &&
+                                            order.status != "Cancelled"
                                               ? `<button class="light-green-btn addOrderItems" onClick="editOngoingOrder(this);" data-id-reservationID = "${order.orderID}">Add Items</button>`
                                               : ""
                                           }
@@ -701,7 +762,6 @@ $(document).ready(function () {
   }
   fetchReservations();
 });
-
 
 //^ Reservation view functions
 
@@ -787,4 +847,9 @@ function popViewReservationDetails(element) {
   $(document).on("click", "#rs-close-btn", function () {
     $("#reservation-details-container").hide();
   });
+}
+function validateQuantity(input) {
+  if (input.value < 1) {
+    input.value = 1;
+  }
 }

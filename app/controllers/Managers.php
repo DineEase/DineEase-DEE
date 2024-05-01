@@ -2226,8 +2226,11 @@ $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the pat
             
             $customerdetails = $this->managerModel->getcustomerdetailsfromreservation($ID);
             //error_log("Customer Details: " . print_r($customerdetails, true));
-            $this->sendacceptrefundemail($customerdetails);
-            
+           // $this->sendacceptrefundemail($customerdetails);
+           ob_clean();
+           ob_end_flush();
+           redirect('managers/reservations');
+           exit();
             //redirect('managers/reservations');
             //exit();
         }
@@ -2246,7 +2249,11 @@ $imageFile = URLROOT . '/public/img/login/dineease-logo.png'; // Specify the pat
         if ($this->managerModel->denyrefund($ID)) {
             $customerdetails = $this->managerModel->getcustomerdetailsfromreservation($ID);
             //error_log("Customer Details: " . print_r($customerdetails, true));
-            $this->senddenyrefundemail($customerdetails);
+            // $this->senddenyrefundemail($customerdetails);
+            ob_clean();
+            ob_end_flush();
+            redirect('managers/reservations');
+            exit();
             
         }else{
             ob_clean();

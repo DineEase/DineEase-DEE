@@ -1,12 +1,11 @@
 var menuItems = menus;
-var filteredItems
+var filteredItems;
 var itemReviewMap = foodReviews.reduce((map, item) => {
   map[item.itemID] = item;
   return map;
 }, {});
 
 $(document).ready(function () {
-
   let currentCategoryId = "all";
   let currentPage = 1;
 
@@ -25,6 +24,35 @@ $(document).ready(function () {
       currentPage === totalPages || totalPages === 0
     );
   }
+
+// var minimumPrice = $("#min-price").val();
+
+//   function filterItemsBellowMinimumPrice() {
+//     let filteredItems = menuItems;
+//     if (minimumPrice) {
+//       filteredItems = filteredItems.filter((item) =>
+//         item.Prices.includes(minimumPrice)
+//       );
+//     }
+//     displayItems(filteredItems);
+//   }
+  
+//   $("#price-filter-button").on("click", function (e) {
+//     var minimumPrice = $("#min-price").val();
+//     function filterItemsBellowMinimumPrice() {
+//       let filteredItems = menuItems;
+//       if (minimumPrice) {
+//         filteredItems = filteredItems.filter((item) =>
+//           item.Prices.includes(minimumPrice)
+//         );
+//       }
+//       displayItems(filteredItems);
+//     }
+//     e.preventDefault(); 
+//     filterItemsBellowMinimumPrice();
+//   });
+
+ 
 
   function displayItems(items) {
     const paginatedItems = paginateItems(items);

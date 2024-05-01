@@ -83,6 +83,7 @@ class Users extends Controller
     public function register()
     {
         //check for post
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //process form
             //sanitize post data
@@ -159,17 +160,16 @@ class Users extends Controller
 
                 //register user
                 if ($this->userModel->register($data)) {
-                    $token = $this->userModel->generateactivationToken($data['email']);
-                    if ($this->sendaccountactivateEmail($data['email'], $token)) {
-                        flash('register_success', 'Check email for activation link');
-
-                        redirect('users/login');
-                    } else {
-                        flash('register_success', 'Cannot Send Activation Link. Contact Us');
-                    }
-                } else {
-                    die('Something went wrong');
+                    //$token = $this->userModel->generateactivationToken($data['email']);
+                    // if ($this->sendaccountactivateEmail($data['email'], $token)) {
+                    //flash('register_success', 'Check email for activation link');
+                    //ob_end_flush();
+                    redirect('users/login');
+                    //} else {
+                    // flash('register_success', 'Cannot Send Activation Link. Contact Us');
                 }
+
+                die('Something went wrong');
             } else {
                 // load view with errors
                 $this->view('users/register', $data);
@@ -276,7 +276,7 @@ class Users extends Controller
         $_SESSION['dob'] = $user->dob;
         $_SESSION['mobile_no'] = $user->mobile_no;
 
-        redirect('customers/dashboard');
+        redirect('customers/reservation');
     }
 
     public function createStaffSession($user, $employee)
@@ -315,7 +315,7 @@ class Users extends Controller
                 break;
             case '4':
                 $_SESSION['role'] = 'chef';
-                redirect('chefs/index');
+                redirect('chefs/order');
                 break;
         }
     }
@@ -329,7 +329,7 @@ class Users extends Controller
         unset($_SESSION['employee_role']);
         unset($_SESSION['profile_picture']);
         session_destroy();
-        redirect('users/login');
+        redirect('users/staff');
     }
 
     public function forgotPassword()

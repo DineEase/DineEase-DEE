@@ -142,7 +142,6 @@
           </div>
           <div class="special__footer">
             <p class="price">LKR 1200/=</p>
-            <button class="btn">Add to Cart</button>
           </div>
         </div>
         <div class="special__card">
@@ -161,7 +160,6 @@
           </div>
           <div class="special__footer">
             <p class="price">LKR 1500/=</p>
-            <button class="btn">Add to Cart</button>
           </div>
         </div>
         <div class="special__card">
@@ -181,8 +179,7 @@
           </div>
           <div class="special__footer">
             <p class="price">LKR 1750/=</p>
-            <button class="btn">Add to Cart</button>
-          </div>
+            </div>
         </div>
       </div>
     </section>
@@ -266,51 +263,7 @@
         Explore the feedback and reviews that showcase our commitment to
         quality, service, and customer satisfaction.
       </p>
-      <div class="client__swiper">
-        <!-- Slider main container -->
-        <div class="swiper">
-          <!-- Additional required wrapper -->
-          <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide">
-              <div class="client__card">
-                <p>
-                  DineEase's culinary expertise never fails to impress! Every
-                  dish is a masterpiece, bursting with flavor and freshness.
-                </p>
-                <img src="<?php echo URLROOT; ?>/img/homeAssets/client-1.jpg" alt="client" />
-                <h4>Deon Perera</h4>
-                <h5>Business Executive</h5>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="client__card">
-                <p>
-                  I always turn to DineEase for a quick and delicious meal. Their osering and reservation system is too easy and fast. Their
-                  efficient service and mouthwatering options never disappoint!
-                </p>
-                <img src="<?php echo URLROOT; ?>/img/homeAssets/client-2.jpg" alt="client" />
-                <h4>Hasitha Gamage</h4>
-                <h5>Food Blogger</h5>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="client__card">
-                <p>
-                  DineEase has become my go-to for all my catering needs. Their
-                  attention to detail and exceptional customer service make
-                  every event a success.
-                </p>
-                <img src="assets/client-3.jpg" alt="client" />
-                <h4>Antony Gunarathne</h4>
-                <h5>Event Planner</h5>
-              </div>
-            </div>
-          </div>
-          <!-- If we need pagination -->
-          <div class="swiper-pagination"></div>
-        </div>
-      </div>
+     
     </section>
 
     <footer class="footer" id="contact">

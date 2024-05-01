@@ -151,6 +151,17 @@
                                 </button>
                             </a>
                         </li>
+                        <a href="<?php echo URLROOT; ?>/managers/reservations" class="nav_link" data-content='menu'>
+                                <button class="button-sidebar-menu  " id="reservationButton">
+                                    <span class="navlink_icon">
+                                        <span class="material-symbols-outlined ">
+                                            book_online
+                                        </span>
+                                    </span>
+                                    <span class="button-sidebar-menu-content">Reservations</span>
+                                </button>
+                            </a>
+                        </li>
                         <!-- End -->
 
 
