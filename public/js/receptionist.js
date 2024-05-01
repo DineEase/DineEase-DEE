@@ -122,6 +122,7 @@ $(document).ready(function () {
                         placeholder: "Quantity",
                         value: 1,
                         min: 1,
+                        max:20,
                         required: true,
                       })
                     )
@@ -163,6 +164,7 @@ $(document).ready(function () {
                       id: "quantity-input" + item.itemID,
                       value: 1,
                       min: 1,
+                      max:20,
                       placeholder: "Quantity",
                       required: true,
                       oninput: "validateQuantity(this);",
@@ -216,6 +218,7 @@ $(document).ready(function () {
                     placeholder: "Quantity",
                     value: 1,
                     min: 1,
+                    max:20,
                     required: true,
                     oninput: "validateQuantity(this);",
                   })
@@ -247,6 +250,7 @@ $(document).ready(function () {
                   id: "quantity-input" + item.itemID,
                   placeholder: "Quantity",
                   min: 1,
+                  max:20,
                   value: 1,
                   required: true,
                 })
